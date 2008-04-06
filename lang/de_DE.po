@@ -1,0 +1,170 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: wp-greet\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2008-03-29 07:28+0100\n"
+"PO-Revision-Date: 2008-04-03 07:48+0100\n"
+"Last-Translator: Hans Matzen <webmaster (at) tuxlog (dot) de>\n"
+"Language-Team: Barbara Jany, Hans Matzen <barbara.jany@gmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: wp-greet-admin.php:80
+msgid "mailreturnpath is not valid (wrong format or no MX entry for domain)."
+msgstr "Mailreturn-Pfad ist ung&uuml;ltig (falsches Format oder kein MX-Eintrag f&uuml;r die Domain)."
+
+#: wp-greet-admin.php:85
+msgid "bcc email adress is not valid (wrong format or no MX entry for domain)."
+msgstr "Bcc-Adresse ist ung&uuml;ltig (falsches Format oder kein MX-Eintrag f&uuml;r die Domain)."
+
+#: wp-greet-admin.php:90
+msgid "imagewidth not in range (0..3200)."
+msgstr "Die Bildbreite ist nicht im zul&auml;ssigen Bereich (0..3200)."
+
+#: wp-greet-admin.php:96
+msgid "Settings successfully updated"
+msgstr "Einstellungen erfolgreich ge&auml;ndert"
+
+#: wp-greet-admin.php:98
+msgid "You have to change a field to update settings."
+msgstr "Du musst mindestens ein Feld &auml;ndern, um ein Update der Einstellungen durchzuf&uuml;hren."
+
+#: wp-greet-admin.php:106
+msgid "wp-greet Setup"
+msgstr "wp-greet Setup"
+
+#: wp-greet-admin.php:110
+msgid "Mailreturnpath"
+msgstr "Mailreturn-Pfad"
+
+#: wp-greet-admin.php:115
+msgid "Send Bcc to"
+msgstr "Bcc-Kopie senden an"
+
+#: wp-greet-admin.php:121
+msgid "Send image inline"
+msgstr "Bild inline senden"
+
+#: wp-greet-admin.php:125
+msgid "Fixed image width"
+msgstr "Feste Bildbreite"
+
+#: wp-greet-admin.php:132
+msgid "Use captcha to prevent spam robots"
+msgstr "Captcha zur Spam-Abwehr benutzen"
+
+#: wp-greet-admin.php:138
+msgid "Use informations from profile"
+msgstr "Profil-Informationen verwenden"
+
+#: wp-greet-admin.php:143
+msgid "enable logging"
+msgstr "Logging aktivieren (Statistik)"
+
+#: wp-greet-admin.php:148
+msgid "Minimum role to send card"
+msgstr "Mindest-Benutzerstatus zum <br />Versenden einer Karte"
+
+#: wp-greet-admin.php:161
+msgid "Everyone"
+msgstr "Jeder"
+
+#: wp-greet-admin.php:165
+msgid "Default mail subject"
+msgstr "Standard Betreff"
+
+#: wp-greet-admin.php:170
+msgid "Default mail header"
+msgstr "Standard Mail-Header"
+
+#: wp-greet-admin.php:175
+msgid "Default mail footer"
+msgstr "Standard Mail-Footer"
+
+#: wp-greet-admin.php:181
+msgid "Update options"
+msgstr "Optionen aktualisieren"
+
+#: wp-greet-form.php:62
+msgid "You are not permitted to send greeting cards."
+msgstr "Du hast nicht gen&uuml;gend Rechte zum Senden einer Gru&szlig;karte."
+
+#: wp-greet-form.php:62
+msgid "Please contact you wordpress Administrator."
+msgstr "Bitte kontaktiere den WordPress-Administrator."
+
+#: wp-greet-form.php:78
+#: wp-greet-form.php:107
+#: wp-greet-form.php:260
+msgid "Preview"
+msgstr "Vorschau"
+
+#: wp-greet-form.php:78
+#: wp-greet-form.php:126
+#: wp-greet-form.php:128
+#: wp-greet-form.php:260
+msgid "Send"
+msgstr "Senden"
+
+#: wp-greet-form.php:95
+msgid "Invalid sender  mail address."
+msgstr "Ung&uuml;ltige Absenderadresse."
+
+#: wp-greet-form.php:99
+msgid "Invalid recipient mail address."
+msgstr "Ung&uuml;ltige Empf&auml;ngeradresse."
+
+#: wp-greet-form.php:110
+msgid "From"
+msgstr "Von"
+
+#: wp-greet-form.php:111
+msgid "To"
+msgstr "An"
+
+#: wp-greet-form.php:112
+#: wp-greet-form.php:258
+msgid "Subject"
+msgstr "Betreff"
+
+#: wp-greet-form.php:126
+#: wp-greet-form.php:260
+msgid "Back"
+msgstr "Zur&uuml;ck"
+
+#: wp-greet-form.php:216
+#: wp-greet-form.php:242
+msgid "Your greeting card has been sent."
+msgstr "Deine Gru&szlig;karte wurde verschickt."
+
+#: wp-greet-form.php:220
+#: wp-greet-form.php:246
+msgid "An error occured while sending you greeting card."
+msgstr "Ein Fehler ist beim Versenden der Karte aufgetreten."
+
+#: wp-greet-form.php:221
+msgid "Problem report"
+msgstr "Fehlerbericht"
+
+#: wp-greet-form.php:256
+msgid "Sender"
+msgstr "Absender"
+
+#: wp-greet-form.php:257
+msgid "Recipient"
+msgstr "Empf&auml;nger"
+
+#: wp-greet-form.php:259
+msgid "Message"
+msgstr "Mitteilung"
+
+#: wp-greet-form.php:260
+msgid "Reset form"
+msgstr "Formular zur&uuml;cksetzen"
+
