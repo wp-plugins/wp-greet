@@ -153,24 +153,6 @@ function fetch_URL($url)
 }
 
 
-//
-// prueft ob die notwendigen phpmailer klassen verfügbar sind
-// 
-function check_phpmailer()
-{
-  $erg = true;
-
-  if ( !file_exists(ABSPATH . "wp-content/plugins/wp-greet/phpmailer/class.phpmailer.php"))
-    $erg=false;
- 
-  if ( !file_exists(ABSPATH . "wp-content/plugins/wp-greet/phpmailer/class.smtp.php"))
-    $erg=false; 
-
-  if ( !file_exists(ABSPATH . "wp-content/plugins/wp-greet/phpmailer/class.pop3.php"))
-    $erg=false;
-
-  return $erg;
-}
 
 //
 // ermittelt anhand der file extension den zugehoerigen mimetype
