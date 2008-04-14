@@ -7,164 +7,180 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wp-greet\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-03-29 07:28+0100\n"
-"PO-Revision-Date: 2008-04-03 07:48+0100\n"
+"POT-Creation-Date: 2008-04-14 07:39+0200\n"
+"PO-Revision-Date: 2008-04-14 07:43+0100\n"
 "Last-Translator: Hans Matzen <webmaster (at) tuxlog (dot) de>\n"
 "Language-Team: Barbara Jany, Hans Matzen <barbara.jany@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: wp-greet-admin.php:80
+#: wp-greet-admin.php:92
 msgid "mailreturnpath is not valid (wrong format or no MX entry for domain)."
 msgstr "Mailreturn-Pfad ist ung&uuml;ltig (falsches Format oder kein MX-Eintrag f&uuml;r die Domain)."
 
-#: wp-greet-admin.php:85
+#: wp-greet-admin.php:97
 msgid "bcc email adress is not valid (wrong format or no MX entry for domain)."
 msgstr "Bcc-Adresse ist ung&uuml;ltig (falsches Format oder kein MX-Eintrag f&uuml;r die Domain)."
 
-#: wp-greet-admin.php:90
+#: wp-greet-admin.php:102
 msgid "imagewidth not in range (0..3200)."
 msgstr "Die Bildbreite ist nicht im zul&auml;ssigen Bereich (0..3200)."
 
-#: wp-greet-admin.php:96
+#: wp-greet-admin.php:117
+msgid "Captcha plugin not found."
+msgstr "Das Captcha-Plugin wurde nicht gefunden."
+
+#: wp-greet-admin.php:124
 msgid "Settings successfully updated"
 msgstr "Einstellungen erfolgreich ge&auml;ndert"
 
-#: wp-greet-admin.php:98
+#: wp-greet-admin.php:126
 msgid "You have to change a field to update settings."
 msgstr "Du musst mindestens ein Feld &auml;ndern, um ein Update der Einstellungen durchzuf&uuml;hren."
 
-#: wp-greet-admin.php:106
+#: wp-greet-admin.php:134
 msgid "wp-greet Setup"
 msgstr "wp-greet Setup"
 
-#: wp-greet-admin.php:110
+#: wp-greet-admin.php:138
 msgid "Mailreturnpath"
 msgstr "Mailreturn-Pfad"
 
-#: wp-greet-admin.php:115
+#: wp-greet-admin.php:143
 msgid "Send Bcc to"
 msgstr "Bcc-Kopie senden an"
 
-#: wp-greet-admin.php:121
+#: wp-greet-admin.php:149
 msgid "Send image inline"
 msgstr "Bild inline senden"
 
-#: wp-greet-admin.php:125
+#: wp-greet-admin.php:153
 msgid "Fixed image width"
 msgstr "Feste Bildbreite"
 
-#: wp-greet-admin.php:132
+#: wp-greet-admin.php:159
 msgid "Use captcha to prevent spam robots"
 msgstr "Captcha zur Spam-Abwehr benutzen"
 
-#: wp-greet-admin.php:138
+#: wp-greet-admin.php:164
 msgid "Use informations from profile"
 msgstr "Profil-Informationen verwenden"
 
-#: wp-greet-admin.php:143
+#: wp-greet-admin.php:169
 msgid "enable logging"
 msgstr "Logging aktivieren (Statistik)"
 
-#: wp-greet-admin.php:148
+#: wp-greet-admin.php:174
 msgid "Minimum role to send card"
 msgstr "Mindest-Benutzerstatus zum <br />Versenden einer Karte"
 
-#: wp-greet-admin.php:161
+#: wp-greet-admin.php:187
 msgid "Everyone"
 msgstr "Jeder"
 
-#: wp-greet-admin.php:165
+#: wp-greet-admin.php:191
 msgid "Default mail subject"
 msgstr "Standard Betreff"
 
-#: wp-greet-admin.php:170
+#: wp-greet-admin.php:196
 msgid "Default mail header"
 msgstr "Standard Mail-Header"
 
-#: wp-greet-admin.php:175
+#: wp-greet-admin.php:201
 msgid "Default mail footer"
 msgstr "Standard Mail-Footer"
 
-#: wp-greet-admin.php:181
+#: wp-greet-admin.php:207
 msgid "Update options"
 msgstr "Optionen aktualisieren"
 
-#: wp-greet-form.php:62
+#: wp-greet-form.php:63
 msgid "You are not permitted to send greeting cards."
 msgstr "Du hast nicht gen&uuml;gend Rechte zum Senden einer Gru&szlig;karte."
 
-#: wp-greet-form.php:62
+#: wp-greet-form.php:63
 msgid "Please contact you wordpress Administrator."
 msgstr "Bitte kontaktiere den WordPress-Administrator."
 
-#: wp-greet-form.php:78
-#: wp-greet-form.php:107
-#: wp-greet-form.php:260
+#: wp-greet-form.php:79
+#: wp-greet-form.php:122
+#: wp-greet-form.php:288
 msgid "Preview"
 msgstr "Vorschau"
 
-#: wp-greet-form.php:78
-#: wp-greet-form.php:126
-#: wp-greet-form.php:128
-#: wp-greet-form.php:260
+#: wp-greet-form.php:79
+#: wp-greet-form.php:141
+#: wp-greet-form.php:143
+#: wp-greet-form.php:288
 msgid "Send"
 msgstr "Senden"
 
-#: wp-greet-form.php:95
+#: wp-greet-form.php:96
 msgid "Invalid sender  mail address."
 msgstr "Ung&uuml;ltige Absenderadresse."
 
-#: wp-greet-form.php:99
+#: wp-greet-form.php:100
 msgid "Invalid recipient mail address."
 msgstr "Ung&uuml;ltige Empf&auml;ngeradresse."
 
-#: wp-greet-form.php:110
+#: wp-greet-form.php:112
+msgid "No valid captcha entry.<br />"
+msgstr "Ungültige Captcha-Eingabe.<br />"
+
+#: wp-greet-form.php:113
+msgid "Please try again:<br />Tip: If you cannot identify the chars, you can generate a new image."
+msgstr "Bitte versuche es noch einmal:<br />Tipp: Wenn du die Zeichen nicht erkennst, dann generiere dir ein neues Bild."
+
+#: wp-greet-form.php:125
 msgid "From"
 msgstr "Von"
 
-#: wp-greet-form.php:111
+#: wp-greet-form.php:126
 msgid "To"
 msgstr "An"
 
-#: wp-greet-form.php:112
-#: wp-greet-form.php:258
+#: wp-greet-form.php:127
+#: wp-greet-form.php:284
 msgid "Subject"
 msgstr "Betreff"
 
-#: wp-greet-form.php:126
-#: wp-greet-form.php:260
+#: wp-greet-form.php:141
+#: wp-greet-form.php:288
 msgid "Back"
 msgstr "Zur&uuml;ck"
 
-#: wp-greet-form.php:216
-#: wp-greet-form.php:242
+#: wp-greet-form.php:232
+#: wp-greet-form.php:258
 msgid "Your greeting card has been sent."
 msgstr "Deine Gru&szlig;karte wurde verschickt."
 
-#: wp-greet-form.php:220
-#: wp-greet-form.php:246
+#: wp-greet-form.php:236
+#: wp-greet-form.php:262
 msgid "An error occured while sending you greeting card."
 msgstr "Ein Fehler ist beim Versenden der Karte aufgetreten."
 
-#: wp-greet-form.php:221
+#: wp-greet-form.php:237
 msgid "Problem report"
 msgstr "Fehlerbericht"
 
-#: wp-greet-form.php:256
+#: wp-greet-form.php:282
 msgid "Sender"
 msgstr "Absender"
 
-#: wp-greet-form.php:257
+#: wp-greet-form.php:283
 msgid "Recipient"
 msgstr "Empf&auml;nger"
 
-#: wp-greet-form.php:259
+#: wp-greet-form.php:285
 msgid "Message"
 msgstr "Mitteilung"
 
-#: wp-greet-form.php:260
+#: wp-greet-form.php:287
+msgid "Captcha-protect:"
+msgstr "Captcha:"
+
+#: wp-greet-form.php:288
 msgid "Reset form"
 msgstr "Formular zur&uuml;cksetzen"
 

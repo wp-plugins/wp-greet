@@ -32,10 +32,22 @@ function wp_greet_admin()
 {
 
   if (function_exists('add_options_page')) {
-    add_options_page('wp-greet', 'wp-greet', 6, 
+    add_options_page('wp-greet', 'wp-greet', 8, 
 		     basename(__FILE__), 'wpg_admin_form');
   }
-} 
+
+  // pruefe ob ngg installiert ist, wenn ja fuege dich in die menuleiste ein
+  if (function_exists('add_submenu_page') ) {
+    $parr=get_plugins();
+    foreach($parr as $key => $plugin) {
+      //echo $plugin['Name']." ".ABSPATH.PLUGINDIR."/".$key."<br />";
+      if ($plugin['Name'] == "NextGEN Gallery" and 
+	  file_exists(ABSPATH. PLUGINDIR . "/". $key) )
+	add_submenu_page(NGGFOLDER, 'wp-greet', 'wp-greet', 8, basename(__FILE__), 'wpg_admin_form');
+    } 
+  }
+}
+
 
 
 //
@@ -91,6 +103,22 @@ function wpg_admin_form()
       $upflag=false;
     }
 
+    // check for captcha plugin if captcha was set
+    if ( $wpg_options['wp-greet-captcha']  ) {
+      $plugin_exists=false;
+      $parr=get_plugins();
+      foreach($parr as $key => $plugin) {
+	//echo $plugin['Name']." ".ABSPATH.PLUGINDIR."/".$key."<br />";
+	if ($plugin['Name'] == "CaptCha!" and 
+	    file_exists(ABSPATH. PLUGINDIR . "/". $key) )
+	  $plugin_exists=true;
+      }
+      if (! $plugin_exists) {
+	echo __('Captcha plugin not found.',"wp-greet"). "<br />";
+	$upflag=false;
+      }
+    }
+
     if ($upflag) {
       wpgreet_set_options();
       echo __('Settings successfully updated',"wp-greet");
@@ -118,7 +146,7 @@ function wpg_admin_form()
 
           <tr valign="top">
           <th scope="row">&nbsp;</th>
-          <td><input type="checkbox" name="wp-greet-imgattach" value="1" <?php if ($wpg_options['wp-greet-imgattach']=="1") echo "checked=\"checked\" "; if ( !check_phpmailer() ) echo "disabled";?> /> <b><?php echo __('Send image inline',"wp-greet")?></b></td>
+          <td><input type="checkbox" name="wp-greet-imgattach" value="1" <?php if ($wpg_options['wp-greet-imgattach']=="1") echo "checked=\"checked\" "; ?> /> <b><?php echo __('Send image inline',"wp-greet")?></b></td>
 	  </tr>
           
           <tr valign="top">
@@ -126,12 +154,10 @@ function wpg_admin_form()
           <td><input name="wp-greet-imagewidth" type="text" size="10" maxlength="5" value="<?php echo $wpg_options['wp-greet-imagewidth'] ?>" /></td>
           </tr>
 
-<!--           
            <tr valign="top">
            <th scope="row">&nbsp;</th>
            <td><input type="checkbox" name="wp-greet-captcha" value="1" <?php if ($wpg_options['wp-greet-captcha']=="1") echo "checked=\"checked\""?> /> <b><?php echo __('Use captcha to prevent spam robots',"wp-greet")?></b></td>
 	   </tr>
--->
  
         <tr valign="top">
         <th scope="row">&nbsp;</th>
@@ -179,7 +205,6 @@ function wpg_admin_form()
   </table>
 <?php
       echo "<div class='submit'><input type='submit' name='info_update' value='".__('Update options',"wp-greet_")." »' /></div></form></div>";
-
 
 }
 ?>

@@ -99,6 +99,20 @@ function showGreetcardForm($galleryID,$picurl) {
        $_POST['action'] = "Formular";
        echo __("Invalid recipient mail address.","wp-greet")."<br />";
      }
+
+     // pruefe captcha 
+     if ( $wpg_options['wp-greet-captcha'] and isset($_POST['public_key'])) {
+       require_once(ABSPATH . "wp-content/plugins/captcha/captcha.php");
+       $Cap = new Captcha();
+       $Cap->debug = false;
+       $Cap->public_key=$_POST['public_key'];
+
+       if (! $Cap->check_captcha($Cap->public_key_id(),$_POST['captcha']) ) {
+	 $_POST['action'] = "Formular";
+	 echo __("No valid captcha entry.<br />","wp-greet");
+	 echo __("Please try again:<br />Tip: If you cannot identify the chars, you can generate a new image.","wp-greet")."<br />";
+       } 
+     }
    }
 
 
@@ -148,7 +162,7 @@ function showGreetcardForm($galleryID,$picurl) {
     // funktion verwenet.
 
     $inline = false;
-    if ( $wpg_options['wp-greet-imgattach'] and check_phpmailer()) 
+    if ( $wpg_options['wp-greet-imgattach']) 
       $inline = true;
  
     
@@ -169,7 +183,8 @@ function showGreetcardForm($galleryID,$picurl) {
     // mail senden in abhängigkeit von inline ja/nein
     if ( $inline ) {
       // mail senden mit phpmailer
-      require("phpmailer/class.phpmailer.php");
+      require(ABSPATH . "/wp-includes/class-phpmailer.php");
+      //require("phpmailer/class.phpmailer.php");
       require("phpmailer-conf.php");
       
       $mail = new PHPMailer();
@@ -251,6 +266,16 @@ function showGreetcardForm($galleryID,$picurl) {
   } else {
     
     // Formular anzeigen
+    $captcha = false;
+    if ( $wpg_options['wp-greet-captcha']) {
+      require_once(ABSPATH . "wp-content/plugins/captcha/captcha.php");
+      $Cap = new Captcha();
+      $Cap->debug = false;	
+      $Cap->public_key = intval($_GET['x']);
+      $captcha = true;
+    }
+
+
     $out = "</p><div class='wp-greet-form'>\n";
     $out .= '<img src="' . $picurl . '" alt="'.basename($picurl)."\" width='".$wpg_options['wp-greet-imagewidth']."'/><br />\n";
     $out .= "<form method='post' action=''>\n";
@@ -258,7 +283,10 @@ function showGreetcardForm($galleryID,$picurl) {
     $out .= "<tr class=\"wp-greet-form\"><td class=\"wp-greet-form\">".__("Recipient","wp-greet").":</td><td class=\"wp-greet-form\"><input name='recv' type='text' size='40' maxlength='80' value='" . $_POST['recv']  . "'/></td></tr>\n";
     $out .= "<tr class=\"wp-greet-form\"><td class=\"wp-greet-form\">".__("Subject","wp-greet").":</td><td class=\"wp-greet-form\"><input name='title'  type='text' size='40' maxlength='80' value='" . $_POST['title']  . "'/></td></tr>\n";
     $out .= "<tr class=\"wp-greet-form\"><td class=\"wp-greet-form\">".__("Message","wp-greet").":</td><td class=\"wp-greet-form\"><textarea name='message' cols='50' rows='10'>" . $_POST['message']  . "</textarea></td></tr>\n";
+    if ($captcha)
+      $out .= "<tr class=\"wp-greet-form\"><td class=\"wp-greet-form\">". __("Captcha-protect:")."</td><td class=\"wp-greet-form\" >".$Cap->display_captcha()."&nbsp;<input name=\"captcha\" type=\"text\" size=\"10\" maxlength=\"10\" />"."</td></tr>";
     $out .= "<tr class=\"wp-greet-form\"><td class=\"wp-greet-form\">&nbsp;</td><td class=\"wp-greet-form\"><input name='action' type='submit' value='".__("Preview","wp-greet")."' /><input name='action' type='submit'  value='".__("Send","wp-greet")."' /><input type='reset' value='".__("Reset form","wp-greet")."'/>&nbsp;<a href=\"javascript:history.back()\">".__("Back","wp-greet")."</a></td></tr></table></form></div>\n<p>&nbsp;";
+   
   }
 
   // Rueckgabe des HTML Codes
