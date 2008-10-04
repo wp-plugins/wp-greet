@@ -68,7 +68,7 @@ function wp_greet_activate()
     
     
     if ($wpg_options['wp-greet-captcha'] == "") {
-      $wpg_options['wp-greet-captcha'] = 1;
+      $wpg_options['wp-greet-captcha'] = 0;
       add_option("wp-greet-captcha",$wpg_options['wp-greet-captcha'],
 		 "wanna use a captcha to prevent spamming?","yes");
     }; 
@@ -94,7 +94,11 @@ function wp_greet_activate()
       add_option("wp-greet-logging",$wpg_options['wp-greet-logging'],
 		 "enable logging","yes");
     };
-     
+    if ($wpg_options['wp-greet-gallery'] == "") {
+      $wpg_options['wp-greet-gallery'] = "ngg";
+      add_option("wp-greet-gallery",$wpg_options['wp-greet-gallery'],
+		 "which gallery to use","yes");
+    };  
 }
 
 function wp_greet_deactivate()
@@ -110,7 +114,8 @@ function wp_greet_deactivate()
 		   "wp-greet-default-header",
 		   "wp-greet-default-footer",
 		   "wp-greet-imagewidth",
-		   "wp-greet-logging");
+		   "wp-greet-logging",
+		   "wp-greet-gallery");
 
   reset($options);
   while (list($key,$val) = each($options)) {

@@ -17,9 +17,20 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
-if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) { die('You 
-are not allowed to call this page directly.'); }
 
+// if called directly, get parameters from GET and output the gretcardform
+if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) { 
+  require_once("wpg-func.php");
+  require_once( dirname(__FILE__) . '/../../../wp-config.php');
+
+  // get post vars
+  $galleryID = attribute_escape( $_GET['gallery'] );
+  $picurl = attribute_escape( $_GET['image'] );
+
+  $out = showGreetcardForm($galleryID,$picurl);
+  echo $out;
+  //FIXME
+ }
 
 // apply the filter to the page or post content
 function searchwpgreet($content) {
@@ -80,16 +91,15 @@ function showGreetcardForm($galleryID,$picurl) {
 
      if ( isset($_POST['sender']) && $_POST['sender'] != '' )
        $_POST['sender'] = attribute_escape($_POST['sender']);
+     if ( isset($_POST['ccsender']) && $_POST['ccsender'] != '' )
+       $_POST['ccsender'] = attribute_escape($_POST['ccsender']);
      if ( isset($_POST['recv']) && $_POST['recv'] != '' )
        $_POST['recv'] = attribute_escape($_POST['recv']); 
      if ( isset($_POST['title']) && $_POST['title'] != '' )
-       $_POST['title'] = attribute_escape($_POST['title']);
-     // message noch so veraendern, dass nur gueltige tags akzeptiert werden
-     if ( isset($_POST['message']) && $_POST['message'] != '' ) 
-     //  $_POST['message'] = attribute_escape($_POST['message']);
-       $_POST['message'] = nl2br( $_POST['message']);
-
-
+       $_POST['title'] = stripslashes($_POST['title']);
+     // entferne die von wordpress automatisch beigefügten slashes
+     if ( isset($_POST['message']) && $_POST['message'] != '' )  
+       $_POST['message'] =  stripslashes($_POST['message']);
      
      if ( ! check_email($_POST['sender']) ) {
        $_POST['action'] = "Formular";
@@ -110,7 +120,7 @@ function showGreetcardForm($galleryID,$picurl) {
        if (! $Cap->check_captcha($Cap->public_key_id(),$_POST['captcha']) ) {
 	 $_POST['action'] = "Formular";
 	 echo __("No valid captcha entry.<br />","wp-greet");
-	 echo __("Please try again:<br />Tip: If you cannot identify the chars, you can generate a new image.","wp-greet")."<br />";
+	 echo __("Please try again:<br />Tip: If you cannot identify the chars, you can generate a new image. Using Reload.","wp-greet")."<br />";
        } 
      }
    }
@@ -122,21 +132,26 @@ function showGreetcardForm($galleryID,$picurl) {
   if ( $_POST['action'] == __("Preview","wp-greet") ) {
 
     // Vorschau anzeigen
-    $out  = "</p><table><tr><th>". __("From","wp-greet").":</th><td>". $_POST['sender'] . "</td></tr>";
+    $out  = "</p><table><tr><th>". __("From","wp-greet").":</th><td>". $_POST['sender'];
+    if ($_POST['ccsender'] == '1')
+      $out .= " (".__("CC","wp-greet").")";
+
+    $out .= "</td></tr>";
     $out .= "<tr><th>" . __("To","wp-greet").":</th><td>".  $_POST['recv'] . "</td></tr>"; 
-    $out .= "<tr><th>" .  __("Subject","wp-greet").":</th><td>". $_POST['title'] . "</td></tr></table>";
+    $out .= "<tr><th>" .  __("Subject","wp-greet").":</th><td>". attribute_escape($_POST['title']) . "</td></tr></table>";
     $out .= $wpg_options['wp-greet-default-header'] . "\n";
     $out .= '<p><img src="' . $picurl . '" width="'.$wpg_options['wp-greet-imagewidth'] .'" alt="wp-greet-image" /></p><br />';
-    $out .= "\n<p>" . html_entity_decode($_POST['message']) . "</p>\n";
+    $out .= "\n<p>" . nl2br(attribute_escape($_POST['message'])) . "</p>\n";
     $out .= $wpg_options['wp-greet-default-footer'];
 
 
     // steuerungs informationen
     $out .= "<form method='post' action=''>";
-    $out .= "<input name='sender' type='hidden' value='" . $_POST['sender']  . "' />";
-    $out .= "<input name='recv' type='hidden' value='" . $_POST['recv']  . "' />"; 
-    $out .= "<input name='title' type='hidden' value='" . $_POST['title']  . "' />"; 
-    $out .= "<input name='message' type='hidden' value='" . $_POST['message']  . "' />";
+    $out .= "<input name='sender' type='hidden' value='" . $_POST['sender']  . "' />\n";
+    $out .= "<input name='ccsender' type='hidden' value='" . $_POST['ccsender']  . "' />\n";
+    $out .= "<input name='recv' type='hidden' value='" . $_POST['recv']  . "' />\n"; 
+    $out .= "<input name='title' type='hidden' value='" . attribute_escape($_POST['title'])  . "' />\n"; 
+    $out .= "<input name='message' type='hidden' value='" . attribute_escape($_POST['message']) . "' />\n";
 
     $out .= "<input name='action' type='submit' value='".__("Back","wp-greet")."' /><input name='action' type='submit'  value='".__("Send","wp-greet")."' /></form><p>&nbsp;";
 
@@ -151,10 +166,10 @@ function showGreetcardForm($galleryID,$picurl) {
     //if ( $wpg_options['wp-greet-default-title'] !="" )
     //  $subj = $wpg_options['wp-greet-default-title'];
     //else
+    //$subj = @html_entity_decode($_POST['title'],ENT_QUOTES,"UTF-8");
     $subj = $_POST['title'];
 
  
-
     //
     // zuerst pruefen ob inline images moeglich und gewuenscht sind
     // wenn inline true wird, dann wird phpmailer zum versenden der mail 
@@ -175,7 +190,7 @@ function showGreetcardForm($galleryID,$picurl) {
     else
       $message .= "<p><img src='".$picurl ."' width='".$wpg_options['wp-greet-imagewidth'] ."' /></p>";
     $message .= "<br />";
-    $message .= "\r\n" . $_POST['message'] . "\r\n";
+    $message .= "\r\n" . nl2br(attribute_escape($_POST['message'])) . "\r\n";
     $message .= "<p>". $wpg_options['wp-greet-default-footer']. "</p>\r\n";
     $message .= "</body></html>";
 
@@ -183,8 +198,7 @@ function showGreetcardForm($galleryID,$picurl) {
     // mail senden in abhängigkeit von inline ja/nein
     if ( $inline ) {
       // mail senden mit phpmailer
-      require(ABSPATH . "/wp-includes/class-phpmailer.php");
-      //require("phpmailer/class.phpmailer.php");
+      require_once(ABSPATH . "/wp-includes/class-phpmailer.php");
       require("phpmailer-conf.php");
       
       $mail = new PHPMailer();
@@ -210,6 +224,10 @@ function showGreetcardForm($galleryID,$picurl) {
       if ( $wpg_options['wp-greet-bcc'] !="" )
 	$mail->AddBCC($wpg_options['wp-greet-bcc']);
       
+      // add cc if option is set
+      if ( $_POST['ccsender'] == '1' ) 
+	$mail->AddCC($_POST['sender']);
+      
 
       $mail->WordWrap = 50;           // set word wrap to 50 characters
 	
@@ -224,14 +242,14 @@ function showGreetcardForm($galleryID,$picurl) {
 
       $mail->IsHTML(true);                     // set email format to HTML
       $mail->Subject = $subj;                  // subject hinzufuegen
-      $mail->Body = $message;                  // nachricht hinzuguegen
+      $mail->Body = $message;                  // nachricht hinzufuegen
 
       //$mail->AltBody = "Your mail-client is either in text mode or does not support HTML Mail.Sorry.";
 
       if ( $mail->Send()) {
 	$out = __("Your greeting card has been sent.","wp-greet")."<br />";
 	// create log entry
-	log_greetcard($_POST['recv'],addslashes($_POST['sender']),$picurl,attribute_escape($message));
+	log_greetcard($_POST['recv'],addslashes($_POST['sender']),$picurl,$message);
       } else {
 	$out = __("An error occured while sending you greeting card.","wp-greet")."<br />";
 	$out .= __("Problem report","wp-greet") . " " . $mail->ErrorInfo;
@@ -257,7 +275,7 @@ function showGreetcardForm($galleryID,$picurl) {
       if ( $stat) {
 	$out = __("Your greeting card has been sent.","wp-greet")."<br />";
 	// create log entry
-	log_greetcard($_POST['recv'],addslashes($_POST['sender']),$picurl,attribute_escape($message));
+	log_greetcard($_POST['recv'],addslashes($_POST['sender']),$picurl,$message);
       } else {
 	$out = __("An error occured while sending you greeting card.","wp-greet")."<br />";
       }
@@ -276,13 +294,15 @@ function showGreetcardForm($galleryID,$picurl) {
     }
 
 
-    $out = "</p><div class='wp-greet-form'>\n";
+    $out = "&nbsp;</p><div class='wp-greet-form'>\n";
     $out .= '<img src="' . $picurl . '" alt="'.basename($picurl)."\" width='".$wpg_options['wp-greet-imagewidth']."'/><br />\n";
     $out .= "<form method='post' action=''>\n";
     $out .= '<table class="wp-greet-form"><tr class="wp-greet-form"><td class="wp-greet-form">'.__("Sender","wp-greet").':</td><td class="wp-greet-form"><input name="sender" type="text" size="40" maxlength="80" value="' . $_POST['sender']  . '"/></td></tr>'."\n";
-    $out .= "<tr class=\"wp-greet-form\"><td class=\"wp-greet-form\">".__("Recipient","wp-greet").":</td><td class=\"wp-greet-form\"><input name='recv' type='text' size='40' maxlength='80' value='" . $_POST['recv']  . "'/></td></tr>\n";
-    $out .= "<tr class=\"wp-greet-form\"><td class=\"wp-greet-form\">".__("Subject","wp-greet").":</td><td class=\"wp-greet-form\"><input name='title'  type='text' size='40' maxlength='80' value='" . $_POST['title']  . "'/></td></tr>\n";
-    $out .= "<tr class=\"wp-greet-form\"><td class=\"wp-greet-form\">".__("Message","wp-greet").":</td><td class=\"wp-greet-form\"><textarea name='message' cols='50' rows='10'>" . $_POST['message']  . "</textarea></td></tr>\n";
+    $out .= "<tr class=\"wp-greet-form\"><td class=\"wp-greet-form\">".__("CC to Sender","wp-greet").":</td><td class=\"wp-greet-form\"><input name='ccsender' type='checkbox' value='1' " . ($_POST['ccsender']==1 ? 'checked="checked"':'')  . " /></td></tr>\n";
+     $out .= "<tr class=\"wp-greet-form\"><td class=\"wp-greet-form\">".__("Recipient","wp-greet").":</td><td class=\"wp-greet-form\"><input name='recv' type='text' size='40' maxlength='80' value='" . $_POST['recv']  . "'/></td></tr>\n";
+     $out .= "<tr class=\"wp-greet-form\"><td class=\"wp-greet-form\">".__("Subject","wp-greet").":</td><td class=\"wp-greet-form\"><input name='title'  type='text' size='40' maxlength='80' value='" . attribute_escape($_POST['title'])  . "'/></td></tr>\n";
+     // $out .= "<tr class=\"wp-greet-form\"><td class=\"wp-greet-form\">".__("Message","wp-greet").":</td><td class=\"wp-greet-form\"><textarea name='message' cols='50' rows='10'>" . attribute_escape($_POST['message']) . "</textarea></td></tr>\n"; 
+ $out .= "<tr class=\"wp-greet-form\"><td class=\"wp-greet-form\">".__("Message","wp-greet").":</td><td class=\"wp-greet-form\"><textarea class=\"wp-greet-form\" name='message'>" . attribute_escape($_POST['message']) . "</textarea></td></tr>\n";
     if ($captcha)
       $out .= "<tr class=\"wp-greet-form\"><td class=\"wp-greet-form\">". __("Captcha-protect:")."</td><td class=\"wp-greet-form\" >".$Cap->display_captcha()."&nbsp;<input name=\"captcha\" type=\"text\" size=\"10\" maxlength=\"10\" />"."</td></tr>";
     $out .= "<tr class=\"wp-greet-form\"><td class=\"wp-greet-form\">&nbsp;</td><td class=\"wp-greet-form\"><input name='action' type='submit' value='".__("Preview","wp-greet")."' /><input name='action' type='submit'  value='".__("Send","wp-greet")."' /><input type='reset' value='".__("Reset form","wp-greet")."'/>&nbsp;<a href=\"javascript:history.back()\">".__("Back","wp-greet")."</a></td></tr></table></form></div>\n<p>&nbsp;";

@@ -39,7 +39,10 @@ function wpgreet_get_options() {
   // wp-greet-default-footer - default footer for email
   // wp-greet-logging - enables logging of sent cards
   // wp-greet-imagewidth - sets fixed width for the image
-
+  // wp-greet-gallery - the used gallery plugin
+  // wp-greet-forüage - the pageid of the form page
+  // wp-greet-galarr - the selected galleries for redirection to wp-greet
+  //                   as array
 
   $options = array("wp-greet-version" => "", 
 		   "wp-greet-minseclevel" => "", 
@@ -52,12 +55,21 @@ function wpgreet_get_options() {
 		   "wp-greet-default-header" => "",
 		   "wp-greet-default-footer" => "",
 		   "wp-greet-imagewidth" => "",
-		   "wp-greet-logging" => "");
+		   "wp-greet-logging" => "",
+		   "wp-greet-gallery" => "",
+		   "wp-greet-formpage" => "",
+		   "wp-greet-galarr" => array());
 
 
   reset($options);
   while (list($key, $val) = each($options)) {
-    $options[$key] = get_option($key);
+    if ( $key != "wp-greet-galarr")
+      $options[$key] = get_option($key);
+    else {
+      $options["wp-greet-galarr"] = unserialize( get_option("wp-greet-galarr"));
+      if ( $options["wp-greet-galarr"] == False )
+	$options["wp-greet-galarr"] = array();
+    }
   }
 
   return $options;
@@ -69,10 +81,12 @@ function wpgreet_get_options() {
 //
 function wpgreet_set_options() {
   global $wpg_options;
- 
   reset($wpg_options);
   while (list($key, $val) = each($wpg_options)) {
-    update_option($key, $val);
+    if (is_array($val) ) 
+      update_option($key,serialize($val) );	 
+    else
+      update_option($key, $val);
   }
 }
 
@@ -190,7 +204,7 @@ function log_greetcard($to, $from, $pic, $msg)
   $wpdb =& $GLOBALS['wpdb'];
   $now = gmdate("Y-m-d H:i:s",time() + ( get_option('gmt_offset') * 60 * 60 ));
   
-  $sql = "insert into ". $wpdb->prefix . "wpgreet_stats values (0,'" . $now . "', '" . $to . "','" . $from . "','" . $pic . "','" . $msg . "');" ;
+  $sql = "insert into ". $wpdb->prefix . "wpgreet_stats values (0,'" . $now . "', '" . $from . "','" . $to . "','" . $pic . "','" . $wpdb->Escape($msg). "');" ;
   
   $wpdb->query($sql);
 }
@@ -208,7 +222,6 @@ function set_permissions($role) {
   foreach($all_roles as $key => $value) {
     $drole= get_role($key);
     if ( ($drole !== NULL) and $drole->has_cap("wp-greet-send") ) {
-      //echo "removing ".$key . "<br />";
       $drole->remove_cap('wp-greet-send');
     }
   }
@@ -217,12 +230,61 @@ function set_permissions($role) {
   foreach ($all_roles as $key => $value) {
     $crole = get_role($key);
     if ($crole !== NULL) {
-      //echo "adding ".$value . "<br />";
       $crole->add_cap('wp-greet-send'); 
     }
     
     if ($key == $role)
       break;  
   }
+}
+
+//
+// verbindet wp-greet mit ngg, es wird die url angepasst
+//
+function ngg_connect($link='' , $picture='') {
+  $wpdb =& $GLOBALS['wpdb'];
+  // wp-greet optionen aus datenbank lesen
+  $wpg_options = wpgreet_get_options();
+  
+  // pruefe ob gallery umgelenkt werden soll
+  if (array_search($picture->gid, $wpg_options['wp-greet-galarr']) !== False) {
+    
+    $sql="SELECT post_type FROM ".$wpdb->prefix."posts WHERE id= ". $wpg_options['wp-greet-formpage'] .";";
+    $pagetype = $wpdb->get_row($sql);
+    $url_prefix =  get_settings('siteurl');
+
+    if ($pagetype->post_type == "page")
+      $url_prefix .= '?page_id=';
+    else
+      $url_prefix .= '?p=';	
+    $url_prefix .= $wpg_options['wp-greet-formpage'];
+    $folder_url  = get_option ('siteurl')."/".$picture->path."/";
+    $link = stripslashes($url_prefix . "?gallery=" . $picture->gid .
+			 "\&amp;image=" . $folder_url.$picture->filename);
+  }
+  
+  return $link;
+}
+
+//
+// entfernt den ngg thumbcode
+//
+function ngg_remove_thumbcode($thumbcode,$picture) {
+  
+  // wp-greet optionen aus datenbank lesen
+  $wpg_options = wpgreet_get_options();
+  
+  // pruefe ob gallery umgelenkt werden soll
+  if (array_search($picture->gid, $wpg_options['wp-greet-galarr']) !== False) 
+    $thumbcode = "";
+  return $thumbcode;
+}
+
+//
+// umkehrfunktion zu nl2br :-)
+//
+function br2nl($text)
+{
+  return str_replace("<br />","",$text);
 }
 ?>

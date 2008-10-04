@@ -17,37 +17,11 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
-if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) { die('You 
-are not allowed to call this page directly.'); }
+if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) { die('You are not allowed to call this page directly.'); }
 
 
 // generic functions
-require_once("funclib.php");
-
-
-//
-// add menuitem for options menu
-//
-function wp_greet_admin() 
-{
-
-  if (function_exists('add_options_page')) {
-    add_options_page('wp-greet', 'wp-greet', 8, 
-		     basename(__FILE__), 'wpg_admin_form');
-  }
-
-  // pruefe ob ngg installiert ist, wenn ja fuege dich in die menuleiste ein
-  if (function_exists('add_submenu_page') ) {
-    $parr=get_plugins();
-    foreach($parr as $key => $plugin) {
-      //echo $plugin['Name']." ".ABSPATH.PLUGINDIR."/".$key."<br />";
-      if ($plugin['Name'] == "NextGEN Gallery" and 
-	  file_exists(ABSPATH. PLUGINDIR . "/". $key) )
-	add_submenu_page(NGGFOLDER, 'wp-greet', 'wp-greet', 8, basename(__FILE__), 'wpg_admin_form');
-    } 
-  }
-}
-
+require_once("wpg-func.php");
 
 
 //
@@ -67,14 +41,18 @@ function wpg_admin_form()
   if(function_exists('load_textdomain')) 
     load_textdomain("wp-greet",ABSPATH . "wp-content/plugins/wp-greet/lang/".$locale.".mo");
   
-  
+  // load possible form pages
+  $wpdb =& $GLOBALS['wpdb'];
+  $sql="SELECT id,post_title FROM ".$wpdb->prefix."posts WHERE post_type in ('page','post') and post_content like '%[wp-greet]%' order by id;";
+  $pagearr = $wpdb->get_results($sql);
+
   // if this is a POST call, save new values
   if (isset($_POST['info_update'])) {
     $upflag=false;
     
     reset($wpg_options);
     while (list($key, $val) = each($wpg_options)) {
-      if ($wpg_options[$key] != $_POST[$key]) {
+      if ($wpg_options[$key] != $_POST[$key]and $key != "wp-greet-galarr") {
 	$wpg_options[$key] = $_POST[$key];
 	$upflag=true;
 	
@@ -127,13 +105,35 @@ function wpg_admin_form()
     
     echo "</strong></p></div>";
   } 
-  
-?>
 
+?>
 <div class="wrap">
    <h2><?php echo __("wp-greet Setup","wp-greet") ?></h2>
    <form method="post" action=''>
    <table class="optiontable">
+          <tr valign="top">
+          <th scope="row"><?php echo __('Gallery-Plugin',"wp-greet")?>:</th>
+          <td><select name="wp-greet-gallery" size="1" >
+          <option value="-" <?php if ($wpg_options['wp-greet-gallery']=="-") echo "selected='selected'";?>>none</option>
+          <option value="ngg" <?php if ($wpg_options['wp-greet-gallery']=="ngg") echo "selected='selected'";?>>Nextgen Gallery</option>
+          </select> 
+          </td>
+          </tr>
+
+          <tr valign="top">
+          <th scope="row"><?php echo __('Form-Post/Page:',"wp-greet")?>:</th>
+          <td><select name="wp-greet-formpage" size="1">
+<?php 
+										  $r = '';
+  foreach( $pagearr as $p )
+    if ( $wpg_options['wp-greet-formpage'] == $p->id )
+      $o = "\n\t<option selected='selected' value='".$p->id."'>".$p->post_title."</option>";
+    else
+      $r .= "\n\t<option value='".$p->id."'>".$p->post_title."</option>";
+  echo $o . $r."\n";
+?>
+          </select></td></tr>
+
           <tr valign="top">
           <th scope="row"><?php echo __('Mailreturnpath',"wp-greet")?>:</th>
           <td><input name="wp-greet-mailreturnpath" type="text" size="30" maxlength="80" value="<?php echo $wpg_options['wp-greet-mailreturnpath'] ?>" /></td>
@@ -173,7 +173,7 @@ function wpg_admin_form()
          <tr valign="top">
          <th scope="row"><?php echo __('Minimum role to send card',"wp-greet")?>: </th>
             <td><select name="wp-greet-minseclevel" size="1">
-										 <?php 
+<?php 
   $r = '';
   global $wp_roles;
   $roles = $wp_roles->role_names;

@@ -47,3 +47,9 @@ td.wp-greet-form {
                     margin-left:auto; 
                     margin-right:auto; 
 }
+
+/* style for message textarea */
+textarea.wp-greet-form {
+                    width: 90%;
+		    height:120px;
+}
