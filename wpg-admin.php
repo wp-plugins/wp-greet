@@ -177,12 +177,15 @@ function wpg_admin_form()
   $r = '';
   global $wp_roles;
   $roles = $wp_roles->role_names;
-  foreach( $roles as $role => $name )
+  foreach( $roles as $role => $name ) {
+    $showname = substr($name,0,strpos($name,"|"));
     if ( $wpg_options['wp-greet-minseclevel'] == $role )
-      $p = "\n\t<option selected='selected' value='$role'>$name</option>";
+      $r .= "\n\t<option selected='selected' value='$role'>$showname</option>";
     else
-      $r .= "\n\t<option value='$role'>$name</option>";
-  echo $p . $r."\n";
+      $r .= "\n\t<option value='$role'>$showname</option>";
+  }
+  echo $r."\n";
+  
 ?>
         <option value="everyone" <?php if ($wpg_options['wp-greet-minseclevel']=="everyone") echo "selected='selected'";?>><?php echo __('Everyone',"wp-greet")?></option>
    </select></td></tr>
