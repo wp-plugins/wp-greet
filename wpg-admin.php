@@ -159,8 +159,13 @@ function wpg_admin_form()
            <td><input type="checkbox" name="wp-greet-captcha" value="1" <?php if ($wpg_options['wp-greet-captcha']=="1") echo "checked=\"checked\""?> /> <b><?php echo __('Use captcha to prevent spam robots',"wp-greet")?></b></td>
 	   </tr>
  
-        <tr valign="top">
-        <th scope="row">&nbsp;</th>
+           <tr valign="top">
+           <th scope="row">&nbsp;</th>
+           <td><input type="checkbox" name="wp-greet-smilies" value="1" <?php if ($wpg_options['wp-greet-smilies']=="1") echo "checked=\"checked\""?> /> <b><?php echo __('Enable Smileys on greetcard form',"wp-greet")?></b></td>
+	   </tr>
+
+         <tr valign="top">
+         <th scope="row">&nbsp;</th>
          <td><input type="checkbox" name="wp-greet-autofillform" value="1" <?php if ($wpg_options['wp-greet-autofillform']=="1") echo "checked=\"checked\""?> /> <b><?php echo __('Use informations from profile',"wp-greet")?></b></td>
          </tr>
 
@@ -206,7 +211,7 @@ function wpg_admin_form()
  
   </table>
 <?php
-      echo "<div class='submit'><input type='submit' name='info_update' value='".__('Update options',"wp-greet_")." »' /></div></form></div>";
+      echo "<div class='submit'><input type='submit' name='info_update' value='".__('Update options',"wp-greet")." »' /></div></form></div>";
 
 }
 ?>
