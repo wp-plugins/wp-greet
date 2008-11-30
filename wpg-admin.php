@@ -159,8 +159,13 @@ function wpg_admin_form()
            <td><input type="checkbox" name="wp-greet-captcha" value="1" <?php if ($wpg_options['wp-greet-captcha']=="1") echo "checked=\"checked\""?> /> <b><?php echo __('Use captcha to prevent spam robots',"wp-greet")?></b></td>
 	   </tr>
  
-        <tr valign="top">
-        <th scope="row">&nbsp;</th>
+           <tr valign="top">
+           <th scope="row">&nbsp;</th>
+           <td><input type="checkbox" name="wp-greet-smilies" value="1" <?php if ($wpg_options['wp-greet-smilies']=="1") echo "checked=\"checked\""?> /> <b><?php echo __('Enable Smileys on greetcard form',"wp-greet")?></b></td>
+	   </tr>
+
+         <tr valign="top">
+         <th scope="row">&nbsp;</th>
          <td><input type="checkbox" name="wp-greet-autofillform" value="1" <?php if ($wpg_options['wp-greet-autofillform']=="1") echo "checked=\"checked\""?> /> <b><?php echo __('Use informations from profile',"wp-greet")?></b></td>
          </tr>
 
@@ -177,12 +182,14 @@ function wpg_admin_form()
   $r = '';
   global $wp_roles;
   $roles = $wp_roles->role_names;
-  foreach( $roles as $role => $name )
+  foreach( $roles as $role => $name ) {
     if ( $wpg_options['wp-greet-minseclevel'] == $role )
-      $p = "\n\t<option selected='selected' value='$role'>$name</option>";
+      $r .= "\n\t<option selected='selected' value='$role'>$name</option>";
     else
       $r .= "\n\t<option value='$role'>$name</option>";
-  echo $p . $r."\n";
+  }
+  echo $r."\n";
+  
 ?>
         <option value="everyone" <?php if ($wpg_options['wp-greet-minseclevel']=="everyone") echo "selected='selected'";?>><?php echo __('Everyone',"wp-greet")?></option>
    </select></td></tr>
@@ -204,7 +211,7 @@ function wpg_admin_form()
  
   </table>
 <?php
-      echo "<div class='submit'><input type='submit' name='info_update' value='".__('Update options',"wp-greet_")." »' /></div></form></div>";
+      echo "<div class='submit'><input type='submit' name='info_update' value='".__('Update options',"wp-greet")." »' /></div></form></div>";
 
 }
 ?>

@@ -66,6 +66,7 @@ function wpg_admin_log()
   $out .= '<th scope="col">'.__('From',"wp-greet").'</th>'."\n";
   $out .= '<th scope="col">'.__('To',"wp-greet").'</th>'."\n";
   $out .= '<th scope="col">'.__('Image',"wp-greet").'</th>';
+  $out .= '<th scope="col">'.__('IP-Adress',"wp-greet").'</th>';
   $out .= '<th scope="col">'.__('Message',"wp-greet").'</th>'."</tr></thead>\n";
   // log loop
   $sql="select * from  ".$wpdb->prefix."wpgreet_stats order by mid DESC;";
@@ -76,6 +77,7 @@ function wpg_admin_log()
    $out .= "<td>".$res->frommail."</td>";
    $out .= "<td>".$res->tomail."</td>";
    $out .= "<td><img src='".$res->picture."' width='60' /></td>";
+   $out .= "<td>".$res->remote_ip."</td>";
    $out .= "<td>".attribute_escape($res->mailbody)."</td></tr>\n";
 
   }
