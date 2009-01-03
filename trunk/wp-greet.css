@@ -1,0 +1,70 @@
+/* style for greet card form */ 
+div.wp-greet-form {
+                  font-size: 14px; 
+                  font-family: Arial;
+                  border: 0px solid;
+                  padding: 10px;
+                  text-align:center;
+		  margin-left:auto;
+		  margin-right:auto;
+}
+
+/* style for greet card form table */
+table.wp-greet-form { 
+                    font-size: 14px;
+                    font-family: Arial;
+                    font-weight: bolder;
+                    font-variant: small-caps;
+		    border-spacing:2px;
+		    border-collapse:collapse;
+                    text-align:left;
+                    margin-left:auto; 
+                    margin-right:auto;
+		    table-layout:fixed;
+}
+
+/* style for greet card form table-row */
+tr.wp-greet-form { 
+                    font-size: 14px;
+                    font-family: Arial;
+                    font-weight: bolder;
+                    font-variant: small-caps;
+		    border-spacing:2px;
+		    border-collapse:collapse;
+                    text-align:left;
+                    margin-left:auto; 
+                    margin-right:auto; 
+}
+
+/* style for greet card form table cell */
+td.wp-greet-form { 
+                    font-size: 14px;
+                    font-family: Arial;
+                    font-weight: bolder;
+                    font-variant: small-caps;
+		    border-spacing:2px;
+		    border-collapse:collapse;
+                    text-align:left;
+                    margin-left:auto; 
+                    margin-right:auto; 
+		    width:66%;
+}
+
+/* style for greet card form table cell left side */
+td.wp-greet-form-left { 
+                    max-width: 25%;
+		    font-size: 14px;
+                    font-family: Arial;
+                    font-weight: bolder;
+                    font-variant: small-caps;
+		    border-spacing:2px;
+		    border-collapse:collapse;
+                    text-align:left;
+                    margin-left:auto; 
+                    margin-right:auto; 
+}
+/* style for message textarea */
+textarea.wp-greet-form {
+                    width: 90%;
+		    height:120px;
+}
