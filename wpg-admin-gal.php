@@ -72,7 +72,7 @@ function wpg_admin_gal()
   //
   $out = "";
   $out = "<div class=\"wrap\">";
-  $out .= "<h2>".__("Galleries","wpcs")."</h2>\n"; 
+  $out .= "<h2>".__("Galleries","wp-greet")."</h2>\n"; 
   $out .= "<form name='savegals' id='savegals' method='post' action=''>\n";
   $out .= "<table class=\"widefat\"><thead><tr>\n";
   $out .= '<th scope="col" width="30">'.__('Active',"wp-greet")."</th>"."\n";

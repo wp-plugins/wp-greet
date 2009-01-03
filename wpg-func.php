@@ -43,6 +43,8 @@ function wpgreet_get_options() {
   // wp-greet-forüage - the pageid of the form page
   // wp-greet-galarr - the selected galleries for redirection to wp-greet
   //                   as array
+  // wp-greet-smilies - switch to activate smiley support with greeting form
+  // wp-greet-linesperpage - count of lines to show on each page of log
 
   $options = array("wp-greet-version" => "", 
 		   "wp-greet-minseclevel" => "", 
@@ -58,7 +60,9 @@ function wpgreet_get_options() {
 		   "wp-greet-logging" => "",
 		   "wp-greet-gallery" => "",
 		   "wp-greet-formpage" => "",
-		   "wp-greet-galarr" => array());
+		   "wp-greet-galarr" => array(),
+		   "wp-greet-smilies" => "",
+		   "wp-greet-linesperpage" => "");
 
 
   reset($options);
@@ -117,7 +121,7 @@ function check_email($mail_address) {
     $parts = explode("@", $mail_address);
     $hparts = explode (".", $parts[1]);
     $host = $hparts[count($hparts)-2]. "." . $hparts[count($hparts)-1];
-    
+
     if (checkdnsrr($host, "MX")){
       //echo "The e-mail address is valid. $mail_address <br />" ;
       return true;
@@ -204,7 +208,10 @@ function log_greetcard($to, $from, $pic, $msg)
   $wpdb =& $GLOBALS['wpdb'];
   $now = gmdate("Y-m-d H:i:s",time() + ( get_option('gmt_offset') * 60 * 60 ));
   
-  $sql = "insert into ". $wpdb->prefix . "wpgreet_stats values (0,'" . $now . "', '" . $from . "','" . $to . "','" . $pic . "','" . $wpdb->Escape($msg). "');" ;
+  $sql = "insert into ". $wpdb->prefix . "wpgreet_stats values (0,'" . $now . "', '" . $from . "','" . $to . "','" . $pic . "','" . $wpdb->Escape($msg). "','". $_SERVER["REMOTE_ADDR"] . "');" ;
+   
+
+ ;
   
   $wpdb->query($sql);
 }
@@ -283,8 +290,40 @@ function ngg_remove_thumbcode($thumbcode,$picture) {
 //
 // umkehrfunktion zu nl2br :-)
 //
-function br2nl($text)
+//function br2nl($text)
+//{
+//  return str_replace("<br />","",$text);
+//}
+
+
+function get_dir_alphasort($pfad)
 {
-  return str_replace("<br />","",$text);
+  // Prüfung, ob das angegebene Verzeichnis geöffnet werden kann
+  if( ($pointer = opendir($pfad)) == false ) {
+    // Im Fehlfall ist das bereits der Ausgang
+    return false;
+  }
+
+  $arr = array();
+  while( $datei = readdir($pointer) ) {
+    // Prüfung, ob es sich überhaupt um Dateien handelt
+    // oder um Synonyme für das aktuelle (.) bzw.
+    // das übergeordnete Verzeichnis (..)
+    if( is_dir($pfad."/".$datei) || $datei == '.' || $datei == '..' ) 
+      continue;
+    
+    $arr[] = $datei;
+  }
+  closedir($pointer);
+  array_multisort($arr);
+
+  return $arr;
+}
+
+function debug($text)
+{
+  $fd=fopen("/tmp/wpg.log","a+");
+  fwrite($fd,$text."\n");
+  fclose($fd);
 }
 ?>

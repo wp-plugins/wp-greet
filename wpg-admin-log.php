@@ -28,9 +28,11 @@ require_once("wpg-func.php");
 // form handler for the admin dialog
 //
 function wpg_admin_log() 
-{
+{ 
+  global $wpg_options;
+  
   // base url for links
-  $thisform = "admin.php?page=wp-greet/wpg_admin_log.php";
+  $thisform = "admin.php?page=wp-greet/wpg-admin-log.php";
   // get sql object
   $wpdb =& $GLOBALS['wpdb'];
 
@@ -54,21 +56,72 @@ function wpg_admin_log()
     echo"<div class='updated'><p><strong>Log cleared.</strong></p></div>";
   } 
   
+
+  // get parameters for page navigation
+  $sql="select count(*) as anz from  ".$wpdb->prefix."wpgreet_stats;";
+  $res = $wpdb->get_row($sql);
+
+  $all_lines = $res->anz;
+
+  if (isset($_POST['lines_per_page'])) {
+    $lines_per_page = (int) $_POST['lines_per_page'];
+    $wpg_options['wp-greet-linesperpage'] = $lines_per_page;
+    update_option("wp-greet-linesperpage",$lines_per_page);
+  } else
+    $lines_per_page= $wpg_options['wp-greet-linesperpage'];
+  
+  // just in case option is not yet set
+  if (! $lines_per_page > 0)
+    $lines_per_page = 10;
+  
+  $maxpage = ($all_lines / $lines_per_page);
+  if ($all_lines % $lines_per_page > 0)
+    $maxpage +=1;
+
+  if (isset($_GET['activepage']))
+    $active_page= (int) $_GET['activepage'];
+  else
+    $active_page=1;
+
+
   //
   // output log table
   //
   $out = "";
-  $out = "<div class=\"wrap\">";
+  $out .= "<div class=\"wrap\">";
   $out .= "<h2>".__("Greetcard Log","wp-greet")."</h2>\n"; 
+ 
+ // output naviagtion
+  $out .= "<div style=\"font-size:11px\">";
+  $out .= "<form name='linesperpage' id='linesperpage' method='post' action=''>";
+  $out .= "<a href=\"$thisform&amp;activepage=0\">". __("Show all","wp-greet") . "</a>&nbsp;&nbsp;";
+  $out .= "<a href=\"$thisform&amp;activepage=" . (string) ($active_page-1 < 1?1:$active_page-1) ."\">&lt;</a>&nbsp;";
+  for ($i=1;$i < ($all_lines / $lines_per_page)+1;$i++) {
+    if ( $active_page == $i )
+      $out .= "<b>". $i . "</b>&nbsp;"; 
+    else
+      $out .= "<a href=\"$thisform&amp;activepage=$i\">". $i . "</a>&nbsp;";
+  }
+  $out .="<a href=\"$thisform&amp;activepage=" . (string) ($active_page+1 > $maxpage?$active_page:$active_page+1) . "\">&gt;</a>&nbsp;&nbsp;";
+  $out .= __("Lines per Page:","wp-greet")."<input style=\"font-size:10px\" type='text' name='lines_per_page' value='".$lines_per_page."' size='4' /></form></div>";
+
+  // output table
   $out .= "<table class=\"widefat\"><thead><tr>\n";
   $out .= '<th scope="col">'.__('No.',"wp-greet")."</th>"."\n";
   $out .= '<th scope="col">'.__("Date/Time","wp-greet").'</th>'."\n";
   $out .= '<th scope="col">'.__('From',"wp-greet").'</th>'."\n";
   $out .= '<th scope="col">'.__('To',"wp-greet").'</th>'."\n";
   $out .= '<th scope="col">'.__('Image',"wp-greet").'</th>';
+  $out .= '<th scope="col">'.__('IP-Adress',"wp-greet").'</th>';
   $out .= '<th scope="col">'.__('Message',"wp-greet").'</th>'."</tr></thead>\n";
   // log loop
-  $sql="select * from  ".$wpdb->prefix."wpgreet_stats order by mid DESC;";
+  $sql="select * from  ".$wpdb->prefix."wpgreet_stats order by mid DESC ";
+  // limit sql to wanted page
+  if ($active_page > 0 ) {
+    $lstart = ($active_page -1) * $lines_per_page;
+    $lcount = $lines_per_page;
+    $sql .= " limit $lstart,$lcount";
+  }
   $results = $wpdb->get_results($sql);
  foreach($results as $res) {
    $out .= "<tr><td align=\"center\">".$res->mid."</td>";
@@ -76,10 +129,12 @@ function wpg_admin_log()
    $out .= "<td>".$res->frommail."</td>";
    $out .= "<td>".$res->tomail."</td>";
    $out .= "<td><img src='".$res->picture."' width='60' /></td>";
+   $out .= "<td>".$res->remote_ip."</td>";
    $out .= "<td>".attribute_escape($res->mailbody)."</td></tr>\n";
 
   }
   $out .= '</table></div>'."\n";
+  // output clear log form
   $out .= "<div class='submit'><form name='clearlog' id='clearlog' method='post' action=''><input type='submit' name='clear_log' value='".__('Clear Log',"wp-greet")." »' /></form></div>";
   echo $out;
 

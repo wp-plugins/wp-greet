@@ -26,10 +26,8 @@ are not allowed to call this page directly.'); }
 //
 function wp_greet_activate()
 {
-  global $wpdb , $wp_roles, $wp_version;
-  global $wp_greet_version,$wpg_options;
-
-
+  global $wpdb, $wp_roles, $wp_version,$wpg_options;
+  
   // upgrade function changed in WordPress 2.3	
   if (version_compare($wp_version, '2.3', '>='))		
     require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
@@ -38,8 +36,10 @@ function wp_greet_activate()
 
   $wpg_options = wpgreet_get_options();
 
+  debug("<pre>###".WP_GREET_VERSION."###".$wpg_options['wp-greet-version']."###</pre>");
+  debug(version_compare(WP_GREET_VERSION,$wpg_options['wp-greet-version'], '>'));
   if ($wpg_options['wp-greet-version'] == "") {
-    $wpg_options['wp-greet-version'] = $wp_greet_version;
+    $wpg_options['wp-greet-version'] = WP_GREET_VERSION;
     add_option("wp-greet-version",$wpg_options['wp-greet-version'],
 		 "versionnumber of the installed wp-greet","yes");
     // create table	
@@ -50,14 +50,22 @@ function wp_greet_activate()
             tomail VARCHAR(80) NOT NULL,
             picture VARCHAR(255) NOT NULL,
             mailbody MEDIUMTEXT NOT NULL,
+            remote_ip VARCHAR(15) NOT NULL,
 	    PRIMARY KEY mid (mid)
 	    );";
 	
       dbDelta($sql);
 
-  } else if (version_compare($wp_greet_version, 
-			     $wpg_options['wp-greet-version'], '>=') ) {
-    // upgrade section for further releaes
+  } else if (version_compare(WP_GREET_VERSION, 
+			     $wpg_options['wp-greet-version'], '>') ) {
+
+    // add column for ip logging (since v1.2)
+    $sql="alter table " . $wpdb->prefix . "wpgreet_stats add column remote_ip varchar(15) NOT NULL after mailbody;";
+    $wpdb->query($sql);
+
+    // neue version wegschreiben
+    $wpg_options['wp-greet-version'] = WP_GREET_VERSION;
+    wpgreet_set_options();
   }
     
     if ($wpg_options['wp-greet-minseclevel'] == "") {
@@ -98,13 +106,18 @@ function wp_greet_activate()
       $wpg_options['wp-greet-gallery'] = "ngg";
       add_option("wp-greet-gallery",$wpg_options['wp-greet-gallery'],
 		 "which gallery to use","yes");
-    };  
+    };
+
+    if ($wpg_options['wp-greet-linesperpage'] == "") {
+      $wpg_options['wp-greet-linesperpage'] = "10";
+      add_option("wp-greet-linesperpage",$wpg_options['wp-greet-linesperpage'],
+		 "lines on each page on log page","yes");
+    };   
 }
 
 function wp_greet_deactivate()
 {
-  $options = array("wp-greet-version", 
-		   "wp-greet-minseclevel", 
+  $options = array("wp-greet-minseclevel", 
 		   "wp-greet-captcha", 
 		   "wp-greet-mailreturnpath", 
 		   "wp-greet-autofillform",
@@ -115,7 +128,11 @@ function wp_greet_deactivate()
 		   "wp-greet-default-footer",
 		   "wp-greet-imagewidth",
 		   "wp-greet-logging",
-		   "wp-greet-gallery");
+		   "wp-greet-gallery",
+		   "wp-greet-smilies",
+		   "wp-greet-formpage",
+		   "wp-greet-galarr",
+		   "wp-greet-linesperpage");
 
   reset($options);
   while (list($key,$val) = each($options)) {
