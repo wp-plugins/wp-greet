@@ -423,7 +423,7 @@ function showGreetcardForm($galleryID,$picurl) {
     
      // Math Protect
     if ($captcha==2)
-      $out.='<label for="mcspvalue"><small>'. __("Sum of")."&nbsp;". $cap_info['operand1'] . ' + ' . $cap_info['operand2'] . ' ? '.'</small></label><input type="text" name="mcspvalue" id="mcspvalue" value="" size="23" maxlength="10" /><input type="hidden" name="mcspinfo" value="'. $cap_info['result'].'" />';
+      $out.='<label for="mcspvalue"><small>'. __("Sum of","wp-greet")."&nbsp;". $cap_info['operand1'] . ' + ' . $cap_info['operand2'] . ' ? '.'</small></label><input type="text" name="mcspvalue" id="mcspvalue" value="" size="23" maxlength="10" /><input type="hidden" name="mcspinfo" value="'. $cap_info['result'].'" />';
     
     $out.="</td></tr>";
 
