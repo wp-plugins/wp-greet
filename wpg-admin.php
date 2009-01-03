@@ -33,7 +33,7 @@ function wpg_admin_form()
 
   // wp-greet optionen aus datenbank lesen
   $wpg_options = wpgreet_get_options();
-
+ 
   // get translation 
   $locale = get_locale();
   if ( empty($locale) )
@@ -52,7 +52,7 @@ function wpg_admin_form()
     
     reset($wpg_options);
     while (list($key, $val) = each($wpg_options)) {
-      if ($wpg_options[$key] != $_POST[$key]and $key != "wp-greet-galarr") {
+      if ($wpg_options[$key] != $_POST[$key] and $key != "wp-greet-galarr" and $key != "wp-greet-linesperpage") {
 	$wpg_options[$key] = $_POST[$key];
 	$upflag=true;
 	
@@ -82,12 +82,17 @@ function wpg_admin_form()
     }
 
     // check for captcha plugin if captcha was set
-    if ( $wpg_options['wp-greet-captcha']  ) {
+    if ( $wpg_options['wp-greet-captcha'] >0 ) {
       $plugin_exists=false;
       $parr=get_plugins();
       foreach($parr as $key => $plugin) {
 	//echo $plugin['Name']." ".ABSPATH.PLUGINDIR."/".$key."<br />";
+
 	if ($plugin['Name'] == "CaptCha!" and 
+	    file_exists(ABSPATH. PLUGINDIR . "/". $key) )
+	  $plugin_exists=true;
+
+	if ($plugin['Name'] == "Math Comment Spam Protection" and 
 	    file_exists(ABSPATH. PLUGINDIR . "/". $key) )
 	  $plugin_exists=true;
       }
@@ -155,8 +160,12 @@ function wpg_admin_form()
           </tr>
 
            <tr valign="top">
-           <th scope="row">&nbsp;</th>
-           <td><input type="checkbox" name="wp-greet-captcha" value="1" <?php if ($wpg_options['wp-greet-captcha']=="1") echo "checked=\"checked\""?> /> <b><?php echo __('Use captcha to prevent spam robots',"wp-greet")?></b></td>
+           <th scope="row"><?php echo __('Use captcha to prevent spam robots',"wp-greet")?></th>
+           <td><select name="wp-greet-captcha" size="1">
+               <option value="1" <?php if ($wpg_options['wp-greet-captcha']=="1") echo "selected=\"selected\""?> /> CaptCha!</option>
+               <option value="2" <?php if ($wpg_options['wp-greet-captcha']=="2") echo "selected=\"selected\""?> /> Math Comment Spam Protection</option>
+               </select>
+           </td>
 	   </tr>
  
            <tr valign="top">

@@ -114,21 +114,38 @@ function showGreetcardForm($galleryID,$picurl) {
        echo __("Invalid recipient mail address.","wp-greet")."<br />";
      }
 
-     // pruefe captcha 
-     if ( $wpg_options['wp-greet-captcha'] and isset($_POST['public_key'])) {
-       require_once(ABSPATH . "wp-content/plugins/captcha/captcha.php");
-       $Cap = new Captcha();
-       $Cap->debug = false;
-       $Cap->public_key=$_POST['public_key'];
+     // pruefe captcha  
+     if ( ($wpg_options['wp-greet-captcha'] > 0) and (isset($_POST['public_key']) or isset($_POST['mcspinfo']))) {
 
-       if (! $Cap->check_captcha($Cap->public_key_id(),$_POST['captcha']) ) {
-	 $_POST['action'] = "Formular";
-	 echo __("No valid captcha entry.<br />","wp-greet");
-	 echo __("Please try again:<br />Tip: If you cannot identify the chars, you can generate a new image. Using Reload.","wp-greet")."<br />";
-       } 
-     }
-   }
+       // check CaptCha!
+       if ($wpg_options['wp-greet-captcha']==1) {
+	 require_once(ABSPATH . "wp-content/plugins/captcha/captcha.php");
+	 
+	 $Cap = new Captcha();
+	 $Cap->debug = false;
+	 $Cap->public_key=$_POST['public_key'];
+	 
+	 if (! $Cap->check_captcha($Cap->public_key_id(),$_POST['captcha']) ) {
+	   $_POST['action'] = "Formular";
+	   echo __("Spamprotection - Code is not valid.<br />","wp-greet");
+	   echo __("Please try again.<br />Tip: If you cannot identify the chars, you can generate a new image. Using Reload.","wp-greet")."<br />";
+	 } 
+       }	 
+       // check Math Protect
+       if ($wpg_options['wp-greet-captcha']==2) {
+	 require_once(ABSPATH . "wp-content/plugins/math-comment-spam-protection/math-comment-spam-protection.classes.php");
 
+	 $Cap = new MathCheck();
+	 if ( $Cap->InputValidation( $_POST['mcspinfo'], $_POST['mcspvalue']) !="") {
+	   $_POST['action'] = "Formular";
+	   echo __("Spamprotection - Code is not valid.<br />","wp-greet");
+	   echo __("Please try again.","wp-greet")."<br />"; 
+	 }
+       } // end of pruefe captcha
+     } // end of Feldinhalte pruefen
+   } // end of if action
+   
+   
   // Vorschau
   if ( $_POST['action'] == __("Preview","wp-greet") ) {
 
@@ -309,13 +326,32 @@ function showGreetcardForm($galleryID,$picurl) {
   } else {
     
     // Formular anzeigen
-    $captcha = false;
-    if ( $wpg_options['wp-greet-captcha']) {
+    $captcha = 0;
+    // CaptCha! plugin
+    if ( $wpg_options['wp-greet-captcha'] == 1) {
       require_once(ABSPATH . "wp-content/plugins/captcha/captcha.php");
       $Cap = new Captcha();
       $Cap->debug = false;	
       $Cap->public_key = intval($_GET['x']);
-      $captcha = true;
+      $captcha = 1;
+    }
+
+    // Math Comment Spam Protection Plugin
+    if ( $wpg_options['wp-greet-captcha'] == 2) {
+      require_once(ABSPATH . "wp-content/plugins/math-comment-spam-protection/math-comment-spam-protection.classes.php");
+      $cap = new MathCheck; 
+      
+      // Set class options
+      $cap_opt = get_option('plugin_mathcommentspamprotection');
+      $cap->opt['input_numbers'] = $cap_opt['mcsp_opt_numbers'];
+      
+      // Generate numbers to be displayed and result
+      $cap->GenerateValues();
+      $cap_info = array();
+      $cap_info['operand1'] = $cap->info['operand1'];
+      $cap_info['operand2'] = $cap->info['operand2'];
+      $cap_info['result']   = $cap->info['result'];
+      $captcha = 2;
     }
  
     // javascript fuer smilies ausgeben falls notwendig
@@ -380,8 +416,17 @@ function showGreetcardForm($galleryID,$picurl) {
      } 
      
      // captcha anzeigen
-    if ($captcha)
-      $out .= "<tr class=\"wp-greet-form\"><td class=\"wp-greet-form-left\">". __("Captcha-protect:","wp-greet")."</td><td class=\"wp-greet-form\" >".$Cap->display_captcha()."&nbsp;<input name=\"captcha\" type=\"text\" size=\"10\" maxlength=\"10\" />"."</td></tr>";
+     $out .="<tr class=\"wp-greet-form\"><td class=\"wp-greet-form-left\">". __("Spamprotection:","wp-greet")."</td><td class=\"wp-greet-form\" >";
+     // CaptCha!
+     if ($captcha==1)
+       $out .= $Cap->display_captcha()."&nbsp;<input name=\"captcha\" type=\"text\" size=\"10\" maxlength=\"10\" />";
+    
+     // Math Protect
+    if ($captcha==2)
+      $out.='<label for="mcspvalue"><small>'. __("Sum of")."&nbsp;". $cap_info['operand1'] . ' + ' . $cap_info['operand2'] . ' ? '.'</small></label><input type="text" name="mcspvalue" id="mcspvalue" value="" size="23" maxlength="10" /><input type="hidden" name="mcspinfo" value="'. $cap_info['result'].'" />';
+    
+    $out.="</td></tr>";
+
     $out .= "<tr class=\"wp-greet-form\"><td class=\"wp-greet-form-left\">&nbsp;</td><td class=\"wp-greet-form\"><input name='action' type='submit' value='".__("Preview","wp-greet")."' /><input name='action' type='submit'  value='".__("Send","wp-greet")."' /><input type='reset' value='".__("Reset form","wp-greet")."'/>&nbsp;<a href=\"javascript:history.back()\">".__("Back","wp-greet")."</a></td></tr></table></form></div>\n<p>&nbsp;";
    
   }

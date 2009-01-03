@@ -58,7 +58,7 @@ function wp_greet_activate()
 
   } else if (version_compare(WP_GREET_VERSION, 
 			     $wpg_options['wp-greet-version'], '>') ) {
-    debug("gogogo");
+
     // add column for ip logging (since v1.2)
     $sql="alter table " . $wpdb->prefix . "wpgreet_stats add column remote_ip varchar(15) NOT NULL after mailbody;";
     $wpdb->query($sql);
@@ -106,7 +106,13 @@ function wp_greet_activate()
       $wpg_options['wp-greet-gallery'] = "ngg";
       add_option("wp-greet-gallery",$wpg_options['wp-greet-gallery'],
 		 "which gallery to use","yes");
-    };  
+    };
+
+    if ($wpg_options['wp-greet-linesperpage'] == "") {
+      $wpg_options['wp-greet-linesperpage'] = "10";
+      add_option("wp-greet-linesperpage",$wpg_options['wp-greet-linesperpage'],
+		 "lines on each page on log page","yes");
+    };   
 }
 
 function wp_greet_deactivate()
@@ -125,7 +131,8 @@ function wp_greet_deactivate()
 		   "wp-greet-gallery",
 		   "wp-greet-smilies",
 		   "wp-greet-formpage",
-		   "wp-greet-galarr");
+		   "wp-greet-galarr",
+		   "wp-greet-linesperpage");
 
   reset($options);
   while (list($key,$val) = each($options)) {

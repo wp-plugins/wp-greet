@@ -44,6 +44,7 @@ function wpgreet_get_options() {
   // wp-greet-galarr - the selected galleries for redirection to wp-greet
   //                   as array
   // wp-greet-smilies - switch to activate smiley support with greeting form
+  // wp-greet-linesperpage - count of lines to show on each page of log
 
   $options = array("wp-greet-version" => "", 
 		   "wp-greet-minseclevel" => "", 
@@ -60,7 +61,8 @@ function wpgreet_get_options() {
 		   "wp-greet-gallery" => "",
 		   "wp-greet-formpage" => "",
 		   "wp-greet-galarr" => array(),
-		   "wp-greet-smilies" => "");
+		   "wp-greet-smilies" => "",
+		   "wp-greet-linesperpage" => "");
 
 
   reset($options);
@@ -119,7 +121,7 @@ function check_email($mail_address) {
     $parts = explode("@", $mail_address);
     $hparts = explode (".", $parts[1]);
     $host = $hparts[count($hparts)-2]. "." . $hparts[count($hparts)-1];
-    
+
     if (checkdnsrr($host, "MX")){
       //echo "The e-mail address is valid. $mail_address <br />" ;
       return true;

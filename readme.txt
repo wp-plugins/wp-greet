@@ -2,7 +2,7 @@
 Tags: greetingcard, send, email, nextgengallery, plugin
 Requires at least: 2.5
 Tested up to: 2.7 beta
-Stable tag: 1.2
+Stable tag: 1.3
 
 wp-greet is a wordpress plugin to send greeting cards from your wordpress blog. it takes advantage from nextGenGallery to maintain your greetingcard pictures.
 
@@ -11,7 +11,7 @@ wp-greet is a wordpress plugin to send greeting cards from your wordpress blog. 
 Plugin Name: wp-greet
 Plugin URI: http://www.tuxlog.de
 Description:  wp-greet is a wordpress plugin to send greeting cards from your wordpress blog.
-Version: 1.2
+Version: 1.3
 Author: Barbara Jany, Hans Matzen <webmaster at tuxlog dot de>
 Author URI: http://www.tuxlog.de
 */
@@ -46,13 +46,14 @@ giving your users the ability to send greeting cards from your blog.
    + control who can send cards
    + add default subject, header and footer to the greeting cards
    + add a bcc and/or a mailreturnpath to the mail
+   + supports Antispam Plugins CaptCha! and Math-Comment-Spam-Protection-Plugin
 
 
 == requirements ==
 
    + PHP >=4.3
    + Wordpress >= 2.5.x
-   + nextGenGallery >= v0.98
+   + nextGenGallery >= v1.00
 
 
 == installation from v1.1 on ==
@@ -105,14 +106,17 @@ http://www.tuxlog.de/wordpress/2008/wp-greet/
 
 == history ==
 2008-04-06 v0.9	   Initial release 
+
 2008-04-14 v1.0	   added captcha support, removed dependency to 
 	   	   phpmailer package
+
 2008-10-04 v1.1	   integrate ngg without patching it (thanks to Alex Rabe 
 	   	   for adding the needed filter hooks), add gallery selection 
 		   to admin dialog, add form page selector to admin dialog, 
 		   fixed quote handling in textarea, disable captcha parameter 
 		   during installation, extended css to be more flexible with
 		   different themes
+
 2008-11-30 v1.2	   fixed some typos, added smiley support, added remote ip 
 	   	   adress to log information, added automatic sender an 
 		   receiver name, disable options deletion during plugin 
@@ -120,6 +124,9 @@ http://www.tuxlog.de/wordpress/2008/wp-greet/
 		   in their tables, instead of setting up the plugin 
 		   every time ;-) ), added fields for sender and receiver name
 
+2009-01-03 v1.3	   add support for Math-Comment-Spam-Protection-Plugin, 
+	   	   add paging for logfile, fix bug with ngg >v0.99 and 
+		   thickbox effect
 
 == todo ==
    - add support for mygallery
