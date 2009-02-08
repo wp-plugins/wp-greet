@@ -1,7 +1,7 @@
 <?php
 /* This file is part of the wp-greet plugin for wordpress */
 
-/*  Copyright 2008  Hans Matzen  (email : webmaster at tuxlog.de)
+/*  Copyright 2008, 2009  Hans Matzen  (email : webmaster at tuxlog dot de)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -45,6 +45,7 @@ function wpgreet_get_options() {
   //                   as array
   // wp-greet-smilies - switch to activate smiley support with greeting form
   // wp-greet-linesperpage - count of lines to show on each page of log
+  // wp-greet-usesmtp - which method to use for mail transfer 1=smtp, 0=php mail
 
   $options = array("wp-greet-version" => "", 
 		   "wp-greet-minseclevel" => "", 
@@ -62,7 +63,8 @@ function wpgreet_get_options() {
 		   "wp-greet-formpage" => "",
 		   "wp-greet-galarr" => array(),
 		   "wp-greet-smilies" => "",
-		   "wp-greet-linesperpage" => "");
+		   "wp-greet-linesperpage" => "",
+		   "wp-greet-usesmtp" => "");
 
 
   reset($options);
@@ -133,41 +135,6 @@ function check_email($mail_address) {
     //echo "The e-mail address contains invalid charcters.<br />";
     return false;
   }
-}
-
-
-//
-// this function fetches an url an returns it as one whole string
-//
-function fetch_URL($url) 
-{
-  global $wpf_debug;
-    
-  $url_parsed = parse_url($url);
-    $host = $url_parsed["host"];
-    if (!isset($url_parsed["port"])) {
-	$port = 80;
-    }
-    else {
-	$port = $url_parsed["port"];
-    }
-    $path = $url_parsed["path"];
-    if ($url_parsed["query"] != "") $path .= "?" . $url_parsed["query"];
-    $out = "GET $path HTTP/1.0\r\nHost: $host\r\n\r\n";
-    $fp = fsockopen($host, $port, $errno, $errstr, 30);
-    $in = "";
-    if ($fp) {
-      fwrite($fp, $out);
-      $body = false;
-      while (!feof($fp)) {
-	$s = fgets($fp, 1024);
-	if ($body) $in .= $s;
-        if ($s == "\r\n") $body = true;
-      }
-      fclose($fp);
-    }  
-    
-    return $in;
 }
 
 

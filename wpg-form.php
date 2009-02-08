@@ -1,7 +1,7 @@
 <?php
 /* This file is part of the wp-greet plugin for wordpress */
 
-/*  Copyright 2008  Hans Matzen  (email : webmaster at tuxlog.de)
+/*  Copyright 2009  Hans Matzen  (email : webmaster at tuxlog dot de)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-// if called directly, get parameters from GET and output the gretcardform
+// if called directly, get parameters from GET and output the greetcardform
 if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) { 
   require_once("wpg-func.php");
   require_once( dirname(__FILE__) . '/../../../wp-config.php');
@@ -194,27 +194,31 @@ function showGreetcardForm($galleryID,$picurl) {
     // Mail senden
     // ----------------------------------------------------------------------
     //
-    // zuerst werte fuer beide mail varianten ermitteln
+   
     //
-    // add default subject or the one given via the form
-    //if ( $wpg_options['wp-greet-default-title'] !="" )
-    //  $subj = $wpg_options['wp-greet-default-title'];
-    //else
-    //$subj = @html_entity_decode($_POST['title'],ENT_QUOTES,"UTF-8");
-    $subj = $_POST['title'];
-
- 
-    //
-    // zuerst pruefen ob inline images moeglich und gewuenscht sind
-    // wenn inline true wird, dann wird phpmailer zum versenden der mail 
+    // hole gewünschte mail methode
+    // wenn usesmtp true wird, dann wird phpmailer zum versenden der mail 
     // mit eingebettetem bild verwendet, sonst wird die php mail() 
-    // funktion verwenet.
+    // funktion verwendet.
+    //
+    $usesmtp = false;
+    if ( $wpg_options['wp-greet-usesmtp']) 
+      $usesmtp = true;
 
+    //
+    // inline images gehen nur mit smtp versand
+    // pruefen ob inline images gewuenscht sind
+    //
     $inline = false;
-    if ( $wpg_options['wp-greet-imgattach']) 
+    if ( $usesmtp && $wpg_options['wp-greet-imgattach']) 
       $inline = true;
  
     
+    //
+    // titel der mail holen
+    //
+    $subj = $_POST['title'];
+
     // html message bauen
     $message = '<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />';
     $message .= "<title>".$subj."</title>\n</head><body>";
@@ -248,35 +252,38 @@ function showGreetcardForm($galleryID,$picurl) {
     $message .= "<p>". $wpg_options['wp-greet-default-footer']. "</p>\r\n";
     $message .= "</body></html>";
 
+    // jetzt nehmen wir den eigentlichen mail versand vor
 
-    // mail senden mit phpmailer
     require_once(ABSPATH . "/wp-includes/class-phpmailer.php");
     require("phpmailer-conf.php");
       
     $mail = new PHPMailer();
-    //$mail->SMTPDebug=true;
-    $mail->IsSMTP();                // set mailer to use SMTP
-    $mail->CharSet = 'utf-8';       // set mail encoding
-      
-    $mail->Host = $wpg_smtpserver;  
-    if ( $wpg_smtpuser != "" and $wpg_smtppass !="") {
-      $mail->SMTPAuth = true;     // turn on SMTP authentication
-      $mail->Username = $wpg_smtpuser;  // SMTP username
-      $mail->Password = $wpg_smtppass; // SMTP password
+    //$mail->SMTPDebug=true;          // for testing
+    if ($usesmtp) {
+      $mail->IsSMTP();                // set mailer to use SMTP
+      $mail->Host = $wpg_smtpserver;  
+      if ( $wpg_smtpuser != "" and $wpg_smtppass !="") {
+	$mail->SMTPAuth = true;           // turn on SMTP authentication
+	$mail->Username = $wpg_smtpuser;  // SMTP username
+	$mail->Password = $wpg_smtppass;  // SMTP password
+      }
+    } else { 
+      $mail->IsMail();                    // set mailer to mail
+      $mail->Sender = addslashes($_POST['sender']); 
     }
-      
+    $mail->CharSet = 'utf-8';         // set mail encoding
+    
     $mail->From = addslashes($_POST['sender']);
     $mail->FromName = addslashes($_POST['sendername']) ;
-      
     $mail->AddAddress( $_POST['recv'], $_POST['recvname']);
-      
+    
     if ( $wpg_options['wp-greet-mailreturnpath'] !="" )
       $mail->AddReplyTo( $wpg_options['wp-greet-mailreturnpath'], $wpg_options['wp-greet-mailreturnpath'] );
-      
+    
     // add bcc if option is set
     if ( $wpg_options['wp-greet-bcc'] !="" )
       $mail->AddBCC($wpg_options['wp-greet-bcc']);
-      
+    
     // add cc if option is set
     if ( $_POST['ccsender'] == '1' ) 
       $mail->AddCC($_POST['sender']);
@@ -292,7 +299,7 @@ function showGreetcardForm($galleryID,$picurl) {
       
       // und ans mail haengen
       $mail->AddEmbeddedImage($picpath,"wpgreetimg",$picfile,"base64",$mtype);
-
+      
       // smileys an die mail haengen, wenn inline aktiviert ist
       if ( $wpg_options['wp-greet-smilies']) { 
 	foreach ($treffer[0] as $sm) {
@@ -306,12 +313,11 @@ function showGreetcardForm($galleryID,$picurl) {
 	}
       }
     }
-
+    
     $mail->IsHTML(true);                     // set email format to HTML
     $mail->Subject = $subj;                  // subject hinzufuegen
     $mail->Body = $message;                  // nachricht hinzufuegen
     
-    //$mail->AltBody = "Your mail-client is either in text mode or does not support HTML Mail.Sorry.";
     
     if ( $mail->Send()) {
       $out = __("Your greeting card has been sent.","wp-greet")."<br />";
@@ -321,7 +327,6 @@ function showGreetcardForm($galleryID,$picurl) {
       $out = __("An error occured while sending you greeting card.","wp-greet")."<br />";
       $out .= __("Problem report","wp-greet") . " " . $mail->ErrorInfo;
     }
-    
     
   } else {
     
@@ -416,14 +421,15 @@ function showGreetcardForm($galleryID,$picurl) {
      } 
      
      // captcha anzeigen
-     $out .="<tr class=\"wp-greet-form\"><td class=\"wp-greet-form-left\">". __("Spamprotection:","wp-greet")."</td><td class=\"wp-greet-form\" >";
+     if ( $captcha == 1 or $captcha == 2)
+       $out .="<tr class=\"wp-greet-form\"><td class=\"wp-greet-form-left\">". __("Spamprotection:","wp-greet")."</td><td class=\"wp-greet-form\" >";
      // CaptCha!
      if ($captcha==1)
        $out .= $Cap->display_captcha()."&nbsp;<input name=\"captcha\" type=\"text\" size=\"10\" maxlength=\"10\" />";
     
      // Math Protect
     if ($captcha==2)
-      $out.='<label for="mcspvalue"><small>'. __("Sum of")."&nbsp;". $cap_info['operand1'] . ' + ' . $cap_info['operand2'] . ' ? '.'</small></label><input type="text" name="mcspvalue" id="mcspvalue" value="" size="23" maxlength="10" /><input type="hidden" name="mcspinfo" value="'. $cap_info['result'].'" />';
+      $out.='<label for="mcspvalue"><small>'. __("Sum of","wp-greet")."&nbsp;". $cap_info['operand1'] . ' + ' . $cap_info['operand2'] . ' ? '.'</small></label><input type="text" name="mcspvalue" id="mcspvalue" value="" size="23" maxlength="10" /><input type="hidden" name="mcspinfo" value="'. $cap_info['result'].'" />';
     
     $out.="</td></tr>";
 

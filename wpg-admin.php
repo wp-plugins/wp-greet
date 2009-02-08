@@ -1,7 +1,7 @@
 <?php
 /* This file is part of the wp-greet plugin for wordpress */
 
-/*  Copyright 2008  Hans Matzen  (email : webmaster at tuxlog.de)
+/*  Copyright 2008,2009 Hans Matzen  (email : webmaster at tuxlog dot de)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -53,7 +53,7 @@ function wpg_admin_form()
     reset($wpg_options);
     while (list($key, $val) = each($wpg_options)) {
       if ($wpg_options[$key] != $_POST[$key] and $key != "wp-greet-galarr" and $key != "wp-greet-linesperpage") {
-	$wpg_options[$key] = $_POST[$key];
+	$wpg_options[$key] = stripslashes($_POST[$key]);
 	$upflag=true;
 	
 	// add capabiliities if necessary
@@ -112,9 +112,17 @@ function wpg_admin_form()
   } 
 
 ?>
+
+<script type="text/javascript">
+ function wechsle_inline () {
+    imga=document.getElementById('wp-greet-imgattach');
+    usmtp=document.getElementById('wp-greet-usesmtp1');
+    imga.disabled = (usmtp.checked == false);
+}
+</script>
 <div class="wrap">
    <h2><?php echo __("wp-greet Setup","wp-greet") ?></h2>
-   <form method="post" action=''>
+   <form name="wpgreetadmin" method="post" action=''>
    <table class="optiontable">
           <tr valign="top">
           <th scope="row"><?php echo __('Gallery-Plugin',"wp-greet")?>:</th>
@@ -126,7 +134,7 @@ function wpg_admin_form()
           </tr>
 
           <tr valign="top">
-          <th scope="row"><?php echo __('Form-Post/Page:',"wp-greet")?>:</th>
+          <th scope="row"><?php echo __('Form-Post/Page',"wp-greet")?>:</th>
           <td><select name="wp-greet-formpage" size="1">
 <?php 
 										  $r = '';
@@ -138,6 +146,11 @@ function wpg_admin_form()
   echo $o . $r."\n";
 ?>
           </select></td></tr>
+   
+	      <tr><th scope="row"><?php echo __("Mailtransfermethod","wp-greet")?>:</th>
+            <td>
+              <input type="radio" name="wp-greet-usesmtp" id="wp-greet-usesmtp1" value="1" <?php if ($wpg_options['wp-greet-usesmtp']=="1") echo "checked=\"checked\" "; ?> onclick="wechsle_inline();"  />SMTP (class-phpmailer.php)
+	      <input type="radio" name="wp-greet-usesmtp" id="wp-greet-usesmtp2" value="0" <?php if ($wpg_options['wp-greet-usesmtp']=="0") echo "checked=\"checked\" "; ?> onclick="wechsle_inline();" /> PHP mail() function  </td></tr>
 
           <tr valign="top">
           <th scope="row"><?php echo __('Mailreturnpath',"wp-greet")?>:</th>
@@ -151,7 +164,10 @@ function wpg_admin_form()
 
           <tr valign="top">
           <th scope="row">&nbsp;</th>
-          <td><input type="checkbox" name="wp-greet-imgattach" value="1" <?php if ($wpg_options['wp-greet-imgattach']=="1") echo "checked=\"checked\" "; ?> /> <b><?php echo __('Send image inline',"wp-greet")?></b></td>
+          
+
+          <td>
+          <input type="checkbox" name="wp-greet-imgattach" id="wp-greet-imgattach" value="1" <?php if ($wpg_options['wp-greet-imgattach']=="1") echo "checked=\"checked\" "; ?> /> <b><?php echo __('Send image inline',"wp-greet")?></b></td>
 	  </tr>
           
           <tr valign="top">
@@ -160,10 +176,11 @@ function wpg_admin_form()
           </tr>
 
            <tr valign="top">
-           <th scope="row"><?php echo __('Use captcha to prevent spam robots',"wp-greet")?></th>
-           <td><select name="wp-greet-captcha" size="1">
-               <option value="1" <?php if ($wpg_options['wp-greet-captcha']=="1") echo "selected=\"selected\""?> /> CaptCha!</option>
-               <option value="2" <?php if ($wpg_options['wp-greet-captcha']=="2") echo "selected=\"selected\""?> /> Math Comment Spam Protection</option>
+																				  <th scope="row"><?php echo __('Spam protection',"wp-greet")?>:</th>
+           <td><select name="wp-greet-captcha" size="1">		
+ 	   <option value="0" <?php if ($wpg_options['wp-greet-captcha']=="0") echo "selected=\"selected\""?> > <?php echo __("none","wp-greet"); ?></option>
+               <option value="1" <?php if ($wpg_options['wp-greet-captcha']=="1") echo "selected=\"selected\""?> > CaptCha!</option>
+               <option value="2" <?php if ($wpg_options['wp-greet-captcha']=="2") echo "selected=\"selected\""?> > Math Comment Spam Protection</option>
                </select>
            </td>
 	   </tr>
@@ -220,7 +237,7 @@ function wpg_admin_form()
  
   </table>
 <?php
-      echo "<div class='submit'><input type='submit' name='info_update' value='".__('Update options',"wp-greet")." »' /></div></form></div>";
+      echo "<div class='submit'><input type='submit' name='info_update' value='".__('Update options',"wp-greet")." »' /></div></form><script type=\"text/javascript\">wechsle_inline ();</script></div>";
 
 }
 ?>
