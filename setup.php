@@ -1,7 +1,7 @@
 <?php
 /* This file is part of the wp-greet plugin for wordpress */
 
-/*  Copyright 2008  Hans Matzen  (email : webmaster at tuxlog.de)
+/*  Copyright 2008,2009  Hans Matzen  (email : webmaster at tuxlog.de)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -112,6 +112,12 @@ function wp_greet_activate()
       $wpg_options['wp-greet-linesperpage'] = "10";
       add_option("wp-greet-linesperpage",$wpg_options['wp-greet-linesperpage'],
 		 "lines on each page on log page","yes");
+    }; 
+
+    if ($wpg_options['wp-greet-usesmtp'] == "") {
+      $wpg_options['wp-greet-usesmtp'] = "1";
+      add_option("wp-greet-usesmtp",$wpg_options['wp-greet-usesmtp'],
+		 "which mail transfer method to use smtp=1, php mail=0","yes");
     };   
 }
 
@@ -132,7 +138,8 @@ function wp_greet_deactivate()
 		   "wp-greet-smilies",
 		   "wp-greet-formpage",
 		   "wp-greet-galarr",
-		   "wp-greet-linesperpage");
+		   "wp-greet-linesperpage",
+		   "wp-greet-usesmtp");
 
   reset($options);
   while (list($key,$val) = each($options)) {
