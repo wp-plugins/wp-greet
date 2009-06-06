@@ -3,12 +3,12 @@
 Plugin Name: wp-greet
 Plugin URI: http://www.tuxlog.de
 Description: wp-greet is a wordpress plugin to send greeting cards from your wordpress blog.
-Version: 1.4
+Version: 1.5
 Author: Barbara Jany, Hans Matzen <webmaster at tuxlog.de>
 Author URI: http://www.tuxlog.de
 */
 
-/*  Copyright 2008  Barbara Jany, Hans Matzen  (email : webmaster at tuxlog.de)
+/*  Copyright 2008,2009  Barbara Jany, Hans Matzen  (email : webmaster at tuxlog dot de)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) { die('You
 are not allowed to call this page directly.'); }
 
 
-define( WP_GREET_VERSION, "1.4" );
+define( "WP_GREET_VERSION", "1.4" );
 
 // global options array
 $wpg_options = array();
@@ -90,7 +90,7 @@ function wpg_add_menus()
   if(function_exists('load_textdomain')) 
     load_textdomain("wp-greet",ABSPATH . "wp-content/plugins/wp-greet/lang/".$locale.".mo");
   
-  add_menu_page('wp-greet','wp-greet', 8, $PPATH."wpg-admin.php","wpg_admin_form");
+  add_menu_page('wp-greet','wp-greet', 8, $PPATH."wpg-admin.php","wpg_admin_form", site_url("/wp-content/plugins/wp-greet") . '/wp-greet.png');
 
   add_submenu_page( $PPATH."wpg-admin.php", __('Galleries',"wp-greet"), __('Galleries', "wp-greet"), 8, $PPATH."wpg-admin-gal.php", "wpg_admin_gal") ;
 

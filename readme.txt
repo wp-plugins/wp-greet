@@ -1,44 +1,18 @@
 === wp-greet ===
+Contributors: tuxlog, woodstock
+Donate link: http://www.tuxlog.de
 Tags: greetingcard, send, email, nextgengallery, plugin
 Requires at least: 2.5
-Tested up to: 2.7 beta
-Stable tag: 1.4
+Tested up to: 2.7.1
+Stable tag: 1.5
 
-wp-greet is a wordpress plugin to send greeting cards from your wordpress blog. it takes advantage from nextGenGallery to maintain your greetingcard pictures.
+wp-greet is a wordpress plugin to send greeting cards from your wordpress blog. it uses nextGenGallery to maintain your greetingcard pictures.
 
 == Description ==
-/*
-Plugin Name: wp-greet
-Plugin URI: http://www.tuxlog.de
-Description:  wp-greet is a wordpress plugin to send greeting cards from your wordpress blog.
-Version: 1.4
-Author: Barbara Jany, Hans Matzen <webmaster at tuxlog dot de>
-Author URI: http://www.tuxlog.de
-*/
-
-/*  Copyright 2008 Barbara Jany, Hans Matzen(email: webmaster at tuxlog dot de)
-
-    This program is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 2 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program; if not, write to the Free Software
-    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-*/
-
-you are reading the readme.txt file for the wp-greet plugin.
 wp-greet is a plugin for the famous wordpress blogging package,
 giving your users the ability to send greeting cards from your blog.
 
- 
-== features ==
+Features:
 
    + uses nextGenGallery for maintainig the greeting card picturea
    + storing statistics about the sent greeting cards 
@@ -47,31 +21,47 @@ giving your users the ability to send greeting cards from your blog.
    + add default subject, header and footer to the greeting cards
    + add a bcc and/or a mailreturnpath to the mail
    + supports Antispam Plugins CaptCha! and Math-Comment-Spam-Protection-Plugin
+   + sign your greeting cards with your own stamp
 
 
 == requirements ==
 
-   + PHP >=4.3
-   + Wordpress >= 2.5.x
-   + nextGenGallery >= v1.00
+* PHP >=4.3
+* Wordpress >= 2.5.x
+* nextGenGallery >= v1.00
 
 
-== installation from v1.1 on ==
+== Installation ==
 	
-	1.  Upload to your plugins folder, usually
-	    `wp-content/plugins/`, keeping the directory structure intact
-	    (i.e. `wp-greet.php` should end up in
-	    `wp-content/plugins/wp-greet/`).
+1.  Upload to your plugins folder, usually `wp-content/plugins/`, keeping the directory structure intact (e.g. `wp-greet.php` should end up in `wp-content/plugins/wp-greet/`).
 
-	2.  Activate the plugin on the plugin screen.
+1.  Activate the plugin on the plugin screen.
 
-	3.  Visit the configuration page (Options -> wp-greet) to
-            configure the plugin (do not forget to add the forms page id)
+1.  Visit the configuration page (Options -> wp-greet) to configure the plugin (do not forget to add the forms page id)
 
-        4.  Optional
-	    If you would like to change the style, just edit wp-greet.css
+1.  Optional: If you would like to change the style, just edit wp-greet.css
 
-== update from <v1.1 ==   IMPORTANT =======================================
+== Frequently Asked Questions ==
+
+= My greetcard form is wider than my theme. What can I do? =
+
+To adjust the design of your greetingcard page edit the file wp-greet.css.
+If you have a narrow theme you might adjust the width of the textarea
+textarea.wp-greet-form { width: 90%; } by replacing the 90% with something smaller than this.
+
+
+= How can I use the Math Comment Spam Protection Plugin with wp-greet? =
+
+Upload the unzipped directory "math-comment-spam-protection" on your webspace into wp-content/plugins and activate the plugin. Under Settings -> Math Comment Spam klick "Update Options" once even without having changed any options, otherwise the plugin won't work. You don't have to change the text of the error messages, as these are fixed within wp-greet.
+
+== Screenshots ==
+
+1. Sending a greetingcard with wp-greet (shows the user interface for entering a greetingcard)
+2. Preview a greetingcard with wp-greet 
+3. Admin-Dialog of wp-greet
+
+== update from prio v1.1 ==   
+IMPORTANT:
    	Please be sure to remove all files belonging to versions prior 
 	to v1.1 before uploading v1.1
 
@@ -82,18 +72,14 @@ giving your users the ability to send greeting cards from your blog.
 
 
 == usage from v1.1 on ==
-   	 1. Create a page or posting containing the tag [wp-greet].
-	 2. Remember the permalink of this page/post
-	 3. Enter the page/post number at the wp-greet admin dialog
-	    into the field Form-Post/Page and switch to your favourite 
-	    gallery plugin
-   	 3. Create a page with your favourite gallery on it 
-	    using the following syntax, e.g. for ngg: [gallery=1]
-	 4. thats it, just klick on a picture on the gallery page 
-	    and send it
+1. Create a page or posting containing the tag [wp-greet].
+1. Remember the permalink of this page/post
+1. Enter the page/post number at the wp-greet admin dialog into the field Form-Post/Page and switch to your favourite gallery plugin
+1. Create a page with your favourite gallery on it using the following syntax, e.g. for ngg: [gallery=1]
+1. thats it, just klick on a picture on the gallery page and send it
 
 For more details see the online documentation of wp-greet.
-http://www.tuxlog.de/wordpress/2008/wp-greet/	 
+http://www.tuxlog.de/wordpress/2008/wp-greet-documentation-english/	 
 
 == translations ==
 
@@ -135,13 +121,8 @@ http://www.tuxlog.de/wordpress/2008/wp-greet/
 		   fixed Spamlabel was showed, even when no captcha 
 		   support was selected
 
-== todo ==
-   - add support for mygallery
-   - add support for wp gallery (>=v2.5)
-
-
-
-
-
- 
-
+2009-06-06 v1.5	   clean up code to avoid warnings in wordpress debug mode,
+	   	   add stamp function to add a stamp to greetingcards,
+		   readme.txt validated, added screenshots to package,
+		   added icon for wordpress menu entry, added parameter to 
+		   set width of stamp

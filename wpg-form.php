@@ -24,12 +24,11 @@ if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) {
   require_once( dirname(__FILE__) . '/../../../wp-config.php');
 
   // get post vars
-  $galleryID = attribute_escape( $_GET['gallery'] );
-  $picurl = attribute_escape( $_GET['image'] );
-
+  $galleryID=attribute_escape(isset($_GET['gallery'])?$_GET['gallery']:'');
+  $picurl=attribute_escape($_GET['image']);
+  
   $out = showGreetcardForm($galleryID,$picurl);
   echo $out;
-  //FIXME
  }
 
 // apply the filter to the page or post content
@@ -39,8 +38,8 @@ function searchwpgreet($content) {
   if ( stristr( $content, '[wp-greet]' )) {
 
     // get post vars
-    $galleryID=$_GET['gallery'];
-    $picurl=$_GET['image'];
+    $galleryID=attribute_escape(isset($_GET['gallery'])?$_GET['gallery']:'');
+    $picurl=attribute_escape($_GET['image']);
 
     // replace tag with html form
     $search = '[wp-greet]';
@@ -76,18 +75,20 @@ function showGreetcardForm($galleryID,$picurl) {
   
 
   // uebernehme user daten bei erstaufruf
-  if ( $_POST['action'] == "" ) {
+  if ( ! isset($_POST['action']) ) {
     get_currentuserinfo();
     $_POST['sender'] = $userdata->user_email;
   }
 
   // uebernehme default subject bei erstufruf
-  if ( $_POST['title'] == "" ) 
+  if ( ! isset($_POST['title']) ) 
     $_POST['title'] =  $wpg_options['wp-greet-default-title'];
   
 
   // Feldinhalte pruefen
-   if ( $_POST['action'] == __("Preview","wp-greet") or  $_POST['action'] ==  __("Send","wp-greet") ) {
+  if ( isset($_POST['action']) and 
+       ( $_POST['action'] == __("Preview","wp-greet") or  
+	 $_POST['action'] ==  __("Send","wp-greet") ) ) {
 
      if ( isset($_POST['sender']) && $_POST['sender'] != '' )
        $_POST['sender'] = attribute_escape($_POST['sender']);
@@ -147,7 +148,8 @@ function showGreetcardForm($galleryID,$picurl) {
    
    
   // Vorschau
-  if ( $_POST['action'] == __("Preview","wp-greet") ) {
+  if ( isset($_POST['action']) and 
+       $_POST['action'] == __("Preview","wp-greet") ) {
 
     // message escapen
     $show_message = nl2br(attribute_escape($_POST['message']));
@@ -172,7 +174,25 @@ function showGreetcardForm($galleryID,$picurl) {
     $out .= "<tr><th>" . __("To","wp-greet").":</th><td>".   $_POST['recvname'] . "&nbsp&lt;". $_POST['recv'] . "&gt;</td></tr>"; 
     $out .= "<tr><th>" .  __("Subject","wp-greet").":</th><td>". attribute_escape($_POST['title']) . "</td></tr></table>";
     $out .= $wpg_options['wp-greet-default-header'] . "\n";
-    $out .= '<p><img src="' . $picurl . '" width="'.$wpg_options['wp-greet-imagewidth'] .'" alt="wp-greet-image" /></p><br />';
+    
+    
+    if (trim ($wpg_options['wp-greet-stampimage']) !="")
+    {
+	// briefmarke einbauen
+	// aus der url des bildes den dateinamen bauen 
+	$surl=get_option('siteurl');
+	$picpath = ABSPATH . substr($picurl, 
+				    strpos($picurl, $surl) + strlen($surl)+1);
+    
+	$out .= '<p><img src="' . site_url("wp-content/plugins/wp-greet/").
+	    "wpg-stamped.php?cci=$picpath&amp;sti=".
+	    ABSPATH . $wpg_options['wp-greet-stampimage'].
+	    "&amp;stw=" . $wpg_options['wp-greet-stamppercent'].
+	    '" alt="'.basename($picurl)."\" width='".
+	    $wpg_options['wp-greet-imagewidth']."'/></p><br />\n";
+    } else {
+	$out .= '<p><img src="' . $picurl . '" width="'.$wpg_options['wp-greet-imagewidth'] .'" alt="wp-greet-image" /></p><br />';
+    }
     $out .= "\n<p>" . $show_message . "</p>\n";
     $out .= $wpg_options['wp-greet-default-footer'];
 
@@ -189,7 +209,8 @@ function showGreetcardForm($galleryID,$picurl) {
 
     $out .= "<input name='action' type='submit' value='".__("Back","wp-greet")."' /><input name='action' type='submit'  value='".__("Send","wp-greet")."' /></form><p>&nbsp;";
 
-  }  else if ( $_POST['action'] == __("Send","wp-greet") ) {
+  }  else if ( isset($_POST['action']) and 
+	       $_POST['action'] == __("Send","wp-greet") ) {
     // ---------------------------------------------------------------------
     // Mail senden
     // ----------------------------------------------------------------------
@@ -290,16 +311,49 @@ function showGreetcardForm($galleryID,$picurl) {
     
     $mail->WordWrap = 50;           // set word wrap to 50 characters
     
-    if ($inline) {
-      // aus der url des bildes den dateinamen bauen
-      $surl=get_option('siteurl');
-      $picpath = ABSPATH . substr($picurl, strpos($picurl, $surl)+ strlen($surl)+1);
-      $picfile = substr($picurl, strrpos($picurl,"/") +1 );
-      $mtype = get_mimetype($picfile);
+    // inline image anfügen
+    if ($inline) 
+    { 
+	// mit briefmarke
+	if (trim ($wpg_options['wp-greet-stampimage']) !="")
+	{
+	    // briefmarke einbauen
+	    // aus der url des bildes den dateinamen bauen 
+	    $surl=get_option('siteurl');
+	    $picpath = ABSPATH . substr($picurl, strpos($picurl, $surl) + strlen($surl)+1);
+    	    $stampurl = site_url("wp-content/plugins/wp-greet/").
+		"wpg-stamped.php?cci=$picpath&sti=".
+		ABSPATH . $wpg_options['wp-greet-stampimage'].
+		"&stw=" . $wpg_options['wp-greet-stamppercent']. 
+		"&ob=1";
+
+	    $resp = wp_remote_request($stampurl, array('timeout' => 10));
+	    $stampedimg = $resp['body'];
+	    $picfile = substr($picurl, strrpos($picurl,"/") +1 );
+	    // und ans mail haengen 
+
+	    $cur = count($mail->attachment);
+	    $mail->attachment[$cur][0] = $stampedimg;
+	    $mail->attachment[$cur][1] = $picfile;
+	    $mail->attachment[$cur][2] = $picfile;
+	    $mail->attachment[$cur][3] = "base64";
+	    $mail->attachment[$cur][4] = "image/png";
+	    $mail->attachment[$cur][5] = true;
+	    $mail->attachment[$cur][6] = 'inline';
+	    $mail->attachment[$cur][7] = "wpgreetimg";
+
+        // ohne briefmarke   
+	} else {
+	    // aus der url des bildes den dateinamen bauen
+	    $surl=get_option('siteurl');
+	    $picpath = ABSPATH . substr($picurl, strpos($picurl, $surl)+ strlen($surl)+1);
+	    $picfile = substr($picurl, strrpos($picurl,"/") +1 );
+	    $mtype = get_mimetype($picfile);
       
-      // und ans mail haengen
-      $mail->AddEmbeddedImage($picpath,"wpgreetimg",$picfile,"base64",$mtype);
-      
+	    // und ans mail haengen
+	    $mail->AddEmbeddedImage($picpath,"wpgreetimg",$picfile,"base64",$mtype);
+	}
+
       // smileys an die mail haengen, wenn inline aktiviert ist
       if ( $wpg_options['wp-greet-smilies']) { 
 	foreach ($treffer[0] as $sm) {
@@ -393,18 +447,37 @@ function showGreetcardForm($galleryID,$picurl) {
           }
       </script>
     <?php }
-    $out = "&nbsp;</p><div class='wp-greet-form'>\n";
-    $out .= '<img src="' . $picurl . '" alt="'.basename($picurl)."\" width='".$wpg_options['wp-greet-imagewidth']."'/><br />\n";
+    $out = "&nbsp;</p><div class='wp-greet-form'>\n"; 
+
+     if (trim ($wpg_options['wp-greet-stampimage']) !="")
+    {
+	// briefmarke einbauen
+	// aus der url des bildes den dateinamen bauen 
+	$surl=get_option('siteurl');
+	$picpath = ABSPATH . substr($picurl, 
+				    strpos($picurl, $surl) + strlen($surl)+1);
+    
+	$out .= '<img src="' . site_url("wp-content/plugins/wp-greet/").
+	    "wpg-stamped.php?cci=$picpath&amp;sti=".
+	    ABSPATH . $wpg_options['wp-greet-stampimage'].
+	    "&amp;stw=" . $wpg_options['wp-greet-stamppercent'].
+	    '" alt="'.basename($picurl)."\" width='".
+	    $wpg_options['wp-greet-imagewidth']."'/><br />\n";
+    } else {
+	 $out .= '<img src="' . $picurl . '" alt="'.
+	     basename($picurl)."\" width='".
+	     $wpg_options['wp-greet-imagewidth']."'/><br />\n";
+     }
     $out .= "<form method='post' action=''>\n";
     $out .= '<table class="wp-greet-form"><tr class="wp-greet-form">';
-    $out.='<td class="wp-greet-form-left">'.__("Sendername","wp-greet").':</td><td class="wp-greet-form"><input name="sendername" type="text" size="40" maxlength="60" value="' . $_POST['sendername']  . '"/></tr>'."\n";
+    $out.='<td class="wp-greet-form-left">'.__("Sendername","wp-greet").':</td><td class="wp-greet-form"><input name="sendername" type="text" size="40" maxlength="60" value="' . ( isset($_POST['sendername']) ? $_POST['sendername'] : '')  . '"/></tr>'."\n";
     $out.='<tr class="wp-greet-form"><td class="wp-greet-form-left">'.__("Sender","wp-greet").':</td><td class="wp-greet-form"><input name="sender" type="text" size="40" maxlength="60" value="' . $_POST['sender']  . '"/></td></tr>'."\n";
 
-    $out .= "<tr class=\"wp-greet-form\"><td class=\"wp-greet-form-left\">".__("CC to Sender","wp-greet").":</td><td class=\"wp-greet-form\"><input name='ccsender' type='checkbox' value='1' " . ($_POST['ccsender']==1 ? 'checked="checked"':'')  . " /></td></tr>\n";
-     $out .= "<tr class=\"wp-greet-form\"><td class=\"wp-greet-form-left\">".__("Recipientname","wp-greet").":</td><td class=\"wp-greet-form\"><input name='recvname' type='text' size='40' maxlength='60' value='" . $_POST['recvname']  . "'/></td></tr>\n";
-     $out .= "<tr class=\"wp-greet-form\"><td class=\"wp-greet-form-left\">".__("Recipient","wp-greet").":</td><td class=\"wp-greet-form\"><input name='recv' type='text' size='40' maxlength='60' value='" . $_POST['recv']  . "'/></td></tr>\n";
+    $out .= "<tr class=\"wp-greet-form\"><td class=\"wp-greet-form-left\">".__("CC to Sender","wp-greet").":</td><td class=\"wp-greet-form\"><input name='ccsender' type='checkbox' value='1' " . (isset($_POST['ccsender']) and $_POST['ccsender']==1 ? 'checked="checked"':'')  . " /></td></tr>\n";
+    $out .= "<tr class=\"wp-greet-form\"><td class=\"wp-greet-form-left\">".__("Recipientname","wp-greet").":</td><td class=\"wp-greet-form\"><input name='recvname' type='text' size='40' maxlength='60' value='" . (isset($_POST['recvname']) ? $_POST['recvname'] : '')  . "'/></td></tr>\n";
+     $out .= "<tr class=\"wp-greet-form\"><td class=\"wp-greet-form-left\">".__("Recipient","wp-greet").":</td><td class=\"wp-greet-form\"><input name='recv' type='text' size='40' maxlength='60' value='" . (isset($_POST['recv']) ? $_POST['recv'] : '')  . "'/></td></tr>\n";
      $out .= "<tr class=\"wp-greet-form\"><td class=\"wp-greet-form-left\">".__("Subject","wp-greet").":</td><td class=\"wp-greet-form\"><input name='title'  type='text' size='40' maxlength='80' value='" . attribute_escape($_POST['title'])  . "'/></td></tr>\n";
-     $out .= "<tr class=\"wp-greet-form\"><td class=\"wp-greet-form-left\">".__("Message","wp-greet").":</td><td class=\"wp-greet-form\"><textarea class=\"wp-greet-form\" name='message' id='message'>" . attribute_escape($_POST['message']) . "</textarea></td></tr>\n";
+     $out .= "<tr class=\"wp-greet-form\"><td class=\"wp-greet-form-left\">".__("Message","wp-greet").":</td><td class=\"wp-greet-form\"><textarea class=\"wp-greet-form\" name='message' id='message'>" . (isset($_POST['message']) ? attribute_escape($_POST['message']) : '') . "</textarea></td></tr>\n";
      // smilies unter formular anzeigen
      if ( $wpg_options['wp-greet-smilies']) {
        $smileypath=ABSPATH . "wp-content/plugins/wp-greet/smilies"; 

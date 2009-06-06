@@ -117,7 +117,18 @@ function wpg_admin_form()
  function wechsle_inline () {
     imga=document.getElementById('wp-greet-imgattach');
     usmtp=document.getElementById('wp-greet-usesmtp1');
-    imga.disabled = (usmtp.checked == false);
+    if (usmtp.checked == false) {
+	imga.checked = false;
+	imga.disabled = true;
+    } else
+	imga.disabled=false;
+    wechsle_stamp();
+} 
+
+function wechsle_stamp () {
+    imga=document.getElementById('wp-greet-imgattach');
+    stamp=document.getElementById('wp-greet-stampimage');
+    stamp.disabled = (imga.checked == false);
 }
 </script>
 <div class="wrap">
@@ -167,12 +178,23 @@ function wpg_admin_form()
           
 
           <td>
-          <input type="checkbox" name="wp-greet-imgattach" id="wp-greet-imgattach" value="1" <?php if ($wpg_options['wp-greet-imgattach']=="1") echo "checked=\"checked\" "; ?> /> <b><?php echo __('Send image inline',"wp-greet")?></b></td>
+          <input type="checkbox" name="wp-greet-imgattach" id="wp-greet-imgattach" value="1" <?php if ($wpg_options['wp-greet-imgattach']=="1") echo "checked=\"checked\" "; ?>  onclick="wechsle_stamp();" /> <b><?php echo __('Send image inline',"wp-greet")?></b></td>
 	  </tr>
           
           <tr valign="top">
           <th scope="row"><?php echo __('Fixed image width',"wp-greet")?>:</th>
           <td><input name="wp-greet-imagewidth" type="text" size="10" maxlength="5" value="<?php echo $wpg_options['wp-greet-imagewidth'] ?>" /></td>
+          </tr>
+
+
+          <tr valign="top">
+          <th scope="row"><?php echo __('Add stamp image',"wp-greet")?>:</th>
+          <td><input name="wp-greet-stampimage" id="wp-greet-stampimage" type="text" size="40" maxlength="60" value="<?php echo $wpg_options['wp-greet-stampimage'] ?>" /></td>
+          </tr>
+
+          <tr valign="top">
+          <th scope="row"><?php echo __('Stampwidth in % of imagewidth',"wp-greet")?>:</th>
+          <td><input name="wp-greet-stamppercent" id="wp-greet-stamppercent" type="text" size="5" maxlength="3" value="<?php echo $wpg_options['wp-greet-stamppercent'] ?>" /></td>
           </tr>
 
            <tr valign="top">

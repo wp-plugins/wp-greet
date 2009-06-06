@@ -64,7 +64,9 @@ function wpgreet_get_options() {
 		   "wp-greet-galarr" => array(),
 		   "wp-greet-smilies" => "",
 		   "wp-greet-linesperpage" => "",
-		   "wp-greet-usesmtp" => "");
+		   "wp-greet-usesmtp" => "",
+		   "wp-greet-stampimage" => "",
+		   "wp-greet-stamppercent" => "");
 
 
   reset($options);
@@ -172,15 +174,13 @@ function get_mimetype($fname)
 
 function log_greetcard($to, $from, $pic, $msg)
 {
-  $wpdb =& $GLOBALS['wpdb'];
-  $now = gmdate("Y-m-d H:i:s",time() + ( get_option('gmt_offset') * 60 * 60 ));
-  
-  $sql = "insert into ". $wpdb->prefix . "wpgreet_stats values (0,'" . $now . "', '" . $from . "','" . $to . "','" . $pic . "','" . $wpdb->Escape($msg). "','". $_SERVER["REMOTE_ADDR"] . "');" ;
-   
-
- ;
-  
-  $wpdb->query($sql);
+    global $wpdb;
+ 
+    $now = gmdate("Y-m-d H:i:s",time() + ( get_option('gmt_offset') * 60 * 60 ));
+    
+    $sql = "insert into ". $wpdb->prefix . "wpgreet_stats values (0,'" . $now . "', '" . $from . "','" . $to . "','" . $pic . "','" . $wpdb->Escape($msg). "','". $_SERVER["REMOTE_ADDR"] . "');" ;
+    
+    $wpdb->query($sql); 
 }
 
 
@@ -233,7 +233,7 @@ function ngg_connect($link='' , $picture='') {
       $url_prefix .= '?p=';	
     $url_prefix .= $wpg_options['wp-greet-formpage'];
     $folder_url  = get_option ('siteurl')."/".$picture->path."/";
-    $link = stripslashes($url_prefix . "?gallery=" . $picture->gid .
+    $link = stripslashes($url_prefix . "\&amp;gallery=" . $picture->gid .
 			 "\&amp;image=" . $folder_url.$picture->filename);
   }
   
@@ -293,4 +293,32 @@ function debug($text)
   fwrite($fd,$text."\n");
   fclose($fd);
 }
+
+function test_gd()
+{
+    $res="";
+    $res .= "GD support on your server: ";
+    
+    // Check if the function gd_info exists (way to know if gd is istalled)
+    if(function_exists("gd_info"))
+    {
+	$res .= "YES\n";
+	$gd = gd_info();
+	
+        // Show status of all values that might be supported(unsupported)
+	foreach($gd as $key => $value)
+	{
+	    $res .= $key . ": ";
+	    if($value)
+		$re .= "YES\n";
+	    else
+		$res .= "NO\n";
+	}
+    }
+    else
+	$res .= "NO";
+    
+    return $res;
+}
+
 ?>

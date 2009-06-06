@@ -97,6 +97,16 @@ function wp_greet_activate()
       add_option("wp-greet-imagewidth",$wpg_options['wp-greet-imagewidth'],
 		 "gives the fixe image width","yes");
     };
+    if ($wpg_options['wp-greet-stampimage'] == "") {
+	$wpg_options['wp-greet-stampimage'] = "defaultstamp.jpg";
+      add_option("wp-greet-stampimage",$wpg_options['wp-greet-stampimage'],
+		 "file name of stamp-image","yes");
+    };
+    if ($wpg_options['wp-greet-stamppercent'] == "") {
+      $wpg_options['wp-greet-stamppercent'] = 15;
+      add_option("wp-greet-stamppercent",$wpg_options['wp-greet-stamppercent'],
+		 "gives the stamp width in percent of imagewidth","yes");
+    };
     if ($wpg_options['wp-greet-logging'] == "") {
       $wpg_options['wp-greet-logging'] = 1;
       add_option("wp-greet-logging",$wpg_options['wp-greet-logging'],
@@ -139,7 +149,9 @@ function wp_greet_deactivate()
 		   "wp-greet-formpage",
 		   "wp-greet-galarr",
 		   "wp-greet-linesperpage",
-		   "wp-greet-usesmtp");
+		   "wp-greet-usesmtp",
+		   "wp-greet-stampimage",
+		   "wp-greet-stamppercent");
 
   reset($options);
   while (list($key,$val) = each($options)) {
