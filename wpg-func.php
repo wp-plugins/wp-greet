@@ -103,40 +103,52 @@ function wpgreet_set_options() {
 // function to check if an email adress is valid
 // checks format and existance of mx record for mail host
 //
-function check_email($mail_address) {
-  //Leading and following whitespaces are ignored
-  $mail_address = trim($mail_address);
-  //Email-address is set to lower case
-  $mail_address = strtolower($mail_address);
-    
-  //List of signs which are illegal in name, subdomain and domain
-  $illegal_string = '\\\\(\\n)@';
-    
-  //Parts of the regular expression = name@subdomain.domain.toplevel
-  $name      = '([^\\.'.$illegal_string.'][^'.$illegal_string.']?)+';
-  $subdomain = '([^\\._'.$illegal_string.']+\\.)?';
-  $domain    = '[^\\.\\-_'.$illegal_string.'][^\\._'.$illegal_string.']*[^\\.\\-_'.$illegal_string.']';
-  //.museum and .travel are the only TLDs longer than four signs
-  $toplevel  = '([a-z]{2,4}|museum|travel)';    
-
-  $regular_expression = '/^'.$name.'[@]'.$subdomain.$domain.'\.'.$toplevel.'$/';
-    
-  if ( preg_match($regular_expression, $mail_address) ) {
-    $parts = explode("@", $mail_address);
-    $hparts = explode (".", $parts[1]);
-    $host = $hparts[count($hparts)-2]. "." . $hparts[count($hparts)-1];
-
-    if (checkdnsrr($host, "MX")){
-      //echo "The e-mail address is valid. $mail_address <br />" ;
-      return true;
-    } else {
-      //echo "The e-mail host is not valid. $mail_address <br />";
-      return false;
+function check_email($email) {
+    //Leading and following whitespaces are ignored
+    $mail_address = trim($mail_address);
+    //Email-address is set to lower case
+    $mail_address = strtolower($mail_address);
+    // First, we check that there's one @ symbol, 
+    // and that the lengths are right.
+    if (!ereg("^[^@]{1,64}@[^@]{1,255}$", $email)) {
+	// Email invalid because wrong number of characters 
+	// in one section or wrong number of @ symbols.
+	return false;
     }
-  } else {
-    //echo "The e-mail address contains invalid charcters.<br />";
-    return false;
-  }
+    // Split it into sections to make life easier
+    $email_array = explode("@", $email);
+    $local_array = explode(".", $email_array[0]);
+    for ($i = 0; $i < sizeof($local_array); $i++) {
+	if
+	    (!ereg("^(([A-Za-z0-9!#$%&'*+/=?^_`{|}~-][A-Za-z0-9!#$%&'*+/=?^_`{|}~\.-]{0,63})|(\"[^(\\|\")]{0,62}\"))$",
+		   $local_array[$i])) {
+	    return false;
+	}
+    }
+    // Check if domain is IP. If not, 
+    // it should be valid domain name
+    if (!ereg("^\[?[0-9\.]+\]?$", $email_array[1])) {
+	$domain_array = explode(".", $email_array[1]);
+	if (sizeof($domain_array) < 2) {
+	    return false; // Not enough parts to domain
+    }
+	for ($i = 0; $i < sizeof($domain_array); $i++) {
+	    if
+		(!ereg("^(([A-Za-z0-9][A-Za-z0-9-]{0,61}[A-Za-z0-9])|([A-Za-z0-9]+))$",
+		       $domain_array[$i])) {
+		return false;
+	    }
+	}
+    }
+
+    // check for domain existence
+    if ( function_exists( 'checkdnsrr') ) {
+	if (!checkdnsrr($email_array[1], "MX"))
+	    return false;
+    }
+
+    // no error found it must be a valid domain
+    return true;
 }
 
 
@@ -287,7 +299,7 @@ function get_dir_alphasort($pfad)
   return $arr;
 }
 
-function debug($text)
+function wpg_debug($text)
 {
   $fd=fopen("/tmp/wpg.log","a+");
   fwrite($fd,$text."\n");
