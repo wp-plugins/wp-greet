@@ -36,8 +36,8 @@ function wp_greet_activate()
 
   $wpg_options = wpgreet_get_options();
 
-  debug("<pre>###".WP_GREET_VERSION."###".$wpg_options['wp-greet-version']."###</pre>");
-  debug(version_compare(WP_GREET_VERSION,$wpg_options['wp-greet-version'], '>'));
+  wpg_debug("<pre>###".WP_GREET_VERSION."###".$wpg_options['wp-greet-version']."###</pre>");
+  wpg_debug(version_compare(WP_GREET_VERSION,$wpg_options['wp-greet-version'], '>'));
   if ($wpg_options['wp-greet-version'] == "") {
     $wpg_options['wp-greet-version'] = WP_GREET_VERSION;
     add_option("wp-greet-version",$wpg_options['wp-greet-version'],
