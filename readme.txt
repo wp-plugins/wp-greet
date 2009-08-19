@@ -91,7 +91,7 @@ http://www.tuxlog.de/wordpress/2008/wp-greet-documentation-english/
 
 == Changelog ==
 
-= v1.6 (2009-08-15)  
+= v1.6 (2009-08-15) =  
 * changed debug function name to avoid collision
 * check for checkdnsrr function to exist before using it
 * extend email address validation to be more correct (e.g. accept .co.uk addresses)
