@@ -190,7 +190,7 @@ function wechsle_onlinecard () {
           <br />
           </th>
           <td><textarea id='wp-greet-octext' name='wp-greet-octext' cols='50'rows='4'><?php echo $wpg_options['wp-greet-octext']; ?></textarea>
-          <img src="<?php echo site_url(PLUGINDIR . "/wp-greet/tooltip_icon.png");?>" alt="tooltip" title='<?php _e("HTML allowed, use %sender% for sendername, %sendermail% for sender email-address, %receiver% for receiver name, %link% for generated link, %duration% for time the link is valid","wp-greet");?>'>
+          <img src="<?php echo site_url(PLUGINDIR . "/wp-greet/tooltip_icon.png");?>" alt="tooltip" title='<?php _e("HTML allowed, use %sender% for sendername, %sendermail% for sender email-address, %receiver% for receiver name, %link% for generated link, %duration% for time the link is valid","wp-greet");?>'/>
           </td>
           </tr>
 
@@ -234,14 +234,14 @@ function wechsle_onlinecard () {
 	  <tr valign="top">
           <th scope="row"><?php echo __('Default mail header','wp-greet'); ?>:</th>
           <td><textarea name='wp-greet-default-header' cols='50'rows='4'><?php echo $wpg_options['wp-greet-default-header']; ?></textarea>
-          <img src="<?php echo site_url(PLUGINDIR . "/wp-greet/tooltip_icon.png");?>" alt="tooltip" title='<?php _e("HTML is allowed","wp-greet");?>'>
+          <img src="<?php echo site_url(PLUGINDIR . "/wp-greet/tooltip_icon.png");?>" alt="tooltip" title='<?php _e("HTML is allowed","wp-greet");?>'/>
           </td>
           </tr>
 
 	  <tr valign="top">
           <th scope="row"><?php echo __('Default mail footer','wp-greet'); ?>:</th>
           <td><textarea name='wp-greet-default-footer' cols='50'rows='4'><?php echo $wpg_options['wp-greet-default-footer']; ?></textarea>
-           <img src="<?php echo site_url(PLUGINDIR . "/wp-greet/tooltip_icon.png");?>" alt="tooltip" title='<?php _e("HTML is allowed","wp-greet");?>'>
+           <img src="<?php echo site_url(PLUGINDIR . "/wp-greet/tooltip_icon.png");?>" alt="tooltip" title='<?php _e("HTML is allowed","wp-greet");?>'/>
            </td>
            </tr>
   

@@ -14,7 +14,7 @@ giving your users the ability to send greeting cards from your blog.
 
 Features:
 
-   + uses nextGenGallery for maintainig the greeting card picturea
+   + uses nextGenGallery for maintainig the greeting card picture
    + storing statistics about the sent greeting cards 
    + adding your own css
    + control who can send cards
@@ -22,6 +22,9 @@ Features:
    + add a bcc and/or a mailreturnpath to the mail
    + supports Antispam Plugins CaptCha! and Math-Comment-Spam-Protection-Plugin
    + sign your greeting cards with your own stamp
+   + supports individual terms of usage 
+   + supports confirmation mail processing
+   + supports fetching the card online or sent it by mail
 
 
 == requirements ==
@@ -95,7 +98,10 @@ http://www.tuxlog.de/wordpress/2008/wp-greet-documentation-english/
 
 == Changelog ==
 
-= v1.7 (2009-10-xx) = 
+= v1.8 (2009-10-xx) =
+* fixed some XHTML errors in admin dialog
+
+= v1.7 (2009-10-11) = 
 * fixed some minor xhtml errors
 * added new admin dialog security
 * added feature to use an email for sender address verification

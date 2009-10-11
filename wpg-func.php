@@ -450,4 +450,19 @@ function remove_logs()
     log_greetcard('',get_option("blogname"),'',"Log cleaned until $then"); 
 }
 
+//
+// wandelt ein mysql timestamp in einer zahl um, die die sekunden seit 1970
+// wiedergibt. funktioniert für mysql4 und mysql5
+//
+function msql2time($m)
+{
+    // mysql5 2009-11-05 12:45:01
+    if ( strpos( $m, ":" ) > 0 )
+	return strtotime( $m );
+    else {
+	// mysql 4 - 20091105124501
+	preg_match('/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/', $m, $p);
+	return mktime($p[4], $p[5], $p[6], $p[2], $p[3], $p[1]); 
+    }
+}
 ?>

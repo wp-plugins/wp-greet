@@ -91,8 +91,10 @@ function showGreetcardForm($galleryID,$picurl,$verify = "") {
       $res = $wpdb->get_row($sql);
       
       $now = strtotime( gmdate("Y-m-d H:i:s",time() + ( get_option('gmt_offset') * 60 * 60 )));
-      $then = strtotime( $res->confirmuntil);
-	
+
+      $then = msql2time( $res->confirmuntil );
+      
+
       if ( is_null($res)) {
 	  // ungültiger code
 	  $out .= __("Your verification code is invalid.","wp-greet")."<br />" . 
@@ -573,10 +575,10 @@ function showGreetcard($display)
     global $wpdb;
     $sql="select * from " . $wpdb->prefix . "wpgreet_cards where fetchcode='" . $display ."';";
     $res = $wpdb->get_row($sql);
-
+    
     $now = strtotime( gmdate("Y-m-d H:i:s",time() + ( get_option('gmt_offset') * 60 * 60 )));
-    $then = strtotime( $res->fetchuntil);
-	
+    $then = msql2time( $res->fetchuntil);
+    
     if ( is_null($res)) {
 	// ungültiger code
 	$out .= __("Your verification code is invalid.","wp-greet")."<br />" . 

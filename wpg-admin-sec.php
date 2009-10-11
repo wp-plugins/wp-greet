@@ -163,7 +163,7 @@ function wpg_admin_sec()
     <tr valign="top">
           <th scope="row"><?php echo __('Terms of usage','wp-greet'); ?>:</th>
           <td><textarea id='wp-greet-termsofusage' name='wp-greet-termsofusage' cols='50'rows='6'><?php echo $wpg_options['wp-greet-termsofusage']; ?></textarea>
-          <img src="<?php echo site_url(PLUGINDIR . "/wp-greet/tooltip_icon.png");?>" alt="tooltip" title='<?php _e("HTML is allowed","wp-greet");?>'></td>
+          <img src="<?php echo site_url(PLUGINDIR . "/wp-greet/tooltip_icon.png");?>" alt="tooltip" title='<?php _e("HTML is allowed","wp-greet");?>' /></td>
           </tr>
 
          <tr valign="top">
@@ -175,7 +175,7 @@ function wpg_admin_sec()
 	  <th scope="row">
           <?php _e('Verification mail text',"wp-greet");?>:</th>
           <td><textarea id='wp-greet-mctext' name='wp-greet-mctext' cols='50'rows='6'><?php echo $wpg_options['wp-greet-mctext']; ?></textarea>
-          <img src="<?php echo site_url(PLUGINDIR . "/wp-greet/tooltip_icon.png");?>" alt="tooltip" title='<?php _e("HTML allowed, use %sender% for sendername, %sendermail% for sender email-address, %receiver% for receiver name, %link% for generated link, %duration% for time the link is valid","wp-greet");?>'>
+          <img src="<?php echo site_url(PLUGINDIR . "/wp-greet/tooltip_icon.png");?>" alt="tooltip" title='<?php _e("HTML allowed, use %sender% for sendername, %sendermail% for sender email-address, %receiver% for receiver name, %link% for generated link, %duration% for time the link is valid","wp-greet");?>'/>
            </td>
            </tr>
  
