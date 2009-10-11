@@ -534,7 +534,7 @@ function showGreetcardForm($galleryID,$picurl,$verify = "") {
 	    "<input name='accepttou' type='checkbox' value='1' " . 
 	    (isset($_POST['accepttou']) and $_POST['accepttou']==1 ? 'checked="checked"':'')  . 
 	    " />". __("I accept the terms of usage of the greeting card service","wp-greet").
-            ' <a href="../wp-content/plugins/wp-greet/wpg_service.php?height=600&amp;width=400" class="thickbox" Title="">'.
+            ' <a href="'. site_url("wp-content/plugins/wp-greet/wpg_service.php") . '?height=600&amp;width=400" class="thickbox" Title="">'.
 	    __("(show)","wp-greet")."</a>".
 	    "</td></tr>\n";
     }
