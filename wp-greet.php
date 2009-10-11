@@ -66,10 +66,10 @@ function wp_greet_init()
   // add css in header
   add_action('wp_head', 'wp_greet_css');
 
-  // add thickbox for frontend
+ // add thickbox for frontend
   add_action('wp_print_scripts', 'wpg_add_thickbox_script');
   add_action('wp_print_styles', 'wpg_add_thickbox_style' );
-
+  
   // Action calls for all functions 
   add_filter('the_content', 'searchwpgreet');
 
@@ -79,8 +79,9 @@ function wp_greet_init()
     // next line up to ngg-version 0.99 
     //add_filter('ngg_create_gallery_thumbcode', 'ngg_remove_thumbcode',2,2); 
     // next line from ngg-version 1.0 on 
-    add_filter('ngg_get_thumbcode', 'ngg_remove_thumbcode',2,2); 
+    add_filter('ngg_get_thumbcode', 'ngg_remove_thumbcode',2,2);  
   }
+
 }
 
 function wpg_add_menus()
@@ -129,6 +130,7 @@ add_action('admin_menu', 'wpg_add_menus');
 
 // init plugin
 add_action('init', 'wp_greet_init');
+
 
 
 ?>
