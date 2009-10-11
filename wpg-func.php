@@ -46,6 +46,12 @@ function wpgreet_get_options() {
   // wp-greet-smilies - switch to activate smiley support with greeting form
   // wp-greet-linesperpage - count of lines to show on each page of log
   // wp-greet-usesmtp - which method to use for mail transfer 1=smtp, 0=php mail
+  // wp-greet-touswitch - activates terms of usage feature 1=yes, 0=no
+  // wp-greet-termsofusage - contains the html text for the terms of usage
+  // wp-greet-mailconfirm - activates the confirmation mail feature 1=yes, 0=no
+  // wp-greet-mctext - text for the confirmation mail
+  // wp-greet-mcduration - valid time of the confirmation link
+  // wp-greet-onlinecard - dont get cards via email, fetch it online, yes=1, no=0
 
   $options = array("wp-greet-version" => "", 
 		   "wp-greet-minseclevel" => "", 
@@ -66,7 +72,17 @@ function wpgreet_get_options() {
 		   "wp-greet-linesperpage" => "",
 		   "wp-greet-usesmtp" => "",
 		   "wp-greet-stampimage" => "",
-		   "wp-greet-stamppercent" => "");
+		   "wp-greet-stamppercent" => "",
+		   "wp-greet-mailconfirm" => "",
+		   "wp-greet-mcduration" =>"",
+		   "wp-greet-mctext" =>"",
+		   "wp-greet-touswitch" =>"",
+		   "wp-greet-termsofusage" =>"",
+		   "wp-greet-onlinecard" => "",
+		   "wp-greet-ocduration" => "",
+		   "wp-greet-octext" => "",
+		   "wp-greet-logdays" => "",
+		   "wp-greet-carddays" => "");
 
 
   reset($options);
@@ -191,7 +207,7 @@ function log_greetcard($to, $from, $pic, $msg)
     $now = gmdate("Y-m-d H:i:s",time() + ( get_option('gmt_offset') * 60 * 60 ));
     
     $sql = "insert into ". $wpdb->prefix . "wpgreet_stats values (0,'" . $now . "', '" . $from . "','" . $to . "','" . $pic . "','" . $wpdb->Escape($msg). "','". $_SERVER["REMOTE_ADDR"] . "');" ;
-    
+
     $wpdb->query($sql); 
 }
 
@@ -331,6 +347,107 @@ function test_gd()
 	$res .= "NO";
     
     return $res;
+}
+
+//
+// speichert eine karte  in der datenbank
+//
+function save_greetcard($sender, $sendername, $recv, $recvname, 
+			$title, $message, $picurl, $cc2sender, 
+			$confirmuntil, $confirmcode,$fetchuntil,$fetchcode)
+{
+    global $wpdb;
+
+    if ($fetchcode == "") {
+	$sql = "insert into ". $wpdb->prefix . "wpgreet_cards values (0, '$sendername', '$sender', '$recvname', '$recv', '$cc2sender', '$title', '$picurl','". $wpdb->Escape($message)."', '$confirmuntil', '$confirmcode','','','','');";
+	$wpdb->query($sql); 
+    } else {
+	$sql = "select count(*) as anz from " .  $wpdb->prefix . "wpgreet_cards where confirmcode='$confirmcode';";
+
+	$count = $wpdb->get_row($sql);
+
+	if ( $count->anz == 0)
+	    $sql = "insert into ". $wpdb->prefix . "wpgreet_cards values (0, '$sendername', '$sender', '$recvname', '$recv', '$cc2sender', '$title', '$picurl','". $wpdb->Escape($message)."', '$confirmuntil', '$confirmcode','$fetchuntil', '$fetchcode','','');";
+	else
+	    $sql = "update ". $wpdb->prefix . "wpgreet_cards set fetchuntil='$fetchuntil', fetchcode='$fetchcode' where confirmcode='$confirmcode';";
+
+	$wpdb->query($sql); 
+    }
+}
+
+//
+// markiert die karte mit dem confirmcode ccode als versendet
+//
+function mark_sentcard($ccode)
+{
+    global $wpdb; 
+    $now = gmdate("Y-m-d H:i:s",time() + ( get_option('gmt_offset') * 60 * 60 ));
+    $sql = "update ". $wpdb->prefix . "wpgreet_cards set card_sent='$now' where confirmcode='".$ccode."';";
+    $wpdb->query($sql); 
+}
+
+//
+// markiert die karte mit dem fetchcode fcode als mindestens einmal abgeholt
+//
+function mark_fetchcard($fcode)
+{
+    global $wpdb;
+    $now =  gmdate("Y-m-d H:i:s",time() + ( get_option('gmt_offset') * 60 * 60 ));
+    $sql = "update ". $wpdb->prefix . "wpgreet_cards set card_fetched='$now' where fetchcode='".$fcode."';";
+    $wpdb->query($sql); 
+}
+
+//
+// loescht alle karteneintraege die länger als das höchste mögliche abholdatum
+// plus die die angegebene zahl an tagen sind
+//
+function remove_cards()
+{ 
+    // wp-greet optionen aus datenbank lesen
+    $wpg_options = wpgreet_get_options();
+
+    // nichts löschen wenn der parameter auf 0 oder leer steht
+    if ( $wpg_options['wp-greet-carddays'] == 0 or $wpg_options['wp-greet-carddays'] == "")
+	return;
+
+    // berechne höchstes gültiges  fetch datum
+    $then = time() + ( get_option('gmt_offset') * 60 * 60 ) - 
+	( $wpg_options['wp-greet-carddays'] * 60 * 60 * 24 );
+    $then =  gmdate("Y-m-d H:i:s",$then);
+    
+    
+    global $wpdb;
+    $sql = "delete from ". $wpdb->prefix . "wpgreet_cards where fetchuntil < '$then';";
+    $wpdb->query($sql); 
+
+    log_greetcard('',get_option("blogname"),'',"Cards cleaned until $then"); 
+}
+
+
+//
+// loescht alle logeinträge die länger als die vorgegebene anzahl von tagen
+// in der tabelle stehen
+//
+function remove_logs()
+{
+    // wp-greet optionen aus datenbank lesen
+    $wpg_options = wpgreet_get_options();
+
+    // nichts löschen wenn der parameter auf 0 oder leer steht
+    if ( $wpg_options['wp-greet-logdays'] == 0 or $wpg_options['wp-greet-logdays'] == "")
+	return;
+
+    // berechne höchstes gültiges  fetch datum
+    $then = time() + ( get_option('gmt_offset') * 60 * 60 ) - 
+	( $wpg_options['wp-greet-logdays'] * 60 * 60 * 24 );
+    $then = gmdate("Y-m-d H:i:s",$then);
+    
+    
+    global $wpdb;
+    $sql = "delete from ". $wpdb->prefix . "wpgreet_stats where senttime < '$then';";
+    $wpdb->query($sql);
+
+    log_greetcard('',get_option("blogname"),'',"Log cleaned until $then"); 
 }
 
 ?>
