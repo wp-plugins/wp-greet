@@ -49,17 +49,25 @@ function wpg_admin_form()
   // if this is a POST call, save new values
   if (isset($_POST['info_update'])) {
     $upflag=false;
-    
+
     reset($wpg_options);
+    $thispageoptions = array("wp-greet-mailreturnpath", "wp-greet-autofillform",
+			     "wp-greet-bcc", "wp-greet-imgattach",
+			     "wp-greet-default-title", "wp-greet-default-header",
+			     "wp-greet-default-footer", "wp-greet-imagewidth",
+			     "wp-greet-logging",      "wp-greet-gallery",
+			     "wp-greet-formpage",     "wp-greet-smilies",
+			     "wp-greet-usesmtp",      "wp-greet-stampimage",
+			     "wp-greet-stamppercent", "wp-greet-onlinecard", 
+			     "wp-greet-ocduration",   "wp-greet-octext",
+			     "wp-greet-logdays",      "wp-greet-carddays");
+    
+
     while (list($key, $val) = each($wpg_options)) {
-      if ($wpg_options[$key] != $_POST[$key] and $key != "wp-greet-galarr" and $key != "wp-greet-linesperpage") {
-	$wpg_options[$key] = stripslashes($_POST[$key]);
-	$upflag=true;
-	
-	// add capabiliities if necessary
-	if ($key=="wp-greet-minseclevel")
-	  set_permissions($wpg_options[$key]);
-      }
+	if (in_array($key,$thispageoptions) and $wpg_options[$key] != $_POST[$key] ) {
+	    $wpg_options[$key] = stripslashes($_POST[$key]);
+	    $upflag=true;
+	}
     }
     
     // save options and put message after update
@@ -79,27 +87,6 @@ function wpg_admin_form()
     if ( $wpg_options['wp-greet-imagewidth'] < 0  or $wpg_options['wp-greet-imagewidth']>3200) {
       echo __('imagewidth not in range (0..3200).',"wp-greet"). "<br />";
       $upflag=false;
-    }
-
-    // check for captcha plugin if captcha was set
-    if ( $wpg_options['wp-greet-captcha'] >0 ) {
-      $plugin_exists=false;
-      $parr=get_plugins();
-      foreach($parr as $key => $plugin) {
-	//echo $plugin['Name']." ".ABSPATH.PLUGINDIR."/".$key."<br />";
-
-	if ($plugin['Name'] == "CaptCha!" and 
-	    file_exists(ABSPATH. PLUGINDIR . "/". $key) )
-	  $plugin_exists=true;
-
-	if ($plugin['Name'] == "Math Comment Spam Protection" and 
-	    file_exists(ABSPATH. PLUGINDIR . "/". $key) )
-	  $plugin_exists=true;
-      }
-      if (! $plugin_exists) {
-	echo __('Captcha plugin not found.',"wp-greet"). "<br />";
-	$upflag=false;
-      }
     }
 
     if ($upflag) {
@@ -128,7 +115,15 @@ function wpg_admin_form()
 function wechsle_stamp () {
     imga=document.getElementById('wp-greet-imgattach');
     stamp=document.getElementById('wp-greet-stampimage');
-    stamp.disabled = (imga.checked == false);
+    stamp.readOnly = (imga.checked == false);
+}
+
+function wechsle_onlinecard () {
+    obja=document.getElementById('wp-greet-onlinecard');
+    objb=document.getElementById('wp-greet-ocduration');
+    objc=document.getElementById('wp-greet-octext');
+    objb.readOnly = (obja.checked == false);
+    objc.readOnly = (obja.checked == false);
 }
 </script>
 <div class="wrap">
@@ -175,12 +170,30 @@ function wechsle_stamp () {
 
           <tr valign="top">
           <th scope="row">&nbsp;</th>
-          
-
           <td>
           <input type="checkbox" name="wp-greet-imgattach" id="wp-greet-imgattach" value="1" <?php if ($wpg_options['wp-greet-imgattach']=="1") echo "checked=\"checked\" "; ?>  onclick="wechsle_stamp();" /> <b><?php echo __('Send image inline',"wp-greet")?></b></td>
 	  </tr>
-          
+
+          <tr valign="top">
+          <th scope="row">&nbsp;</th>
+          <td>
+          <input type="checkbox" name="wp-greet-onlinecard" id="wp-greet-onlinecard" value="1" <?php if ($wpg_options['wp-greet-onlinecard']=="1") echo "checked=\"checked\" "; ?>  onclick="wechsle_onlinecard();"  /> <b><?php echo __('Fetch cards online',"wp-greet")?></b></td>
+	  </tr>
+
+          <tr valign="top">
+          <th scope="row"><?php echo __('Number of days an online card can be fetched',"wp-greet")?>:</th>
+          <td><input id="wp-greet-ocduration" name="wp-greet-ocduration" type="text" size="10" maxlength="5" value="<?php echo $wpg_options['wp-greet-ocduration'] ?>" /></td>
+          </tr>
+
+          <tr valign="top">
+          <th scope="row"><?php echo __('Online card HTML mail text','wp-greet'); ?>:
+          <br />
+          </th>
+          <td><textarea id='wp-greet-octext' name='wp-greet-octext' cols='50'rows='4'><?php echo $wpg_options['wp-greet-octext']; ?></textarea>
+          <img src="<?php echo site_url(PLUGINDIR . "/wp-greet/tooltip_icon.png");?>" alt="tooltip" title='<?php _e("HTML allowed, use %sender% for sendername, %sendermail% for sender email-address, %receiver% for receiver name, %link% for generated link, %duration% for time the link is valid","wp-greet");?>'>
+          </td>
+          </tr>
+
           <tr valign="top">
           <th scope="row"><?php echo __('Fixed image width',"wp-greet")?>:</th>
           <td><input name="wp-greet-imagewidth" type="text" size="10" maxlength="5" value="<?php echo $wpg_options['wp-greet-imagewidth'] ?>" /></td>
@@ -198,16 +211,6 @@ function wechsle_stamp () {
           </tr>
 
            <tr valign="top">
-																				  <th scope="row"><?php echo __('Spam protection',"wp-greet")?>:</th>
-           <td><select name="wp-greet-captcha" size="1">		
- 	   <option value="0" <?php if ($wpg_options['wp-greet-captcha']=="0") echo "selected=\"selected\""?> > <?php echo __("none","wp-greet"); ?></option>
-               <option value="1" <?php if ($wpg_options['wp-greet-captcha']=="1") echo "selected=\"selected\""?> > CaptCha!</option>
-               <option value="2" <?php if ($wpg_options['wp-greet-captcha']=="2") echo "selected=\"selected\""?> > Math Comment Spam Protection</option>
-               </select>
-           </td>
-	   </tr>
- 
-           <tr valign="top">
            <th scope="row">&nbsp;</th>
            <td><input type="checkbox" name="wp-greet-smilies" value="1" <?php if ($wpg_options['wp-greet-smilies']=="1") echo "checked=\"checked\""?> /> <b><?php echo __('Enable Smileys on greetcard form',"wp-greet")?></b></td>
 	   </tr>
@@ -223,25 +226,6 @@ function wechsle_stamp () {
          </tr>
 
 
-         <tr valign="top">
-         <th scope="row"><?php echo __('Minimum role to send card',"wp-greet")?>: </th>
-            <td><select name="wp-greet-minseclevel" size="1">
-<?php 
-  $r = '';
-  global $wp_roles;
-  $roles = $wp_roles->role_names;
-  foreach( $roles as $role => $name ) {
-    if ( $wpg_options['wp-greet-minseclevel'] == $role )
-      $r .= "\n\t<option selected='selected' value='$role'>$name</option>";
-    else
-      $r .= "\n\t<option value='$role'>$name</option>";
-  }
-  echo $r."\n";
-  
-?>
-        <option value="everyone" <?php if ($wpg_options['wp-greet-minseclevel']=="everyone") echo "selected='selected'";?>><?php echo __('Everyone',"wp-greet")?></option>
-   </select></td></tr>
-
           <tr valign="top">
           <th scope="row"><?php echo __('Default mail subject',"wp-greet")?>:</th>
           <td><input name="wp-greet-default-title" type="text" size="30" maxlength="80" value="<?php echo $wpg_options['wp-greet-default-title'] ?>" /></td>   
@@ -249,17 +233,31 @@ function wechsle_stamp () {
 
 	  <tr valign="top">
           <th scope="row"><?php echo __('Default mail header','wp-greet'); ?>:</th>
-          <td><textarea name='wp-greet-default-header' cols='50'rows='4'><?php echo $wpg_options['wp-greet-default-header']; ?></textarea></td>
+          <td><textarea name='wp-greet-default-header' cols='50'rows='4'><?php echo $wpg_options['wp-greet-default-header']; ?></textarea>
+          <img src="<?php echo site_url(PLUGINDIR . "/wp-greet/tooltip_icon.png");?>" alt="tooltip" title='<?php _e("HTML is allowed","wp-greet");?>'>
+          </td>
           </tr>
 
 	  <tr valign="top">
           <th scope="row"><?php echo __('Default mail footer','wp-greet'); ?>:</th>
-          <td><textarea name='wp-greet-default-footer' cols='50'rows='4'><?php echo $wpg_options['wp-greet-default-footer']; ?></textarea></td>
+          <td><textarea name='wp-greet-default-footer' cols='50'rows='4'><?php echo $wpg_options['wp-greet-default-footer']; ?></textarea>
+           <img src="<?php echo site_url(PLUGINDIR . "/wp-greet/tooltip_icon.png");?>" alt="tooltip" title='<?php _e("HTML is allowed","wp-greet");?>'>
+           </td>
            </tr>
- 
+  
+          <tr valign="top">
+          <th scope="row"><?php echo __('Number of days log entries are stored',"wp-greet")?>:</th>
+          <td><input id="wp-greet-logdays" name="wp-greet-logdays" type="text" size="10" maxlength="5" value="<?php echo $wpg_options['wp-greet-logdays'] ?>" /></td>
+          </tr>
+
+          <tr valign="top">
+          <th scope="row"><?php echo __('Number of days card entries are stored',"wp-greet")?>:</th>
+          <td><input id="wp-greet-carddays" name="wp-greet-carddays" type="text" size="10" maxlength="5" value="<?php echo $wpg_options['wp-greet-carddays'] ?>" /></td>
+          </tr>
+
   </table>
 <?php
-      echo "<div class='submit'><input type='submit' name='info_update' value='".__('Update options',"wp-greet")." »' /></div></form><script type=\"text/javascript\">wechsle_inline ();</script></div>";
+      echo "<div class='submit'><input type='submit' name='info_update' value='".__('Update options',"wp-greet")." »' /></div></form><script type=\"text/javascript\">wechsle_inline (); wechsle_onlinecard();wechsle_stamp();</script></div>";
 
 }
 ?>
