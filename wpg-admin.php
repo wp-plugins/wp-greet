@@ -89,6 +89,11 @@ function wpg_admin_form()
       $upflag=false;
     }
 
+    if ( $wpg_options['wp-greet-ocduration'] > $wpg_options['wp-greet-carddays']) {
+      echo __('Cards will be removed before fetch interval expires (Number of days an online card can be fetched > Number of days card entries are stored)',"wp-greet"). "<br />";
+      $upflag=false;
+    }
+
     if ($upflag) {
       wpgreet_set_options();
       echo __('Settings successfully updated',"wp-greet");
@@ -114,8 +119,9 @@ function wpg_admin_form()
 
 function wechsle_stamp () {
     imga=document.getElementById('wp-greet-imgattach');
+    imgb=document.getElementById('wp-greet-onlinecard');
     stamp=document.getElementById('wp-greet-stampimage');
-    stamp.readOnly = (imga.checked == false);
+    stamp.readOnly = (imga.checked == false) || (imgb.checked == false);
 }
 
 function wechsle_onlinecard () {
