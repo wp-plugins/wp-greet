@@ -128,7 +128,10 @@ function wpg_admin_log()
    $out .= "<td>".$res->senttime."</td>";
    $out .= "<td>".$res->frommail."</td>";
    $out .= "<td>".$res->tomail."</td>";
-   $out .= "<td><img src='".$res->picture."' width='60' /></td>";
+   if (trim($res->picture) != "") 
+       $out .= "<td><img src='".$res->picture."' width='60' /></td>";
+   else
+       $out .= "<td>&nbsp;</td>";
    $out .= "<td>".$res->remote_ip."</td>";
    $out .= "<td>".attribute_escape($res->mailbody)."</td></tr>\n";
 

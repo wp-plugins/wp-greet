@@ -46,6 +46,13 @@ function wpgreet_get_options() {
   // wp-greet-smilies - switch to activate smiley support with greeting form
   // wp-greet-linesperpage - count of lines to show on each page of log
   // wp-greet-usesmtp - which method to use for mail transfer 1=smtp, 0=php mail
+  // wp-greet-touswitch - activates terms of usage feature 1=yes, 0=no
+  // wp-greet-termsofusage - contains the html text for the terms of usage
+  // wp-greet-mailconfirm - activates the confirmation mail feature 1=yes, 0=no
+  // wp-greet-mctext - text for the confirmation mail
+  // wp-greet-mcduration - valid time of the confirmation link
+  // wp-greet-onlinecard - dont get cards via email, fetch it online, yes=1, no=0
+  // wp-greet-fields - a string of 0 and 1 describing the mandatory fields in the form
 
   $options = array("wp-greet-version" => "", 
 		   "wp-greet-minseclevel" => "", 
@@ -66,7 +73,18 @@ function wpgreet_get_options() {
 		   "wp-greet-linesperpage" => "",
 		   "wp-greet-usesmtp" => "",
 		   "wp-greet-stampimage" => "",
-		   "wp-greet-stamppercent" => "");
+		   "wp-greet-stamppercent" => "",
+		   "wp-greet-mailconfirm" => "",
+		   "wp-greet-mcduration" =>"",
+		   "wp-greet-mctext" =>"",
+		   "wp-greet-touswitch" =>"",
+		   "wp-greet-termsofusage" =>"",
+		   "wp-greet-onlinecard" => "",
+		   "wp-greet-ocduration" => "",
+		   "wp-greet-octext" => "",
+		   "wp-greet-logdays" => "",
+		   "wp-greet-carddays" => "",
+		   "wp-greet-fields" => "");
 
 
   reset($options);
@@ -103,40 +121,52 @@ function wpgreet_set_options() {
 // function to check if an email adress is valid
 // checks format and existance of mx record for mail host
 //
-function check_email($mail_address) {
-  //Leading and following whitespaces are ignored
-  $mail_address = trim($mail_address);
-  //Email-address is set to lower case
-  $mail_address = strtolower($mail_address);
-    
-  //List of signs which are illegal in name, subdomain and domain
-  $illegal_string = '\\\\(\\n)@';
-    
-  //Parts of the regular expression = name@subdomain.domain.toplevel
-  $name      = '([^\\.'.$illegal_string.'][^'.$illegal_string.']?)+';
-  $subdomain = '([^\\._'.$illegal_string.']+\\.)?';
-  $domain    = '[^\\.\\-_'.$illegal_string.'][^\\._'.$illegal_string.']*[^\\.\\-_'.$illegal_string.']';
-  //.museum and .travel are the only TLDs longer than four signs
-  $toplevel  = '([a-z]{2,4}|museum|travel)';    
-
-  $regular_expression = '/^'.$name.'[@]'.$subdomain.$domain.'\.'.$toplevel.'$/';
-    
-  if ( preg_match($regular_expression, $mail_address) ) {
-    $parts = explode("@", $mail_address);
-    $hparts = explode (".", $parts[1]);
-    $host = $hparts[count($hparts)-2]. "." . $hparts[count($hparts)-1];
-
-    if (checkdnsrr($host, "MX")){
-      //echo "The e-mail address is valid. $mail_address <br />" ;
-      return true;
-    } else {
-      //echo "The e-mail host is not valid. $mail_address <br />";
-      return false;
+function check_email($email) {
+    //Leading and following whitespaces are ignored
+    $mail_address = trim($mail_address);
+    //Email-address is set to lower case
+    $mail_address = strtolower($mail_address);
+    // First, we check that there's one @ symbol, 
+    // and that the lengths are right.
+    if (!ereg("^[^@]{1,64}@[^@]{1,255}$", $email)) {
+	// Email invalid because wrong number of characters 
+	// in one section or wrong number of @ symbols.
+	return false;
     }
-  } else {
-    //echo "The e-mail address contains invalid charcters.<br />";
-    return false;
-  }
+    // Split it into sections to make life easier
+    $email_array = explode("@", $email);
+    $local_array = explode(".", $email_array[0]);
+    for ($i = 0; $i < sizeof($local_array); $i++) {
+	if
+	    (!ereg("^(([A-Za-z0-9!#$%&'*+/=?^_`{|}~-][A-Za-z0-9!#$%&'*+/=?^_`{|}~\.-]{0,63})|(\"[^(\\|\")]{0,62}\"))$",
+		   $local_array[$i])) {
+	    return false;
+	}
+    }
+    // Check if domain is IP. If not, 
+    // it should be valid domain name
+    if (!ereg("^\[?[0-9\.]+\]?$", $email_array[1])) {
+	$domain_array = explode(".", $email_array[1]);
+	if (sizeof($domain_array) < 2) {
+	    return false; // Not enough parts to domain
+    }
+	for ($i = 0; $i < sizeof($domain_array); $i++) {
+	    if
+		(!ereg("^(([A-Za-z0-9][A-Za-z0-9-]{0,61}[A-Za-z0-9])|([A-Za-z0-9]+))$",
+		       $domain_array[$i])) {
+		return false;
+	    }
+	}
+    }
+
+    // check for domain existence
+    if ( function_exists( 'checkdnsrr') ) {
+	if (!checkdnsrr($email_array[1], "MX"))
+	    return false;
+    }
+
+    // no error found it must be a valid domain
+    return true;
 }
 
 
@@ -179,7 +209,7 @@ function log_greetcard($to, $from, $pic, $msg)
     $now = gmdate("Y-m-d H:i:s",time() + ( get_option('gmt_offset') * 60 * 60 ));
     
     $sql = "insert into ". $wpdb->prefix . "wpgreet_stats values (0,'" . $now . "', '" . $from . "','" . $to . "','" . $pic . "','" . $wpdb->Escape($msg). "','". $_SERVER["REMOTE_ADDR"] . "');" ;
-    
+
     $wpdb->query($sql); 
 }
 
@@ -287,7 +317,7 @@ function get_dir_alphasort($pfad)
   return $arr;
 }
 
-function debug($text)
+function wpg_debug($text)
 {
   $fd=fopen("/tmp/wpg.log","a+");
   fwrite($fd,$text."\n");
@@ -321,4 +351,120 @@ function test_gd()
     return $res;
 }
 
+//
+// speichert eine karte  in der datenbank
+//
+function save_greetcard($sender, $sendername, $recv, $recvname, 
+			$title, $message, $picurl, $cc2sender, 
+			$confirmuntil, $confirmcode,$fetchuntil,$fetchcode)
+{
+    global $wpdb;
+
+    if ($fetchcode == "") {
+	$sql = "insert into ". $wpdb->prefix . "wpgreet_cards values (0, '$sendername', '$sender', '$recvname', '$recv', '$cc2sender', '$title', '$picurl','". $wpdb->Escape($message)."', '$confirmuntil', '$confirmcode','','','','');";
+	$wpdb->query($sql); 
+    } else {
+	$sql = "select count(*) as anz from " .  $wpdb->prefix . "wpgreet_cards where confirmcode='$confirmcode';";
+
+	$count = $wpdb->get_row($sql);
+
+	if ( $count->anz == 0)
+	    $sql = "insert into ". $wpdb->prefix . "wpgreet_cards values (0, '$sendername', '$sender', '$recvname', '$recv', '$cc2sender', '$title', '$picurl','". $wpdb->Escape($message)."', '$confirmuntil', '$confirmcode','$fetchuntil', '$fetchcode','','');";
+	else
+	    $sql = "update ". $wpdb->prefix . "wpgreet_cards set fetchuntil='$fetchuntil', fetchcode='$fetchcode' where confirmcode='$confirmcode';";
+
+	$wpdb->query($sql); 
+    }
+}
+
+//
+// markiert die karte mit dem confirmcode ccode als versendet
+//
+function mark_sentcard($ccode)
+{
+    global $wpdb; 
+    $now = gmdate("Y-m-d H:i:s",time() + ( get_option('gmt_offset') * 60 * 60 ));
+    $sql = "update ". $wpdb->prefix . "wpgreet_cards set card_sent='$now' where confirmcode='".$ccode."';";
+    $wpdb->query($sql); 
+}
+
+//
+// markiert die karte mit dem fetchcode fcode als mindestens einmal abgeholt
+//
+function mark_fetchcard($fcode)
+{
+    global $wpdb;
+    $now =  gmdate("Y-m-d H:i:s",time() + ( get_option('gmt_offset') * 60 * 60 ));
+    $sql = "update ". $wpdb->prefix . "wpgreet_cards set card_fetched='$now' where fetchcode='".$fcode."';";
+    $wpdb->query($sql); 
+}
+
+//
+// loescht alle karteneintraege die länger als das höchste mögliche abholdatum
+// plus die die angegebene zahl an tagen sind
+//
+function remove_cards()
+{ 
+    // wp-greet optionen aus datenbank lesen
+    $wpg_options = wpgreet_get_options();
+
+    // nichts löschen wenn der parameter auf 0 oder leer steht
+    if ( $wpg_options['wp-greet-carddays'] == 0 or $wpg_options['wp-greet-carddays'] == "")
+	return;
+
+    // berechne höchstes gültiges  fetch datum
+    $then = time() + ( get_option('gmt_offset') * 60 * 60 ) - 
+	( $wpg_options['wp-greet-carddays'] * 60 * 60 * 24 );
+    $then =  gmdate("Y-m-d H:i:s",$then);
+    
+    
+    global $wpdb;
+    $sql = "delete from ". $wpdb->prefix . "wpgreet_cards where fetchuntil < '$then';";
+    $wpdb->query($sql); 
+
+    log_greetcard('',get_option("blogname"),'',"Cards cleaned until $then"); 
+}
+
+
+//
+// loescht alle logeinträge die länger als die vorgegebene anzahl von tagen
+// in der tabelle stehen
+//
+function remove_logs()
+{
+    // wp-greet optionen aus datenbank lesen
+    $wpg_options = wpgreet_get_options();
+
+    // nichts löschen wenn der parameter auf 0 oder leer steht
+    if ( $wpg_options['wp-greet-logdays'] == 0 or $wpg_options['wp-greet-logdays'] == "")
+	return;
+
+    // berechne höchstes gültiges  fetch datum
+    $then = time() + ( get_option('gmt_offset') * 60 * 60 ) - 
+	( $wpg_options['wp-greet-logdays'] * 60 * 60 * 24 );
+    $then = gmdate("Y-m-d H:i:s",$then);
+    
+    
+    global $wpdb;
+    $sql = "delete from ". $wpdb->prefix . "wpgreet_stats where senttime < '$then';";
+    $wpdb->query($sql);
+
+    log_greetcard('',get_option("blogname"),'',"Log cleaned until $then"); 
+}
+
+//
+// wandelt ein mysql timestamp in einer zahl um, die die sekunden seit 1970
+// wiedergibt. funktioniert für mysql4 und mysql5
+//
+function msql2time($m)
+{
+    // mysql5 2009-11-05 12:45:01
+    if ( strpos( $m, ":" ) > 0 )
+	return strtotime( $m );
+    else {
+	// mysql 4 - 20091105124501
+	preg_match('/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/', $m, $p);
+	return mktime($p[4], $p[5], $p[6], $p[2], $p[3], $p[1]); 
+    }
+}
 ?>
