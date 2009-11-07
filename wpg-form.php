@@ -172,14 +172,48 @@ function showGreetcardForm($galleryID,$picurl,$verify = "") {
      if ( isset($_POST['message']) && $_POST['message'] != '' )  
        $_POST['message'] =  stripslashes($_POST['message']);
      
-     if ( ! check_email($_POST['sender']) ) {
-       $_POST['action'] = "Formular";
-       echo __("Invalid sender  mail address.","wp-greet")."<br />";
+
+     // plausibilisieren der feldinhalte
+     // pruefe pflichtfelder
+     if (substr($wpg_options['wp-greet-fields'],0,1)=="1" and trim($_POST['sendername'])=="")
+     { 
+	 $_POST['action'] = "Formular";
+	 echo __("Please fill in mandatory field","wp-greet")." ". __("Sendername","wp-greet")."<br />";
      }
-     if ( ! check_email($_POST['recv']) ) {
-       $_POST['action'] = "Formular";
-       echo __("Invalid recipient mail address.","wp-greet")."<br />";
+     if (substr($wpg_options['wp-greet-fields'],1,1)=="1" and trim($_POST['sender'])=="")
+     {
+	 $_POST['action'] = "Formular";
+	 echo __("Please fill in mandatory field","wp-greet")." ". __("Sender","wp-greet")."<br />";
      }
+     else if ( ! check_email($_POST['sender']) ) {
+	 $_POST['action'] = "Formular";
+	 echo __("Invalid sender  mail address.","wp-greet")."<br />";
+     }
+     if (substr($wpg_options['wp-greet-fields'],2,1)=="1" and trim($_POST['recvname'])=="")
+     { 
+	 $_POST['action'] = "Formular";
+	 echo __("Please fill in mandatory field","wp-greet")." ". __("Recipientname","wp-greet")."<br />";
+     }
+     if (substr($wpg_options['wp-greet-fields'],3,1)=="1" and trim($_POST['recv'])=="")
+     {
+	 $_POST['action'] = "Formular";
+	 echo __("Please fill in mandatory field","wp-greet")." ". __("Recipient","wp-greet")."<br />";
+     }
+     else if ( ! check_email($_POST['recv']) ) {
+	 $_POST['action'] = "Formular";
+	 echo __("Invalid recipient mail address.","wp-greet")."<br />";
+     }
+     if (substr($wpg_options['wp-greet-fields'],4,1)=="1" and trim($_POST['title'])=="")
+     {
+	 $_POST['action'] = "Formular";
+	 echo __("Please fill in mandatory field","wp-greet")." ". __("Subject","wp-greet")."<br />";
+     }
+     if (substr($wpg_options['wp-greet-fields'],5,1)=="1" and trim($_POST['message'])=="")
+     { 
+	 $_POST['action'] = "Formular";
+	 echo __("Please fill in mandatory field","wp-greet")." ". __("Message","wp-greet")."<br />";
+     }
+     
 
      // pruefe captcha  
      if ( ($wpg_options['wp-greet-captcha'] > 0) and (isset($_POST['public_key']) or isset($_POST['mcspinfo']))) {
@@ -491,16 +525,17 @@ function showGreetcardForm($galleryID,$picurl,$verify = "") {
 	     basename($picurl)."\" width='".
 	     $wpg_options['wp-greet-imagewidth']."'/><br />\n";
      }
-    $out .= "<form method='post' action=''>\n";
+    $out .= "<br /><form method='post' action=''>\n";
     $out .= '<table class="wp-greet-form"><tr class="wp-greet-form">';
-    $out.='<td class="wp-greet-form-left">'.__("Sendername","wp-greet").':</td><td class="wp-greet-form"><input name="sendername" type="text" size="40" maxlength="60" value="' . ( isset($_POST['sendername']) ? $_POST['sendername'] : '')  . '"/></tr>'."\n";
-    $out.='<tr class="wp-greet-form"><td class="wp-greet-form-left">'.__("Sender","wp-greet").':</td><td class="wp-greet-form"><input name="sender" type="text" size="40" maxlength="60" value="' . $_POST['sender']  . '"/></td></tr>'."\n";
+    $out .= '<td class="wp-greet-form-left" colspan="2">' . __("Mandatory inputfields are marked with a","wp-greet")."<strong>*</strong><br/>&nbsp;</td></tr>";
+    $out.='<tr class="wp-greet-form"><td class="wp-greet-form-left">'.__("Sendername","wp-greet").(substr($wpg_options['wp-greet-fields'],0,1)=="1" ? "<sup>*</sup>":"").':</td><td class="wp-greet-form"><input name="sendername" type="text" size="40" maxlength="60" value="' . ( isset($_POST['sendername']) ? $_POST['sendername'] : '')  . '"/></td></tr>'."\n";
+    $out.='<tr class="wp-greet-form"><td class="wp-greet-form-left">'.__("Sender","wp-greet").(substr($wpg_options['wp-greet-fields'],1,1)=="1" ? "<sup>*</sup>":"").':</td><td class="wp-greet-form"><input name="sender" type="text" size="40" maxlength="60" value="' . $_POST['sender']  . '"/></td></tr>'."\n";
 
     $out .= "<tr class=\"wp-greet-form\"><td class=\"wp-greet-form-left\">".__("CC to Sender","wp-greet").":</td><td class=\"wp-greet-form\"><input name='ccsender' type='checkbox' value='1' " . (isset($_POST['ccsender']) and $_POST['ccsender']==1 ? 'checked="checked"':'')  . " /></td></tr>\n";
-    $out .= "<tr class=\"wp-greet-form\"><td class=\"wp-greet-form-left\">".__("Recipientname","wp-greet").":</td><td class=\"wp-greet-form\"><input name='recvname' type='text' size='40' maxlength='60' value='" . (isset($_POST['recvname']) ? $_POST['recvname'] : '')  . "'/></td></tr>\n";
-     $out .= "<tr class=\"wp-greet-form\"><td class=\"wp-greet-form-left\">".__("Recipient","wp-greet").":</td><td class=\"wp-greet-form\"><input name='recv' type='text' size='40' maxlength='60' value='" . (isset($_POST['recv']) ? $_POST['recv'] : '')  . "'/></td></tr>\n";
-     $out .= "<tr class=\"wp-greet-form\"><td class=\"wp-greet-form-left\">".__("Subject","wp-greet").":</td><td class=\"wp-greet-form\"><input name='title'  type='text' size='40' maxlength='80' value='" . attribute_escape($_POST['title'])  . "'/></td></tr>\n";
-     $out .= "<tr class=\"wp-greet-form\"><td class=\"wp-greet-form-left\">".__("Message","wp-greet").":</td><td class=\"wp-greet-form\"><textarea class=\"wp-greet-form\" name='message' id='message'>" . (isset($_POST['message']) ? attribute_escape($_POST['message']) : '') . "</textarea></td></tr>\n";
+    $out .= "<tr class=\"wp-greet-form\"><td class=\"wp-greet-form-left\">".__("Recipientname","wp-greet").(substr($wpg_options['wp-greet-fields'],2,1)=="1" ? "<sup>*</sup>":"").":</td><td class=\"wp-greet-form\"><input name='recvname' type='text' size='40' maxlength='60' value='" . (isset($_POST['recvname']) ? $_POST['recvname'] : '')  . "'/></td></tr>\n";
+     $out .= "<tr class=\"wp-greet-form\"><td class=\"wp-greet-form-left\">".__("Recipient","wp-greet").(substr($wpg_options['wp-greet-fields'],3,1)=="1" ? "<sup>*</sup>":"").":</td><td class=\"wp-greet-form\"><input name='recv' type='text' size='40' maxlength='60' value='" . (isset($_POST['recv']) ? $_POST['recv'] : '')  . "'/></td></tr>\n";
+     $out .= "<tr class=\"wp-greet-form\"><td class=\"wp-greet-form-left\">".__("Subject","wp-greet").(substr($wpg_options['wp-greet-fields'],4,1)=="1" ? "<sup>*</sup>":"").":</td><td class=\"wp-greet-form\"><input name='title'  type='text' size='40' maxlength='80' value='" . attribute_escape($_POST['title'])  . "'/></td></tr>\n";
+     $out .= "<tr class=\"wp-greet-form\"><td class=\"wp-greet-form-left\">".__("Message","wp-greet").(substr($wpg_options['wp-greet-fields'],5,1)=="1" ? "<sup>*</sup>":"").":</td><td class=\"wp-greet-form\"><textarea class=\"wp-greet-form\" name='message' id='message' rows='40' cols='10'>" . (isset($_POST['message']) ? attribute_escape($_POST['message']) : '') . "</textarea></td></tr>\n";
      // smilies unter formular anzeigen
      if ( $wpg_options['wp-greet-smilies']) {
        $smileypath=ABSPATH . "wp-content/plugins/wp-greet/smilies"; 
@@ -536,7 +571,7 @@ function showGreetcardForm($galleryID,$picurl,$verify = "") {
 	    "<input name='accepttou' type='checkbox' value='1' " . 
 	    (isset($_POST['accepttou']) and $_POST['accepttou']==1 ? 'checked="checked"':'')  . 
 	    " />". __("I accept the terms of usage of the greeting card service","wp-greet").
-            ' <a href="'. site_url("wp-content/plugins/wp-greet/wpg_service.php") . '?height=600&amp;width=400" class="thickbox" Title="">'.
+            ' <a href="'. site_url("wp-content/plugins/wp-greet/wpg_service.php") . '?height=600&amp;width=400" class="thickbox" title="">'.
 	    __("(show)","wp-greet")."</a>".
 	    "</td></tr>\n";
     }
@@ -544,6 +579,7 @@ function showGreetcardForm($galleryID,$picurl,$verify = "") {
     // submit buttons
     $out .= "<tr class=\"wp-greet-form\"><td class=\"wp-greet-form-left\">&nbsp;</td><td class=\"wp-greet-form\"><input name='action' type='submit' value='".__("Preview","wp-greet")."' /><input name='action' type='submit'  value='".__("Send","wp-greet")."' /><input type='reset' value='".__("Reset form","wp-greet")."'/>&nbsp;<a href=\"javascript:history.back()\">".__("Back","wp-greet")."</a></td></tr></table></form></div>\n<p>&nbsp;";
    
+    
   }
 
   // Rueckgabe des HTML Codes

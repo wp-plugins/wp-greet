@@ -52,6 +52,7 @@ function wpgreet_get_options() {
   // wp-greet-mctext - text for the confirmation mail
   // wp-greet-mcduration - valid time of the confirmation link
   // wp-greet-onlinecard - dont get cards via email, fetch it online, yes=1, no=0
+  // wp-greet-fields - a string of 0 and 1 describing the mandatory fields in the form
 
   $options = array("wp-greet-version" => "", 
 		   "wp-greet-minseclevel" => "", 
@@ -82,7 +83,8 @@ function wpgreet_get_options() {
 		   "wp-greet-ocduration" => "",
 		   "wp-greet-octext" => "",
 		   "wp-greet-logdays" => "",
-		   "wp-greet-carddays" => "");
+		   "wp-greet-carddays" => "",
+		   "wp-greet-fields" => "");
 
 
   reset($options);

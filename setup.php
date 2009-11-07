@@ -230,7 +230,14 @@ wp-greet, das freundliche Wordpress Grußkartenplugin";
 		   "number of days card entries are stored",
 		   "yes");
     };
-    
+   
+    if ($wpg_options['wp-greet-fields'] == "") {
+	$wpg_options['wp-greet-fields'] = "010100"; // sender and receiver email is allways mandatory
+	add_option("wp-greet-fields",$wpg_options['wp-greet-fields'],
+		   "string describing the mandatory fields in the form",
+		   "yes");
+    };
+     
 }
 
 function wp_greet_deactivate()
@@ -266,7 +273,8 @@ function wp_greet_deactivate()
 		     'wp-greet-ocduration',
 		     'wp-greet-octext',
 		     'wp-greet-logdays',
-		     'wp-greet-carddays');
+		     'wp-greet-carddays',
+		     'wp-greet-fields');
     
     reset($options);
     while (list($key,$val) = each($options)) {

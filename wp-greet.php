@@ -3,7 +3,7 @@
 Plugin Name: wp-greet
 Plugin URI: http://www.tuxlog.de
 Description: wp-greet is a wordpress plugin to send greeting cards from your wordpress blog.
-Version: 1.8
+Version: 1.9
 Author: Barbara Jany, Hans Matzen <webmaster at tuxlog.de>
 Author URI: http://www.tuxlog.de
 */

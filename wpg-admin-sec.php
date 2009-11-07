@@ -46,11 +46,21 @@ function wpg_admin_sec()
   if (isset($_POST['info_update'])) {
     $upflag=false;
     
+
+    // build mandatory fields string
+    $_POST['wp-greet-fields'] = 
+	($_POST["wp-greet-field-sendername"]=="" ? "0" : "1") . 
+	"1" . 
+	($_POST["wp-greet-field-receivername"]=="" ? "0" : "1") . 
+	"1" .
+	($_POST["wp-greet-field-subject"]=="" ? "0" : "1") . 
+	($_POST["wp-greet-field-message"]=="" ? "0" : "1");
+
     reset($wpg_options);
     $thispageoptions = array("wp-greet-minseclevel", "wp-greet-captcha", 
 			     "wp-greet-mailconfirm", "wp-greet-mcduration",
 			     "wp-greet-mctext", "wp-greet-touswitch",
-			     "wp-greet-termsofusage");
+			     "wp-greet-termsofusage","wp-greet-fields");
     while (list($key, $val) = each($wpg_options)) {
 	if (in_array($key,$thispageoptions) and $wpg_options[$key] != $_POST[$key] ) {
 	$wpg_options[$key] = stripslashes($_POST[$key]);
@@ -184,7 +194,23 @@ function wpg_admin_sec()
           <td><input id="wp-greet-mcduration" name="wp-greet-mcduration" type="text" size="5" maxlength="4" value="<?php echo $wpg_options['wp-greet-mcduration'] ?>" /></td>
           </tr>
 
-
+         <tr valign="top">
+       	 <th scope="row"><?php echo __('Mandatory fields','wp-greet').":";?></th>
+         <td>
+ 	   <b><?php echo __('Sendername',"wp-greet")?>:</b>
+           <input type="checkbox" id="wp-greet-field-sendername" name="wp-greet-field-sendername" value="1" <?php if (substr($wpg_options['wp-greet-fields'],0,1)=="1") echo 'checked="checked"'?> />
+ 	   <b><?php echo __('Sender',"wp-greet")?>:</b>
+           <input type="checkbox" id="wp-greet-field-sendermail" name="wp-greet-field-sendermail" value="1" <?php if (substr($wpg_options['wp-greet-fields'],1,1)=="1") echo 'checked="checked"'?> readonly="readonly" disabled="disabled" />
+           <b><?php echo __('Recipientname',"wp-greet")?>:</b>
+           <input type="checkbox" id="wp-greet-field-receivername" name="wp-greet-field-receivername" value="1" <?php if (substr($wpg_options['wp-greet-fields'],2,1)=="1") echo 'checked="checked"'?> />
+ 	   <b><?php echo __('Recipient',"wp-greet")?>:</b>
+           <input type="checkbox" id="wp-greet-field-receivermail" name="wp-greet-fieldreceivermail" value="1" <?php if (substr($wpg_options['wp-greet-fields'],3,1)=="1") echo 'checked="checked"'?> readonly="readonly"  disabled="disabled" />
+           <b><?php echo __('Subject',"wp-greet")?>:</b>
+           <input type="checkbox" id="wp-greet-field-subject" name="wp-greet-field-subject" value="1" <?php if (substr($wpg_options['wp-greet-fields'],4,1)=="1") echo 'checked="checked"'?> />
+           <b><?php echo __('Message',"wp-greet")?>:</b>
+ 	   <input type="checkbox" id="wp-greet-field-message" name="wp-greet-field-message" value="1" <?php if (substr($wpg_options['wp-greet-fields'],5,1)=="1") echo 'checked="checked"'?> />  
+         </td>
+         </tr>
 	
   </table>
 <?php
