@@ -191,7 +191,9 @@ function wpg_admin_sec()
  
           <tr valign="top">
           <th scope="row"><?php echo __('Link valid time (hours)',"wp-greet")?>:</th>
-          <td><input id="wp-greet-mcduration" name="wp-greet-mcduration" type="text" size="5" maxlength="4" value="<?php echo $wpg_options['wp-greet-mcduration'] ?>" /></td>
+          <td><input id="wp-greet-mcduration" name="wp-greet-mcduration" type="text" size="5" maxlength="4" value="<?php echo $wpg_options['wp-greet-mcduration'] ?>" />
+	  <img align="bottom" src="<?php echo site_url(PLUGINDIR . "/wp-greet/tooltip_icon.png");?>" alt="tooltip" title='<?php _e("0 means confirmation-link will never expire","wp-greet");?>'/>
+          </td>
           </tr>
 
          <tr valign="top">

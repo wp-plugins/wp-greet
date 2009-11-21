@@ -89,7 +89,7 @@ function wpg_admin_form()
       $upflag=false;
     }
 
-    if ( $wpg_options['wp-greet-ocduration'] > $wpg_options['wp-greet-carddays']) {
+    if ( $wpg_options['wp-greet-onlinecard'] == 1 and $wpg_options['wp-greet-ocduration'] > $wpg_options['wp-greet-carddays']) {
       echo __('Cards will be removed before fetch interval expires (Number of days an online card can be fetched > Number of days card entries are stored)',"wp-greet"). "<br />";
       $upflag=false;
     }
@@ -121,7 +121,7 @@ function wechsle_stamp () {
     imga=document.getElementById('wp-greet-imgattach');
     imgb=document.getElementById('wp-greet-onlinecard');
     stamp=document.getElementById('wp-greet-stampimage');
-    stamp.readOnly = (imga.checked == false) || (imgb.checked == false);
+    stamp.readOnly = ((imga.checked == false) && (imgb.checked == false));
 }
 
 function wechsle_onlinecard () {
@@ -130,6 +130,7 @@ function wechsle_onlinecard () {
     objc=document.getElementById('wp-greet-octext');
     objb.readOnly = (obja.checked == false);
     objc.readOnly = (obja.checked == false);
+    wechsle_stamp();
 }
 </script>
 <div class="wrap">
@@ -208,7 +209,9 @@ function wechsle_onlinecard () {
 
           <tr valign="top">
           <th scope="row"><?php echo __('Add stamp image',"wp-greet")?>:</th>
-          <td><input name="wp-greet-stampimage" id="wp-greet-stampimage" type="text" size="40" maxlength="60" value="<?php echo $wpg_options['wp-greet-stampimage'] ?>" /></td>
+          <td><input name="wp-greet-stampimage" id="wp-greet-stampimage" type="text" size="40" maxlength="60" value="<?php echo $wpg_options['wp-greet-stampimage'] ?>" />
+          <img align="bottom" src="<?php echo site_url(PLUGINDIR . "/wp-greet/tooltip_icon.png");?>" alt="tooltip" title='<?php _e("leave empty for no stamp, path must be relative to wordpress directory, e.g. wp-content/plugins/wp-greet/defaultstamp.jpg","wp-greet");?>'/>
+          </td>
           </tr>
 
           <tr valign="top">

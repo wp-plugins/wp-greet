@@ -109,7 +109,7 @@ function wp_greet_activate()
     };
 
     if ($wpg_options['wp-greet-stampimage'] == "") {
-	$wpg_options['wp-greet-stampimage'] = "defaultstamp.jpg";
+	$wpg_options['wp-greet-stampimage'] = "wp-content/plugins/wp-greet/defaultstamp.jpg";
 	add_option("wp-greet-stampimage",$wpg_options['wp-greet-stampimage'],
 		   "file name of stamp-image","yes");
     };
@@ -180,7 +180,7 @@ Der eCard Versender stellt sicher, dass er bei der Nutzung unseres eCard Service
     
     if ($wpg_options['wp-greet-mctext'] == "") {
 	$wpg_options['wp-greet-mctext'] = "Hallo %sender%,
-bitte bestätigen Sie, dass Sie %sender% (%sendermail%) eine Grußkarte senden möchten, indem Sie auf den untenstehenden Link klicken.
+bitte bestätigen Sie, dass Sie %sender% (%sendermail%) eine Grußkarte senden möchten, indem Sie auf den unten stehenden Link klicken.
 
 Bestätigungslink: %link%
 

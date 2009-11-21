@@ -3,8 +3,8 @@ Contributors: tuxlog, woodstock
 Donate link: http://www.tuxlog.de
 Tags: greetingcard, send, email, nextgengallery, plugin
 Requires at least: 2.5
-Tested up to: 2.8.4
-Stable tag: 1.9
+Tested up to: 2.8.6
+Stable tag: 2.0
 
 wp-greet is a wordpress plugin to send greeting cards from your wordpress blog. it uses nextGenGallery to maintain your greetingcard pictures.
 
@@ -97,6 +97,22 @@ http://www.tuxlog.de/wordpress/2008/wp-greet-documentation-english/
 
 
 == Changelog ==
+
+= v2.0 (2009-11-21) =
+* fixed process for fetching online without confirmation
+* fixed invalid xhtml in alt attribut during card fetch
+* fixed quote escaping when going back to greet form
+* fixed stamped image condition in conjunction with send image inline
+* fixed invalid xhtml in alt attribut on logging dialog
+* added note when stamp image is not found
+* fixed default value for stamp image
+* fixed re-show of greet form while confirmation
+* fixed admin dialog for control read-only status for stamp input field
+* fixed onlinecard plausi to be only validated if fetch cards online is active
+* fixed empty img width attribute when width parameter is empty (resulted in invalid XHTML)
+* fixed confirmation-link expiration if number of hours is 0 (= never expires)
+* fixed missing translation to german in security dialog
+* added some tooltips to admin dialog
 
 = v1.9 (2009-11-03) =
 * fixed XHTML errors in formdialog when using stamps

@@ -73,12 +73,18 @@ function showGreetcardForm($galleryID,$picurl,$verify = "") {
   // ausgabebuffer init
   $out = "";
 
+  // kommt eine briefmarke auf das bild?
+  $stampit = ( trim($wpg_options['wp-greet-stampimage']) !="" and 
+	       (trim($wpg_options["wp-greet-imgattach"]) != "" or
+		trim($wpg_options["wp-greet-onlinecard"]) != "" ));
+
   // get translation 
   $locale = get_locale();
   if ( empty($locale) )
     $locale = 'en_US';
   if(function_exists('load_textdomain')) 
     load_textdomain("wp-greet",ABSPATH . "wp-content/plugins/wp-greet/lang/".$locale.".mo");
+
 
   // ---------------------------------------------------------------------
   //  bestätigungsaufruf für den grußkartenversand
@@ -89,9 +95,9 @@ function showGreetcardForm($galleryID,$picurl,$verify = "") {
       global $wpdb;
       $sql="select * from " . $wpdb->prefix . "wpgreet_cards where confirmcode='" . $verify ."';";
       $res = $wpdb->get_row($sql);
-      
-      $now = strtotime( gmdate("Y-m-d H:i:s",time() + ( get_option('gmt_offset') * 60 * 60 )));
 
+      $now = strtotime( gmdate("Y-m-d H:i:s",time() + ( get_option('gmt_offset') * 60 * 60 )));
+      
       $then = msql2time( $res->confirmuntil );
       
 
@@ -110,7 +116,7 @@ function showGreetcardForm($galleryID,$picurl,$verify = "") {
 	  return $out;
 	  
 	  
-      } else if ($now > $then ) {
+      } else if ($now > $then and $wpg_options["wp-greet-mcduration"]!=0 ) {
 	  // die gültigkeiteisdauer ist abgelaufen 
 	  $out .= __("Your confirmation link is timedout.","wp-greet")."<br />".
 	      __("Please send a new card at","wp-greet") . 
@@ -127,6 +133,7 @@ function showGreetcardForm($galleryID,$picurl,$verify = "") {
 	  $_POST["title"]      = $res->subject;
 	  $_POST["message"]    = $res->mailbody;
 	  $_POST["ccsender"]   = $res->cc2from;
+	  $_POST['accepttou']  = 1;
 	  $picurl              = $res->picture;
 	  $galleryID           = "";
       }
@@ -242,16 +249,18 @@ function showGreetcardForm($galleryID,$picurl,$verify = "") {
 	   echo __("Spamprotection - Code is not valid.<br />","wp-greet");
 	   echo __("Please try again.","wp-greet")."<br />"; 
 	 }
-       } // end of pruefe captcha 
-
-       // nutzungsbedingungen prüfen
-       if ($wpg_options['wp-greet-touswitch']==1 and  $_POST['accepttou'] != 1) {
-	   $_POST['action'] = "Formular";
-	   echo __("Please accept the terms of usage before sending a greeting card.<br />","wp-greet");
        }
-       
-     } // end of Feldinhalte pruefen
-  } // end of if action
+     } // end of pruefe captcha 
+
+     // nutzungsbedingungen prüfen
+     if ($wpg_options['wp-greet-touswitch']==1 and  $_POST['accepttou'] != 1) 
+     {
+	 $_POST['action'] = "Formular";
+	 echo __("Please accept the terms of usage before sending a greeting card.<br />","wp-greet");
+     }
+     
+  } // end of Feldinhalte pruefen
+
   
  
   // Vorschau
@@ -282,23 +291,14 @@ function showGreetcardForm($galleryID,$picurl,$verify = "") {
     $out .= "<tr><th>" .  __("Subject","wp-greet").":</th><td>". attribute_escape($_POST['title']) . "</td></tr></table>";
     $out .= $wpg_options['wp-greet-default-header'] . "\n";
     
-    
-    if (trim ($wpg_options['wp-greet-stampimage']) !="")
+    if ($stampit)
     {
-	// briefmarke einbauen
-	// aus der url des bildes den dateinamen bauen 
-	$surl=get_option('siteurl');
-	$picpath = ABSPATH . substr($picurl, 
-				    strpos($picurl, $surl) + strlen($surl)+1);
-    
-	$out .= '<p><img src="' . site_url("wp-content/plugins/wp-greet/").
-	    "wpg-stamped.php?cci=$picpath&amp;sti=".
-	    ABSPATH . $wpg_options['wp-greet-stampimage'].
-	    "&amp;stw=" . $wpg_options['wp-greet-stamppercent'].
-	    '" alt="'.basename($picurl)."\" width='".
-	    $wpg_options['wp-greet-imagewidth']."'/></p><br />\n";
+	$stampurl = build_stamp_url($picurl);
+	$out .= "<p>$stampurl</p><br />\n";
     } else {
-	$out .= '<p><img src="' . $picurl . '" width="'.$wpg_options['wp-greet-imagewidth'] .'" alt="wp-greet-image" /></p><br />';
+	$out .= '<p><img src="' . $picurl . '" width="'.
+	    ($wpg_options['wp-greet-imagewidth']==""?"100%":$wpg_options['wp-greet-imagewidth']) .
+	    '" alt="wp-greet-image" /></p><br />';
     }
     $out .= "\n<p>" . $show_message . "</p>\n";
     $out .= $wpg_options['wp-greet-default-footer'];
@@ -313,8 +313,11 @@ function showGreetcardForm($galleryID,$picurl,$verify = "") {
     $out .= "<input name='recvname' type='hidden' value='" . $_POST['recvname']  . "' />\n"; 
     $out .= "<input name='title' type='hidden' value='" . attribute_escape($_POST['title'])  . "' />\n"; 
     $out .= "<input name='message' type='hidden' value='" . attribute_escape($_POST['message']) . "' />\n";
+    $out .= "<input name='accepttou' type='hidden' value='" . attribute_escape($_POST['accepttou']) . "' />\n";
 
-    $out .= "<input name='action' type='submit' value='".__("Back","wp-greet")."' /><input name='action' type='submit'  value='".__("Send","wp-greet")."' /></form><p>&nbsp;";
+    $out .= "<input name='action' type='submit' value='".__("Back","wp-greet").
+	"' /><input name='action' type='submit'  value='".__("Send","wp-greet").
+	"' /></form><p>&nbsp;";
 
   }  else if ( isset($_POST['action']) and 
 	       $_POST['action'] == __("Send","wp-greet") and
@@ -506,24 +509,14 @@ function showGreetcardForm($galleryID,$picurl,$verify = "") {
     <?php }
     $out = "&nbsp;</p><div class='wp-greet-form'>\n"; 
 
-     if (trim ($wpg_options['wp-greet-stampimage']) !="")
+    if ($stampit)
     {
-	// briefmarke einbauen
-	// aus der url des bildes den dateinamen bauen 
-	$surl=get_option('siteurl');
-	$picpath = ABSPATH . substr($picurl, 
-				    strpos($picurl, $surl) + strlen($surl)+1);
-    
-	$out .= '<img src="' . site_url("wp-content/plugins/wp-greet/").
-	    "wpg-stamped.php?cci=$picpath&amp;sti=".
-	    ABSPATH . $wpg_options['wp-greet-stampimage'].
-	    "&amp;stw=" . $wpg_options['wp-greet-stamppercent'].
-	    '" alt="'.basename($picurl)."\" width='".
-	    $wpg_options['wp-greet-imagewidth']."'/><br />\n";
+	$stampurl = build_stamp_url($picurl);
+	$out .= "$stampurl<br />\n";
     } else {
-	 $out .= '<img src="' . $picurl . '" alt="'.
-	     basename($picurl)."\" width='".
-	     $wpg_options['wp-greet-imagewidth']."'/><br />\n";
+	$out .= '<img src="' . $picurl . '" alt="'.
+	    basename($picurl)."\" width='".
+	    ($wpg_options['wp-greet-imagewidth']==""?"100%":$wpg_options['wp-greet-imagewidth'])."'/><br />\n";
      }
     $out .= "<br /><form method='post' action=''>\n";
     $out .= '<table class="wp-greet-form"><tr class="wp-greet-form">';
@@ -535,7 +528,7 @@ function showGreetcardForm($galleryID,$picurl,$verify = "") {
     $out .= "<tr class=\"wp-greet-form\"><td class=\"wp-greet-form-left\">".__("Recipientname","wp-greet").(substr($wpg_options['wp-greet-fields'],2,1)=="1" ? "<sup>*</sup>":"").":</td><td class=\"wp-greet-form\"><input name='recvname' type='text' size='40' maxlength='60' value='" . (isset($_POST['recvname']) ? $_POST['recvname'] : '')  . "'/></td></tr>\n";
      $out .= "<tr class=\"wp-greet-form\"><td class=\"wp-greet-form-left\">".__("Recipient","wp-greet").(substr($wpg_options['wp-greet-fields'],3,1)=="1" ? "<sup>*</sup>":"").":</td><td class=\"wp-greet-form\"><input name='recv' type='text' size='40' maxlength='60' value='" . (isset($_POST['recv']) ? $_POST['recv'] : '')  . "'/></td></tr>\n";
      $out .= "<tr class=\"wp-greet-form\"><td class=\"wp-greet-form-left\">".__("Subject","wp-greet").(substr($wpg_options['wp-greet-fields'],4,1)=="1" ? "<sup>*</sup>":"").":</td><td class=\"wp-greet-form\"><input name='title'  type='text' size='40' maxlength='80' value='" . attribute_escape($_POST['title'])  . "'/></td></tr>\n";
-     $out .= "<tr class=\"wp-greet-form\"><td class=\"wp-greet-form-left\">".__("Message","wp-greet").(substr($wpg_options['wp-greet-fields'],5,1)=="1" ? "<sup>*</sup>":"").":</td><td class=\"wp-greet-form\"><textarea class=\"wp-greet-form\" name='message' id='message' rows='40' cols='10'>" . (isset($_POST['message']) ? attribute_escape($_POST['message']) : '') . "</textarea></td></tr>\n";
+     $out .= "<tr class=\"wp-greet-form\"><td class=\"wp-greet-form-left\">".__("Message","wp-greet").(substr($wpg_options['wp-greet-fields'],5,1)=="1" ? "<sup>*</sup>":"").":</td><td class=\"wp-greet-form\"><textarea class=\"wp-greet-form\" name='message' id='message' rows='40' cols='10'>" . (isset($_POST['message']) ? stripslashes(attribute_escape($_POST['message'])) : '') . "</textarea></td></tr>\n";
      // smilies unter formular anzeigen
      if ( $wpg_options['wp-greet-smilies']) {
        $smileypath=ABSPATH . "wp-content/plugins/wp-greet/smilies"; 
@@ -599,6 +592,11 @@ function showGreetcard($display)
     // ausgabebuffer init
     $out = "";
     
+    // kommt eine briefmarke auf das bild?
+    $stampit = ( trim($wpg_options['wp-greet-stampimage']) !="" and 
+		 (trim($wpg_options["wp-greet-imgattach"]) != "" or
+		  trim($wpg_options["wp-greet-onlinecard"]) != "" ));
+    
     // get translation 
     $locale = get_locale();
     if ( empty($locale) )
@@ -641,23 +639,12 @@ function showGreetcard($display)
 	$out .= "<tr><th>" .  __("Subject","wp-greet").":</th><td>". $res->subject . "</td></tr></table>";
 	$out .= $wpg_options['wp-greet-default-header'] . "\n";
 	
-	
-	if (trim ($wpg_options['wp-greet-stampimage']) !="")
+	if ($stampit)
 	{
-	    // briefmarke einbauen
-	    // aus der url des bildes den dateinamen bauen
-	    $surl=get_option('siteurl');
-	    $picpath = ABSPATH . substr($res->picture, 
-					strpos($res->picture, $surl) + strlen($surl)+1);
-
-	    $out .= '<p><img src="' . site_url("wp-content/plugins/wp-greet/").
-		"wpg-stamped.php?cci=$picpath&amp;sti=".
-		ABSPATH . $wpg_options['wp-greet-stampimage'].
-		"&amp;stw=" . $wpg_options['wp-greet-stamppercent'].
-		'" alt="'.basename($res->picture)."\" width='".
-		$wpg_options['wp-greet-imagewidth']."'/></p><br />\n";
+	    $stampurl =  build_stamp_url($res->picture);
+	    $out .= "<p>$stampurl</p><br />\n";
 	} else {
-	    $out .= '<p><img src="' . $res->picture . '" width="'.$wpg_options['wp-greet-imagewidth'] .'" alt="wp-greet-image" /></p><br />';
+	    $out .= '<p><img src="' . $res->picture . '" width="'.($wpg_options['wp-greet-imagewidth']==""?"100%":$wpg_options['wp-greet-imagewidth']) .'" alt="wp-greet-image" /></p><br />';
 	}
 	
 	// message escapen
@@ -669,7 +656,7 @@ function showGreetcard($display)
 	    preg_match_all('(:[^\040]+:)', $show_message, $treffer);
 	    
 	    foreach ($treffer[0] as $sm) {
-		$smrep='<img src="' . $smprefix . substr($sm,1,strlen($sm)-2) . '" alt='.$sm.'/>';
+		$smrep='<img src="' . $smprefix . substr($sm,1,strlen($sm)-2) . '" alt="'.$sm.'" />';
 		$show_message = str_replace($sm,$smrep,$show_message);
 	    }
 	}

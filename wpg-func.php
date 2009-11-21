@@ -360,8 +360,8 @@ function save_greetcard($sender, $sendername, $recv, $recvname,
 {
     global $wpdb;
 
-    if ($fetchcode == "") {
-	$sql = "insert into ". $wpdb->prefix . "wpgreet_cards values (0, '$sendername', '$sender', '$recvname', '$recv', '$cc2sender', '$title', '$picurl','". $wpdb->Escape($message)."', '$confirmuntil', '$confirmcode','','','','');";
+    if ($fetchcode == "" or $confirmcode == "") {
+	$sql = "insert into ". $wpdb->prefix . "wpgreet_cards values (0, '$sendername', '$sender', '$recvname', '$recv', '$cc2sender', '$title', '$picurl','". $wpdb->Escape($message)."', '$confirmuntil', '$confirmcode', '$fetchuntil', '$fetchcode','','');";
 	$wpdb->query($sql); 
     } else {
 	$sql = "select count(*) as anz from " .  $wpdb->prefix . "wpgreet_cards where confirmcode='$confirmcode';";
@@ -372,7 +372,6 @@ function save_greetcard($sender, $sendername, $recv, $recvname,
 	    $sql = "insert into ". $wpdb->prefix . "wpgreet_cards values (0, '$sendername', '$sender', '$recvname', '$recv', '$cc2sender', '$title', '$picurl','". $wpdb->Escape($message)."', '$confirmuntil', '$confirmcode','$fetchuntil', '$fetchcode','','');";
 	else
 	    $sql = "update ". $wpdb->prefix . "wpgreet_cards set fetchuntil='$fetchuntil', fetchcode='$fetchcode' where confirmcode='$confirmcode';";
-
 	$wpdb->query($sql); 
     }
 }
@@ -466,5 +465,31 @@ function msql2time($m)
 	preg_match('/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/', $m, $p);
 	return mktime($p[4], $p[5], $p[6], $p[2], $p[3], $p[1]); 
     }
+}
+
+//
+// erzeugt die url für das bild mit briefmarke
+// $pic - url des bildes fuer die grusskarte
+//
+function build_stamp_url($pic)
+{
+    // wp-greet optionen aus datenbank lesen
+    $wpg_options = wpgreet_get_options();
+    
+    $surl=get_option('siteurl');
+    $picpath = ABSPATH . substr($pic, strpos($pic, $surl) + strlen($surl)+1);
+    $stampimg = ABSPATH . $wpg_options['wp-greet-stampimage'];
+    if (file_exists($stampimg))
+	$alttext = basename($pic);
+    else
+	$alttext = __("Stampimage not found - Please contact your administrator","wp-greet");
+    
+    $link = '<img src="' . site_url("wp-content/plugins/wp-greet/").
+	"wpg-stamped.php?cci=$picpath&amp;sti=".
+	$stampimg . "&amp;stw=" . $wpg_options['wp-greet-stamppercent'].
+	'" alt="'.$alttext."\" width='".
+	($wpg_options['wp-greet-imagewidth']==""?"100%":$wpg_options['wp-greet-imagewidth'])."'/>";
+    
+    return $link;
 }
 ?>
