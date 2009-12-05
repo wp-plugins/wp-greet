@@ -252,17 +252,19 @@ function ngg_connect($link='' , $picture='') {
   
   // pruefe ob gallery umgelenkt werden soll
   if (array_search($picture->gid, $wpg_options['wp-greet-galarr']) !== False) {
-    
-    $sql="SELECT post_type FROM ".$wpdb->prefix."posts WHERE id= ". $wpg_options['wp-greet-formpage'] .";";
-    $pagetype = $wpdb->get_row($sql);
-    $url_prefix =  get_settings('siteurl');
+     
+      //$sql="SELECT post_type FROM ".$wpdb->prefix."posts WHERE id= ". $wpg_options['wp-greet-formpage'] .";";
+      //$pagetype = $wpdb->get_row($sql);
+      //$url_prefix =  get_settings('siteurl');
 
-    if ($pagetype->post_type == "page")
-      $url_prefix .= '?page_id=';
-    else
-      $url_prefix .= '?p=';	
-    $url_prefix .= $wpg_options['wp-greet-formpage'];
-    $folder_url  = get_option ('siteurl')."/".$picture->path."/";
+      //if ($pagetype->post_type == "page")
+      // $url_prefix .= '?page_id=';
+      //else
+      //$url_prefix .= '?p=';	
+      //$url_prefix .= $wpg_options['wp-greet-formpage'];
+      $folder_url  = get_option ('siteurl')."/".$picture->path."/";
+
+    $url_prefix = get_permalink($wpg_options['wp-greet-formpage'])."?";
     $link = stripslashes($url_prefix . "\&amp;gallery=" . $picture->gid .
 			 "\&amp;image=" . $folder_url.$picture->filename);
   }
@@ -361,18 +363,17 @@ function save_greetcard($sender, $sendername, $recv, $recvname,
     global $wpdb;
 
     if ($fetchcode == "" or $confirmcode == "") {
-	$sql = "insert into ". $wpdb->prefix . "wpgreet_cards values (0, '$sendername', '$sender', '$recvname', '$recv', '$cc2sender', '$title', '$picurl','". $wpdb->Escape($message)."', '$confirmuntil', '$confirmcode', '$fetchuntil', '$fetchcode','','');";
-	$wpdb->query($sql); 
+	$sql = "insert into ". $wpdb->prefix . "wpgreet_cards values (0, '$sendername', '$sender', '$recvname', '$recv', '$cc2sender', '". $wpdb->Escape($title)."', '$picurl','". $wpdb->Escape($message)."', '$confirmuntil', '$confirmcode', '$fetchuntil', '$fetchcode','','');";
+	$wpdb->query($sql);
     } else {
 	$sql = "select count(*) as anz from " .  $wpdb->prefix . "wpgreet_cards where confirmcode='$confirmcode';";
 
 	$count = $wpdb->get_row($sql);
-
 	if ( $count->anz == 0)
-	    $sql = "insert into ". $wpdb->prefix . "wpgreet_cards values (0, '$sendername', '$sender', '$recvname', '$recv', '$cc2sender', '$title', '$picurl','". $wpdb->Escape($message)."', '$confirmuntil', '$confirmcode','$fetchuntil', '$fetchcode','','');";
+	    $sql = "insert into ". $wpdb->prefix . "wpgreet_cards values (0, '$sendername', '$sender', '$recvname', '$recv', '$cc2sender', '".$wpdb->Escape($title)."', '$picurl','". $wpdb->Escape($message)."', '$confirmuntil', '$confirmcode','$fetchuntil', '$fetchcode','','');";
 	else
 	    $sql = "update ". $wpdb->prefix . "wpgreet_cards set fetchuntil='$fetchuntil', fetchcode='$fetchcode' where confirmcode='$confirmcode';";
-	$wpdb->query($sql); 
+	$wpdb->query($sql);
     }
 }
 
