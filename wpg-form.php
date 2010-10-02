@@ -244,14 +244,23 @@ function showGreetcardForm($galleryID,$picurl,$verify = "") {
 	 require_once(ABSPATH . "wp-content/plugins/math-comment-spam-protection/math-comment-spam-protection.classes.php");
 
 	 $Cap = new MathCheck();
-	 if ( $Cap->InputValidation( $_POST['mcspinfo'], $_POST['mcspvalue']) !="") {
-	   $_POST['action'] = "Formular";
-	   echo __("Spamprotection - Code is not valid.<br />","wp-greet");
-	   echo __("Please try again.","wp-greet")."<br />"; 
+
+	 require_once(ABSPATH . 'wp-admin/includes/plugin.php');
+	 $tap = get_plugins();
+
+	 if ( version_compare($tap['math-comment-spam-protection/math-comment-spam-protection.php']['Version'],"3.0","<"))
+	     $mc_nok = $Cap->InputValidation( $_POST['mcspinfo'], $_POST['mcspvalue']); 
+	 else
+	     $mc_nok = $Cap->MathCheck_InputValidation( $_POST['mcspinfo'], $_POST['mcspvalue']); 
+
+	 if ($mc_nok!="") {
+	     $_POST['action'] = "Formular";
+	     echo __("Spamprotection - Code is not valid.<br />","wp-greet");
+	     echo __("Please try again.","wp-greet")."<br />"; 
 	 }
        }
      } // end of pruefe captcha 
-
+     
      // nutzungsbedingungen prüfen
      if ($wpg_options['wp-greet-touswitch']==1 and  $_POST['accepttou'] != 1) 
      {
@@ -465,11 +474,17 @@ function showGreetcardForm($galleryID,$picurl,$verify = "") {
       $cap->opt['input_numbers'] = $cap_opt['mcsp_opt_numbers'];
       
       // Generate numbers to be displayed and result
-      $cap->GenerateValues();
-      $cap_info = array();
-      $cap_info['operand1'] = $cap->info['operand1'];
-      $cap_info['operand2'] = $cap->info['operand2'];
-      $cap_info['result']   = $cap->info['result'];
+      require_once(ABSPATH . 'wp-admin/includes/plugin.php');
+      $tap = get_plugins();
+      if (version_compare($tap['math-comment-spam-protection/math-comment-spam-protection.php']['Version'],"3.0","<")) {
+	  $cap->GenerateValues();
+	  $cap_info = array();
+	  $cap_info['operand1'] = $cap->info['operand1'];
+	  $cap_info['operand2'] = $cap->info['operand2'];
+	  $cap_info['result']   = $cap->info['result'];
+      } else {
+	  $cap_info = $cap->MathCheck_GenerateValues();
+      }
       $captcha = 2;
     }
  
