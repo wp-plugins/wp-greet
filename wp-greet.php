@@ -3,7 +3,7 @@
 Plugin Name: wp-greet
 Plugin URI: http://www.tuxlog.de
 Description: wp-greet is a wordpress plugin to send greeting cards from your wordpress blog.
-Version: 1.5
+Version: 2.3
 Author: Barbara Jany, Hans Matzen <webmaster at tuxlog.de>
 Author URI: http://www.tuxlog.de
 */
@@ -29,7 +29,7 @@ if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) { die('You
 are not allowed to call this page directly.'); }
 
 
-define( "WP_GREET_VERSION", "1.4" );
+define( "WP_GREET_VERSION", "1.8" );
 
 // global options array
 $wpg_options = array();
@@ -42,6 +42,7 @@ require_once("wpg-func.php");
 require_once("wpg-admin.php");
 require_once("wpg-admin-log.php");
 require_once("wpg-admin-gal.php");
+require_once("wpg-admin-sec.php");
 
 // include form page
 require_once("wpg-form.php");
@@ -65,9 +66,12 @@ function wp_greet_init()
   // add css in header
   add_action('wp_head', 'wp_greet_css');
 
+ // add thickbox for frontend
+  add_action('wp_print_scripts', 'wpg_add_thickbox_script');
+  add_action('wp_print_styles', 'wpg_add_thickbox_style' );
+  
   // Action calls for all functions 
   add_filter('the_content', 'searchwpgreet');
-  //add_filter('the_excerpt', 'searchwpgreet');
 
   // filter for ngg integration
   if ( $wpg_options['wp-greet-gallery']=="ngg") {
@@ -75,8 +79,9 @@ function wp_greet_init()
     // next line up to ngg-version 0.99 
     //add_filter('ngg_create_gallery_thumbcode', 'ngg_remove_thumbcode',2,2); 
     // next line from ngg-version 1.0 on 
-    add_filter('ngg_get_thumbcode', 'ngg_remove_thumbcode',2,2); 
+    add_filter('ngg_get_thumbcode', 'ngg_remove_thumbcode',2,2);  
   }
+
 }
 
 function wpg_add_menus()
@@ -94,22 +99,38 @@ function wpg_add_menus()
 
   add_submenu_page( $PPATH."wpg-admin.php", __('Galleries',"wp-greet"), __('Galleries', "wp-greet"), 8, $PPATH."wpg-admin-gal.php", "wpg_admin_gal") ;
 
+  add_submenu_page( $PPATH."wpg-admin.php", __('Security',"wp-greet"), __('Security', "wp-greet"), 8, $PPATH."wpg-admin-sec.php", "wpg_admin_sec") ;
+
   add_submenu_page( $PPATH."wpg-admin.php", __('Logging',"wp-greet"), __('Logging', "wp-greet"), 8, $PPATH."wpg-admin-log.php", "wpg_admin_log") ;
 
 }
+
+// add thickbox to page headers
+function wpg_add_thickbox_script()
+{
+    wp_enqueue_script( 'thickbox' );
+}
+
+// add thickbox to page headers
+function wpg_add_thickbox_style()
+{
+    wp_enqueue_style( 'thickbox');
+}
+
 
 //
 // MAIN
 //
 // activating deactivating the plugin
 register_activation_hook(__FILE__,'wp_greet_activate');
-//register_deactivation_hook(__FILE__,'wp_greet_deactivate');
+register_deactivation_hook(__FILE__,'wp_greet_deactivate');
 
 // add admin menu 
 add_action('admin_menu', 'wpg_add_menus');
 
 // init plugin
 add_action('init', 'wp_greet_init');
- 
+
+
 
 ?>

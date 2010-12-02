@@ -123,12 +123,17 @@ function wpg_admin_log()
     $sql .= " limit $lstart,$lcount";
   }
   $results = $wpdb->get_results($sql);
+  if (empty($results))
+      $out .= "<tr><td colspan='6'>&nbsp;</td></tr>";
  foreach($results as $res) {
    $out .= "<tr><td align=\"center\">".$res->mid."</td>";
    $out .= "<td>".$res->senttime."</td>";
    $out .= "<td>".$res->frommail."</td>";
    $out .= "<td>".$res->tomail."</td>";
-   $out .= "<td><img src='".$res->picture."' width='60' /></td>";
+   if (trim($res->picture) != "") 
+       $out .= "<td><img src='".$res->picture."' width='60' alt='".$res->picture."' /></td>";
+   else
+       $out .= "<td>&nbsp;</td>";
    $out .= "<td>".$res->remote_ip."</td>";
    $out .= "<td>".attribute_escape($res->mailbody)."</td></tr>\n";
 
