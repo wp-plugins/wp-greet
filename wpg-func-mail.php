@@ -254,26 +254,14 @@ function sendConfirmationMail($sender,$sendername,$recvname,$confirmcode, $confi
     // mail betreff aufbauen
     $subj = get_option("blogname")." - " . __("Greeting Card Confirmation Mail","wp-greet");
     
-
-    // teständerung für Marc, feedback steht aus
-    // der permalink wird mittels wordpress funktion ermittelt 
-    // und nicht mehr mit der hand
-    //
-    //
-    // bestätigungslink aufbauen
-    //$sql="SELECT post_type FROM ".$wpdb->prefix."posts WHERE id= ". $wpg_options['wp-greet-formpage'] .";";
-    //$pagetype = $wpdb->get_row($sql);
-    //$url_prefix =  get_settings('siteurl');
-	
-    //if ($pagetype->post_type == "page")
-    //$url_prefix .= '?page_id=';
-    //else
-//	$url_prefix .= '?p=';	
-    //$url_prefix .= $wpg_options['wp-greet-formpage'];
-    $url_prefix = get_permalink($wpg_options['wp-greet-formpage'],1);
+    $url_prefix = get_permalink($wpg_options['wp-greet-formpage'],false);
 
     $folder_url  = get_option ('siteurl')."/".$picture->path."/";
-    $confirmlink = stripslashes($url_prefix . "\&amp;verify=" . $confirmcode );
+    if (strpos($url_prefix,"?") === false )
+	$url_prefix .= "?";
+    else
+	$url_prefix .= "&";
+    $confirmlink = stripslashes($url_prefix . "verify=" . $confirmcode );
     $confirmlink = '<a href="' . $confirmlink . '">' . $confirmlink . '</a>';
 
 
@@ -382,19 +370,15 @@ function sendGreetcardLink($sender,$sendername,$recv, $recvname,$duration, $fetc
     $subj = get_option("blogname")." - " . __("A Greeting Card for you","wp-greet");
     
     // abruflink aufbauen
-    /* $sql="SELECT post_type FROM ".$wpdb->prefix."posts WHERE id= ". $wpg_options['wp-greet-formpage'] .";"; */
-    /* $pagetype = $wpdb->get_row($sql); */
-    /* $url_prefix =  get_settings('siteurl'); */
-	
-    /* if ($pagetype->post_type == "page") */
-    /* 	$url_prefix .= '?page_id='; */
-    /* else */
-    /* 	$url_prefix .= '?p='; */	
-
-    //$url_prefix .= $wpg_options['wp-greet-formpage'];
-    $url_prefix = get_permalink($wpg_options['wp-greet-formpage'],1);
+    $url_prefix = get_permalink($wpg_options['wp-greet-formpage'],false);
+ 
+    if (strpos($url_prefix,"?") === false )
+	$url_prefix .= "?";
+    else
+	$url_prefix .= "&";
+    $confirmlink = stripslashes($url_prefix . "verify=" . $confirmcode );
     $folder_url  = get_option ('siteurl')."/".$picture->path."/";
-    $fetchlink = stripslashes($url_prefix . "\&amp;display=" . $fetchcode );
+    $fetchlink = stripslashes($url_prefix . "display=" . $fetchcode );
     $fetchlink = '<a href="' . $fetchlink . '">' . $fetchlink . '</a>';
  
 
@@ -438,6 +422,10 @@ function sendGreetcardLink($sender,$sendername,$recv, $recvname,$duration, $fetc
     $mail->FromName = addslashes(get_option("blogname")) ;
     $mail->AddAddress( $recv, $recvname);
     
+    // add cc if option is set
+    if ( $ccsender == '1' ) 
+	$mail->AddCC($sender);
+
     if ( $wpg_options['wp-greet-mailreturnpath'] !="" )
 	$mail->AddReplyTo( $wpg_options['wp-greet-mailreturnpath'], $wpg_options['wp-greet-mailreturnpath'] );
     

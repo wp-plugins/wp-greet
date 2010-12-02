@@ -253,20 +253,15 @@ function ngg_connect($link='' , $picture='') {
   // pruefe ob gallery umgelenkt werden soll
   if (array_search($picture->gid, $wpg_options['wp-greet-galarr']) !== False) {
      
-      //$sql="SELECT post_type FROM ".$wpdb->prefix."posts WHERE id= ". $wpg_options['wp-greet-formpage'] .";";
-      //$pagetype = $wpdb->get_row($sql);
-      //$url_prefix =  get_settings('siteurl');
-
-      //if ($pagetype->post_type == "page")
-      // $url_prefix .= '?page_id=';
-      //else
-      //$url_prefix .= '?p=';	
-      //$url_prefix .= $wpg_options['wp-greet-formpage'];
       $folder_url  = get_option ('siteurl')."/".$picture->path."/";
-
-    $url_prefix = get_permalink($wpg_options['wp-greet-formpage'])."?";
-    $link = stripslashes($url_prefix . "\&amp;gallery=" . $picture->gid .
-			 "\&amp;image=" . $folder_url.$picture->filename);
+      
+      $url_prefix = get_permalink($wpg_options['wp-greet-formpage']);
+      if (strpos($url_prefix,"?") === false )
+	  $url_prefix .= "?";
+      else
+	  $url_prefix .= "\&amp;";
+      $link = stripslashes($url_prefix . "gallery=" . $picture->gid .
+			   "\&amp;image=" . $folder_url.$picture->filename);
   }
   
   return $link;
