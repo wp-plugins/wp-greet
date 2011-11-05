@@ -64,7 +64,7 @@ function wpg_admin_gal()
     wpgreet_set_options();
    
     // put message after update
-    echo"<div class='updated'><p><strong>Settings saved.</strong></p></div>";
+    echo"<div class='updated'><p><strong>". __('Settings successfully updated',"wp-greet")."</strong></p></div>";
   } 
   
   //

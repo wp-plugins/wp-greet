@@ -3,8 +3,8 @@ Contributors: tuxlog, woodstock
 Donate link: http://www.tuxlog.de
 Tags: greetingcard, send, email, nextgengallery, plugin
 Requires at least: 2.5
-Tested up to: 2.7.1
-Stable tag: 1.5
+Tested up to: 3.2.1
+Stable tag: 2.5
 
 wp-greet is a wordpress plugin to send greeting cards from your wordpress blog. it uses nextGenGallery to maintain your greetingcard pictures.
 
@@ -14,7 +14,7 @@ giving your users the ability to send greeting cards from your blog.
 
 Features:
 
-   + uses nextGenGallery for maintainig the greeting card picturea
+   + uses nextGenGallery for maintainig the greeting card picture
    + storing statistics about the sent greeting cards 
    + adding your own css
    + control who can send cards
@@ -22,6 +22,11 @@ Features:
    + add a bcc and/or a mailreturnpath to the mail
    + supports Antispam Plugins CaptCha! and Math-Comment-Spam-Protection-Plugin
    + sign your greeting cards with your own stamp
+   + supports individual terms of usage 
+   + supports confirmation mail processing
+   + supports fetching the card online or sent it by mail
+   + can send cards in the future
+
 
 
 == requirements ==
@@ -60,7 +65,7 @@ Upload the unzipped directory "math-comment-spam-protection" on your webspace in
 2. Preview a greetingcard with wp-greet 
 3. Admin-Dialog of wp-greet
 
-== update from prio v1.1 ==   
+== update from prior v1.1 ==   
 IMPORTANT:
    	Please be sure to remove all files belonging to versions prior 
 	to v1.1 before uploading v1.1
@@ -69,7 +74,11 @@ IMPORTANT:
 	which was necessary to integrate wp-greet with NextGenGallery 
 	prior to version 1.1
 
-
+== update to  v1.7 and higher ==   
+IMPORTANT:
+   	Please be sure to deactivate and activate the plugin one time
+	because the database updates will only be executed during 
+	plugin activation
 
 == usage from v1.1 on ==
 1. Create a page or posting containing the tag [wp-greet].
@@ -83,46 +92,132 @@ http://www.tuxlog.de/wordpress/2008/wp-greet-documentation-english/
 
 == translations ==
 
-   wp-greet comes with english and german translations only, at the moment.
+   wp-greet comes with english and german translations.
    if you would like to add a new translation, just take the file
    wp-greet.pot (in the wp-greet main directory) copy it to
    <iso-code>.po and edit it to add your translations (e.g. with poedit).
 
+   Meanwhile a swedish, french, italians and vietnames translation was 
+   kindly build by other users. See Changelog for credits.
 
 
-== history ==
-2008-04-06 v0.9	   Initial release 
+== Changelog ==
 
-2008-04-14 v1.0	   added captcha support, removed dependency to 
-	   	   phpmailer package
+= v2.4 (2011-11-05) =
+* added partial vietnamese translation, thanks to Diana
+* fix allow gallery and form on onepage
+* added option to use/display the data from ngg in img tag
+* added option to allow sending to multiple recipients
+* added option to allow sending cards in the future (using jquery datepicker, thanks folks, great job)
+* added option to allow sending a confirmation to the sender when the card is fetched
+* fixed incompatibility with wordpress mu in register_activation and deactivation
+* add support for captcha >=V2.08
 
-2008-10-04 v1.1	   integrate ngg without patching it (thanks to Alex Rabe 
-	   	   for adding the needed filter hooks), add gallery selection 
-		   to admin dialog, add form page selector to admin dialog, 
-		   fixed quote handling in textarea, disable captcha parameter 
-		   during installation, extended css to be more flexible with
-		   different themes
+= v2.3 (2010-12-01) =
+* added swedish translation (thanks to Helene)
+* fixed confirmation mail method link generation (get_permalink problem)
+* fixed gallery link geneartion when not using permalinks
+* cc to sender now works even if you are using the "link variant"
 
-2008-11-30 v1.2	   fixed some typos, added smiley support, added remote ip 
-	   	   adress to log information, added automatic sender an 
-		   receiver name, disable options deletion during plugin 
-		   deactivation (seems people like it more having a bit trash 
-		   in their tables, instead of setting up the plugin 
-		   every time ;-) ), added fields for sender and receiver name
+= v2.2 (2010-10-01) =
+* changed link generation to use wordpress default method
+* added french translation (thanks to Patrick)
+* update plugin to use new MathCommentSpamPlugin interface
 
-2009-01-03 v1.3	   add support for Math-Comment-Spam-Protection-Plugin, 
-	   	   add paging for logfile, fix bug with ngg >v0.99 and 
-		   thickbox effect
+= v2.1 (2009-12-05) =
+* fixed problem with apostrophs in greetcard subject
+* fixed problem with some permalinks settings
+* added italian translation (thanks to Daniele)
 
-2009-02-08 v1.4	   fixed missing semicolon in phpmailer-conf.php, added 
-	   	   none option to disable spam protection, fixed bug with 
-		   quotes in mail-header and mail-footer, added option to 
-		   control the mailtransfer method (smtp or php-mail), 
-		   fixed Spamlabel was showed, even when no captcha 
-		   support was selected
+= v2.0 (2009-11-21) =
+* fixed process for fetching online without confirmation
+* fixed invalid xhtml in alt attribut during card fetch
+* fixed quote escaping when going back to greet form
+* fixed stamped image condition in conjunction with send image inline
+* fixed invalid xhtml in alt attribut on logging dialog
+* added note when stamp image is not found
+* fixed default value for stamp image
+* fixed re-show of greet form while confirmation
+* fixed admin dialog for control read-only status for stamp input field
+* fixed onlinecard plausi to be only validated if fetch cards online is active
+* fixed empty img width attribute when width parameter is empty (resulted in invalid XHTML)
+* fixed confirmation-link expiration if number of hours is 0 (= never expires)
+* fixed missing translation to german in security dialog
+* added some tooltips to admin dialog
 
-2009-06-06 v1.5	   clean up code to avoid warnings in wordpress debug mode,
-	   	   add stamp function to add a stamp to greetingcards,
-		   readme.txt validated, added screenshots to package,
-		   added icon for wordpress menu entry, added parameter to 
-		   set width of stamp
+= v1.9 (2009-11-03) =
+* fixed XHTML errors in formdialog when using stamps
+* added mandatory field selection feature
+
+= v1.8 (2009-10-12) =
+* fixed some XHTML errors in admin dialog
+* fixed timestamp incompatibility between mysql < v4.1 and mysql >= v4.1
+* added admin dialog checkings carddays > fetch online days
+
+= v1.7 (2009-10-11) = 
+* fixed some minor xhtml errors
+* added new admin dialog security
+* added feature to use an email for sender address verification
+* added terms of usage feature
+* added automatic deletion of log and card entries and parameters
+* added feature to fetch the card online instead of sending it via mail
+
+
+= v1.6 (2009-08-15) = 
+* changed debug function name to avoid collision
+* check for checkdnsrr function to exist before using it
+* extend email address validation to be more correct (e.g. accept .co.uk addresses)
+* switched readme.txt to new changelog format
+
+= v1.5 (2009-06-06) =
+* clean up code to avoid warnings in wordpress debug mode
+* add stamp function to add a stamp to greetingcards
+* readme.txt validated
+* added screenshots to package
+* added icon for wordpress menu entry
+* added parameter to set width of stamp
+
+= v1.4 (2009-02-08) = 
+* fixed missing semicolon in phpmailer-conf.php
+* added none option to disable spam protection
+* fixed bug with quotes in mail-header and mail-footer
+* added option to control the mailtransfer method (smtp or php-mail)
+* fixed Spamlabel was showed, even when no captcha support was selected
+
+= v1.3 (2009-01-03) = 
+* add support for Math-Comment-Spam-Protection-Plugin
+* add paging for logfile
+* fix bug with ngg >v0.99 and thickbox effect
+
+= v1.2 (2008-11-30) =
+* fixed some typos
+* added smiley support
+* added remote ip adress to log information
+* added automatic sender an receiver name
+* disable options deletion during plugin deactivation (seems people like it more having a bit trash in their tables, instead of setting up the plugin every time ;-) )
+* added fields for sender and receiver name
+
+= v1.1 (2008-10-04) =
+* integrate ngg without patching it (thanks to Alex Rabe for adding the needed filter hooks)
+* add gallery selection to admin dialog
+* add form page selector to admin dialog
+* fixed quote handling in textarea
+* disable captcha parameter during installation
+* extended css to be more flexible with different themes
+
+= v1.0 (2008-04-14) = 
+* added captcha support
+* removed dependency to phpmailer package
+
+= v0.9 (2008-04-06) =
+* Initial release 
+
+
+
+
+
+
+
+
+
+
