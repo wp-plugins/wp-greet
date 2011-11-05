@@ -53,6 +53,7 @@ function wpgreet_get_options() {
   // wp-greet-mcduration - valid time of the confirmation link
   // wp-greet-onlinecard - dont get cards via email, fetch it online, yes=1, no=0
   // wp-greet-fields - a string of 0 and 1 describing the mandatory fields in the form
+  // wp-greet-show-ngg-desc - if active displays the description from  ngg below the image
 
   $options = array("wp-greet-version" => "", 
 		   "wp-greet-minseclevel" => "", 
@@ -84,7 +85,12 @@ function wpgreet_get_options() {
 		   "wp-greet-octext" => "",
 		   "wp-greet-logdays" => "",
 		   "wp-greet-carddays" => "",
-		   "wp-greet-fields" => "");
+		   "wp-greet-fields" => "",
+  		   "wp-greet-show-ngg-desc" => "",
+  		   "wp-greet-enable-confirm" => "",
+  		   "wp-greet-future-send" => "",
+           "wp-greet-multi-recipients" => "",
+  		   "wp-greet-ectext" => "");
 
 
   reset($options);
@@ -260,11 +266,10 @@ function ngg_connect($link='' , $picture='') {
 	  $url_prefix .= "?";
       else
 	  $url_prefix .= "\&amp;";
-      $link = stripslashes($url_prefix . "gallery=" . $picture->gid .
-			   "\&amp;image=" . $folder_url.$picture->filename);
+      $link = $url_prefix . "gallery=" . $picture->gid ."\&amp;image=" . $folder_url.$picture->filename;
   }
   
-  return $link;
+  return stripslashes($link);
 }
 
 //
@@ -353,19 +358,20 @@ function test_gd()
 //
 function save_greetcard($sender, $sendername, $recv, $recvname, 
 			$title, $message, $picurl, $cc2sender, 
-			$confirmuntil, $confirmcode,$fetchuntil,$fetchcode)
+			$confirmuntil, $confirmcode,$fetchuntil,$fetchcode,$sendtime)
 {
     global $wpdb;
-
+    // convert to mysql date
+	$sendtime = date('Y-m-d H:i:s', $sendtime);
     if ($fetchcode == "" or $confirmcode == "") {
-	$sql = "insert into ". $wpdb->prefix . "wpgreet_cards values (0, '$sendername', '$sender', '$recvname', '$recv', '$cc2sender', '". $wpdb->Escape($title)."', '$picurl','". $wpdb->Escape($message)."', '$confirmuntil', '$confirmcode', '$fetchuntil', '$fetchcode','','');";
-	$wpdb->query($sql);
+	$sql = "insert into ". $wpdb->prefix . "wpgreet_cards values (0, '$sendername', '$sender', '$recvname', '$recv', '$cc2sender', '". $wpdb->Escape($title)."', '$picurl','". $wpdb->Escape($message)."', '$confirmuntil', '$confirmcode', '$fetchuntil', '$fetchcode','','','$sendtime');";
+	$wpdb->query($sql); 
     } else {
 	$sql = "select count(*) as anz from " .  $wpdb->prefix . "wpgreet_cards where confirmcode='$confirmcode';";
 
 	$count = $wpdb->get_row($sql);
 	if ( $count->anz == 0)
-	    $sql = "insert into ". $wpdb->prefix . "wpgreet_cards values (0, '$sendername', '$sender', '$recvname', '$recv', '$cc2sender', '".$wpdb->Escape($title)."', '$picurl','". $wpdb->Escape($message)."', '$confirmuntil', '$confirmcode','$fetchuntil', '$fetchcode','','');";
+	    $sql = "insert into ". $wpdb->prefix . "wpgreet_cards values (0, '$sendername', '$sender', '$recvname', '$recv', '$cc2sender', '".$wpdb->Escape($title)."', '$picurl','". $wpdb->Escape($message)."', '$confirmuntil', '$confirmcode','$fetchuntil', '$fetchcode','','','$sendtime');";
 	else
 	    $sql = "update ". $wpdb->prefix . "wpgreet_cards set fetchuntil='$fetchuntil', fetchcode='$fetchcode' where confirmcode='$confirmcode';";
 	$wpdb->query($sql);
@@ -476,16 +482,68 @@ function build_stamp_url($pic)
     $picpath = ABSPATH . substr($pic, strpos($pic, $surl) + strlen($surl)+1);
     $stampimg = ABSPATH . $wpg_options['wp-greet-stampimage'];
     if (file_exists($stampimg))
-	$alttext = basename($pic);
+		$alttext = basename($pic);
     else
-	$alttext = __("Stampimage not found - Please contact your administrator","wp-greet");
+		$alttext = __("Stampimage not found - Please contact your administrator","wp-greet");
     
-    $link = '<img src="' . site_url("wp-content/plugins/wp-greet/").
-	"wpg-stamped.php?cci=$picpath&amp;sti=".
-	$stampimg . "&amp;stw=" . $wpg_options['wp-greet-stamppercent'].
-	'" alt="'.$alttext."\" width='".
-	($wpg_options['wp-greet-imagewidth']==""?"100%":$wpg_options['wp-greet-imagewidth'])."'/>";
+    $link = site_url("wp-content/plugins/wp-greet/"). "wpg-stamped.php?cci=$picpath&amp;sti=".
+		$stampimg . "&amp;stw=" . $wpg_options['wp-greet-stamppercent'];
     
     return $link;
 }
+
+//
+// generiert das img tag fgemäß der eingestellten parameter
+// wird verwendet für formular, voransicht und abruf
+// berücksichtigt briefmarken, ngg daten einstellungen
+//
+function get_imgtag($url) {
+	// od nothing without url
+	if ($url=="")
+		return "";
+		
+	// hole optionen
+  	$wpg_options = wpgreet_get_options();
+	$filename = basename($url);
+	$imgtag = "<div>";
+  	
+  	// kommt eine briefmarke auf das bild?
+  	$stampit = ( trim($wpg_options['wp-greet-stampimage']) != "" and 
+		       ( trim($wpg_options["wp-greet-imgattach"] ) != "" or
+			     trim($wpg_options["wp-greet-onlinecard"]) != "" ));
+			     
+	if ($stampit)
+	    $url =  build_stamp_url($url);
+			     
+	// breite ermitteln
+	$width = "100%";
+	if ($wpg_options['wp-greet-imagewidth']!="")
+		$width = $wpg_options['wp-greet-imagewidth'];
+		
+  	// nextgen gallery daten lesen			     
+  	global $nggdb;
+  	
+  	$ngg_desc="";
+  	$ngg_alttext="";
+  	if ( $wpg_options['wp-greet-show-ngg-desc'] and $nggdb) {
+		$nggimg = $nggdb->search_for_images(substr($url,strrpos($url,"/")+1));
+		$ngg_desc = trim($nggimg[0]->description);
+		$ngg_alttext = trim($nggimg[0]->alttext);
+	}
+	
+	
+	$imgtag .= '<center><img src="' . $url . '" alt="';
+   	$imgtag .= (strlen($ngg_alttext) > 0)?$ngg_alttext:$filename;
+   	$imgtag .= '" title="';
+   	$imgtag .= (strlen($ngg_alttext) > 0)?$ngg_alttext:$filename;
+   	$imgtag .= '" width="' . $width ."\"/></center>\n";
+
+   	if ($wpg_options['wp-greet-show-ngg-desc'] and strlen($ngg_desc) > 0)
+    		$imgtag .= "<center>" . $ngg_desc . "</center>";
+    
+    $imgtag .= "</div>";
+    		
+   	return $imgtag;	
+}
+
 ?>

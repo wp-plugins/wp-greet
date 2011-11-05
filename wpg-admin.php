@@ -60,7 +60,9 @@ function wpg_admin_form()
 			     "wp-greet-usesmtp",      "wp-greet-stampimage",
 			     "wp-greet-stamppercent", "wp-greet-onlinecard", 
 			     "wp-greet-ocduration",   "wp-greet-octext",
-			     "wp-greet-logdays",      "wp-greet-carddays");
+			     "wp-greet-logdays",      "wp-greet-carddays", 
+			     "wp-greet-show-ngg-desc","wp-greet-future-send",
+    			 "wp-greet-multi-recipients");
     
 
     while (list($key, $val) = each($wpg_options)) {
@@ -175,6 +177,11 @@ function wechsle_onlinecard () {
           <td><input name="wp-greet-bcc" type="text" size="30" maxlength="80" value="<?php echo $wpg_options['wp-greet-bcc'] ?>" /></td>   
           </tr>
 
+		   <tr valign="top">
+           <th scope="row">&nbsp;</th>
+           <td><input type="checkbox" name="wp-greet-multi-recipients" value="1" <?php if ($wpg_options['wp-greet-multi-recipients']=="1") echo "checked=\"checked\""?> /> <b><?php echo __('Allow more than one recipient',"wp-greet")?></b></td>
+	       </tr>
+
           <tr valign="top">
           <th scope="row">&nbsp;</th>
           <td>
@@ -221,8 +228,19 @@ function wechsle_onlinecard () {
 
            <tr valign="top">
            <th scope="row">&nbsp;</th>
+           <td><input type="checkbox" name="wp-greet-show-ngg-desc" value="1" <?php if ($wpg_options['wp-greet-show-ngg-desc']=="1") echo "checked=\"checked\""?> /> <b><?php echo __('Use NGG data for image',"wp-greet")?></b></td>
+	       </tr>
+	   
+           <tr valign="top">
+           <th scope="row">&nbsp;</th>
            <td><input type="checkbox" name="wp-greet-smilies" value="1" <?php if ($wpg_options['wp-greet-smilies']=="1") echo "checked=\"checked\""?> /> <b><?php echo __('Enable Smileys on greetcard form',"wp-greet")?></b></td>
-	   </tr>
+	       </tr>
+	   
+	       <tr valign="top">
+           <th scope="row">&nbsp;</th>
+           <td><input type="checkbox" name="wp-greet-future-send" value="1" <?php if ($wpg_options['wp-greet-future-send']=="1") echo "checked=\"checked\""?> /> <b><?php echo __('Allow sending cards in the future',"wp-greet")?></b></td>
+	       </tr>
+	   
 
          <tr valign="top">
          <th scope="row">&nbsp;</th>

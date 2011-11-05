@@ -3,8 +3,8 @@ Contributors: tuxlog, woodstock
 Donate link: http://www.tuxlog.de
 Tags: greetingcard, send, email, nextgengallery, plugin
 Requires at least: 2.5
-Tested up to: 3.0.2
-Stable tag: 2.3
+Tested up to: 3.2.1
+Stable tag: 2.5
 
 wp-greet is a wordpress plugin to send greeting cards from your wordpress blog. it uses nextGenGallery to maintain your greetingcard pictures.
 
@@ -25,6 +25,8 @@ Features:
    + supports individual terms of usage 
    + supports confirmation mail processing
    + supports fetching the card online or sent it by mail
+   + can send cards in the future
+
 
 
 == requirements ==
@@ -72,10 +74,10 @@ IMPORTANT:
 	which was necessary to integrate wp-greet with NextGenGallery 
 	prior to version 1.1
 
-== update to  v1.7 ==   
+== update to  v1.7 and higher ==   
 IMPORTANT:
    	Please be sure to deactivate and activate the plugin one time
-	beacause the database updates will only be executed during 
+	because the database updates will only be executed during 
 	plugin activation
 
 == usage from v1.1 on ==
@@ -90,13 +92,26 @@ http://www.tuxlog.de/wordpress/2008/wp-greet-documentation-english/
 
 == translations ==
 
-   wp-greet comes with english and german translations only, at the moment.
+   wp-greet comes with english and german translations.
    if you would like to add a new translation, just take the file
    wp-greet.pot (in the wp-greet main directory) copy it to
    <iso-code>.po and edit it to add your translations (e.g. with poedit).
 
+   Meanwhile a swedish, french, italians and vietnames translation was 
+   kindly build by other users. See Changelog for credits.
+
 
 == Changelog ==
+
+= v2.4 (2011-11-05) =
+* added partial vietnamese translation, thanks to Diana
+* fix allow gallery and form on onepage
+* added option to use/display the data from ngg in img tag
+* added option to allow sending to multiple recipients
+* added option to allow sending cards in the future (using jquery datepicker, thanks folks, great job)
+* added option to allow sending a confirmation to the sender when the card is fetched
+* fixed incompatibility with wordpress mu in register_activation and deactivation
+* add support for captcha >=V2.08
 
 = v2.3 (2010-12-01) =
 * added swedish translation (thanks to Helene)

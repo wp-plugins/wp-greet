@@ -71,7 +71,8 @@ function wp_greet_activate()
             fetchuntil timestamp NOT NULL,
             fetchcode VARCHAR(32) NOT NULL,
             card_sent timestamp NOT NULL,
-	    card_fetched timestamp NOT NULL,
+	        card_fetched timestamp NOT NULL,
+	        future_send timestamp NOT NULL
             PRIMARY KEY  mid (mid)
 	    );";
     
@@ -190,7 +191,19 @@ Mit freundlichen Grüßen
 wp-greet, das freundliche Wordpress Grußkartenplugin";
 	add_option("wp-greet-mctext",$wpg_options['wp-greet-mctext'],
 		   "html text for confirmation mail","yes");
-    };    
+    };  
+
+    if ($wpg_options['wp-greet-ectext'] == "") {
+	$wpg_options['wp-greet-ectext'] = "Hallo %sender% (%sendermail%),
+Ihre Grusskarte wurde unter dem %link% abgeholt. Vielen Dank, dass Sie den Grusskartendienst von wp-greet genutzt haben.
+
+Wenn Sie nicht wissen warum Sie diese E-Mail erhalten oder die Postkarte nicht absenden möchten, dann ignorieren Sie diese E-Mail oder kontaktieren den Administrator, indem Sie einfach auf diese E-Mail antworten.
+
+Mit freundlichen Grüßen
+wp-greet, das freundliche Wordpress Grußkartenplugin";
+	add_option("wp-greet-ectext",$wpg_options['wp-greet-ectext'],
+		   "html text for confirmation mail to sender","yes");
+    };  
     
     if ($wpg_options['wp-greet-onlinecard'] == "") {
 	$wpg_options['wp-greet-onlinecard'] = "0";

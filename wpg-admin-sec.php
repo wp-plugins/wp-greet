@@ -55,12 +55,14 @@ function wpg_admin_sec()
 	"1" .
 	($_POST["wp-greet-field-subject"]=="" ? "0" : "1") . 
 	($_POST["wp-greet-field-message"]=="" ? "0" : "1");
+	($_POST["wp-greet-enable-confirm"]=="" ? "0" : "1");
 
     reset($wpg_options);
     $thispageoptions = array("wp-greet-minseclevel", "wp-greet-captcha", 
 			     "wp-greet-mailconfirm", "wp-greet-mcduration",
 			     "wp-greet-mctext", "wp-greet-touswitch",
-			     "wp-greet-termsofusage","wp-greet-fields");
+			     "wp-greet-termsofusage","wp-greet-fields", 
+			     "wp-greet-enable-confirm", 'wp-greet-ectext');
     while (list($key, $val) = each($wpg_options)) {
 	if (in_array($key,$thispageoptions) and $wpg_options[$key] != $_POST[$key] ) {
 	$wpg_options[$key] = stripslashes($_POST[$key]);
@@ -82,7 +84,7 @@ function wpg_admin_sec()
       foreach($parr as $key => $plugin) {
 	//echo $plugin['Name']." ".ABSPATH.PLUGINDIR."/".$key."<br />";
 
-	if ($plugin['Name'] == "CaptCha!" and 
+	if (($plugin['Name'] == "CaptCha!" or $plugin['Name'] == "Captcha") and 
 	    file_exists(ABSPATH. PLUGINDIR . "/". $key) )
 	  $plugin_exists=true;
 
@@ -111,21 +113,28 @@ function wpg_admin_sec()
     swa=document.getElementById('wp-greet-touswitch');
     swb=document.getElementById('wp-greet-termsofusage');
     if (swa.checked == false) 
-	swb.readOnly = true;
+		swb.readOnly = true;
     else
-	swb.readOnly = false;
+		swb.readOnly = false;
 
     swa=document.getElementById('wp-greet-mailconfirm');
     swb=document.getElementById('wp-greet-mcduration');
     swc=document.getElementById('wp-greet-mctext');
+
     if (swa.checked == false) { 
         swb.readOnly = true;
-	swc.readOnly = true;
+ 	    swc.readOnly = true;
     } else {
-	swb.readOnly = false;
-	swc.readOnly = false;
-	
+	    swb.readOnly = false;
+	    swc.readOnly = false;
     }
+
+    swa=document.getElementById('wp-greet-enable-confirm');
+    swb=document.getElementById('wp-greet-ectext');
+    if (swa.checked == false) 
+	   swb.readOnly = true;
+    else
+	   swb.readOnly = false;
 } 
 </script>
 
@@ -192,9 +201,25 @@ function wpg_admin_sec()
           <tr valign="top">
           <th scope="row"><?php echo __('Link valid time (hours)',"wp-greet")?>:</th>
           <td><input id="wp-greet-mcduration" name="wp-greet-mcduration" type="text" size="5" maxlength="4" value="<?php echo $wpg_options['wp-greet-mcduration'] ?>" />
-	  <img align="bottom" src="<?php echo site_url(PLUGINDIR . "/wp-greet/tooltip_icon.png");?>" alt="tooltip" title='<?php _e("0 means confirmation-link will never expire","wp-greet");?>'/>
+	      <img align="bottom" src="<?php echo site_url(PLUGINDIR . "/wp-greet/tooltip_icon.png");?>" alt="tooltip" title='<?php _e("0 means confirmation-link will never expire","wp-greet");?>'/>
           </td>
           </tr>
+          
+         <tr valign="top">
+       	 <th scope="row"><?php echo __('Confirmation mail to sender','wp-greet').":";?></th>
+         <td><input type="checkbox" id="wp-greet-enable-confirm" name="wp-greet-enable-confirm" value="1" <?php if ($wpg_options['wp-greet-enable-confirm']=="1") echo 'checked="checked"'?> onclick="wechsle_felder();" />
+         </td>
+         </tr>
+ 
+ 		 <tr valign="top">
+	  	 <th scope="row">
+         <?php _e('Confirmation mail text',"wp-greet");?>:</th>
+          <td><textarea id='wp-greet-ectext' name='wp-greet-ectext' cols='50'rows='6'><?php echo $wpg_options['wp-greet-ectext']; ?></textarea>
+          <img src="<?php echo site_url(PLUGINDIR . "/wp-greet/tooltip_icon.png");?>" alt="tooltip" title='<?php _e("HTML allowed, use %sender% for sendername, %sendermail% for sender email-address, %receiver% for receiver name, %link% for generated link, %duration% for time the link is valid","wp-greet");?>'/>
+          </td>
+          </tr>
+ 
+          
 
          <tr valign="top">
        	 <th scope="row"><?php echo __('Mandatory fields','wp-greet').":";?></th>
