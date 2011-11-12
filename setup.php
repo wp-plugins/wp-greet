@@ -59,7 +59,7 @@ function wp_greet_activate()
     $sql = "CREATE TABLE " . $wpdb->prefix . 'wpgreet_cards' . " (
 	    mid BIGINT NOT NULL AUTO_INCREMENT ,
             fromname VARCHAR(80) NOT NULL,
-	    frommail VARCHAR(80) NOT NULL,
+	        frommail VARCHAR(80) NOT NULL,
             toname VARCHAR(80) NOT NULL,
             tomail VARCHAR(80) NOT NULL,
             cc2from smallint NOT NULL,
@@ -72,7 +72,7 @@ function wp_greet_activate()
             fetchcode VARCHAR(32) NOT NULL,
             card_sent timestamp NOT NULL,
 	        card_fetched timestamp NOT NULL,
-	        future_send timestamp NOT NULL
+	        future_send timestamp NOT NULL,
             PRIMARY KEY  mid (mid)
 	    );";
     

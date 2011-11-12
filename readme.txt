@@ -103,6 +103,9 @@ http://www.tuxlog.de/wordpress/2008/wp-greet-documentation-english/
 
 == Changelog ==
 
+= v2.5 (2011-11-12) =
+* fixed another conflict wit wordpress mu
+
 = v2.4 (2011-11-05) =
 * added partial vietnamese translation, thanks to Diana
 * fix allow gallery and form on onepage
