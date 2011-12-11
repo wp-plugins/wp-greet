@@ -41,6 +41,23 @@ function wp_greet_activate()
     update_option("wp-greet-version",$wpg_options['wp-greet-version'],
 		  "versionnumber of the installed wp-greet","yes");
     
+    // retrieve collation
+    //Use the character set and collation that's configured for WP tables
+	$charset_collate = '';
+	if ( !empty($wpdb->charset) ){
+		//Some German installs use "utf-8" (invalid) instead of "utf8" (valid). None of 
+		//the charset ids supported by MySQL contain dashes, so we can safely strip them.
+		//See http://dev.mysql.com/doc/refman/5.0/en/charset-charsets.html 
+		$charset = str_replace('-', '', $wpdb->charset);
+		
+		$charset_collate = "DEFAULT CHARACTER SET {$charset}";
+	}
+	if ( !empty($wpdb->collate) ){
+		$charset_collate .= " COLLATE {$wpdb->collate}";
+	}
+    
+    
+    
     // create table	
     $sql = "CREATE TABLE " . $wpdb->prefix . 'wpgreet_stats' . " (
 	    mid BIGINT NOT NULL AUTO_INCREMENT ,
@@ -51,7 +68,7 @@ function wp_greet_activate()
             mailbody MEDIUMTEXT NOT NULL,
             remote_ip VARCHAR(15) NOT NULL,
 	    PRIMARY KEY  mid (mid)
-	    );";
+	    ) $charset_collate ;";
     
     dbDelta($sql);
     
@@ -74,7 +91,7 @@ function wp_greet_activate()
 	        card_fetched timestamp NOT NULL,
 	        future_send timestamp NOT NULL,
             PRIMARY KEY  mid (mid)
-	    );";
+	    ) $charset_collate ;";
     
     dbDelta($sql);
     
@@ -95,6 +112,11 @@ function wp_greet_activate()
     if ($wpg_options['wp-greet-mailreturnpath'] == "") {
 	$wpg_options['wp-greet-mailreturnpath'] = "";
 	add_option("wp-greet-mailreturnpath",$wpg_options['wp-greet-mailreturnpath'],"the standard mail return path","yes");
+    }; 
+     
+    if ($wpg_options['wp-greet-staticsender'] == "") {
+	$wpg_options['wp-greet-staticsender'] = "";
+	add_option("wp-greet-staticsender",$wpg_options['wp-greet-staticsender'],"always use this as sedner address","yes");
     }; 
     
     if ($wpg_options['wp-greet-autofillform'] == "") {

@@ -30,7 +30,8 @@ function wpgreet_get_options() {
   // wp-greet-version - the version of wp-greet used
   // wp-greet-minseclevel - the minimal security level needed to send a card
   // wp-greet-captcha - use captcha to prevent spaming? true, false
-  // wp-greet-mailreturnpath - the email adresse uses as the default return path
+  // wp-greet-mailreturnpath - the email address uses as the default return path
+  // wp-greet-staticsender - the email address will always be used as sender
   // wp-greet-autofillform - if set to true, the fields are filled from the profile of the logged in user
   // wp-greet-bcc - send bcc to this adress
   // wp-greet-imgattach - dont send a link, send inline image (true,false)
@@ -59,6 +60,7 @@ function wpgreet_get_options() {
 		   "wp-greet-minseclevel" => "", 
 		   "wp-greet-captcha" => "", 
 		   "wp-greet-mailreturnpath" => "", 
+  		   "wp-greet-staticsender" => "",
 		   "wp-greet-autofillform" => "",
 		   "wp-greet-bcc" => "",
 		   "wp-greet-imgattach" => "",
@@ -361,6 +363,8 @@ function save_greetcard($sender, $sendername, $recv, $recvname,
 			$confirmuntil, $confirmcode,$fetchuntil,$fetchcode,$sendtime)
 {
     global $wpdb;
+   
+    //$wpdb->show_errors(true);
     // convert to mysql date
 	$sendtime = date('Y-m-d H:i:s', $sendtime);
     if ($fetchcode == "" or $confirmcode == "") {

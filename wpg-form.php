@@ -353,7 +353,7 @@ function showGreetcardForm($galleryID,$picurl,$verify = "") {
 	  		$sendtime = 0;
 	 
 	  save_greetcard( $_POST['sender'], $_POST['sendername'], $_POST['recv'], $_POST['recvname'],
-	  				  $_POST['title'], $_POST['message'], $picurl, $_POST['ccsender'], 
+	  				  $_POST['title'], $_POST['message'], $picurl, $_POST['ccsender'] * 1 + $_POST['wp-greet-enable-confirm'] * 2, 
 	  				  "",     					// confirm until stays blank
 	  				  $verify,                	// confirmcode if available
 	  				  $fetchuntil, $fetchcode,$sendtime);
@@ -414,13 +414,13 @@ function showGreetcardForm($galleryID,$picurl,$verify = "") {
 		// karte ablegen inkl. bestätigungscode
 		$confirmcode  = uniqid("wpgreet_",false);
 		$confirmuntil = gmdate("Y-m-d H:i:s",time() +
-		( get_option('gmt_offset') * 60 * 60 ) +
-		( $wpg_options['wp-greet-mcduration'] * 60 * 60 )  );
-		 if ($wpg_options['wp-greet-future-send'] and $_POST['fsend']!="") 
+			( get_option('gmt_offset') * 60 * 60 ) +
+			( $wpg_options['wp-greet-mcduration'] * 60 * 60 )  );
+		if ($wpg_options['wp-greet-future-send'] and $_POST['fsend']!="") 
 	  		$sendtime = strtotime($_POST['fsend']);
-	  else
+	  	else
 	  		$sendtime = 0;
-	  		
+		
 		save_greetcard(
 		$_POST['sender'],
 		$_POST['sendername'],
@@ -429,12 +429,12 @@ function showGreetcardForm($galleryID,$picurl,$verify = "") {
 		$_POST['title'],
 		$_POST['message'],
 		$picurl,
-		$_POST['ccsender'],
+		$_POST['ccsender'] * 1 + $_POST['wp-greet-enable-confirm'] * 2,
 		$confirmuntil,
 		$confirmcode,
 	  "",                  // fetchuntil stays blank until confirmation
 	  "", $sendtime);                 // fetchcode stays blank until confirmation
-
+	
 		// bestätigungsmail senden
 		$sendstatus = sendConfirmationMail(
 		$_POST['sender'],
@@ -694,8 +694,8 @@ function showGreetcard($display)
 		mark_fetchcard($display);
 		// und log eintrag vornehmen
 		log_greetcard('',get_option("blogname"), '', "Card fetched: ".$display);
-		// und falls gewünscht bestätigung an sender schicken
-		if ($res->cc2from < 1) {
+		// und falls gewünscht und noch nicht erfolgt bestätigung an sender schicken
+		if ($res->cc2from & 2 and $res->card_fetched == '0000-00-00 00:00:00') {
 			sendGreetcardConfirmation($res->frommail,$res->fromname,$res->frommail,$res->fromname,$wpg_options['wp-greet-ocduration'], $display);
 			log_greetcard('',get_option("blogname"),'',"Confirmation mail sent to sender for card:" . $display);
 		}

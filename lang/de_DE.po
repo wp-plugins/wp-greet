@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wp-greet\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-05 18:05+0100\n"
-"PO-Revision-Date: 2011-11-05 18:05+0100\n"
+"POT-Creation-Date: 2011-11-13 14:04+0100\n"
+"PO-Revision-Date: 2011-12-05 06:44+0100\n"
 "Last-Translator: tuxlog <webmaster@tuxlog.de>\n"
 "Language-Team: Barbara Jany, Hans Matzen <barbara.jany@gmail.com>\n"
 "Language: \n"
@@ -37,7 +37,7 @@ msgstr "Kein Galerie - Plugin ausgewählt."
 
 #: wpg-admin-gal.php:67
 #: wpg-admin-sec.php:103
-#: wpg-admin.php:101
+#: wpg-admin.php:106
 msgid "Settings successfully updated"
 msgstr "Einstellungen erfolgreich ge&auml;ndert"
 
@@ -113,7 +113,7 @@ msgid "Captcha plugin not found."
 msgstr "Das Captcha-Plugin wurde nicht gefunden."
 
 #: wpg-admin-sec.php:105
-#: wpg-admin.php:103
+#: wpg-admin.php:108
 msgid "You have to change a field to update settings."
 msgstr "Du musst mindestens ein Feld &auml;ndern, um ein Update der Einstellungen durchzuf&uuml;hren."
 
@@ -146,8 +146,8 @@ msgid "Terms of usage"
 msgstr "Nutzungsbedingungen"
 
 #: wpg-admin-sec.php:185
-#: wpg-admin.php:264
-#: wpg-admin.php:271
+#: wpg-admin.php:274
+#: wpg-admin.php:281
 msgid "HTML is allowed"
 msgstr "HTML erlaubt"
 
@@ -161,7 +161,7 @@ msgstr "Bestätigungsmailtext"
 
 #: wpg-admin-sec.php:197
 #: wpg-admin-sec.php:218
-#: wpg-admin.php:207
+#: wpg-admin.php:217
 msgid "HTML allowed, use %sender% for sendername, %sendermail% for sender email-address, %receiver% for receiver name, %link% for generated link, %duration% for time the link is valid"
 msgstr "HTML erlaubt, verwende %sender% für den Namen des Absenders, %sendermail% für die eMail-Adresse des Absenders, %receiver% Name des Empfängers, %link% für den generierten Link, %duration% für die Gültigkeitsdauer des Links"
 
@@ -218,7 +218,7 @@ msgid "Subject"
 msgstr "Betreff"
 
 #: wpg-admin-sec.php:244
-#: wpg-admin.php:287
+#: wpg-admin.php:297
 msgid "Update options"
 msgstr "Optionen aktualisieren"
 
@@ -227,115 +227,123 @@ msgid "mailreturnpath is not valid (wrong format or no MX entry for domain)."
 msgstr "Mailreturn-Pfad ist ung&uuml;ltig (falsches Format oder kein MX-Eintrag f&uuml;r die Domain)."
 
 #: wpg-admin.php:85
+msgid "static sender address is not valid (wrong format or no MX entry for domain)."
+msgstr "Die Statische Absenderadresse ist ung&uuml;ltig (falsches Format oder kein MX-Eintrag f&uuml;r die Domain)."
+
+#: wpg-admin.php:90
 msgid "bcc email adress is not valid (wrong format or no MX entry for domain)."
 msgstr "Bcc-Adresse ist ung&uuml;ltig (falsches Format oder kein MX-Eintrag f&uuml;r die Domain)."
 
-#: wpg-admin.php:90
+#: wpg-admin.php:95
 msgid "imagewidth not in range (0..3200)."
 msgstr "Die Bildbreite ist nicht im zul&auml;ssigen Bereich (0..3200)."
 
-#: wpg-admin.php:95
+#: wpg-admin.php:100
 msgid "Cards will be removed before fetch interval expires (Number of days an online card can be fetched > Number of days card entries are stored)"
 msgstr "Die Karten werden gelöscht bevor die Abholfrist endet (Anzahl Tage für Kartenaholung > Anzahl Tage zum Speichern der Karteneinträge)"
 
-#: wpg-admin.php:139
+#: wpg-admin.php:144
 msgid "wp-greet Setup"
 msgstr "wp-greet Setup"
 
-#: wpg-admin.php:143
+#: wpg-admin.php:148
 msgid "Gallery-Plugin"
 msgstr "Galerie-Plugin"
 
-#: wpg-admin.php:152
+#: wpg-admin.php:157
 msgid "Form-Post/Page"
 msgstr "Formular Seite"
 
-#: wpg-admin.php:165
+#: wpg-admin.php:170
 msgid "Mailtransfermethod"
 msgstr "Mailübertragungsmethode"
 
-#: wpg-admin.php:171
+#: wpg-admin.php:176
+msgid "Static Senderaddress"
+msgstr "Statische Absenderadresse"
+
+#: wpg-admin.php:181
 msgid "Mailreturnpath"
 msgstr "Mailreturn-Pfad"
 
-#: wpg-admin.php:176
+#: wpg-admin.php:186
 msgid "Send Bcc to"
 msgstr "Bcc-Kopie senden an"
 
-#: wpg-admin.php:182
+#: wpg-admin.php:192
 msgid "Allow more than one recipient"
 msgstr "Mehrere Empfänger erlauben"
 
-#: wpg-admin.php:188
+#: wpg-admin.php:198
 msgid "Send image inline"
 msgstr "Bild inline senden"
 
-#: wpg-admin.php:194
+#: wpg-admin.php:204
 msgid "Fetch cards online"
 msgstr "Karten online abholen"
 
-#: wpg-admin.php:198
+#: wpg-admin.php:208
 msgid "Number of days an online card can be fetched"
 msgstr "Anzahl Tage für Kartenabholung"
 
-#: wpg-admin.php:203
+#: wpg-admin.php:213
 msgid "Online card HTML mail text"
 msgstr "Online-Karte HTML Mailtext"
 
-#: wpg-admin.php:212
+#: wpg-admin.php:222
 msgid "Fixed image width"
 msgstr "Feste Bildbreite"
 
-#: wpg-admin.php:218
+#: wpg-admin.php:228
 msgid "Add stamp image"
 msgstr "Briefmarkenbild"
 
-#: wpg-admin.php:220
+#: wpg-admin.php:230
 msgid "leave empty for no stamp, path must be relative to wordpress directory, e.g. wp-content/plugins/wp-greet/defaultstamp.jpg"
 msgstr "leer lassen für keine Briefmarke, der Pfad muss relativ zum Wordpressverzeichnis eingegeben werden, bspw. wp-content/plugins/wp-greet/defaultstamp.jpg"
 
-#: wpg-admin.php:225
+#: wpg-admin.php:235
 #, php-format
 msgid "Stampwidth in % of imagewidth"
 msgstr "Briefmarkenbreite in % der Bildbreite"
 
-#: wpg-admin.php:231
+#: wpg-admin.php:241
 msgid "Use NGG data for image"
 msgstr "Verwende NGG Bildinformationen"
 
-#: wpg-admin.php:236
+#: wpg-admin.php:246
 msgid "Enable Smileys on greetcard form"
 msgstr "Aktiviere Smileys für Grußkarten"
 
-#: wpg-admin.php:241
+#: wpg-admin.php:251
 msgid "Allow sending cards in the future"
 msgstr "Erlaube zeitversetztes Senden"
 
-#: wpg-admin.php:247
+#: wpg-admin.php:257
 msgid "Use informations from profile"
 msgstr "Profil-Informationen verwenden"
 
-#: wpg-admin.php:252
+#: wpg-admin.php:262
 msgid "enable logging"
 msgstr "Logging aktivieren (Statistik)"
 
-#: wpg-admin.php:257
+#: wpg-admin.php:267
 msgid "Default mail subject"
 msgstr "Standard Betreff"
 
-#: wpg-admin.php:262
+#: wpg-admin.php:272
 msgid "Default mail header"
 msgstr "Standard Mail-Header"
 
-#: wpg-admin.php:269
+#: wpg-admin.php:279
 msgid "Default mail footer"
 msgstr "Standard Mail-Footer"
 
-#: wpg-admin.php:276
+#: wpg-admin.php:286
 msgid "Number of days log entries are stored"
 msgstr "Anzahl Tage zum Speichern der Log-Einträge"
 
-#: wpg-admin.php:281
+#: wpg-admin.php:291
 msgid "Number of days card entries are stored"
 msgstr "Anzahl Tage zum Speichern der Karteneinträge"
 
@@ -352,7 +360,7 @@ msgstr "Bitte versende eine neue Karte unter"
 
 #: wpg-form.php:108
 msgid "Your greeting card has already been sent."
-msgstr "Die Gru&szlig;karte wurde bereits verschickt."
+msgstr "Die Grusskarte wurde bereits verschickt."
 
 #: wpg-form.php:116
 msgid "Your confirmation link is timedout."
@@ -524,9 +532,9 @@ msgstr "Grusskarten Bestätigungsmail"
 
 #: wpg-func-mail.php:501
 msgid "You greeting card was received"
-msgstr "Deine Gru&szlig;karte wurde abgeholt."
+msgstr "Deine Grusskarte wurde abgeholt."
 
-#: wpg-func.php:487
+#: wpg-func.php:489
 msgid "Stampimage not found - Please contact your administrator"
 msgstr "Briefmarkenbild nicht gefunden - Bitte kontaktiere den Administrator."
 

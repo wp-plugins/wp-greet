@@ -1,7 +1,7 @@
 <?php
 /* This file is part of the wp-greet plugin for wordpress */
 
-/*  Copyright 2008,2009 Hans Matzen  (email : webmaster at tuxlog dot de)
+/*  Copyright 2008-2011 Hans Matzen  (email : webmaster at tuxlog dot de)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -112,11 +112,13 @@ function wpg_admin_sec()
  function wechsle_felder () {
     swa=document.getElementById('wp-greet-touswitch');
     swb=document.getElementById('wp-greet-termsofusage');
-    if (swa.checked == false) 
+    if (swa.checked == false) { 
 		swb.readOnly = true;
-    else
+		swb.style.backgroundColor = "#EEEEEE"; 
+ 	} else {
 		swb.readOnly = false;
-
+        swb.style.backgroundColor = "#FFFFFF";
+    }
     swa=document.getElementById('wp-greet-mailconfirm');
     swb=document.getElementById('wp-greet-mcduration');
     swc=document.getElementById('wp-greet-mctext');
@@ -124,17 +126,22 @@ function wpg_admin_sec()
     if (swa.checked == false) { 
         swb.readOnly = true;
  	    swc.readOnly = true;
+ 	    swc.style.backgroundColor = "#EEEEEE"; 
     } else {
 	    swb.readOnly = false;
 	    swc.readOnly = false;
+	    swc.style.backgroundColor = "#FFFFFF";
     }
 
     swa=document.getElementById('wp-greet-enable-confirm');
     swb=document.getElementById('wp-greet-ectext');
-    if (swa.checked == false) 
+    if (swa.checked == false) {
 	   swb.readOnly = true;
-    else
-	   swb.readOnly = false;
+	   swb.style.backgroundColor = "#EEEEEE"; 
+    } else {
+	   swb.readOnly = false;  
+	   swb.style.backgroundColor = "#FFFFFF";
+    }
 } 
 </script>
 

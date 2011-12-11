@@ -1,7 +1,7 @@
 <?php
 /* This file is part of the wp-greet plugin for wordpress */
 
-/*  Copyright 2009  Hans Matzen  (email : webmaster at tuxlog dot de)
+/*  Copyright 2009,2010,2011  Hans Matzen  (email : webmaster at tuxlog dot de)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -23,9 +23,7 @@ if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) { die('You 
 // include common functions
  require_once("wpg-func.php");
 
- 
-
- 
+  
 //
 // this function sends the greeting card mail
 //
@@ -114,20 +112,26 @@ function sendGreetcardMail($sender,$sendername,$recv,$recvname,$title,
     $mail = new PHPMailer();
     $mail->SMTPDebug=$debug;          // for debugging
     if ($usesmtp) {
-	$mail->IsSMTP();                // set mailer to use SMTP
-	$mail->Host = $wpg_smtpserver;  
-	if ( $wpg_smtpuser != "" and $wpg_smtppass !="") {
-	    $mail->SMTPAuth = true;           // turn on SMTP authentication
-	    $mail->Username = $wpg_smtpuser;  // SMTP username
-	    $mail->Password = $wpg_smtppass;  // SMTP password
-	}
+		$mail->IsSMTP();                // set mailer to use SMTP
+		$mail->Host = $wpg_smtpserver;  
+		if ( $wpg_smtpuser != "" and $wpg_smtppass !="") {
+	    	$mail->SMTPAuth = true;           // turn on SMTP authentication
+	    	$mail->Username = $wpg_smtpuser;  // SMTP username
+	    	$mail->Password = $wpg_smtppass;  // SMTP password
+		}
     } else { 
-	$mail->IsMail();                    // set mailer to mail
-	$mail->Sender = addslashes($sender); 
+		$mail->IsMail();                    // set mailer to mail
     }
+
     $mail->CharSet = 'utf-8';         // set mail encoding
     
-    $mail->From = addslashes($sender);
+    if ( $wpg_options['wp-greet-staticsender'] !="" ) {
+    	$mail->Sender = addslashes($wpg_options['wp-greet-staticsender']);
+    } else {
+    	$mail->Sender = addslashes($sender); 
+	}
+	
+   	$mail->From = addslashes($sender) ;	
     $mail->FromName = addslashes($sendername) ;
     // add recipients
     $ems = explode(",",$recv);
@@ -143,7 +147,7 @@ function sendGreetcardMail($sender,$sendername,$recv,$recvname,$title,
 	$mail->AddBCC($wpg_options['wp-greet-bcc']);
     
     // add cc if option is set
-    if ( $ccsender == '1' ) 
+    if ( $ccsender & 1 ) 
 	$mail->AddCC($sender);
     
     $mail->WordWrap = 50;           // set word wrap to 50 characters
@@ -434,7 +438,7 @@ function sendGreetcardLink($sender,$sendername,$recv, $recvname,$duration, $fetc
     	$mail->AddAddress( trim($i), $recvname);
     
     // add cc if option is set
-    if ( $ccsender == '1' ) 
+    if ( $ccsender & 1 ) 
 	$mail->AddCC($sender);
 
     if ( $wpg_options['wp-greet-mailreturnpath'] !="" )
@@ -557,7 +561,7 @@ function sendGreetcardConfirmation($sender,$sendername,$recv, $recvname,$duratio
     	$mail->AddAddress( trim($i), $recvname);
     
     // add cc if option is set
-    if ( $ccsender == '1' ) 
+    if ( $ccsender & 1 ) 
 	$mail->AddCC($sender);
 
     if ( $wpg_options['wp-greet-mailreturnpath'] !="" )

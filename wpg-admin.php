@@ -62,7 +62,7 @@ function wpg_admin_form()
 			     "wp-greet-ocduration",   "wp-greet-octext",
 			     "wp-greet-logdays",      "wp-greet-carddays", 
 			     "wp-greet-show-ngg-desc","wp-greet-future-send",
-    			 "wp-greet-multi-recipients");
+    			 "wp-greet-multi-recipients", "wp-greet-staticsender");
     
 
     while (list($key, $val) = each($wpg_options)) {
@@ -81,6 +81,11 @@ function wpg_admin_form()
       $upflag=false;
     }
 
+    if ( ! check_email($wpg_options['wp-greet-staticsender']) and $wpg_options['wp-greet-staticsender']!="") {
+      echo __('static sender address is not valid (wrong format or no MX entry for domain).',"wp-greet"). "<br />";
+      $upflag=false;
+    }
+    
     if ( ! check_email($wpg_options['wp-greet-bcc']) and $wpg_options['wp-greet-bcc']!="") {
       echo __('bcc email adress is not valid (wrong format or no MX entry for domain).',"wp-greet"). "<br />";
       $upflag=false;
@@ -167,6 +172,11 @@ function wechsle_onlinecard () {
               <input type="radio" name="wp-greet-usesmtp" id="wp-greet-usesmtp1" value="1" <?php if ($wpg_options['wp-greet-usesmtp']=="1") echo "checked=\"checked\" "; ?> onclick="wechsle_inline();"  />SMTP (class-phpmailer.php)
 	      <input type="radio" name="wp-greet-usesmtp" id="wp-greet-usesmtp2" value="0" <?php if ($wpg_options['wp-greet-usesmtp']=="0") echo "checked=\"checked\" "; ?> onclick="wechsle_inline();" /> PHP mail() function  </td></tr>
 
+ 		  <tr valign="top">
+          <th scope="row"><?php echo __('Static Senderaddress',"wp-greet")?>:</th>
+          <td><input name="wp-greet-staticsender" type="text" size="30" maxlength="80" value="<?php echo $wpg_options['wp-greet-staticsender'] ?>" /></td>
+          </tr>
+          
           <tr valign="top">
           <th scope="row"><?php echo __('Mailreturnpath',"wp-greet")?>:</th>
           <td><input name="wp-greet-mailreturnpath" type="text" size="30" maxlength="80" value="<?php echo $wpg_options['wp-greet-mailreturnpath'] ?>" /></td>
