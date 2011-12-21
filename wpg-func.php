@@ -1,7 +1,7 @@
 <?php
 /* This file is part of the wp-greet plugin for wordpress */
 
-/*  Copyright 2008, 2009  Hans Matzen  (email : webmaster at tuxlog dot de)
+/*  Copyright 2008-2011  Hans Matzen  (email : webmaster at tuxlog dot de)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -536,14 +536,14 @@ function get_imgtag($url) {
 	}
 	
 	
-	$imgtag .= '<center><img src="' . $url . '" alt="';
+	$imgtag .= '<div style="text-align:center;"><img src="' . $url . '" alt="';
    	$imgtag .= (strlen($ngg_alttext) > 0)?$ngg_alttext:$filename;
    	$imgtag .= '" title="';
    	$imgtag .= (strlen($ngg_alttext) > 0)?$ngg_alttext:$filename;
-   	$imgtag .= '" width="' . $width ."\"/></center>\n";
+   	$imgtag .= '" width="' . $width ."\"/></div>\n";
 
    	if ($wpg_options['wp-greet-show-ngg-desc'] and strlen($ngg_desc) > 0)
-    		$imgtag .= "<center>" . $ngg_desc . "</center>";
+    		$imgtag .= "<div style='text-align: center'>" . $ngg_desc . "</div>";
     
     $imgtag .= "</div>";
     		

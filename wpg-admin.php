@@ -1,7 +1,7 @@
 <?php
 /* This file is part of the wp-greet plugin for wordpress */
 
-/*  Copyright 2008,2009 Hans Matzen  (email : webmaster at tuxlog dot de)
+/*  Copyright 2008-2011 Hans Matzen  (email : webmaster at tuxlog dot de)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -142,9 +142,9 @@ function wechsle_onlinecard () {
 </script>
 <div class="wrap">
    <h2><?php echo __("wp-greet Setup","wp-greet") ?></h2>
-   <form name="wpgreetadmin" method="post" action=''>
+   <form name="wpgreetadmin" method="post" action='#'>
    <table class="optiontable">
-          <tr valign="top">
+          <tr class="tr-admin">
           <th scope="row"><?php echo __('Gallery-Plugin',"wp-greet")?>:</th>
           <td><select name="wp-greet-gallery" size="1" >
           <option value="-" <?php if ($wpg_options['wp-greet-gallery']=="-") echo "selected='selected'";?>>none</option>
@@ -153,7 +153,7 @@ function wechsle_onlinecard () {
           </td>
           </tr>
 
-          <tr valign="top">
+          <tr class="tr-admin">
           <th scope="row"><?php echo __('Form-Post/Page',"wp-greet")?>:</th>
           <td><select name="wp-greet-formpage" size="1">
 <?php 
@@ -172,44 +172,44 @@ function wechsle_onlinecard () {
               <input type="radio" name="wp-greet-usesmtp" id="wp-greet-usesmtp1" value="1" <?php if ($wpg_options['wp-greet-usesmtp']=="1") echo "checked=\"checked\" "; ?> onclick="wechsle_inline();"  />SMTP (class-phpmailer.php)
 	      <input type="radio" name="wp-greet-usesmtp" id="wp-greet-usesmtp2" value="0" <?php if ($wpg_options['wp-greet-usesmtp']=="0") echo "checked=\"checked\" "; ?> onclick="wechsle_inline();" /> PHP mail() function  </td></tr>
 
- 		  <tr valign="top">
+ 		  <tr class="tr-admin">
           <th scope="row"><?php echo __('Static Senderaddress',"wp-greet")?>:</th>
           <td><input name="wp-greet-staticsender" type="text" size="30" maxlength="80" value="<?php echo $wpg_options['wp-greet-staticsender'] ?>" /></td>
           </tr>
           
-          <tr valign="top">
+          <tr class="tr-admin">
           <th scope="row"><?php echo __('Mailreturnpath',"wp-greet")?>:</th>
           <td><input name="wp-greet-mailreturnpath" type="text" size="30" maxlength="80" value="<?php echo $wpg_options['wp-greet-mailreturnpath'] ?>" /></td>
           </tr>
     
-          <tr valign="top">
+          <tr class="tr-admin">
           <th scope="row"><?php echo __('Send Bcc to',"wp-greet")?>:</th>
           <td><input name="wp-greet-bcc" type="text" size="30" maxlength="80" value="<?php echo $wpg_options['wp-greet-bcc'] ?>" /></td>   
           </tr>
 
-		   <tr valign="top">
+		   <tr class="tr-admin">
            <th scope="row">&nbsp;</th>
            <td><input type="checkbox" name="wp-greet-multi-recipients" value="1" <?php if ($wpg_options['wp-greet-multi-recipients']=="1") echo "checked=\"checked\""?> /> <b><?php echo __('Allow more than one recipient',"wp-greet")?></b></td>
 	       </tr>
 
-          <tr valign="top">
+          <tr class="tr-admin">
           <th scope="row">&nbsp;</th>
           <td>
           <input type="checkbox" name="wp-greet-imgattach" id="wp-greet-imgattach" value="1" <?php if ($wpg_options['wp-greet-imgattach']=="1") echo "checked=\"checked\" "; ?>  onclick="wechsle_stamp();" /> <b><?php echo __('Send image inline',"wp-greet")?></b></td>
 	  </tr>
 
-          <tr valign="top">
+          <tr class="tr-admin">
           <th scope="row">&nbsp;</th>
           <td>
           <input type="checkbox" name="wp-greet-onlinecard" id="wp-greet-onlinecard" value="1" <?php if ($wpg_options['wp-greet-onlinecard']=="1") echo "checked=\"checked\" "; ?>  onclick="wechsle_onlinecard();"  /> <b><?php echo __('Fetch cards online',"wp-greet")?></b></td>
 	  </tr>
 
-          <tr valign="top">
+          <tr class="tr-admin">
           <th scope="row"><?php echo __('Number of days an online card can be fetched',"wp-greet")?>:</th>
           <td><input id="wp-greet-ocduration" name="wp-greet-ocduration" type="text" size="10" maxlength="5" value="<?php echo $wpg_options['wp-greet-ocduration'] ?>" /></td>
           </tr>
 
-          <tr valign="top">
+          <tr class="tr-admin">
           <th scope="row"><?php echo __('Online card HTML mail text','wp-greet'); ?>:
           <br />
           </th>
@@ -218,76 +218,76 @@ function wechsle_onlinecard () {
           </td>
           </tr>
 
-          <tr valign="top">
+          <tr class="tr-admin">
           <th scope="row"><?php echo __('Fixed image width',"wp-greet")?>:</th>
           <td><input name="wp-greet-imagewidth" type="text" size="10" maxlength="5" value="<?php echo $wpg_options['wp-greet-imagewidth'] ?>" /></td>
           </tr>
 
 
-          <tr valign="top">
+          <tr class="tr-admin">
           <th scope="row"><?php echo __('Add stamp image',"wp-greet")?>:</th>
           <td><input name="wp-greet-stampimage" id="wp-greet-stampimage" type="text" size="40" maxlength="60" value="<?php echo $wpg_options['wp-greet-stampimage'] ?>" />
-          <img align="bottom" src="<?php echo site_url(PLUGINDIR . "/wp-greet/tooltip_icon.png");?>" alt="tooltip" title='<?php _e("leave empty for no stamp, path must be relative to wordpress directory, e.g. wp-content/plugins/wp-greet/defaultstamp.jpg","wp-greet");?>'/>
+          <img src="<?php echo site_url(PLUGINDIR . "/wp-greet/tooltip_icon.png");?>" alt="tooltip" title='<?php _e("leave empty for no stamp, path must be relative to wordpress directory, e.g. wp-content/plugins/wp-greet/defaultstamp.jpg","wp-greet");?>'/>
           </td>
           </tr>
 
-          <tr valign="top">
+          <tr class="tr-admin">
           <th scope="row"><?php echo __('Stampwidth in % of imagewidth',"wp-greet")?>:</th>
           <td><input name="wp-greet-stamppercent" id="wp-greet-stamppercent" type="text" size="5" maxlength="3" value="<?php echo $wpg_options['wp-greet-stamppercent'] ?>" /></td>
           </tr>
 
-           <tr valign="top">
+           <tr class="tr-admin">
            <th scope="row">&nbsp;</th>
            <td><input type="checkbox" name="wp-greet-show-ngg-desc" value="1" <?php if ($wpg_options['wp-greet-show-ngg-desc']=="1") echo "checked=\"checked\""?> /> <b><?php echo __('Use NGG data for image',"wp-greet")?></b></td>
 	       </tr>
 	   
-           <tr valign="top">
+           <tr class="tr-admin">
            <th scope="row">&nbsp;</th>
            <td><input type="checkbox" name="wp-greet-smilies" value="1" <?php if ($wpg_options['wp-greet-smilies']=="1") echo "checked=\"checked\""?> /> <b><?php echo __('Enable Smileys on greetcard form',"wp-greet")?></b></td>
 	       </tr>
 	   
-	       <tr valign="top">
+	       <tr class="tr-admin">
            <th scope="row">&nbsp;</th>
            <td><input type="checkbox" name="wp-greet-future-send" value="1" <?php if ($wpg_options['wp-greet-future-send']=="1") echo "checked=\"checked\""?> /> <b><?php echo __('Allow sending cards in the future',"wp-greet")?></b></td>
 	       </tr>
 	   
 
-         <tr valign="top">
+         <tr class="tr-admin">
          <th scope="row">&nbsp;</th>
          <td><input type="checkbox" name="wp-greet-autofillform" value="1" <?php if ($wpg_options['wp-greet-autofillform']=="1") echo "checked=\"checked\""?> /> <b><?php echo __('Use informations from profile',"wp-greet")?></b></td>
          </tr>
 
-         <tr valign="top"> 
+         <tr class="tr-admin"> 
          <th scope="row">&nbsp;</th>
          <td><input type="checkbox" name="wp-greet-logging" value="1" <?php if ($wpg_options['wp-greet-logging']=="1") echo "checked=\"checked\""?> /> <b><?php echo __('enable logging',"wp-greet")?></b></td>
          </tr>
 
 
-          <tr valign="top">
+          <tr class="tr-admin">
           <th scope="row"><?php echo __('Default mail subject',"wp-greet")?>:</th>
           <td><input name="wp-greet-default-title" type="text" size="30" maxlength="80" value="<?php echo $wpg_options['wp-greet-default-title'] ?>" /></td>   
           </tr>
 
-	  <tr valign="top">
+	  <tr class="tr-admin">
           <th scope="row"><?php echo __('Default mail header','wp-greet'); ?>:</th>
           <td><textarea name='wp-greet-default-header' cols='50'rows='4'><?php echo $wpg_options['wp-greet-default-header']; ?></textarea>
           <img src="<?php echo site_url(PLUGINDIR . "/wp-greet/tooltip_icon.png");?>" alt="tooltip" title='<?php _e("HTML is allowed","wp-greet");?>'/>
           </td>
           </tr>
 
-	  <tr valign="top">
+	  <tr class="tr-admin">
           <th scope="row"><?php echo __('Default mail footer','wp-greet'); ?>:</th>
           <td><textarea name='wp-greet-default-footer' cols='50'rows='4'><?php echo $wpg_options['wp-greet-default-footer']; ?></textarea>
            <img src="<?php echo site_url(PLUGINDIR . "/wp-greet/tooltip_icon.png");?>" alt="tooltip" title='<?php _e("HTML is allowed","wp-greet");?>'/>
            </td>
            </tr>
   
-          <tr valign="top">
+          <tr class="tr-admin">
           <th scope="row"><?php echo __('Number of days log entries are stored',"wp-greet")?>:</th>
           <td><input id="wp-greet-logdays" name="wp-greet-logdays" type="text" size="10" maxlength="5" value="<?php echo $wpg_options['wp-greet-logdays'] ?>" /></td>
           </tr>
 
-          <tr valign="top">
+          <tr class="tr-admin">
           <th scope="row"><?php echo __('Number of days card entries are stored',"wp-greet")?>:</th>
           <td><input id="wp-greet-carddays" name="wp-greet-carddays" type="text" size="10" maxlength="5" value="<?php echo $wpg_options['wp-greet-carddays'] ?>" /></td>
           </tr>

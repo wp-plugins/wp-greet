@@ -318,7 +318,7 @@ function showGreetcardForm($galleryID,$picurl,$verify = "") {
 			$out .= "<p><strong>" . __("This card will be sent at","wp-greet") . " " . $_POST ['fsend'] . ".</strong></p>";
 
 		// steuerungs informationen
-		$out .= "<form method='post' action=''>";
+		$out .= "<form method='post' action='#'>";
 		$out .= "<input name='sender' type='hidden' value='" . $_POST['sender']  . "' />\n";
 		$out .= "<input name='sendername' type='hidden' value='" . $_POST['sendername']  . "' />\n";
 		$out .= "<input name='ccsender' type='hidden' value='" . $_POST['ccsender']  . "' />\n";
@@ -538,7 +538,7 @@ function showGreetcardForm($galleryID,$picurl,$verify = "") {
 			$out = "&nbsp;</p><div class='wp-greet-form'>\n";
 
 			$out .= get_imgtag($picurl);
-			$out .= "<br /><form method='post' action=''>\n";
+			$out .= "<br /><form method='post' action='#'>\n";
 			$out .= '<table class="wp-greet-form"><tr class="wp-greet-form">';
 			$out .= '<td class="wp-greet-form-left" colspan="2">' . __("Mandatory inputfields are marked with a","wp-greet")."<strong>*</strong><br/>&nbsp;</td></tr>";
 			$out.='<tr class="wp-greet-form"><td class="wp-greet-form-left">'.__("Sendername","wp-greet").(substr($wpg_options['wp-greet-fields'],0,1)=="1" ? "<sup>*</sup>":"").':</td><td class="wp-greet-form"><input name="sendername" type="text" size="30" maxlength="60" value="' . ( isset($_POST['sendername']) ? $_POST['sendername'] : '')  . '"/></td></tr>'."\n";
@@ -610,7 +610,7 @@ function showGreetcardForm($galleryID,$picurl,$verify = "") {
 			}
 
 			// submit buttons
-			$out .= "<tr class=\"wp-greet-form\"><td colspan='2' class=\"wp-greet-form\"><div align='center'>&nbsp;<input name='action' type='submit' value='".__("Preview","wp-greet")."' />&nbsp;<input name='action' type='submit'  value='".__("Send","wp-greet")."' />&nbsp;<input type='reset' value='".__("Reset form","wp-greet")."'/>&nbsp;<a href=\"javascript:history.back()\">".__("Back","wp-greet")."</a></div></td></tr></table></form></div>\n<p>&nbsp;";
+			$out .= "<tr class=\"wp-greet-form\"><td colspan='2' class=\"wp-greet-form\"><div style='text-align: center;'>&nbsp;<input name='action' type='submit' value='".__("Preview","wp-greet")."' />&nbsp;<input name='action' type='submit'  value='".__("Send","wp-greet")."' />&nbsp;<input type='reset' value='".__("Reset form","wp-greet")."'/>&nbsp;<a href=\"javascript:history.back()\">".__("Back","wp-greet")."</a></div></td></tr></table></form></div>\n<p>&nbsp;";
 			 
 
 	}

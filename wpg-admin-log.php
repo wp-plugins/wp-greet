@@ -1,7 +1,7 @@
 <?php
 /* This file is part of the wp-greet plugin for wordpress */
 
-/*  Copyright 2008  Hans Matzen  (email : webmaster at tuxlog.de)
+/*  Copyright 2008-2011  Hans Matzen  (email : webmaster at tuxlog.de)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -93,7 +93,7 @@ function wpg_admin_log()
  
  // output naviagtion
   $out .= "<div style=\"font-size:11px\">";
-  $out .= "<form name='linesperpage' id='linesperpage' method='post' action=''>";
+  $out .= "<form name='linesperpage' id='linesperpage' method='post' action='#'>";
   $out .= "<a href=\"$thisform&amp;activepage=0\">". __("Show all","wp-greet") . "</a>&nbsp;&nbsp;";
   $out .= "<a href=\"$thisform&amp;activepage=" . (string) ($active_page-1 < 1?1:$active_page-1) ."\">&lt;</a>&nbsp;";
   for ($i=1;$i < ($all_lines / $lines_per_page)+1;$i++) {
@@ -126,7 +126,7 @@ function wpg_admin_log()
   if (empty($results))
       $out .= "<tr><td colspan='6'>&nbsp;</td></tr>";
  foreach($results as $res) {
-   $out .= "<tr><td align=\"center\">".$res->mid."</td>";
+   $out .= "<tr><td class='td-admin'>".$res->mid."</td>";
    $out .= "<td>".$res->senttime."</td>";
    $out .= "<td>".$res->frommail."</td>";
    $out .= "<td>".$res->tomail."</td>";
@@ -140,7 +140,7 @@ function wpg_admin_log()
   }
   $out .= '</table></div>'."\n";
   // output clear log form
-  $out .= "<div class='submit'><form name='clearlog' id='clearlog' method='post' action=''><input type='submit' name='clear_log' value='".__('Clear Log',"wp-greet")." »' /></form></div>";
+  $out .= "<div class='submit'><form name='clearlog' id='clearlog' method='post' action='#'><input type='submit' name='clear_log' value='".__('Clear Log',"wp-greet")." »' /></form></div>";
   echo $out;
 
  

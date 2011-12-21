@@ -148,10 +148,10 @@ function wpg_admin_sec()
 
 <div class="wrap">
    <h2><?php echo __("wp-greet Security - Setup","wp-greet") ?></h2>
-   <form name="wpgreetsec" method="post" action=''>
+   <form name="wpgreetsec" method="post" action='#'>
    <table class="optiontable">
    
-   <tr valign="top">
+   <tr class="tr-admin">
       <th scope="row"><?php echo __('Spam protection',"wp-greet")?>:</th>
       <td><select name="wp-greet-captcha" size="1">		
  	 <option value="0" <?php if ($wpg_options['wp-greet-captcha']=="0") echo "selected=\"selected\""?> > <?php echo __("none","wp-greet"); ?></option>
@@ -161,7 +161,7 @@ function wpg_admin_sec()
            </td>
 	   </tr>
  
-        <tr valign="top">
+        <tr class="tr-admin">
          <th scope="row"><?php echo __('Minimum role to send card',"wp-greet")?>: </th>
             <td><select name="wp-greet-minseclevel" size="1">
 <?php 
@@ -181,23 +181,23 @@ function wpg_admin_sec()
    </select></td></tr>
        
 
-    <tr valign="top">
+    <tr class="tr-admin">
            <th scope="row">&nbsp;</th>
            <td><input type="checkbox" id="wp-greet-touswitch" name="wp-greet-touswitch" value="1" <?php if ($wpg_options['wp-greet-touswitch']=="1") echo "checked=\"checked\""?> onclick="wechsle_felder();" /> <b><?php echo __('Enable Terms of Usage display and check',"wp-greet")?></b></td>
 	   </tr>
 
-    <tr valign="top">
+    <tr class="tr-admin">
           <th scope="row"><?php echo __('Terms of usage','wp-greet'); ?>:</th>
           <td><textarea id='wp-greet-termsofusage' name='wp-greet-termsofusage' cols='50'rows='6'><?php echo $wpg_options['wp-greet-termsofusage']; ?></textarea>
           <img src="<?php echo site_url(PLUGINDIR . "/wp-greet/tooltip_icon.png");?>" alt="tooltip" title='<?php _e("HTML is allowed","wp-greet");?>' /></td>
           </tr>
 
-         <tr valign="top">
+         <tr class="tr-admin">
          <th scope="row">&nbsp;</th>
          <td><input type="checkbox" id="wp-greet-mailconfirm" name="wp-greet-mailconfirm" value="1" <?php if ($wpg_options['wp-greet-mailconfirm']=="1") echo "checked=\"checked\""?> onclick="wechsle_felder();" /> <b><?php echo __('Use mail to verify sender address',"wp-greet")?></b></td>
          </tr>
 
-          <tr valign="top">
+          <tr class="tr-admin">
 	  <th scope="row">
           <?php _e('Verification mail text',"wp-greet");?>:</th>
           <td><textarea id='wp-greet-mctext' name='wp-greet-mctext' cols='50'rows='6'><?php echo $wpg_options['wp-greet-mctext']; ?></textarea>
@@ -205,20 +205,20 @@ function wpg_admin_sec()
            </td>
            </tr>
  
-          <tr valign="top">
+          <tr class="tr-admin">
           <th scope="row"><?php echo __('Link valid time (hours)',"wp-greet")?>:</th>
           <td><input id="wp-greet-mcduration" name="wp-greet-mcduration" type="text" size="5" maxlength="4" value="<?php echo $wpg_options['wp-greet-mcduration'] ?>" />
-	      <img align="bottom" src="<?php echo site_url(PLUGINDIR . "/wp-greet/tooltip_icon.png");?>" alt="tooltip" title='<?php _e("0 means confirmation-link will never expire","wp-greet");?>'/>
+	      <img src="<?php echo site_url(PLUGINDIR . "/wp-greet/tooltip_icon.png");?>" alt="tooltip" title='<?php _e("0 means confirmation-link will never expire","wp-greet");?>'/>
           </td>
           </tr>
           
-         <tr valign="top">
+         <tr class="tr-admin">
        	 <th scope="row"><?php echo __('Confirmation mail to sender','wp-greet').":";?></th>
          <td><input type="checkbox" id="wp-greet-enable-confirm" name="wp-greet-enable-confirm" value="1" <?php if ($wpg_options['wp-greet-enable-confirm']=="1") echo 'checked="checked"'?> onclick="wechsle_felder();" />
          </td>
          </tr>
  
- 		 <tr valign="top">
+ 		 <tr class="tr-admin">
 	  	 <th scope="row">
          <?php _e('Confirmation mail text',"wp-greet");?>:</th>
           <td><textarea id='wp-greet-ectext' name='wp-greet-ectext' cols='50'rows='6'><?php echo $wpg_options['wp-greet-ectext']; ?></textarea>
@@ -228,17 +228,17 @@ function wpg_admin_sec()
  
           
 
-         <tr valign="top">
+         <tr class="tr-admin">
        	 <th scope="row"><?php echo __('Mandatory fields','wp-greet').":";?></th>
          <td>
  	   <b><?php echo __('Sendername',"wp-greet")?>:</b>
            <input type="checkbox" id="wp-greet-field-sendername" name="wp-greet-field-sendername" value="1" <?php if (substr($wpg_options['wp-greet-fields'],0,1)=="1") echo 'checked="checked"'?> />
  	   <b><?php echo __('Sender',"wp-greet")?>:</b>
-           <input type="checkbox" id="wp-greet-field-sendermail" name="wp-greet-field-sendermail" value="1" <?php if (substr($wpg_options['wp-greet-fields'],1,1)=="1") echo 'checked="checked"'?> readonly="readonly" disabled="disabled" />
+           <input type="checkbox" id="wp-greet-field-sendermail" name="wp-greet-field-sendermail" value="1" <?php if (substr($wpg_options['wp-greet-fields'],1,1)=="1") echo 'checked="checked"'?>  disabled="disabled" />
            <b><?php echo __('Recipientname',"wp-greet")?>:</b>
            <input type="checkbox" id="wp-greet-field-receivername" name="wp-greet-field-receivername" value="1" <?php if (substr($wpg_options['wp-greet-fields'],2,1)=="1") echo 'checked="checked"'?> />
  	   <b><?php echo __('Recipient',"wp-greet")?>:</b>
-           <input type="checkbox" id="wp-greet-field-receivermail" name="wp-greet-fieldreceivermail" value="1" <?php if (substr($wpg_options['wp-greet-fields'],3,1)=="1") echo 'checked="checked"'?> readonly="readonly"  disabled="disabled" />
+           <input type="checkbox" id="wp-greet-field-receivermail" name="wp-greet-fieldreceivermail" value="1" <?php if (substr($wpg_options['wp-greet-fields'],3,1)=="1") echo 'checked="checked"'?> disabled="disabled" />
            <b><?php echo __('Subject',"wp-greet")?>:</b>
            <input type="checkbox" id="wp-greet-field-subject" name="wp-greet-field-subject" value="1" <?php if (substr($wpg_options['wp-greet-fields'],4,1)=="1") echo 'checked="checked"'?> />
            <b><?php echo __('Message',"wp-greet")?>:</b>

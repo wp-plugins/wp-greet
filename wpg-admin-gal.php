@@ -1,7 +1,7 @@
 <?php
 /* This file is part of the wp-greet plugin for wordpress */
 
-/*  Copyright 2008  Hans Matzen  (email : webmaster at tuxlog.de)
+/*  Copyright 2008-2011  Hans Matzen  (email : webmaster at tuxlog.de)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -73,16 +73,16 @@ function wpg_admin_gal()
   $out = "";
   $out = "<div class=\"wrap\">";
   $out .= "<h2>".__("Galleries","wp-greet")."</h2>\n"; 
-  $out .= "<form name='savegals' id='savegals' method='post' action=''>\n";
+  $out .= "<form name='savegals' id='savegals' method='post' action='#'>\n";
   $out .= "<table class=\"widefat\"><thead><tr>\n";
-  $out .= '<th scope="col" width="30">'.__('Active',"wp-greet")."</th>"."\n";
-  $out .= '<th scope="col" width="30">'.__("ID","wp-greet").'</th>'."\n";
+  $out .= '<th scope="col" style="width: 30px;">'.__('Active',"wp-greet")."</th>"."\n";
+  $out .= '<th scope="col" style="width: 30px;">'.__("ID","wp-greet").'</th>'."\n";
   $out .= '<th scope="col">'.__('Name',"wp-greet").'</th>'."</tr></thead>\n";
   // log loop
   $sql="select name,gid from  ".$wpdb->prefix."ngg_gallery order by name;";
   $results = $wpdb->get_results($sql);
  foreach($results as $res) {
-   $out .= "<tr><td align=\"center\"><input type='checkbox' name='gal_".$res->gid."' value='1' ";
+   $out .= "<tr><td><input type='checkbox' name='gal_".$res->gid."' value='1' ";
 
     if (array_search($res->gid, $wpg_options['wp-greet-galarr']) !== False)
      $out .= 'checked="checked" ';
