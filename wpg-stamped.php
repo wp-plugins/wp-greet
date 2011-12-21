@@ -23,7 +23,7 @@
 $cardimg_url  = $_GET['cci'];
 $stampimg_url = $_GET['sti'];
 $stampwidth   = $_GET['stw'];
-$ob = ( $_GET['ob']==1  ? 1 : 0 );
+$ob = ( isset($_GET['ob']) && $_GET['ob']==1  ? 1 : 0 );
 
 // wenn direkter aufruf, dann header ausgeben
 if ( $ob != 1 )

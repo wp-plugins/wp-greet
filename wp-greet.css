@@ -17,6 +17,7 @@ table.wp-greet-form {
                     font-variant: small-caps;
 		    border-spacing:2px;
 		    border-collapse:collapse;
+		    border: 1px solid;
                     text-align:left;
                     margin-left:auto; 
                     margin-right:auto;
@@ -67,4 +68,19 @@ td.wp-greet-form-left {
 textarea.wp-greet-form {
                     width: 90%;
 		    height:120px;
+}
+
+/* css for timepicker */
+.ui-timepicker-div .ui-widget-header{ margin-bottom: 8px; }
+.ui-timepicker-div dl{ text-align: left; }
+.ui-timepicker-div dl dt{ height: 25px; }
+.ui-timepicker-div dl dd{ margin: -25px 0 10px 65px; }
+.ui-timepicker-div td { font-size: 90%; }
+
+tr.tr-admin {
+	vertical-align: top;
+}
+
+td.td-admin {
+	text-align: center;
 }
