@@ -3,7 +3,7 @@
 Plugin Name: wp-greet
 Plugin URI: http://www.tuxlog.de
 Description: wp-greet is a wordpress plugin to send greeting cards from your wordpress blog.
-Version: 2.7
+Version: 2.8
 Author: Barbara Jany, Hans Matzen <webmaster at tuxlog.de>
 Author URI: http://www.tuxlog.de
 */
@@ -29,7 +29,7 @@ if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) { die('You
 are not allowed to call this page directly.'); }
 
 
-define( "WP_GREET_VERSION", "2.7" );
+define( "WP_GREET_VERSION", "2.8" );
 
 // global options array
 $wpg_options = array();
@@ -143,14 +143,14 @@ function wpg_add_thickbox_style()
  function cron_sendGreetCardMail($sender,$sendername,$recv,$recvname,$title,
 			   $msgtext,$picurl,$ccsender,$debug=false) 
 { 
-	echo "###" . $sender .$sendername.$recv.$recvname.$title.$msgtext.$picurl.$ccsender.$debug."###";
+	//echo "###" . $sender .$sendername.$recv.$recvname.$title.$msgtext.$picurl.$ccsender.$debug."###";
 	sendGreetcardMail($sender,$sendername,$recv,$recvname,$title,$msgtext,$picurl,$ccsender,$debug);
 	log_greetcard($recv,addslashes($sender),$picurl,$msgtext);
 }
 
 function cron_sendGreetCardLink($sender,$sendername,$recv, $recvname,$duration, $fetchcode, $debug=false) 
 { 
-	echo "###".$sender.$sendername,$recv. $recvname.$duration. $fetchcode. $debug."###";
+	//echo "###".$sender.$sendername,$recv. $recvname.$duration. $fetchcode. $debug."###";
 	sendGreetcardLink($sender,$sendername,$recv, $recvname,$duration, $fetchcode, $debug);
 	mark_sentcard($fetchcode); 
 }

@@ -369,6 +369,7 @@ function save_greetcard($sender, $sendername, $recv, $recvname,
 	$sendtime = date('Y-m-d H:i:s', $sendtime);
     if ($fetchcode == "" or $confirmcode == "") {
 	$sql = "insert into ". $wpdb->prefix . "wpgreet_cards values (0, '$sendername', '$sender', '$recvname', '$recv', '$cc2sender', '". $wpdb->Escape($title)."', '$picurl','". $wpdb->Escape($message)."', '$confirmuntil', '$confirmcode', '$fetchuntil', '$fetchcode','','','$sendtime');";
+	
 	$wpdb->query($sql); 
     } else {
 	$sql = "select count(*) as anz from " .  $wpdb->prefix . "wpgreet_cards where confirmcode='$confirmcode';";
@@ -378,7 +379,8 @@ function save_greetcard($sender, $sendername, $recv, $recvname,
 	    $sql = "insert into ". $wpdb->prefix . "wpgreet_cards values (0, '$sendername', '$sender', '$recvname', '$recv', '$cc2sender', '".$wpdb->Escape($title)."', '$picurl','". $wpdb->Escape($message)."', '$confirmuntil', '$confirmcode','$fetchuntil', '$fetchcode','','','$sendtime');";
 	else
 	    $sql = "update ". $wpdb->prefix . "wpgreet_cards set fetchuntil='$fetchuntil', fetchcode='$fetchcode' where confirmcode='$confirmcode';";
-	$wpdb->query($sql);
+	
+	 $wpdb->query($sql);
     }
 }
 

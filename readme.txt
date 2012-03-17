@@ -4,7 +4,7 @@ Donate link: http://www.tuxlog.de
 Tags: greetingcard, send, email, nextgengallery, plugin
 Requires at least: 2.5
 Tested up to: 3.2.1
-Stable tag: 2.7
+Stable tag: 2.8
 
 wp-greet is a wordpress plugin to send greeting cards from your wordpress blog. it uses nextGenGallery to maintain your greetingcard pictures.
 
@@ -103,6 +103,11 @@ http://www.tuxlog.de/wordpress/2008/wp-greet-documentation-english/
 
 == Changelog ==
 
+= v2.8 (2012-02-07) =
+* fixed a problem using online cards without confirmation
+* fixed german translation
+* added english translation for datepicker 
+
 = v2.7 (2011-12-21) =
 * adopted to HTML5 for compatibility with 3.3
 
@@ -111,7 +116,6 @@ http://www.tuxlog.de/wordpress/2008/wp-greet-documentation-english/
 * added a bit more javascript to mark disabled fields in admin dialog 
 * added wp collation in create table statements (caused problem with asian collations)
 * fixed received confirmation was sent on every fetch on some configs
-
 
 = v2.5 (2011-11-12) =
 * fixed another conflict wit wordpress mu

@@ -343,14 +343,20 @@ function showGreetcardForm($galleryID,$picurl,$verify = "") {
 		//
 		if ( $wpg_options['wp-greet-onlinecard'] == 1) {
 			// grußkarten link mail senden
-	  require_once("wpg-func-mail.php");
-	  // karte ablegen inkl. bestätigungscode
-	  $fetchcode  = uniqid("wpgreet_",false);
-	  $fetchuntil = gmdate("Y-m-d H:i:s",time() + ( get_option('gmt_offset') * 60 * 60 ) + ( $wpg_options['wp-greet-ocduration'] * 60 * 60 *24)  );
-	  if ($wpg_options['wp-greet-future-send'] and $_POST['fsend']!="") 
-	  		$sendtime = strtotime($_POST['fsend']) - get_option('gmt_offset') * 3600;
-	  else
-	  		$sendtime = 0;
+	  		require_once("wpg-func-mail.php");
+	  		// karte ablegen inkl. bestätigungscode
+	  		$fetchcode  = uniqid("wpgreet_",false);
+	  
+	  		if ($wpg_options['wp-greet-ocduration']=="0") {
+	  			$fetchuntil = "2035-12-31 23:59:59";
+	  		} else {
+	  	  		$fetchuntil = gmdate("Y-m-d H:i:s",time() + ( get_option('gmt_offset') * 60 * 60 ) + ( $wpg_options['wp-greet-ocduration'] * 60 * 60 *24)  );
+	  		}
+	  
+	  		if ($wpg_options['wp-greet-future-send'] and $_POST['fsend']!="") 
+	  			$sendtime = strtotime($_POST['fsend']) - get_option('gmt_offset') * 3600;
+	  		else
+	  			$sendtime = 0;
 	 
 	  save_greetcard( $_POST['sender'], $_POST['sendername'], $_POST['recv'], $_POST['recvname'],
 	  				  $_POST['title'], $_POST['message'], $picurl, $_POST['ccsender'] * 1 + $_POST['wp-greet-enable-confirm'] * 2, 

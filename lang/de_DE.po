@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: wp-greet\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-11-13 14:04+0100\n"
-"PO-Revision-Date: 2011-12-05 06:44+0100\n"
+"PO-Revision-Date: 2012-01-03 19:45+0100\n"
 "Last-Translator: tuxlog <webmaster@tuxlog.de>\n"
 "Language-Team: Barbara Jany, Hans Matzen <barbara.jany@gmail.com>\n"
 "Language: \n"
@@ -474,7 +474,7 @@ msgstr "Pflichtfelder erkennt man am"
 
 #: wpg-form.php:548
 msgid "Send confirmation to Sender"
-msgstr "Bestätigung an Absender schicken"
+msgstr "Abholbestätigung an Absender schicken"
 
 #: wpg-form.php:549
 msgid "CC to Sender"
