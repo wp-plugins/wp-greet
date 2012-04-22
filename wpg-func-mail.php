@@ -148,7 +148,7 @@ function sendGreetcardMail($sender,$sendername,$recv,$recvname,$title,
     
     // add cc if option is set
     if ( $ccsender & 1 ) 
-	$mail->AddCC($sender);
+    	$mail->AddCC($sender);
     
     $mail->WordWrap = 50;           // set word wrap to 50 characters
     
@@ -173,6 +173,8 @@ function sendGreetcardMail($sender,$sendername,$recv,$recvname,$title,
 	    $picfile = substr($picurl, strrpos($picurl,"/") +1 );
 	    // und ans mail haengen 
 	    
+	    /*
+	     * alte variante bis wp 3.2.1 
 	    $cur = count($mail->attachment);
 	    $mail->attachment[$cur][0] = $stampedimg;
 	    $mail->attachment[$cur][1] = $picfile;
@@ -182,6 +184,10 @@ function sendGreetcardMail($sender,$sendername,$recv,$recvname,$title,
 	    $mail->attachment[$cur][5] = true;
 	    $mail->attachment[$cur][6] = 'inline';
 	    $mail->attachment[$cur][7] = "wpgreetimg";
+	    *
+	 	*/
+	    // neue Variante einen Anhang aus einem binary String zu erzeugen ab wp 3.2.1
+  		$mail->AddStringAttachment($stampedimg, $name = $picfile, $encoding = 'base64', $type = 'image/png'); 
 	    
 	    // ohne briefmarke   
 	} else {
@@ -350,7 +356,7 @@ function sendConfirmationMail($sender,$sendername,$recvname,$confirmcode, $confi
 //
 // returns mail->ErrInfo when error occurs or true when everything went wright
 //
-function sendGreetcardLink($sender,$sendername,$recv, $recvname,$duration, $fetchcode, $debug=false) 
+function sendGreetcardLink($sender,$sendername,$recv, $recvname,$duration, $fetchcode, $ccsender, $debug=false) 
 { 
     require_once(ABSPATH . "/wp-includes/class-phpmailer.php");
     require("phpmailer-conf.php");

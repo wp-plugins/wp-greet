@@ -180,48 +180,48 @@ function showGreetcardForm($galleryID,$picurl,$verify = "") {
 	 if (substr($wpg_options['wp-greet-fields'],0,1)=="1" and trim($_POST['sendername'])=="")
 	 {
 	 	$_POST['action'] = "Formular";
-	 	echo __("Please fill in mandatory field","wp-greet")." ". __("Sendername","wp-greet")."<br />";
+	 	echo "<div class='wp-greet-error'>" . __("Please fill in mandatory field","wp-greet")." ". __("Sendername","wp-greet")."<br /></div>";
 	 }
 	 if (substr($wpg_options['wp-greet-fields'],1,1)=="1" and trim($_POST['sender'])=="")
 	 {
 	 	$_POST['action'] = "Formular";
-	 	echo __("Please fill in mandatory field","wp-greet")." ". __("Sender","wp-greet")."<br />";
+	 	echo "<div class='wp-greet-error'>" . __("Please fill in mandatory field","wp-greet")." ". __("Sender","wp-greet")."<br /></div>";
 	 }
 	 else if ( ! check_email($_POST['sender']) ) {
 	 	$_POST['action'] = "Formular";
-	 	echo __("Invalid sender  mail address.","wp-greet")."<br />";
+	 	echo "<div class='wp-greet-error'>" . __("Invalid sender  mail address.","wp-greet")."<br /></div>";
 	 }
 	 if (substr($wpg_options['wp-greet-fields'],2,1)=="1" and trim($_POST['recvname'])=="")
 	 {
 	 	$_POST['action'] = "Formular";
-	 	echo __("Please fill in mandatory field","wp-greet")." ". __("Recipientname","wp-greet")."<br />";
+	 	echo "<div class='wp-greet-error'>" . __("Please fill in mandatory field","wp-greet")." ". __("Recipientname","wp-greet")."<br /></div>";
 	 }
 	 if (substr($wpg_options['wp-greet-fields'],3,1)=="1" and trim($_POST['recv'])=="")
 	 {
 	 	$_POST['action'] = "Formular";
-	 	echo __("Please fill in mandatory field","wp-greet")." ". __("Recipient","wp-greet")."<br />";
+	 	echo "<div class='wp-greet-error'>" . __("Please fill in mandatory field","wp-greet")." ". __("Recipient","wp-greet")."<br /></div>";
 	 }
 	 else if ( $wpg_options['wp-greet-multi-recipients']) {
 	 	$ems = explode(",",$_POST['recv']);
 	 	foreach($ems as $i) {
 	 		if (! check_email(trim($i))) {
 	 			$_POST['action'] = "Formular";
-		 		echo __("Invalid recipient mail address.","wp-greet")."<br />";
+		 		echo "<div class='wp-greet-error'>" . __("Invalid recipient mail address.","wp-greet")."<br /></div>";
 	 		}
 	 	}
 	 } else if ( ! check_email($_POST['recv']) ) {
 	 	$_POST['action'] = "Formular";
-	 	echo __("Invalid recipient mail address.","wp-greet")."<br />";
+	 	echo "<div class='wp-greet-error'>" . __("Invalid recipient mail address.","wp-greet")."<br /></div>";
 	 }
 	 if (substr($wpg_options['wp-greet-fields'],4,1)=="1" and trim($_POST['title'])=="")
 	 {
 	 	$_POST['action'] = "Formular";
-	 	echo __("Please fill in mandatory field","wp-greet")." ". __("Subject","wp-greet")."<br />";
+	 	echo "<div class='wp-greet-error'>" . __("Please fill in mandatory field","wp-greet")." ". __("Subject","wp-greet")."<br /></div>";
 	 }
 	 if (substr($wpg_options['wp-greet-fields'],5,1)=="1" and trim($_POST['message'])=="")
 	 {
 	 	$_POST['action'] = "Formular";
-	 	echo __("Please fill in mandatory field","wp-greet")." ". __("Message","wp-greet")."<br />";
+	 	echo "<div class='wp-greet-error'>" . __("Please fill in mandatory field","wp-greet")." ". __("Message","wp-greet")."<br /></div>";
 	 }
 	  
 
@@ -239,14 +239,14 @@ function showGreetcardForm($galleryID,$picurl,$verify = "") {
 
 	 			if (! $Cap->check_captcha($Cap->public_key_id(),$_POST['captcha']) ) {
 	 				$_POST['action'] = "Formular";
-	 				echo __("Spamprotection - Code is not valid.<br />","wp-greet");
-	 				echo __("Please try again.<br />Tip: If you cannot identify the chars, you can generate a new image. Using Reload.","wp-greet")."<br />";
+	 				echo "<div class='wp-greet-error'>" . __("Spamprotection - Code is not valid.<br />","wp-greet");
+	 				echo __("Please try again.<br />Tip: If you cannot identify the chars, you can generate a new image. Using Reload.","wp-greet")."<br /></div>";
 	 			}
 			} else {
 				if ( 0 != strcasecmp( trim( decode( $_POST['cptch_result'], "123" ) ), $_POST['cptch_number'] ) ) {
 					$_POST['action'] = "Formular";
-	 				echo __("Spamprotection - Code is not valid.<br />","wp-greet");
-	 				echo __("Please try again.<br />Tip: If you cannot identify the chars, you can generate a new image. Using Reload.","wp-greet")."<br />";
+	 				echo "<div class='wp-greet-error'>" . __("Spamprotection - Code is not valid.<br />","wp-greet");
+	 				echo __("Please try again.<br />Tip: If you cannot identify the chars, you can generate a new image. Using Reload.","wp-greet")."<br /></div>";
 				}
 			}
 	 	}
@@ -266,8 +266,8 @@ function showGreetcardForm($galleryID,$picurl,$verify = "") {
 
 	 		if ($mc_nok!="") {
 	 			$_POST['action'] = "Formular";
-	 			echo __("Spamprotection - Code is not valid.<br />","wp-greet");
-	 			echo __("Please try again.","wp-greet")."<br />";
+	 			echo "<div class='wp-greet-error'>" . __("Spamprotection - Code is not valid.<br />","wp-greet");
+	 			echo __("Please try again.","wp-greet")."<br /></div>";
 	 		}
 	 	}
 	 } // end of pruefe captcha
@@ -276,7 +276,7 @@ function showGreetcardForm($galleryID,$picurl,$verify = "") {
 	 if ($wpg_options['wp-greet-touswitch']==1 and  $_POST['accepttou'] != 1)
 	 {
 	 	$_POST['action'] = "Formular";
-	 	echo __("Please accept the terms of usage before sending a greeting card.<br />","wp-greet");
+	 	echo "<div class='wp-greet-error'>" . __("Please accept the terms of usage before sending a greeting card.<br />","wp-greet")."</div>";
 	 }
 	  
 	} // end of Feldinhalte pruefen
@@ -370,9 +370,9 @@ function showGreetcardForm($galleryID,$picurl,$verify = "") {
 	  		array($_POST['sender'], $_POST['sendername'], $_POST['recv'], $_POST['recvname'],
 	  		      $wpg_options['wp-greet-ocduration'], $fetchcode, false));
 	    $sendstatus = true;
-	  } else
+	  } else 
 	  	$sendstatus = sendGreetcardLink( $_POST['sender'], $_POST['sendername'], $_POST['recv'], $_POST['recvname'],
-	  									   $wpg_options['wp-greet-ocduration'], $fetchcode, false);
+	  									   $wpg_options['wp-greet-ocduration'], $fetchcode, $_POST['ccsender'], false);
 
 	  } else {  // grußkarten mail senden
 	  require_once("wpg-func-mail.php");
@@ -382,7 +382,7 @@ function showGreetcardForm($galleryID,$picurl,$verify = "") {
 	  		array($_POST['sender'], $_POST['sendername'], $_POST['recv'], $_POST['recvname'],
 			      $_POST['title'], $_POST['message'], $picurl, $_POST['ccsender'], false));
 		$sendstatus = true;
-	  } else 
+	  } else 	  
 	  	$sendstatus = sendGreetcardMail( $_POST['sender'], $_POST['sendername'], $_POST['recv'], $_POST['recvname'],
 	  								   $_POST['title'], $_POST['message'], $picurl, $_POST['ccsender'], false);
 		}

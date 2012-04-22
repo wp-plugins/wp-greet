@@ -9,6 +9,15 @@ div.wp-greet-form {
 		  margin-right:auto;
 }
 
+/* style for greet card warnings and errors */
+div.wp-greet-error {
+		 font-size: 14px; 
+         font-family: Arial;
+         border: 0px solid;
+         padding: 10px;
+		 color: #FF0000;
+}
+
 /* style for greet card form table */
 table.wp-greet-form { 
                     font-size: 14px;
