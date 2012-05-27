@@ -140,7 +140,9 @@ function sendGreetcardMail($sender,$sendername,$recv,$recvname,$title,
     
     
     if ( $wpg_options['wp-greet-mailreturnpath'] !="" )
-	$mail->AddReplyTo( $wpg_options['wp-greet-mailreturnpath'], $wpg_options['wp-greet-mailreturnpath'] );
+		$mail->AddReplyTo( $wpg_options['wp-greet-mailreturnpath'], $wpg_options['wp-greet-mailreturnpath'] );
+    else
+    	$mail->AddReplyTo( addslashes($sender), addslashes($sendername));
     
     // add bcc if option is set
     if ( $wpg_options['wp-greet-bcc'] !="" )
@@ -323,7 +325,9 @@ function sendConfirmationMail($sender,$sendername,$recvname,$confirmcode, $confi
     $mail->AddAddress( $sender, $sendername);
     
     if ( $wpg_options['wp-greet-mailreturnpath'] !="" )
-	$mail->AddReplyTo( $wpg_options['wp-greet-mailreturnpath'], $wpg_options['wp-greet-mailreturnpath'] );
+		$mail->AddReplyTo( $wpg_options['wp-greet-mailreturnpath'], $wpg_options['wp-greet-mailreturnpath'] );
+    else
+    	$mail->AddReplyTo( addslashes($sender), addslashes($sendername));
     
     // add bcc if option is set
     if ( $wpg_options['wp-greet-bcc'] !="" )
@@ -436,8 +440,8 @@ function sendGreetcardLink($sender,$sendername,$recv, $recvname,$duration, $fetc
     }
     $mail->CharSet = 'utf-8';         // set mail encoding
     
-    $mail->From = addslashes( ($wpg_options['wp-greet-mailreturnpath']!=""? $wpg_options['wp-greet-mailreturnpath']:get_option("admin_email")) );
-    $mail->FromName = addslashes(get_option("blogname"));
+    $mail->From = addslashes( ($wpg_options['wp-greet-mailreturnpath']!=""? $wpg_options['wp-greet-mailreturnpath']:addslashes($sender)) );
+    $mail->FromName = addslashes($sendername);
     // add recipients
     $ems = explode(",",$recv);
     foreach($ems as $i)
@@ -446,9 +450,11 @@ function sendGreetcardLink($sender,$sendername,$recv, $recvname,$duration, $fetc
     // add cc if option is set
     if ( $ccsender & 1 ) 
 	$mail->AddCC($sender);
-
+    
     if ( $wpg_options['wp-greet-mailreturnpath'] !="" )
-	$mail->AddReplyTo( $wpg_options['wp-greet-mailreturnpath'], $wpg_options['wp-greet-mailreturnpath'] );
+		$mail->AddReplyTo( $wpg_options['wp-greet-mailreturnpath'], $wpg_options['wp-greet-mailreturnpath'] );
+    else
+    	$mail->AddReplyTo( addslashes($sender), addslashes($sendername));
     
     // add bcc if option is set
     if ( $wpg_options['wp-greet-bcc'] !="" )
@@ -571,7 +577,9 @@ function sendGreetcardConfirmation($sender,$sendername,$recv, $recvname,$duratio
 	$mail->AddCC($sender);
 
     if ( $wpg_options['wp-greet-mailreturnpath'] !="" )
-	$mail->AddReplyTo( $wpg_options['wp-greet-mailreturnpath'], $wpg_options['wp-greet-mailreturnpath'] );
+		$mail->AddReplyTo( $wpg_options['wp-greet-mailreturnpath'], $wpg_options['wp-greet-mailreturnpath'] );
+    else
+    	$mail->AddReplyTo( addslashes($sender), addslashes($sendername));
     
     // add bcc if option is set
     if ( $wpg_options['wp-greet-bcc'] !="" )
