@@ -1,7 +1,7 @@
 <?php
 /* This file is part of the wp-greet plugin for wordpress */
 
-/*  Copyright 2009-2011  Hans Matzen  (email : webmaster at tuxlog dot de)
+/*  Copyright 2009-2012  Hans Matzen  (email : webmaster at tuxlog dot de)
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -26,8 +26,8 @@ if ( preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) {
 	// direktaufruf des formulars
 	if ( isset($_GET['gallery']) and isset($_GET['image']) ) {
 		// get post vars
-		$galleryID=attribute_escape(isset($_GET['gallery'])?$_GET['gallery']:'');
-		$picurl=attribute_escape($_GET['image']);
+		$galleryID=esc_attr(isset($_GET['gallery'])?$_GET['gallery']:'');
+		$picurl=esc_attr($_GET['image']);
 
 
 		$out = showGreetcardForm($galleryID,$picurl,$picdesc);
@@ -42,10 +42,10 @@ function searchwpgreet($content) {
 	if ( stristr( $content, '[wp-greet]' )) {
 
 		// get GET vars
-		$galleryID = attribute_escape(isset($_GET['gallery'])?$_GET['gallery']:'');
-		$picurl    = attribute_escape($_GET['image']);
-		$verify    = attribute_escape($_GET['verify']);
-		$display   = attribute_escape($_GET['display']);
+		$galleryID = ( isset($_GET['gallery']) ? esc_attr($_GET['gallery']) : "");
+		$picurl    = ( isset($_GET['image'])   ? esc_attr($_GET['image'])   : "");
+		$verify    = ( isset($_GET['verify'])  ? esc_attr($_GET['verify'])  : "");
+		$display   = ( isset($_GET['display']) ? esc_attr($_GET['display']) : "");
 
 		// Karte wird abgeholt
 		if ($display !="") {
@@ -160,15 +160,15 @@ function showGreetcardForm($galleryID,$picurl,$verify = "") {
 	$_POST['action'] ==  __("Send","wp-greet") ) ) {
 
 		if ( isset($_POST['sender']) && $_POST['sender'] != '' )
-		$_POST['sender'] = attribute_escape($_POST['sender']);
+		$_POST['sender'] = esc_attr($_POST['sender']);
 		if ( isset($_POST['sendername']) && $_POST['sendername'] != '' )
-		$_POST['sendername'] = attribute_escape($_POST['sendername']);
+		$_POST['sendername'] = esc_attr($_POST['sendername']);
 		if ( isset($_POST['ccsender']) && $_POST['ccsender'] != '' )
-		$_POST['ccsender'] = attribute_escape($_POST['ccsender']);
+		$_POST['ccsender'] = esc_attr($_POST['ccsender']);
 		if ( isset($_POST['recv']) && $_POST['recv'] != '' )
-		$_POST['recv'] = attribute_escape($_POST['recv']);
+		$_POST['recv'] = esc_attr($_POST['recv']);
 		if ( isset($_POST['recvname']) && $_POST['recvname'] != '' )
-		$_POST['recvname'] = attribute_escape($_POST['recvname']);
+		$_POST['recvname'] = esc_attr($_POST['recvname']);
 		if ( isset($_POST['title']) && $_POST['title'] != '' )
 	 $_POST['title'] = stripslashes($_POST['title']);
 	 // entferne die von wordpress automatisch beigefügten slashes
@@ -227,7 +227,7 @@ function showGreetcardForm($galleryID,$picurl,$verify = "") {
 
 	 // pruefe captcha
 	 if ( ($wpg_options['wp-greet-captcha'] > 0) and 
-	 	(isset($_POST['public_key']) or isset($_POST['mcspinfo']) or isset($_POST['cptch_result']))) {
+	 	(isset($_POST['public_key']) or isset($_POST['mcspinfo']) or isset($_POST['cptch_result']) or isset($_POST['recaptcha_challenge_field']))) {
 
 	 	// check CaptCha!
 	 	if ($wpg_options['wp-greet-captcha']==1) {
@@ -270,6 +270,20 @@ function showGreetcardForm($galleryID,$picurl,$verify = "") {
 	 			echo __("Please try again.","wp-greet")."<br /></div>";
 	 		}
 	 	}
+	 	
+	 	// check wp-reCAPTCHA
+	 	if ($wpg_options['wp-greet-captcha']==3) {
+	 		require_once(ABSPATH . "wp-content/plugins/wp-recaptcha/recaptchalib.php");
+	 		
+	 		$rec_opt = get_option('recaptcha_options');
+	 		$rec_ok  = recaptcha_check_answer ($rec_opt['private_key'], $_SERVER['REMOTE_ADDR'], $_POST['recaptcha_challenge_field'], $_POST['recaptcha_response_field']);
+	 		
+	 		if (!$rec_ok->is_valid) {
+	 			$_POST['action'] = "Formular";
+	 			echo "<div class='wp-greet-error'>" . __("Spamprotection - Code is not valid.<br />","wp-greet");
+	 			echo __("Please try again.","wp-greet")."<br /></div>";
+	 		}
+	 	}	
 	 } // end of pruefe captcha
 	  
 	 // nutzungsbedingungen prüfen
@@ -288,7 +302,7 @@ function showGreetcardForm($galleryID,$picurl,$verify = "") {
 	$_POST['action'] == __("Preview","wp-greet") ) {
 
 		// message escapen
-		$show_message = nl2br(attribute_escape($_POST['message']));
+		$show_message = nl2br(esc_attr($_POST['message']));
 
 		// smilies ersetzen
 		if ( $wpg_options['wp-greet-smilies']) {
@@ -308,7 +322,7 @@ function showGreetcardForm($galleryID,$picurl,$verify = "") {
 
 		$out .= "</td></tr>";
 		$out .= "<tr><th>" . __("To","wp-greet").":</th><td>".   $_POST['recvname'] . "&nbsp;&lt;". $_POST['recv'] . "&gt;</td></tr>";
-		$out .= "<tr><th>" .  __("Subject","wp-greet").":</th><td>". attribute_escape($_POST['title']) . "</td></tr></table>";
+		$out .= "<tr><th>" .  __("Subject","wp-greet").":</th><td>". esc_attr($_POST['title']) . "</td></tr></table>";
 		$out .= "<div>" . $wpg_options['wp-greet-default-header'] . "</div>\n";
 
 		$out .= get_imgtag($picurl);
@@ -325,9 +339,9 @@ function showGreetcardForm($galleryID,$picurl,$verify = "") {
 		$out .= "<input name='wp-greet-enable-confirm' type='hidden' value='" . $_POST['wp-greet-enable-confirm']  . "' />\n";
 		$out .= "<input name='recv' type='hidden' value='" . $_POST['recv']  . "' />\n";
 		$out .= "<input name='recvname' type='hidden' value='" . $_POST['recvname']  . "' />\n";
-		$out .= "<input name='title' type='hidden' value='" . attribute_escape($_POST['title'])  . "' />\n";
-		$out .= "<input name='message' type='hidden' value='" . attribute_escape($_POST['message']) . "' />\n";
-		$out .= "<input name='accepttou' type='hidden' value='" . attribute_escape($_POST['accepttou']) . "' />\n";
+		$out .= "<input name='title' type='hidden' value='" . esc_attr($_POST['title'])  . "' />\n";
+		$out .= "<input name='message' type='hidden' value='" . esc_attr($_POST['message']) . "' />\n";
+		$out .= "<input name='accepttou' type='hidden' value='" . esc_attr($_POST['accepttou']) . "' />\n";
 		$out .= "<input name='fsend' type='hidden' value='" . $_POST['fsend']  . "' />\n";
 		
 		$out .= "<input name='action' type='submit' value='".__("Back","wp-greet").
@@ -465,7 +479,7 @@ function showGreetcardForm($galleryID,$picurl,$verify = "") {
 
 	} else {		
 		// Vorbelegung setzen, bei Erstaufruf
-		if ( $_POST['action'] != __("Zurück","wp-greet")) {
+		if ( isset($_POST['action']) && $_POST['action'] != __("Zurück","wp-greet")) {
 			$_POST['wp-greet-enable-confirm']=1;
 			$_POST['ccsender']=1;	
 		}
@@ -506,7 +520,13 @@ function showGreetcardForm($galleryID,$picurl,$verify = "") {
 			}
 			$captcha = 2;
 		}
-
+		
+		// WP-reCAPTCHA plugin
+		if ( $wpg_options['wp-greet-captcha'] == 3) {
+			require_once(ABSPATH . "wp-content/plugins/wp-recaptcha/recaptchalib.php");
+			$captcha = 3;
+		}
+		
 		// javascript fuer smilies ausgeben falls notwendig
 		if ( $wpg_options['wp-greet-smilies']) {
 			?>
@@ -566,8 +586,8 @@ function showGreetcardForm($galleryID,$picurl,$verify = "") {
 				$out .= '<td class=\"wp-greet-form\"><div><input type="text" name="fsend" id="fsend" value="'.(isset($_POST['fsend'])?$_POST['fsend']:'') .'" /></div></td></tr>';
 			}
 
-			$out .= "<tr class=\"wp-greet-form\"><td class=\"wp-greet-form-left\">".__("Subject","wp-greet").(substr($wpg_options['wp-greet-fields'],4,1)=="1" ? "<sup>*</sup>":"").":</td><td class=\"wp-greet-form\"><input name='title'  type='text' size='30' maxlength='80' value='" . attribute_escape($_POST['title'])  . "'/></td></tr>\n";
-			$out .= "<tr class=\"wp-greet-form\"><td class=\"wp-greet-form-left\">".__("Message","wp-greet").(substr($wpg_options['wp-greet-fields'],5,1)=="1" ? "<sup>*</sup>":"").":</td><td class=\"wp-greet-form\"><textarea class=\"wp-greet-form\" name='message' id='message' rows='40' cols='15'>" . (isset($_POST['message']) ? stripslashes(attribute_escape($_POST['message'])) : '') . "</textarea></td></tr>\n";
+			$out .= "<tr class=\"wp-greet-form\"><td class=\"wp-greet-form-left\">".__("Subject","wp-greet").(substr($wpg_options['wp-greet-fields'],4,1)=="1" ? "<sup>*</sup>":"").":</td><td class=\"wp-greet-form\"><input name='title'  type='text' size='30' maxlength='80' value='" . esc_attr($_POST['title'])  . "'/></td></tr>\n";
+			$out .= "<tr class=\"wp-greet-form\"><td class=\"wp-greet-form-left\">".__("Message","wp-greet").(substr($wpg_options['wp-greet-fields'],5,1)=="1" ? "<sup>*</sup>":"").":</td><td class=\"wp-greet-form\"><textarea class=\"wp-greet-form\" name='message' id='message' rows='40' cols='15'>" . (isset($_POST['message']) ? stripslashes(esc_attr($_POST['message'])) : '') . "</textarea></td></tr>\n";
 			// smilies unter formular anzeigen
 			if ( $wpg_options['wp-greet-smilies']) {
 				$smileypath=ABSPATH . "wp-content/plugins/wp-greet/smilies";
@@ -584,8 +604,8 @@ function showGreetcardForm($galleryID,$picurl,$verify = "") {
 			}
 			 
 			// captcha anzeigen
-			if ( $captcha == 1 or $captcha == 2)
-			$out .="<tr class=\"wp-greet-form\"><td class=\"wp-greet-form-left\">". __("Spamprotection:","wp-greet")."</td><td class=\"wp-greet-form\" >";
+			if ( $captcha != 0)
+				$out .="<tr class=\"wp-greet-form\"><td class=\"wp-greet-form-left\">". __("Spamprotection:","wp-greet")."</td><td class=\"wp-greet-form\" >";
 			// CaptCha!
 			if ($captcha==1) {
 				if (isset($Cap))
@@ -601,6 +621,12 @@ function showGreetcardForm($galleryID,$picurl,$verify = "") {
 			if ($captcha==2)
 			$out.='<label for="mcspvalue"><small>'. __("Sum of","wp-greet")."&nbsp;". $cap_info['operand1'] . ' + ' . $cap_info['operand2'] . ' ? '.'</small></label><input type="text" name="mcspvalue" id="mcspvalue" value="" size="23" maxlength="10" /><input type="hidden" name="mcspinfo" value="'. $cap_info['result'].'" />';
 
+			// WP-reCAPTCHA
+			if ($captcha==3) {
+				$rec_opt = get_option('recaptcha_options');
+				$out .= recaptcha_get_html ($rec_opt['public_key']);
+			}
+			
 			if ( $captcha != 0)
 			$out.="</td></tr>";
 
@@ -681,7 +707,7 @@ function showGreetcard($display)
 		$out .= get_imgtag($res->picture);
 
 		// message escapen
-		$show_message = nl2br(attribute_escape($res->mailbody));
+		$show_message = nl2br(esc_attr($res->mailbody));
 
 		// smilies ersetzen
 		if ( $wpg_options['wp-greet-smilies']) {

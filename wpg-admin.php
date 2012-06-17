@@ -293,8 +293,11 @@ function wechsle_onlinecard () {
           </tr>
 
   </table>
+   <div class='submit'>
+      <input type='submit' name='info_update' value='<?php _e('Update options',"wp-greet"); ?> »' />
+   </div>
+   </form>
+   <script type="text/javascript">wechsle_inline (); wechsle_onlinecard();wechsle_stamp();</script></div>
 <?php
-      echo "<div class='submit'><input type='submit' name='info_update' value='".__('Update options',"wp-greet")." »' /></div></form><script type=\"text/javascript\">wechsle_inline (); wechsle_onlinecard();wechsle_stamp();</script></div>";
-
 }
 ?>

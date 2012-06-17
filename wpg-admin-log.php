@@ -135,7 +135,7 @@ function wpg_admin_log()
    else
        $out .= "<td>&nbsp;</td>";
    $out .= "<td>".$res->remote_ip."</td>";
-   $out .= "<td>".attribute_escape($res->mailbody)."</td></tr>\n";
+   $out .= "<td>".esc_attr($res->mailbody)."</td></tr>\n";
 
   }
   $out .= '</table></div>'."\n";

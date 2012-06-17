@@ -3,7 +3,7 @@
 Plugin Name: wp-greet
 Plugin URI: http://www.tuxlog.de
 Description: wp-greet is a wordpress plugin to send greeting cards from your wordpress blog.
-Version: 3.0
+Version: 3.1
 Author: Barbara Jany, Hans Matzen <webmaster at tuxlog.de>
 Author URI: http://www.tuxlog.de
 */
@@ -29,7 +29,7 @@ if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) { die('You
 are not allowed to call this page directly.'); }
 
 
-define( "WP_GREET_VERSION", "2.8" );
+define( "WP_GREET_VERSION", "3.1" );
 
 // global options array
 $wpg_options = array();
@@ -51,15 +51,6 @@ require_once("wpg-admin-sec.php");
 // include form page
 require_once("wpg-form.php");
 
-//
-// just return the css link
-// this function is called via the wp_head hook
-//
-function wp_greet_css() {
-
-  $plugin_path = get_settings('siteurl') . '/wp-content/plugins/wp-greet';
-  echo "<link rel=\"stylesheet\" href=\"". $plugin_path. "/wp-greet.css\" type=\"text/css\" media=\"screen\" />\n";
-}
 
 function wp_greet_init()
 {
@@ -68,8 +59,8 @@ function wp_greet_init()
   $wpg_options=wpgreet_get_options();
 
   // add css in header
-  add_action('wp_head', 'wp_greet_css');
-
+  wp_enqueue_style("wp-greet", plugins_url('wp-greet.css', __FILE__) );
+  
  // add thickbox for frontend
   add_action('wp_print_scripts', 'wpg_add_thickbox_script');
   add_action('wp_print_styles',  'wpg_add_thickbox_style' );
@@ -117,13 +108,13 @@ function wpg_add_menus()
   if(function_exists('load_textdomain')) 
     load_textdomain("wp-greet",ABSPATH . "wp-content/plugins/wp-greet/lang/".$locale.".mo");
   
-  add_menu_page('wp-greet','wp-greet', 8, $PPATH."wpg-admin.php","wpg_admin_form", site_url("/wp-content/plugins/wp-greet") . '/wp-greet.png');
+  add_menu_page('wp-greet','wp-greet', 'manage_options', $PPATH."wpg-admin.php","wpg_admin_form", site_url("/wp-content/plugins/wp-greet") . '/wp-greet.png');
 
-  add_submenu_page( $PPATH."wpg-admin.php", __('Galleries',"wp-greet"), __('Galleries', "wp-greet"), 8, $PPATH."wpg-admin-gal.php", "wpg_admin_gal") ;
+  add_submenu_page( $PPATH."wpg-admin.php", __('Galleries',"wp-greet"), __('Galleries', "wp-greet"), 'manage_options', $PPATH."wpg-admin-gal.php", "wpg_admin_gal") ;
 
-  add_submenu_page( $PPATH."wpg-admin.php", __('Security',"wp-greet"), __('Security', "wp-greet"), 8, $PPATH."wpg-admin-sec.php", "wpg_admin_sec") ;
+  add_submenu_page( $PPATH."wpg-admin.php", __('Security',"wp-greet"), __('Security', "wp-greet"), 'manage_options', $PPATH."wpg-admin-sec.php", "wpg_admin_sec") ;
 
-  add_submenu_page( $PPATH."wpg-admin.php", __('Logging',"wp-greet"), __('Logging', "wp-greet"), 8, $PPATH."wpg-admin-log.php", "wpg_admin_log") ;
+  add_submenu_page( $PPATH."wpg-admin.php", __('Logging',"wp-greet"), __('Logging', "wp-greet"), 'manage_options', $PPATH."wpg-admin-log.php", "wpg_admin_log") ;
 
 }
 
