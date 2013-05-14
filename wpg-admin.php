@@ -35,11 +35,7 @@ function wpg_admin_form()
   $wpg_options = wpgreet_get_options();
  
   // get translation 
-  $locale = get_locale();
-  if ( empty($locale) )
-    $locale = 'en_US';
-  if(function_exists('load_textdomain')) 
-    load_textdomain("wp-greet",ABSPATH . "wp-content/plugins/wp-greet/lang/".$locale.".mo");
+  load_plugin_textdomain('wp-greet',false,dirname( plugin_basename( __FILE__ ) ) . "/lang/");
   
   // load possible form pages
   $wpdb =& $GLOBALS['wpdb'];
@@ -62,7 +58,7 @@ function wpg_admin_form()
 			     "wp-greet-ocduration",   "wp-greet-octext",
 			     "wp-greet-logdays",      "wp-greet-carddays", 
 			     "wp-greet-show-ngg-desc","wp-greet-future-send",
-    			 "wp-greet-multi-recipients", "wp-greet-staticsender");
+    			 "wp-greet-multi-recipients", "wp-greet-staticsender","wp-greet-offerresend");
     
 
     while (list($key, $val) = each($wpg_options)) {
@@ -256,7 +252,12 @@ function wechsle_onlinecard () {
          <th scope="row">&nbsp;</th>
          <td><input type="checkbox" name="wp-greet-autofillform" value="1" <?php if ($wpg_options['wp-greet-autofillform']=="1") echo "checked=\"checked\""?> /> <b><?php echo __('Use informations from profile',"wp-greet")?></b></td>
          </tr>
-
+ 
+ 		 <tr class="tr-admin">
+         <th scope="row">&nbsp;</th>
+         <td><input type="checkbox" name="wp-greet-offerresend" value="1" <?php if ($wpg_options['wp-greet-offerresend']=="1") echo "checked=\"checked\""?> /> <b><?php echo __('Offer \'send again\'-link ',"wp-greet")?></b></td>
+         </tr>
+         
          <tr class="tr-admin"> 
          <th scope="row">&nbsp;</th>
          <td><input type="checkbox" name="wp-greet-logging" value="1" <?php if ($wpg_options['wp-greet-logging']=="1") echo "checked=\"checked\""?> /> <b><?php echo __('enable logging',"wp-greet")?></b></td>
@@ -271,14 +272,14 @@ function wechsle_onlinecard () {
 	  <tr class="tr-admin">
           <th scope="row"><?php echo __('Default mail header','wp-greet'); ?>:</th>
           <td><textarea name='wp-greet-default-header' cols='50'rows='4'><?php echo $wpg_options['wp-greet-default-header']; ?></textarea>
-          <img src="<?php echo site_url(PLUGINDIR . "/wp-greet/tooltip_icon.png");?>" alt="tooltip" title='<?php _e("HTML is allowed","wp-greet");?>'/>
+          <img src="<?php echo site_url(PLUGINDIR . "/wp-greet/tooltip_icon.png");?>" alt="tooltip" title='<?php _e("HTML allowed, use %sender% for sendername, %sendermail% for sender email-address, %receiver% for receiver name, %link% for generated link, %duration% for time the link is valid","wp-greet");?>'/>
           </td>
           </tr>
 
 	  <tr class="tr-admin">
           <th scope="row"><?php echo __('Default mail footer','wp-greet'); ?>:</th>
           <td><textarea name='wp-greet-default-footer' cols='50'rows='4'><?php echo $wpg_options['wp-greet-default-footer']; ?></textarea>
-           <img src="<?php echo site_url(PLUGINDIR . "/wp-greet/tooltip_icon.png");?>" alt="tooltip" title='<?php _e("HTML is allowed","wp-greet");?>'/>
+           <img src="<?php echo site_url(PLUGINDIR . "/wp-greet/tooltip_icon.png");?>" alt="tooltip" title='<?php _e("HTML allowed, use %sender% for sendername, %sendermail% for sender email-address, %receiver% for receiver name, %link% for generated link, %duration% for time the link is valid","wp-greet");?>'/>
            </td>
            </tr>
   

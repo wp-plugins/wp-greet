@@ -1,151 +1,188 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
-#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-05-13 07:35+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
 "Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Poedit-Language: French\n"
+"X-Poedit-Country:FRANCE\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;"
+"_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2;\n"
+"X-Poedit-Basepath: \n"
+"X-Poedit-Bookmarks: \n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Textdomain-Support: yes\n"
 
+# @ wp-greet
 #: wp-greet.php:111 wpg-admin-gal.php:70
 msgid "Galleries"
-msgstr ""
+msgstr "Galeries"
 
+# @ wp-greet
 #: wp-greet.php:113
 msgid "Security"
-msgstr ""
+msgstr "Sécurité"
 
+# @ wp-greet
 #: wp-greet.php:115
 msgid "Logging"
-msgstr ""
+msgstr "Journal"
 
+# @ wp-greet
 #: wpg-admin-gal.php:46
 msgid "No gallery plugin selected."
-msgstr ""
+msgstr "Pas de galerie sélectionnée."
 
+# @ wp-greet
 #: wpg-admin-gal.php:62 wpg-admin-sec.php:108 wpg-admin.php:102
 msgid "Settings successfully updated"
-msgstr ""
+msgstr "Paramètres mis à jour."
 
+# @ wp-greet
 #: wpg-admin-gal.php:73
 msgid "Active"
-msgstr ""
+msgstr "Active"
 
+# @ wp-greet
 #: wpg-admin-gal.php:74
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
+# @ wp-greet
 #: wpg-admin-gal.php:75
 msgid "Name"
-msgstr ""
+msgstr "Nom"
 
+# @ wp-greet
 #: wpg-admin-gal.php:90
 msgid "Save"
-msgstr ""
+msgstr "Sauver"
 
+# @ wp-greet
 #: wpg-admin-log.php:88
 msgid "Greetcard Log"
-msgstr ""
+msgstr "Journal des E-Cartes"
 
+# @ wp-greet
 #: wpg-admin-log.php:93
 msgid "Show all"
-msgstr ""
+msgstr "Tour afficher "
 
+# @ wp-greet
 #: wpg-admin-log.php:102
 msgid "Lines per Page:"
-msgstr ""
+msgstr "Lignes par page :"
 
+# @ wp-greet
 #: wpg-admin-log.php:106
 msgid "No."
-msgstr ""
+msgstr "No."
 
+# @ wp-greet
 #: wpg-admin-log.php:107
 msgid "Date/Time"
-msgstr ""
+msgstr "Date / Heure"
 
+# @ wp-greet
 #: wpg-admin-log.php:108
 msgid "From"
-msgstr ""
+msgstr "À partir de"
 
+# @ wp-greet
 #: wpg-admin-log.php:109
 msgid "To"
-msgstr ""
+msgstr "À"
 
+# @ wp-greet
 #: wpg-admin-log.php:110
 msgid "Image"
-msgstr ""
+msgstr "Image"
 
+# @ wp-greet
 #: wpg-admin-log.php:111
 msgid "IP-Adress"
-msgstr ""
+msgstr "Adresse IP"
 
+# @ wp-greet
 #: wpg-admin-log.php:112 wpg-admin-sec.php:305 wpg-form.php:248
 #: wpg-form.php:715
 msgid "Message"
-msgstr ""
+msgstr "Message "
 
+# @ wp-greet
 #: wpg-admin-log.php:139
 msgid "Clear Log"
-msgstr ""
+msgstr "Effacer le log"
 
+# @ wp-greet
 #: wpg-admin-sec.php:101
 msgid "Captcha plugin not found."
-msgstr ""
+msgstr "plugin Captcha introuvable."
 
+# @ wp-greet
 #: wpg-admin-sec.php:110 wpg-admin.php:104
 msgid "You have to change a field to update settings."
-msgstr ""
+msgstr "Vous devez modifier un champ afin de mettre à jour les paramètres."
 
+# @ wp-greet
 #: wpg-admin-sec.php:156
 msgid "wp-greet Security - Setup"
-msgstr ""
+msgstr "Configuration - Sécurité"
 
+# @ wp-greet
 #: wpg-admin-sec.php:162
 msgid "Spam protection"
-msgstr ""
+msgstr "Protection anti-Spam"
 
+# @ wp-greet
 #: wpg-admin-sec.php:166
 msgid "none"
-msgstr ""
+msgstr "aucun"
 
+# @ wp-greet
 #: wpg-admin-sec.php:182
 msgid "Minimum role to send card"
-msgstr ""
+msgstr "Qui peut envoyer des E-Cartes ? "
 
+# @ wp-greet
 #: wpg-admin-sec.php:200
 msgid "Everyone"
-msgstr ""
+msgstr "Tout le monde"
 
+# @ wp-greet
 #: wpg-admin-sec.php:211
 msgid "Enable Terms of Usage display and check"
-msgstr ""
+msgstr "Afficher les conditions d'utilisations et vérifier"
 
+# @ wp-greet
 #: wpg-admin-sec.php:216
 msgid "Terms of usage"
-msgstr ""
+msgstr "Conditions d&#39;utilisation"
 
+# @ wp-greet
 #: wpg-admin-sec.php:222
 msgid "HTML is allowed"
-msgstr ""
+msgstr "HTML est autorisé"
 
+# @ wp-greet
 #: wpg-admin-sec.php:231
 msgid "Use mail to verify sender address"
-msgstr ""
+msgstr "Utiliser la messagerie pour vérifier l&#39;adresse de l&#39;Expéditeur"
 
+# @ wp-greet
 #: wpg-admin-sec.php:236
 msgid "Verification mail text"
-msgstr ""
+msgstr "Vérification du texte du courriel "
 
+# @ wp-greet
 #: wpg-admin-sec.php:243 wpg-admin-sec.php:276 wpg-admin.php:213
 #: wpg-admin.php:275 wpg-admin.php:282
 msgid ""
@@ -153,290 +190,379 @@ msgid ""
 "address, %receiver% for receiver name, %link% for generated link, %duration% "
 "for time the link is valid"
 msgstr ""
+"HTML autorisés, utilise %sender% pour le nom de l&#39;expéditeur, %sendermail"
+"% pour le courriel, %receiver% pour le nom du destinataire, %link% pour lien "
+"généré, %duration% pour le temps de validité du lien."
 
+# @ wp-greet
 #: wpg-admin-sec.php:248
 msgid "Link valid time (hours)"
-msgstr ""
+msgstr "Lien valide durant (en heures) "
 
+# @ wp-greet
 #: wpg-admin-sec.php:254
 msgid "0 means confirmation-link will never expire"
-msgstr ""
+msgstr " 0 signifie que la confirmation de liens n&#39;expire jamais "
 
+# @ wp-greet
 #: wpg-admin-sec.php:259
+#, fuzzy
 msgid "Confirmation mail to sender"
-msgstr ""
+msgstr "Vérification du texte du courriel "
 
+# @ wp-greet
 #: wpg-admin-sec.php:269
+#, fuzzy
 msgid "Confirmation mail text"
-msgstr ""
+msgstr "Vérification du texte du courriel "
 
+# @ wp-greet
 #: wpg-admin-sec.php:283
 msgid "Mandatory fields"
-msgstr ""
+msgstr "Champs obligatoires"
 
+# @ wp-greet
 #: wpg-admin-sec.php:285 wpg-form.php:207 wpg-form.php:688
 msgid "Sendername"
-msgstr ""
+msgstr "Nom de l'Expéditeur "
 
+# @ wp-greet
 #: wpg-admin-sec.php:289 wpg-form.php:212 wpg-form.php:690
 msgid "Sender"
-msgstr ""
+msgstr "Adresse courriel de l'Expéditeur "
 
+# @ wp-greet
 #: wpg-admin-sec.php:293 wpg-form.php:221 wpg-form.php:701
 msgid "Recipientname"
-msgstr ""
+msgstr "Nom du destinataire "
 
+# @ wp-greet
 #: wpg-admin-sec.php:297 wpg-form.php:226 wpg-form.php:703
 msgid "Recipient"
-msgstr ""
+msgstr "Adresse courriel du Destinataire  "
 
+# @ wp-greet
 #: wpg-admin-sec.php:301 wpg-form.php:243 wpg-form.php:713
 msgid "Subject"
-msgstr ""
+msgstr "Sujet "
 
+# @ wp-greet
 #: wpg-admin-sec.php:316 wpg-admin.php:298
 msgid "Update options"
-msgstr ""
+msgstr "Mise à jour des options"
 
+# @ wp-greet
 #: wpg-admin.php:76
 msgid "mailreturnpath is not valid (wrong format or no MX entry for domain)."
 msgstr ""
+"Le chemin de retour n&#39;est pas valide (mauvais format ou pas d&#39;entrée "
+"MX pour le domaine)."
 
+# @ wp-greet
 #: wpg-admin.php:81
+#, fuzzy
 msgid ""
 "static sender address is not valid (wrong format or no MX entry for domain)."
 msgstr ""
+"adresse courriel  (BCc) n&#39;est pas valide (mauvais format ou pas d&#39;"
+"entrée MX pour le domaine)."
 
+# @ wp-greet
 #: wpg-admin.php:86
 msgid "bcc email adress is not valid (wrong format or no MX entry for domain)."
 msgstr ""
+"adresse courriel  (BCc) n&#39;est pas valide (mauvais format ou pas d&#39;"
+"entrée MX pour le domaine)."
 
+# @ wp-greet
 #: wpg-admin.php:91
 msgid "imagewidth not in range (0..3200)."
-msgstr ""
+msgstr "hauteur d'image hors de portée (0 .. 3200)."
 
+# @ wp-greet
 #: wpg-admin.php:96
 msgid ""
 "Cards will be removed before fetch interval expires (Number of days an "
 "online card can be fetched > Number of days card entries are stored)"
 msgstr ""
+"Les cartes seront supprimés dans un certain intervalle de temps (Nombre de "
+"jours qu&#39;une carte en ligne peut être récupérée &gt; Nombre de jours "
+"durant les cartes sont stockées)"
 
+# @ wp-greet
 #: wpg-admin.php:140
 msgid "wp-greet Setup"
-msgstr ""
+msgstr " Mise à jour de wp-Greet"
 
+# @ wp-greet
 #: wpg-admin.php:144
 msgid "Gallery-Plugin"
-msgstr ""
+msgstr "Gallery-Plugin "
 
+# @ wp-greet
 #: wpg-admin.php:153
 msgid "Form-Post/Page"
-msgstr ""
+msgstr "Page ou Article contenant le formulaire   "
 
+# @ wp-greet
 #: wpg-admin.php:166
 msgid "Mailtransfermethod"
-msgstr ""
+msgstr "Méthode de transfert "
 
+# @ wp-greet
 #: wpg-admin.php:172
+#, fuzzy
 msgid "Static Senderaddress"
-msgstr ""
+msgstr "Adresse courriel invalide."
 
+# @ wp-greet
 #: wpg-admin.php:177
 msgid "Mailreturnpath"
-msgstr ""
+msgstr "Adresse de retour "
 
+# @ wp-greet
 #: wpg-admin.php:182
 msgid "Send Bcc to"
-msgstr ""
+msgstr "Envoyer Bcc à "
 
 #: wpg-admin.php:188
 msgid "Allow more than one recipient"
 msgstr ""
 
+# @ wp-greet
 #: wpg-admin.php:194
 msgid "Send image inline"
-msgstr ""
+msgstr "Envoyer image en ligne"
 
+# @ wp-greet
 #: wpg-admin.php:200
 msgid "Fetch cards online"
-msgstr ""
+msgstr "Cartes en ligne récupérées"
 
+# @ wp-greet
 #: wpg-admin.php:204
 msgid "Number of days an online card can be fetched"
-msgstr ""
+msgstr "Peut être récupérée durant "
 
+# @ wp-greet
 #: wpg-admin.php:209
 msgid "Online card HTML mail text"
-msgstr ""
+msgstr "Texte du message (HTML) "
 
+# @ wp-greet
 #: wpg-admin.php:218
 msgid "Fixed image width"
-msgstr ""
+msgstr "Largeur de l&#39;image fixe "
 
+# @ wp-greet
 #: wpg-admin.php:224
 msgid "Add stamp image"
-msgstr ""
+msgstr "Ajouter une miniature "
 
+# @ wp-greet
 #: wpg-admin.php:226
 msgid ""
 "leave empty for no stamp, path must be relative to wordpress directory, e.g. "
 "wp-content/plugins/wp-greet/defaultstamp.jpg"
 msgstr ""
+"laisser vide pour ne pas avoir d&#39;image, le chemin doit être relatif au "
+"répertoire wordpress, p.ex. wp-content/plugins/wp-greet/defaultstamp.jpg"
 
+# @ wp-greet
 #: wpg-admin.php:231
-#, php-format
+#, fuzzy, php-format
 msgid "Stampwidth in % of imagewidth"
-msgstr ""
+msgstr "Réduction de l'image en % "
 
 #: wpg-admin.php:237
 msgid "Use NGG data for image"
 msgstr ""
 
+# @ wp-greet
 #: wpg-admin.php:242
 msgid "Enable Smileys on greetcard form"
-msgstr ""
+msgstr "Activer Emoticons sur le formulaire "
 
 #: wpg-admin.php:247
 msgid "Allow sending cards in the future"
 msgstr ""
 
+# @ wp-greet
 #: wpg-admin.php:253
 msgid "Use informations from profile"
-msgstr ""
+msgstr "Utiliser les informations de profil"
 
 #: wpg-admin.php:258
 msgid "Offer 'send again'-link "
 msgstr ""
 
+# @ wp-greet
 #: wpg-admin.php:263
 msgid "enable logging"
-msgstr ""
+msgstr "activer la journalisation"
 
+# @ wp-greet
 #: wpg-admin.php:268
 msgid "Default mail subject"
-msgstr ""
+msgstr "Sujet de message par défaut "
 
+# @ wp-greet
 #: wpg-admin.php:273
 msgid "Default mail header"
-msgstr ""
+msgstr "En-tête de message par défaut  "
 
+# @ wp-greet
 #: wpg-admin.php:280
 msgid "Default mail footer"
-msgstr ""
+msgstr "Pied de message par défaut "
 
+# @ wp-greet
 #: wpg-admin.php:287
 msgid "Number of days log entries are stored"
-msgstr ""
+msgstr "Nombre de jours durant lesquels les entrées sont stockées "
 
+# @ wp-greet
 #: wpg-admin.php:292
 msgid "Number of days card entries are stored"
-msgstr ""
+msgstr "Nombre de jours durant lesquels les cartes sont stockées  "
 
+# @ wp-greet
 #: wpg-form.php:117 wpg-form.php:861
 msgid "Your verification code is invalid."
-msgstr ""
+msgstr "Votre code de vérification n&#39;est pas valide."
 
+# @ wp-greet
 #: wpg-form.php:118 wpg-form.php:125 wpg-form.php:133
 msgid "Please send a new card at"
-msgstr ""
+msgstr "Envoyer une nouvelle E-carte à"
 
+# @ wp-greet
 #: wpg-form.php:124
 msgid "Your greeting card has already been sent."
-msgstr ""
+msgstr "Votre E-carte a déjà été envoyé."
 
+# @ wp-greet
 #: wpg-form.php:132
 msgid "Your confirmation link is timedout."
-msgstr ""
+msgstr "Votre lien de confirmation est expiré."
 
+# @ wp-greet
 #: wpg-form.php:139 wpg-form.php:184 wpg-form.php:400 wpg-form.php:409
 #: wpg-form.php:548 wpg-form.php:773
 msgid "Send"
-msgstr ""
+msgstr "Envoyer"
 
+# @ wp-greet
 #: wpg-form.php:165
 msgid "You are not permitted to send greeting cards."
-msgstr ""
+msgstr "Vous n&#39;êtes pas autorisé à envoyer des E-cartes."
 
+# @ wp-greet
 #: wpg-form.php:165
 msgid "Please contact you wordpress Administrator."
-msgstr ""
+msgstr "Contacter votre Administrateur."
 
+# @ wp-greet
 #: wpg-form.php:183 wpg-form.php:326 wpg-form.php:771
 msgid "Preview"
-msgstr ""
+msgstr "Aperçu"
 
+# @ wp-greet
 #: wpg-form.php:207 wpg-form.php:212 wpg-form.php:221 wpg-form.php:226
 #: wpg-form.php:243 wpg-form.php:248
 msgid "Please fill in mandatory field"
-msgstr ""
+msgstr "Remplir le champ obligatoire"
 
+# @ wp-greet
 #: wpg-form.php:216
 msgid "Invalid sender  mail address."
-msgstr ""
+msgstr "Adresse courriel invalide."
 
+# @ wp-greet
 #: wpg-form.php:233 wpg-form.php:238
 msgid "Invalid recipient mail address."
-msgstr ""
+msgstr "Adresse destinataire invalide."
 
+# @ wp-greet
 #: wpg-form.php:266 wpg-form.php:272 wpg-form.php:293 wpg-form.php:307
 msgid "Spamprotection - Code is not valid.<br />"
-msgstr ""
+msgstr "Anti-Spam - le code n&#39;est pas valide. <br />"
 
+# @ wp-greet
 #: wpg-form.php:267 wpg-form.php:273
 msgid ""
 "Please try again.<br />Tip: If you cannot identify the chars, you can "
 "generate a new image. Using Reload."
 msgstr ""
+"Essayer à nouveau. <br /><b>Astuce<b/> : Si vous ne pouvez identifier les "
+"signes, vous pouvez générer une nouvelle image. \n"
+" Utiliser Recharger."
 
+# @ wp-greet
 #: wpg-form.php:294 wpg-form.php:308
 msgid "Please try again."
-msgstr ""
+msgstr "Essayer à nouveau."
 
+# @ wp-greet
 #: wpg-form.php:317
 msgid "Please accept the terms of usage before sending a greeting card.<br />"
 msgstr ""
+"Accepter les conditions d&#39;utilisation avant d&#39;envoyer une carte. "
+"<br />"
 
+# @ wp-greet
 #: wpg-form.php:345
 msgid "CC"
-msgstr ""
+msgstr "Copie Cachée "
 
 #: wpg-form.php:395
 msgid "Edit"
 msgstr ""
 
+# @ wp-greet
 #: wpg-form.php:397
 msgid "Back"
-msgstr ""
+msgstr "Retour"
 
+# @ wp-greet
 #: wpg-form.php:502
+#, fuzzy
 msgid "Your greeting card has been sent or scheduled."
-msgstr ""
+msgstr "Votre E-carte a été envoyé."
 
 #: wpg-form.php:524
 msgid "Send this card to another recipient"
 msgstr ""
 
+# @ wp-greet
 #: wpg-form.php:542
 msgid "An error occured while sending you greeting card."
-msgstr ""
+msgstr "Une erreur s&#39;est produite lors de l&#39;envoi de votre E-Carte."
 
+# @ wp-greet
 #: wpg-form.php:543 wpg-form.php:597
 msgid "Problem report"
-msgstr ""
+msgstr "Signaler un problème"
 
+# @ wp-greet
 #: wpg-form.php:591
 msgid "A confirmation mail has been sent to your address."
-msgstr ""
+msgstr "Un mail de confirmation a été envoyé à votre adresse."
 
+# @ wp-greet
 #: wpg-form.php:592
 msgid ""
 "Please enter the link contained within the email into your browser and the "
 "greeting card will be send."
 msgstr ""
+"Entrer le lien contenu dans l&#39;e-mail dans votre lecteur de courrier et "
+"la E-Carte sera envoyée."
 
+# @ wp-greet
 #: wpg-form.php:596
 msgid "An error occured while sending the confirmation mail."
 msgstr ""
+"Une erreur s&#39;est produite lors de l&#39;envoi du mail de confirmation."
 
 #: wpg-form.php:603
 msgid "Zurück"
@@ -446,58 +572,81 @@ msgstr ""
 msgid "Send confirmation to Sender"
 msgstr ""
 
+# @ wp-greet
 #: wpg-form.php:699
 msgid "CC to Sender"
-msgstr ""
+msgstr "Copie Cachée à l&#39;expéditeur "
 
+# @ wp-greet
 #: wpg-form.php:709
+#, fuzzy
 msgid "Time to send card"
-msgstr ""
+msgstr "Qui peut envoyer des E-Cartes ? "
 
+# @ wp-greet
 #: wpg-form.php:724
 msgid "Smileys"
-msgstr ""
+msgstr "Émoticones   "
 
+# @ wp-greet
 #: wpg-form.php:737
 msgid "Spamprotection:"
-msgstr ""
+msgstr "Anti-Spam :"
 
+# @ wp-greet
 #: wpg-form.php:751
 msgid "Sum of"
-msgstr ""
+msgstr "Somme des"
 
+# @ wp-greet
 #: wpg-form.php:765
 msgid "I accept the terms of usage of the greeting card service"
 msgstr ""
+"J&#39;accepte les conditions générales d&#39;utilisation du service de E-"
+"Cartes"
 
+# @ wp-greet
 #: wpg-form.php:767
 msgid "(show)"
-msgstr ""
+msgstr "(Voir)"
 
+# @ wp-greet
 #: wpg-form.php:772
 msgid "Reset form"
-msgstr ""
+msgstr "Réinitialiser"
 
+# @ wp-greet
 #: wpg-form.php:862 wpg-form.php:869
 msgid "Send a new card at"
-msgstr ""
+msgstr "Envoyer une nouvelle E-carte à"
 
+# @ wp-greet
 #: wpg-form.php:868
 msgid "Your greetcard link is timed out."
-msgstr ""
+msgstr "Votre lien E-carte est expiré."
 
+# @ wp-greet
 #: wpg-func-mail.php:282
 msgid "Greeting Card Confirmation Mail"
-msgstr ""
+msgstr "Confirmation des E-Cartes par courriel"
 
+# @ wp-greet
 #: wpg-func-mail.php:394
 msgid "A Greeting Card for you"
-msgstr ""
+msgstr "Une E-Carte pour vous"
 
+# @ wp-greet
 #: wpg-func-mail.php:522
+#, fuzzy
 msgid "You greeting card was received"
-msgstr ""
+msgstr "Votre E-carte a été envoyé."
 
+# @ wp-greet
 #: wpg-func.php:515
 msgid "Stampimage not found - Please contact your administrator"
 msgstr ""
+"Miniature non disponible - S&#39;il vous plaît contacter votre Administrateur"
+
+# @ wp-greet
+#~ msgid "Mandatory inputfields are marked with a"
+#~ msgstr "Les champs obligatoires sont marqués d&#39;un "

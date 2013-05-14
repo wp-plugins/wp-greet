@@ -93,3 +93,9 @@ tr.tr-admin {
 td.td-admin {
 	text-align: center;
 }
+
+
+button.bwc_formbutton { 
+    margin-left: 200px;
+}
+

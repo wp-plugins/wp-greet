@@ -3,7 +3,7 @@
 Plugin Name: wp-greet
 Plugin URI: http://www.tuxlog.de
 Description: wp-greet is a wordpress plugin to send greeting cards from your wordpress blog.
-Version: 3.1
+Version: 3.2
 Author: Barbara Jany, Hans Matzen <webmaster at tuxlog.de>
 Author URI: http://www.tuxlog.de
 */
@@ -29,7 +29,7 @@ if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) { die('You
 are not allowed to call this page directly.'); }
 
 
-define( "WP_GREET_VERSION", "3.1" );
+define( "WP_GREET_VERSION", "3.2" );
 
 // global options array
 $wpg_options = array();
@@ -61,27 +61,29 @@ function wp_greet_init()
   // add css in header
   wp_enqueue_style("wp-greet", plugins_url('wp-greet.css', __FILE__) );
   
- // add thickbox for frontend
+  // add thickbox for frontend
   add_action('wp_print_scripts', 'wpg_add_thickbox_script');
   add_action('wp_print_styles',  'wpg_add_thickbox_style' );
+  
   
   // add actions for future send
   add_action("wpgreet_sendcard_link","cron_sendGreetCardLink",10,7);
   add_action("wpgreet_sendcard_mail","cron_sendGreetCardMail",10,9);
   
   // add jquery extensions for datepicker if applicable
-  if ($wpg_options['wp-greet-future-send']) {
+  if ($wpg_options['wp-greet-future-send'] and !is_admin()) {
   	wp_enqueue_script('jquery'); 
-    wp_enqueue_script('jquery-ui-wpgcustom', plugins_url('wp-greet/dtpicker/jquery-ui-1.8.16.custom.min.js', dirname(__FILE__)),array('jquery'));  	
+    wp_enqueue_script('jquery-ui-wpgcustom', plugins_url('wp-greet/dtpicker/jquery-ui-1.10.0.custom.min.js', dirname(__FILE__)),array('jquery'));  	
     
     wp_enqueue_script('jquery-ui-timepicker', plugins_url('wp-greet/dtpicker/jquery-ui-timepicker-addon.js', dirname(__FILE__)),array('jquery','jquery-ui-wpgcustom'));
 	$locale=trim(substr(get_locale(),0,2)); 
 	wp_enqueue_script('jquery-ui-timepicker-i18n', plugins_url("wp-greet/dtpicker/i18n/jquery-ui-timepicker-$locale.js", dirname(__FILE__)),array('jquery-ui-timepicker'));
 	wp_enqueue_script('jquery-ui-datepicker-i18n', plugins_url("wp-greet/dtpicker/i18n/jquery.ui.datepicker-$locale.js", dirname(__FILE__)),array('jquery-ui-timepicker'));
     
-	wp_enqueue_style('jquery-ui-wpgcustom-css', plugins_url('wp-greet/dtpicker/jquery-ui-1.8.16.custom.css'));
-	      	
+	wp_enqueue_style('jquery-ui-wpgcustom-css', plugins_url('wp-greet/dtpicker/jquery-ui-1.10.0.custom.min.css'));
+		      	
   }
+  
   
   // Action calls for all functions 
   add_filter('the_content', 'searchwpgreet');
@@ -102,11 +104,7 @@ function wpg_add_menus()
   $PPATH=ABSPATH.PLUGINDIR."/wp-greet/";
 
   // get translation 
-  $locale = get_locale();
-  if ( empty($locale) )
-    $locale = 'en_US';
-  if(function_exists('load_textdomain')) 
-    load_textdomain("wp-greet",ABSPATH . "wp-content/plugins/wp-greet/lang/".$locale.".mo");
+  load_plugin_textdomain('wp-greet',false,dirname( plugin_basename( __FILE__ ) ) . "/lang/");
   
   add_menu_page('wp-greet','wp-greet', 'manage_options', $PPATH."wpg-admin.php","wpg_admin_form", site_url("/wp-content/plugins/wp-greet") . '/wp-greet.png');
 

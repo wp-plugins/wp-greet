@@ -3,19 +3,20 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: 0.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-05-13 07:35+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"PO-Revision-Date: 2011-02-15 08:42+0100\n"
+"Last-Translator: Hans Matzen <webmaster ät tuxlog dot  de>\n"
+"Language-Team: Diana <LL@li.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Vietnamese\n"
+"X-Poedit-Country: VIET NAM\n"
 
 #: wp-greet.php:111 wpg-admin-gal.php:70
 msgid "Galleries"
@@ -92,7 +93,7 @@ msgstr ""
 #: wpg-admin-log.php:112 wpg-admin-sec.php:305 wpg-form.php:248
 #: wpg-form.php:715
 msgid "Message"
-msgstr ""
+msgstr "Lời nhắn"
 
 #: wpg-admin-log.php:139
 msgid "Clear Log"
@@ -176,23 +177,23 @@ msgstr ""
 
 #: wpg-admin-sec.php:285 wpg-form.php:207 wpg-form.php:688
 msgid "Sendername"
-msgstr ""
+msgstr "Tên người gởi"
 
 #: wpg-admin-sec.php:289 wpg-form.php:212 wpg-form.php:690
 msgid "Sender"
-msgstr ""
+msgstr "Email người gởi"
 
 #: wpg-admin-sec.php:293 wpg-form.php:221 wpg-form.php:701
 msgid "Recipientname"
-msgstr ""
+msgstr "Tên người nhận"
 
 #: wpg-admin-sec.php:297 wpg-form.php:226 wpg-form.php:703
 msgid "Recipient"
-msgstr ""
+msgstr "Email người nhận"
 
 #: wpg-admin-sec.php:301 wpg-form.php:243 wpg-form.php:713
 msgid "Subject"
-msgstr ""
+msgstr "Chủ đề"
 
 #: wpg-admin-sec.php:316 wpg-admin.php:298
 msgid "Update options"
@@ -238,8 +239,9 @@ msgid "Mailtransfermethod"
 msgstr ""
 
 #: wpg-admin.php:172
+#, fuzzy
 msgid "Static Senderaddress"
-msgstr ""
+msgstr "Email người gởi không chính xác."
 
 #: wpg-admin.php:177
 msgid "Mailreturnpath"
@@ -351,7 +353,7 @@ msgstr ""
 #: wpg-form.php:139 wpg-form.php:184 wpg-form.php:400 wpg-form.php:409
 #: wpg-form.php:548 wpg-form.php:773
 msgid "Send"
-msgstr ""
+msgstr "Gởi Đi"
 
 #: wpg-form.php:165
 msgid "You are not permitted to send greeting cards."
@@ -363,7 +365,7 @@ msgstr ""
 
 #: wpg-form.php:183 wpg-form.php:326 wpg-form.php:771
 msgid "Preview"
-msgstr ""
+msgstr "Xem Lại"
 
 #: wpg-form.php:207 wpg-form.php:212 wpg-form.php:221 wpg-form.php:226
 #: wpg-form.php:243 wpg-form.php:248
@@ -372,11 +374,11 @@ msgstr ""
 
 #: wpg-form.php:216
 msgid "Invalid sender  mail address."
-msgstr ""
+msgstr "Email người gởi không chính xác."
 
 #: wpg-form.php:233 wpg-form.php:238
 msgid "Invalid recipient mail address."
-msgstr ""
+msgstr "Email nguời nhận không chính xác"
 
 #: wpg-form.php:266 wpg-form.php:272 wpg-form.php:293 wpg-form.php:307
 msgid "Spamprotection - Code is not valid.<br />"
@@ -406,11 +408,12 @@ msgstr ""
 
 #: wpg-form.php:397
 msgid "Back"
-msgstr ""
+msgstr "Trở về"
 
 #: wpg-form.php:502
+#, fuzzy
 msgid "Your greeting card has been sent or scheduled."
-msgstr ""
+msgstr "Thiệp của bạn đã được gởi đi"
 
 #: wpg-form.php:524
 msgid "Send this card to another recipient"
@@ -448,7 +451,7 @@ msgstr ""
 
 #: wpg-form.php:699
 msgid "CC to Sender"
-msgstr ""
+msgstr "CC cho người gởi "
 
 #: wpg-form.php:709
 msgid "Time to send card"
@@ -476,7 +479,7 @@ msgstr ""
 
 #: wpg-form.php:772
 msgid "Reset form"
-msgstr ""
+msgstr "Xóa"
 
 #: wpg-form.php:862 wpg-form.php:869
 msgid "Send a new card at"
@@ -495,8 +498,9 @@ msgid "A Greeting Card for you"
 msgstr ""
 
 #: wpg-func-mail.php:522
+#, fuzzy
 msgid "You greeting card was received"
-msgstr ""
+msgstr "Thiệp của bạn đã được gởi đi"
 
 #: wpg-func.php:515
 msgid "Stampimage not found - Please contact your administrator"

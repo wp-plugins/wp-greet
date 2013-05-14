@@ -67,7 +67,7 @@ function wp_greet_activate()
             picture VARCHAR(255) NOT NULL,
             mailbody MEDIUMTEXT NOT NULL,
             remote_ip VARCHAR(15) NOT NULL,
-	    PRIMARY KEY  mid (mid)
+	    PRIMARY KEY  (mid)
 	    ) $charset_collate ;";
     
     dbDelta($sql);
@@ -90,7 +90,8 @@ function wp_greet_activate()
             card_sent timestamp NOT NULL,
 	        card_fetched timestamp NOT NULL,
 	        future_send timestamp NOT NULL,
-            PRIMARY KEY  mid (mid)
+	        session_id VARCHAR(32) NOT NULL,
+            PRIMARY KEY  (mid)
 	    ) $charset_collate ;";
     
     dbDelta($sql);
@@ -98,79 +99,68 @@ function wp_greet_activate()
 
     if ($wpg_options['wp-greet-minseclevel'] == "") {
 	$wpg_options['wp-greet-minseclevel'] = 'Registered';
-	add_option("wp-greet-minseclevel",$wpg_options['wp-greet-minseclevel'],
-		   "the minimum security level to send greeting cards","yes");
+	add_option("wp-greet-minseclevel",$wpg_options['wp-greet-minseclevel'],'',"yes");
     };
     
     
     if ($wpg_options['wp-greet-captcha'] == "") {
 	$wpg_options['wp-greet-captcha'] = 0;
-	add_option("wp-greet-captcha",$wpg_options['wp-greet-captcha'],
-		   "wanna use a captcha to prevent spamming?","yes");
+	add_option("wp-greet-captcha",$wpg_options['wp-greet-captcha'],'',"yes");
     }; 
     
     if ($wpg_options['wp-greet-mailreturnpath'] == "") {
 	$wpg_options['wp-greet-mailreturnpath'] = "";
-	add_option("wp-greet-mailreturnpath",$wpg_options['wp-greet-mailreturnpath'],"the standard mail return path","yes");
+	add_option("wp-greet-mailreturnpath",$wpg_options['wp-greet-mailreturnpath'],'',"yes");
     }; 
      
     if ($wpg_options['wp-greet-staticsender'] == "") {
 	$wpg_options['wp-greet-staticsender'] = "";
-	add_option("wp-greet-staticsender",$wpg_options['wp-greet-staticsender'],"always use this as sedner address","yes");
+	add_option("wp-greet-staticsender",$wpg_options['wp-greet-staticsender'],'',"yes");
     }; 
     
     if ($wpg_options['wp-greet-autofillform'] == "") {
 	$wpg_options['wp-greet-autofillform'] = 1;
-	add_option("wp-greet-autofillform",$wpg_options['wp-greet-autofillform'],
-		   "try to fill form with user data","yes");
+	add_option("wp-greet-autofillform",$wpg_options['wp-greet-autofillform'],'',"yes");
     };
     
     if ($wpg_options['wp-greet-imagewidth'] == "") {
 	$wpg_options['wp-greet-imagewidth'] = 400;
-	add_option("wp-greet-imagewidth",$wpg_options['wp-greet-imagewidth'],
-		   "gives the fixe image width","yes");
+	add_option("wp-greet-imagewidth",$wpg_options['wp-greet-imagewidth'],'',"yes");
     };
 
     if ($wpg_options['wp-greet-stampimage'] == "") {
 	$wpg_options['wp-greet-stampimage'] = "wp-content/plugins/wp-greet/defaultstamp.jpg";
-	add_option("wp-greet-stampimage",$wpg_options['wp-greet-stampimage'],
-		   "file name of stamp-image","yes");
+	add_option("wp-greet-stampimage",$wpg_options['wp-greet-stampimage'],'',"yes");
     };
 
     if ($wpg_options['wp-greet-stamppercent'] == "") {
 	$wpg_options['wp-greet-stamppercent'] = 15;
-	add_option("wp-greet-stamppercent",$wpg_options['wp-greet-stamppercent'],
-		   "gives the stamp width in percent of imagewidth","yes");
+	add_option("wp-greet-stamppercent",$wpg_options['wp-greet-stamppercent'],'',"yes");
     };
 
     if ($wpg_options['wp-greet-logging'] == "") {
 	$wpg_options['wp-greet-logging'] = 1;
-	add_option("wp-greet-logging",$wpg_options['wp-greet-logging'],
-		   "enable logging","yes");
+	add_option("wp-greet-logging",$wpg_options['wp-greet-logging'],'',"yes");
     };
     
     if ($wpg_options['wp-greet-gallery'] == "") {
 	$wpg_options['wp-greet-gallery'] = "ngg";
-	add_option("wp-greet-gallery",$wpg_options['wp-greet-gallery'],
-		   "which gallery to use","yes");
+	add_option("wp-greet-gallery",$wpg_options['wp-greet-gallery'],'',"yes");
     };
     
     if ($wpg_options['wp-greet-linesperpage'] == "") {
 	$wpg_options['wp-greet-linesperpage'] = "10";
-	add_option("wp-greet-linesperpage",$wpg_options['wp-greet-linesperpage'],
-		   "lines on each page on log page","yes");
+	add_option("wp-greet-linesperpage",$wpg_options['wp-greet-linesperpage'],'',"yes");
     }; 
     
     if ($wpg_options['wp-greet-usesmtp'] == "") {
 	$wpg_options['wp-greet-usesmtp'] = "1";
-	add_option("wp-greet-usesmtp",$wpg_options['wp-greet-usesmtp'],
-		   "which mail transfer method to use smtp=1, php mail=0","yes");
+	add_option("wp-greet-usesmtp",$wpg_options['wp-greet-usesmtp'],'',"yes");
     };
     
     if ($wpg_options['wp-greet-touswitch'] == "") {
 	$wpg_options['wp-greet-touswitch'] = "1";
-	add_option("wp-greet-touswitch",$wpg_options['wp-greet-touswitch'],
-		   "show terms of usage confirmation yes=1 or no=0","yes");
+	add_option("wp-greet-touswitch",$wpg_options['wp-greet-touswitch'],'',"yes");
     }; 
     
     if ($wpg_options['wp-greet-termsofusage'] == "") {
@@ -183,22 +173,17 @@ Der eCard Versender stellt sicher, dass er bei der Nutzung unseres eCard Service
 <p>Das Urheberrecht aller eCards liegt beim Betreiber dieser Site. Die Genehmigung zum Versenden der eCards zwecks Grußkartenübermittlung ist hiermit erteilt. Jegliche weitere Nutzung bedarf einer schriftlichen Genehmigung.</p>
 
 <p>Datenschutz: Ihre eMail-Adresse und die eMail-Adresse des Empfängers werden ausschließlich zu Übertragungszwecken verwendet . Zum Einen um Ihnen die Möglichkeit zu geben die Karte als Absender per Email zu bestätigen zum Anderen um den Empfänger über die eCard zu informieren, bzw. Sie, als Absender einer eCard, bei einem Fehler beim Versenden, zu benachrichtigen.</p>";
-	add_option("wp-greet-termsofusage",$wpg_options['wp-greet-termsofusage'],
-		   "html text for terms of usage","yes");
+	add_option("wp-greet-termsofusage",$wpg_options['wp-greet-termsofusage'],'', "yes");
     };   
     
     if ($wpg_options['wp-greet-mailconfirm'] == "") {
 	$wpg_options['wp-greet-mailconfirm'] = "0";
-	add_option("wp-greet-mailconfirm",$wpg_options['wp-greet-mailconfirm'],
-		   "use a confirmation mail to prevent spamming yes=1 or  no=0",
-		   "yes");
+	add_option("wp-greet-mailconfirm",$wpg_options['wp-greet-mailconfirm'],'', "yes");
     }; 
     
     if ($wpg_options['wp-greet-mcduration'] == "") {
 	$wpg_options['wp-greet-mcduration'] = "0";
-	add_option("wp-greet-mcduration",$wpg_options['wp-greet-mcduration'],
-		   "the number of hours the confirmation link is valid",
-		   "yes");
+	add_option("wp-greet-mcduration",$wpg_options['wp-greet-mcduration'],'', "yes");
     };
     
     if ($wpg_options['wp-greet-mctext'] == "") {
@@ -211,8 +196,7 @@ Wenn Sie nicht wissen warum Sie diese E-Mail erhalten oder die Postkarte nicht a
 
 Mit freundlichen Grüßen
 wp-greet, das freundliche Wordpress Grußkartenplugin";
-	add_option("wp-greet-mctext",$wpg_options['wp-greet-mctext'],
-		   "html text for confirmation mail","yes");
+	add_option("wp-greet-mctext",$wpg_options['wp-greet-mctext'],'', "yes");
     };  
 
     if ($wpg_options['wp-greet-ectext'] == "") {
@@ -223,22 +207,17 @@ Wenn Sie nicht wissen warum Sie diese E-Mail erhalten oder die Postkarte nicht a
 
 Mit freundlichen Grüßen
 wp-greet, das freundliche Wordpress Grußkartenplugin";
-	add_option("wp-greet-ectext",$wpg_options['wp-greet-ectext'],
-		   "html text for confirmation mail to sender","yes");
+	add_option("wp-greet-ectext",$wpg_options['wp-greet-ectext'], '',"yes");
     };  
     
     if ($wpg_options['wp-greet-onlinecard'] == "") {
 	$wpg_options['wp-greet-onlinecard'] = "0";
-	add_option("wp-greet-onlinecard",$wpg_options['wp-greet-onlinecard'],
-		   "fetch cards online, dont send cards via email",
-		   "yes");
+	add_option("wp-greet-onlinecard",$wpg_options['wp-greet-onlinecard'],'',"yes");
     };  
     
     if ($wpg_options['wp-greet-ocduration'] == "") {
 	$wpg_options['wp-greet-ocduration'] = "0";
-	add_option("wp-greet-ocduration",$wpg_options['wp-greet-ocduration'],
-		   "number of days an online card can be fetched",
-		   "yes");
+	add_option("wp-greet-ocduration",$wpg_options['wp-greet-ocduration'],'',"yes");
     }; 
     
     if ($wpg_options['wp-greet-octext'] == "") {
@@ -248,29 +227,22 @@ Die Postkarte steht für Sie für die nächsten %duration% Tage zur Abholung ber
 
 Mit freundlichen Grüßen
 wp-greet, das freundliche Wordpress Grußkartenplugin";
-	add_option("wp-greet-octext",$wpg_options['wp-greet-octext'],
-		   "html text for link mail","yes");
+	add_option("wp-greet-octext",$wpg_options['wp-greet-octext'],'',"yes");
     };   
     
     if ($wpg_options['wp-greet-logdays'] == "") {
 	$wpg_options['wp-greet-logdays'] = "0";
-	add_option("wp-greet-logdays",$wpg_options['wp-greet-logdays'],
-		   "number of days log entries are stored",
-		   "yes");
+	add_option("wp-greet-logdays",$wpg_options['wp-greet-logdays'],'',"yes");
     };
     
     if ($wpg_options['wp-greet-carddays'] == "") {
 	$wpg_options['wp-greet-carddays'] = "0";
-	add_option("wp-greet-carddays",$wpg_options['wp-greet-carddays'],
-		   "number of days card entries are stored",
-		   "yes");
+	add_option("wp-greet-carddays",$wpg_options['wp-greet-carddays'],'', "yes");
     };
    
     if ($wpg_options['wp-greet-fields'] == "") {
 	$wpg_options['wp-greet-fields'] = "010100"; // sender and receiver email is allways mandatory
-	add_option("wp-greet-fields",$wpg_options['wp-greet-fields'],
-		   "string describing the mandatory fields in the form",
-		   "yes");
+	add_option("wp-greet-fields",$wpg_options['wp-greet-fields'], '', "yes");
     };
      
 }

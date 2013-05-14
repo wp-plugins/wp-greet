@@ -31,11 +31,7 @@ global $wpg_options;
 $wpg_options = wpgreet_get_options();
 
 // get translation 
-$locale = get_locale();
-if ( empty($locale) )
-    $locale = 'en_US';
-if(function_exists('load_textdomain')) 
-    load_textdomain("wp-greet",ABSPATH . "wp-content/plugins/wp-greet/lang/".$locale.".mo");
+load_plugin_textdomain('wp-greet',false,dirname( plugin_basename( __FILE__ ) ) . "/lang/");
 
 //if (!isset($_GET['verify'])) {
     // show terms of usage

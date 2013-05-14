@@ -1,7 +1,7 @@
 <?php
 /* This file is part of the wp-greet plugin for wordpress */
 
-/*  Copyright 2008-2011  Hans Matzen  (email : webmaster at tuxlog dot de)
+/*  Copyright 2008-2013  Hans Matzen  (email : webmaster at tuxlog dot de)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -92,7 +92,8 @@ function wpgreet_get_options() {
   		   "wp-greet-enable-confirm" => "",
   		   "wp-greet-future-send" => "",
            "wp-greet-multi-recipients" => "",
-  		   "wp-greet-ectext" => "");
+  		   "wp-greet-ectext" => "",
+  		   "wp-greet-offerresend" => "");
 
 
   reset($options);
@@ -131,9 +132,9 @@ function wpgreet_set_options() {
 //
 function check_email($email) {
     //Leading and following whitespaces are ignored
-    $mail_address = trim($mail_address);
+    $email = trim($email);
     //Email-address is set to lower case
-    $mail_address = strtolower($mail_address);
+    $email = strtolower($email);
     // First, we check that there's one @ symbol, 
     // and that the lengths are right.
     if (!ereg("^[^@]{1,64}@[^@]{1,255}$", $email)) {
@@ -210,6 +211,9 @@ function get_mimetype($fname)
   return $mtype;
 }
 
+//
+// erzeugt einen eintrag in der log tabelle mit den in den parametern angegeben werten
+//
 function log_greetcard($to, $from, $pic, $msg)
 {
     global $wpdb;
@@ -269,6 +273,10 @@ function ngg_connect($link='' , $picture='') {
       else
 	  $url_prefix .= "\&amp;";
       $link = $url_prefix . "gallery=" . $picture->gid ."\&amp;image=" . $folder_url.$picture->filename;
+      
+      if (defined('BWCARDS')) {
+      	$link .= "\&amp;pid=".$picture->pid;
+      }
   }
   
   return stripslashes($link);
@@ -323,9 +331,11 @@ function get_dir_alphasort($pfad)
 
 function wpg_debug($text)
 {
-  $fd=fopen("/tmp/wpg.log","a+");
-  fwrite($fd,$text."\n");
-  fclose($fd);
+if (is_array($text) || is_object($text)) {
+            error_log(print_r($text, true));
+    } else {
+            error_log($text);
+        }
 }
 
 function test_gd()
@@ -360,7 +370,7 @@ function test_gd()
 //
 function save_greetcard($sender, $sendername, $recv, $recvname, 
 			$title, $message, $picurl, $cc2sender, 
-			$confirmuntil, $confirmcode,$fetchuntil,$fetchcode,$sendtime)
+			$confirmuntil, $confirmcode,$fetchuntil,$fetchcode,$sendtime,$sessionid="")
 {
     global $wpdb;
    
@@ -368,7 +378,7 @@ function save_greetcard($sender, $sendername, $recv, $recvname,
     // convert to mysql date
 	$sendtime = date('Y-m-d H:i:s', $sendtime);
     if ($fetchcode == "" or $confirmcode == "") {
-	$sql = "insert into ". $wpdb->prefix . "wpgreet_cards values (0, '$sendername', '$sender', '$recvname', '$recv', '$cc2sender', '". $wpdb->Escape($title)."', '$picurl','". $wpdb->Escape($message)."', '$confirmuntil', '$confirmcode', '$fetchuntil', '$fetchcode','','','$sendtime');";
+	$sql = "insert into ". $wpdb->prefix . "wpgreet_cards values (0, '$sendername', '$sender', '$recvname', '$recv', '$cc2sender', '". $wpdb->Escape($title)."', '$picurl','". $wpdb->Escape($message)."', '$confirmuntil', '$confirmcode', '$fetchuntil', '$fetchcode','','','$sendtime','$sessionid');";
 	
 	$wpdb->query($sql); 
     } else {
@@ -376,13 +386,14 @@ function save_greetcard($sender, $sendername, $recv, $recvname,
 
 	$count = $wpdb->get_row($sql);
 	if ( $count->anz == 0)
-	    $sql = "insert into ". $wpdb->prefix . "wpgreet_cards values (0, '$sendername', '$sender', '$recvname', '$recv', '$cc2sender', '".$wpdb->Escape($title)."', '$picurl','". $wpdb->Escape($message)."', '$confirmuntil', '$confirmcode','$fetchuntil', '$fetchcode','','','$sendtime');";
+	    $sql = "insert into ". $wpdb->prefix . "wpgreet_cards values (0, '$sendername', '$sender', '$recvname', '$recv', '$cc2sender', '".$wpdb->Escape($title)."', '$picurl','". $wpdb->Escape($message)."', '$confirmuntil', '$confirmcode','$fetchuntil', '$fetchcode','','','$sendtime','$sessionid');";
 	else
 	    $sql = "update ". $wpdb->prefix . "wpgreet_cards set fetchuntil='$fetchuntil', fetchcode='$fetchcode' where confirmcode='$confirmcode';";
 	
 	 $wpdb->query($sql);
     }
 }
+
 
 //
 // markiert die karte mit dem confirmcode ccode als versendet
@@ -392,6 +403,17 @@ function mark_sentcard($ccode)
     global $wpdb; 
     $now = gmdate("Y-m-d H:i:s",time() + ( get_option('gmt_offset') * 60 * 60 ));
     $sql = "update ". $wpdb->prefix . "wpgreet_cards set card_sent='$now' where confirmcode='".$ccode."';";
+    $wpdb->query($sql); 
+}
+
+//
+// markiert die karte mit der sessionid $sid als versendet
+//
+function bwmark_sentcard($sid)
+{
+    global $wpdb; 
+    $now = gmdate("Y-m-d H:i:s",time() + ( get_option('gmt_offset') * 60 * 60 ));
+    $sql = "update ". $wpdb->prefix . "wpgreet_cards set card_sent='$now' where session_id='".$sid."';";
     $wpdb->query($sql); 
 }
 
@@ -538,14 +560,14 @@ function get_imgtag($url) {
 	}
 	
 	
-	$imgtag .= '<div style="text-align:center;"><img src="' . $url . '" alt="';
+	$imgtag .= '<div class="wpg_image"><img src="' . $url . '" alt="';
    	$imgtag .= (strlen($ngg_alttext) > 0)?$ngg_alttext:$filename;
    	$imgtag .= '" title="';
    	$imgtag .= (strlen($ngg_alttext) > 0)?$ngg_alttext:$filename;
    	$imgtag .= '" width="' . $width ."\"/></div>\n";
 
    	if ($wpg_options['wp-greet-show-ngg-desc'] and strlen($ngg_desc) > 0)
-    		$imgtag .= "<div style='text-align: center'>" . $ngg_desc . "</div>";
+    		$imgtag .= "<div classe='wpg_image_description'>" . $ngg_desc . "</div>";
     
     $imgtag .= "</div>";
     		
