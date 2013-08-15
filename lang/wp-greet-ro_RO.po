@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-13 07:35+0200\n"
+"POT-Creation-Date: 2013-05-20 06:29+0200\n"
 "PO-Revision-Date: 2013-03-06 07:10+0200\n"
 "Last-Translator: Bogdan Simeanu <bogdan.simeanu@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -72,11 +72,13 @@ msgstr "Nr."
 msgid "Date/Time"
 msgstr "Data si timpul"
 
-#: wpg-admin-log.php:108
+#: wpg-admin-log.php:108 templates/wp-greet-display-template.php:26
+#: templates/wp-greet-preview-template.php:21
 msgid "From"
 msgstr "De la"
 
-#: wpg-admin-log.php:109
+#: wpg-admin-log.php:109 templates/wp-greet-display-template.php:31
+#: templates/wp-greet-preview-template.php:26
 msgid "To"
 msgstr "Catre"
 
@@ -193,6 +195,8 @@ msgid "Recipient"
 msgstr "Mail-ul felicitatului:"
 
 #: wpg-admin-sec.php:301 wpg-form.php:243 wpg-form.php:713
+#: templates/wp-greet-display-template.php:36
+#: templates/wp-greet-preview-template.php:31
 msgid "Subject"
 msgstr "Subiect"
 
@@ -415,7 +419,7 @@ msgstr "CC"
 msgid "Edit"
 msgstr ""
 
-#: wpg-form.php:397
+#: wpg-form.php:397 templates/wp-greet-form-template.php:205
 msgid "Back"
 msgstr "Inapoi"
 
@@ -503,7 +507,7 @@ msgstr "Felicitarea ta a depasit limita de timp"
 msgid "Greeting Card Confirmation Mail"
 msgstr "Confirmarea pe mail a felicitarii"
 
-#: wpg-func-mail.php:394
+#: wpg-func-mail.php:394 templates/wp-greet-display-template.php:19
 msgid "A Greeting Card for you"
 msgstr "O felicitare pentru tine"
 
@@ -515,11 +519,18 @@ msgstr "Felicitarea ta a fost primita"
 msgid "Stampimage not found - Please contact your administrator"
 msgstr "Marcajul stamp nu e gasit - Te rog contacteaza administratorul"
 
-#~ msgid "This card will be sent at"
-#~ msgstr "Aceasta felicitare a fost trimisa la"
+#: templates/wp-greet-form-template.php:54
+msgid "Mandatory inputfields are marked with a"
+msgstr "Campurile obligatorii sunt marcate cu "
 
-#~ msgid "Mandatory inputfields are marked with a"
-#~ msgstr "Campurile obligatorii sunt marcate cu "
+#: templates/wp-greet-form-template.php:89
+msgid "Multiple adresses can be separated by comma"
+msgstr "Mai multe adrese pot fi separate prin virgula"
 
-#~ msgid "Multiple adresses can be separated by comma"
-#~ msgstr "Mai multe adrese pot fi separate prin virgula"
+#: templates/wp-greet-form-template.php:194
+msgid "If you have a package code, enter it here"
+msgstr ""
+
+#: templates/wp-greet-preview-template.php:45
+msgid "This card will be sent at"
+msgstr "Aceasta felicitare a fost trimisa la"

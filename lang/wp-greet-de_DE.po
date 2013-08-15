@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wp-greet\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-13 07:35+0200\n"
-"PO-Revision-Date: 2013-05-13 07:37+0100\n"
+"POT-Creation-Date: 2013-05-20 06:29+0200\n"
+"PO-Revision-Date: 2013-05-20 06:31+0100\n"
 "Last-Translator: tuxlog <webmaster@tuxlog.de>\n"
 "Language-Team: Barbara Jany, Hans Matzen <barbara.jany@gmail.com>\n"
 "Language: \n"
@@ -78,10 +78,14 @@ msgid "Date/Time"
 msgstr "Datum/Zeit"
 
 #: wpg-admin-log.php:108
+#: templates/wp-greet-display-template.php:26
+#: templates/wp-greet-preview-template.php:21
 msgid "From"
 msgstr "Von"
 
 #: wpg-admin-log.php:109
+#: templates/wp-greet-display-template.php:31
+#: templates/wp-greet-preview-template.php:26
 msgid "To"
 msgstr "An"
 
@@ -208,6 +212,8 @@ msgstr "Empf&auml;ngeremail"
 #: wpg-admin-sec.php:301
 #: wpg-form.php:243
 #: wpg-form.php:713
+#: templates/wp-greet-display-template.php:36
+#: templates/wp-greet-preview-template.php:31
 msgid "Subject"
 msgstr "Betreff"
 
@@ -435,6 +441,7 @@ msgid "Edit"
 msgstr "Ändern"
 
 #: wpg-form.php:397
+#: templates/wp-greet-form-template.php:205
 msgid "Back"
 msgstr "Zur&uuml;ck"
 
@@ -521,6 +528,7 @@ msgid "Greeting Card Confirmation Mail"
 msgstr "Grusskarten Bestätigungsmail"
 
 #: wpg-func-mail.php:394
+#: templates/wp-greet-display-template.php:19
 msgid "A Greeting Card for you"
 msgstr "Eine Grußkarte für Dich"
 
@@ -532,14 +540,21 @@ msgstr "Deine Grusskarte wurde abgeholt."
 msgid "Stampimage not found - Please contact your administrator"
 msgstr "Briefmarkenbild nicht gefunden - Bitte kontaktiere den Administrator."
 
-#~ msgid "This card will be sent at"
-#~ msgstr "Diese Karte wird verschickt um"
+#: templates/wp-greet-form-template.php:54
+msgid "Mandatory inputfields are marked with a"
+msgstr "Pflichtfelder erkennt man am"
 
-#~ msgid "Mandatory inputfields are marked with a"
-#~ msgstr "Pflichtfelder erkennt man am"
+#: templates/wp-greet-form-template.php:89
+msgid "Multiple adresses can be separated by comma"
+msgstr "Mehrere Adressen durch Komma trennen"
 
-#~ msgid "Multiple adresses can be separated by comma"
-#~ msgstr "Mehrere Adressen durch Komma trennen"
+#: templates/wp-greet-form-template.php:194
+msgid "If you have a package code, enter it here"
+msgstr "Gutscheincode eingeben"
+
+#: templates/wp-greet-preview-template.php:45
+msgid "This card will be sent at"
+msgstr "Diese Karte wird verschickt um"
 
 #~ msgid ""
 #~ "(use %link% for greetcard link, <br />use %sender% for sendername<br /> "

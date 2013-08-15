@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wp-greet v3.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-13 07:35+0200\n"
+"POT-Creation-Date: 2013-05-20 06:29+0200\n"
 "PO-Revision-Date: 2012-08-17 23:03:09+0000\n"
 "Last-Translator: admin <danny2k1@hotmail.com>\n"
 "Language-Team: \n"
@@ -92,12 +92,14 @@ msgid "Date/Time"
 msgstr "Datum/Tijd"
 
 # @ wp-greet
-#: wpg-admin-log.php:108
+#: wpg-admin-log.php:108 templates/wp-greet-display-template.php:26
+#: templates/wp-greet-preview-template.php:21
 msgid "From"
 msgstr "Van"
 
 # @ wp-greet
-#: wpg-admin-log.php:109
+#: wpg-admin-log.php:109 templates/wp-greet-display-template.php:31
+#: templates/wp-greet-preview-template.php:26
 msgid "To"
 msgstr "Aan"
 
@@ -241,6 +243,8 @@ msgstr "Email ontvanger(s)"
 
 # @ wp-greet
 #: wpg-admin-sec.php:301 wpg-form.php:243 wpg-form.php:713
+#: templates/wp-greet-display-template.php:36
+#: templates/wp-greet-preview-template.php:31
 msgid "Subject"
 msgstr "Onderwerp"
 
@@ -514,7 +518,7 @@ msgid "Edit"
 msgstr ""
 
 # @ wp-greet
-#: wpg-form.php:397
+#: wpg-form.php:397 templates/wp-greet-form-template.php:205
 msgid "Back"
 msgstr "Terug"
 
@@ -622,7 +626,7 @@ msgid "Greeting Card Confirmation Mail"
 msgstr "E-card Bevestigingsmail"
 
 # @ wp-greet
-#: wpg-func-mail.php:394
+#: wpg-func-mail.php:394 templates/wp-greet-display-template.php:19
 msgid "A Greeting Card for you"
 msgstr "Een e-card voor jou"
 
@@ -638,13 +642,20 @@ msgstr ""
 "Postzegelafbeelding niet gevonden - neem contact op met de sitebeheerder"
 
 # @ wp-greet
-#~ msgid "This card will be sent at"
-#~ msgstr "Deze kaart zal worden verzonden op"
+#: templates/wp-greet-form-template.php:54
+msgid "Mandatory inputfields are marked with a"
+msgstr "Verplichte velden zijn gemarkeerd met een"
 
 # @ wp-greet
-#~ msgid "Mandatory inputfields are marked with a"
-#~ msgstr "Verplichte velden zijn gemarkeerd met een"
+#: templates/wp-greet-form-template.php:89
+msgid "Multiple adresses can be separated by comma"
+msgstr "Meerdere adressen scheiden met een komma"
+
+#: templates/wp-greet-form-template.php:194
+msgid "If you have a package code, enter it here"
+msgstr ""
 
 # @ wp-greet
-#~ msgid "Multiple adresses can be separated by comma"
-#~ msgstr "Meerdere adressen scheiden met een komma"
+#: templates/wp-greet-preview-template.php:45
+msgid "This card will be sent at"
+msgstr "Deze kaart zal worden verzonden op"

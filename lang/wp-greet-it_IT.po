@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wp-greet\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-13 07:35+0200\n"
+"POT-Creation-Date: 2013-05-20 06:29+0200\n"
 "PO-Revision-Date: 2009-12-03 16:50+0100\n"
 "Last-Translator: Daniele Semeraro <daniele.semeraro@gmail.com>\n"
 "Language-Team: Daniele Semeraro <daniele.semeraro@gmail.com>\n"
@@ -74,11 +74,13 @@ msgstr "Numero"
 msgid "Date/Time"
 msgstr "Data/Ora"
 
-#: wpg-admin-log.php:108
+#: wpg-admin-log.php:108 templates/wp-greet-display-template.php:26
+#: templates/wp-greet-preview-template.php:21
 msgid "From"
 msgstr "Da"
 
-#: wpg-admin-log.php:109
+#: wpg-admin-log.php:109 templates/wp-greet-display-template.php:31
+#: templates/wp-greet-preview-template.php:26
 msgid "To"
 msgstr "A"
 
@@ -199,6 +201,8 @@ msgid "Recipient"
 msgstr "E-mail destinatario"
 
 #: wpg-admin-sec.php:301 wpg-form.php:243 wpg-form.php:713
+#: templates/wp-greet-display-template.php:36
+#: templates/wp-greet-preview-template.php:31
 msgid "Subject"
 msgstr "Oggetto"
 
@@ -432,7 +436,7 @@ msgstr "Cc"
 msgid "Edit"
 msgstr ""
 
-#: wpg-form.php:397
+#: wpg-form.php:397 templates/wp-greet-form-template.php:205
 msgid "Back"
 msgstr "Indietro"
 
@@ -524,7 +528,7 @@ msgstr ""
 msgid "Greeting Card Confirmation Mail"
 msgstr "Mail di conferma del servizio cartoline"
 
-#: wpg-func-mail.php:394
+#: wpg-func-mail.php:394 templates/wp-greet-display-template.php:19
 msgid "A Greeting Card for you"
 msgstr "Una cartolina per te!"
 
@@ -538,8 +542,21 @@ msgid "Stampimage not found - Please contact your administrator"
 msgstr ""
 "Immagine del francobollo non trovata - Contattare amministratore del server "
 
-#~ msgid "Mandatory inputfields are marked with a"
-#~ msgstr "I campi obbligatori sono contrassegnati da "
+#: templates/wp-greet-form-template.php:54
+msgid "Mandatory inputfields are marked with a"
+msgstr "I campi obbligatori sono contrassegnati da "
+
+#: templates/wp-greet-form-template.php:89
+msgid "Multiple adresses can be separated by comma"
+msgstr ""
+
+#: templates/wp-greet-form-template.php:194
+msgid "If you have a package code, enter it here"
+msgstr ""
+
+#: templates/wp-greet-preview-template.php:45
+msgid "This card will be sent at"
+msgstr ""
 
 #~ msgid ""
 #~ "(use %link% for greetcard link, <br />use %sender% for sendername<br /> "

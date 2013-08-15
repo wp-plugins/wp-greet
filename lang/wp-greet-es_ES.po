@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wp-greet-spanish\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-13 07:35+0200\n"
+"POT-Creation-Date: 2013-05-20 06:29+0200\n"
 "PO-Revision-Date: 2012-11-22 22:43+0100\n"
 "Last-Translator: pascal cousseran <pascalc1@yahoo.es>\n"
 "Language-Team: pascal cousseran <pascalc1@yahoo.es>\n"
@@ -75,11 +75,13 @@ msgstr "No."
 msgid "Date/Time"
 msgstr "Fecha / Hora"
 
-#: wpg-admin-log.php:108
+#: wpg-admin-log.php:108 templates/wp-greet-display-template.php:26
+#: templates/wp-greet-preview-template.php:21
 msgid "From"
 msgstr "De"
 
-#: wpg-admin-log.php:109
+#: wpg-admin-log.php:109 templates/wp-greet-display-template.php:31
+#: templates/wp-greet-preview-template.php:26
 msgid "To"
 msgstr "Para"
 
@@ -196,6 +198,8 @@ msgid "Recipient"
 msgstr "Em@il destinatario"
 
 #: wpg-admin-sec.php:301 wpg-form.php:243 wpg-form.php:713
+#: templates/wp-greet-display-template.php:36
+#: templates/wp-greet-preview-template.php:31
 msgid "Subject"
 msgstr "Asunto"
 
@@ -423,7 +427,7 @@ msgstr "CC"
 msgid "Edit"
 msgstr ""
 
-#: wpg-form.php:397
+#: wpg-form.php:397 templates/wp-greet-form-template.php:205
 msgid "Back"
 msgstr "Regreso"
 
@@ -511,7 +515,7 @@ msgstr "Su enlace de la postal está caducado."
 msgid "Greeting Card Confirmation Mail"
 msgstr "Mensaje de Confirmación para la Postal"
 
-#: wpg-func-mail.php:394
+#: wpg-func-mail.php:394 templates/wp-greet-display-template.php:19
 msgid "A Greeting Card for you"
 msgstr "Una Postal para ti"
 
@@ -523,13 +527,20 @@ msgstr "Su postal ha sido recibida"
 msgid "Stampimage not found - Please contact your administrator"
 msgstr "Imagen del sello no encontrada - Por favor contacta su administrador"
 
-#~ msgid "This card will be sent at"
-#~ msgstr "Se enviará esta postal a"
+#: templates/wp-greet-form-template.php:54
+msgid "Mandatory inputfields are marked with a"
+msgstr ""
+"Rellene Campos obligatorios: Tu em@il (remitente) y em@ail del destinatario "
+"marcados con un"
 
-#~ msgid "Mandatory inputfields are marked with a"
-#~ msgstr ""
-#~ "Rellene Campos obligatorios: Tu em@il (remitente) y em@ail del "
-#~ "destinatario marcados con un"
+#: templates/wp-greet-form-template.php:89
+msgid "Multiple adresses can be separated by comma"
+msgstr "Multiples direcciones pueden estar separadas con coma"
 
-#~ msgid "Multiple adresses can be separated by comma"
-#~ msgstr "Multiples direcciones pueden estar separadas con coma"
+#: templates/wp-greet-form-template.php:194
+msgid "If you have a package code, enter it here"
+msgstr ""
+
+#: templates/wp-greet-preview-template.php:45
+msgid "This card will be sent at"
+msgstr "Se enviará esta postal a"

@@ -4,7 +4,7 @@ Donate link: http://www.tuxlog.de
 Tags: greetingcard, send, email, nextgengallery, plugin
 Requires at least: 2.5
 Tested up to: 3.5.1
-Stable tag: 3.2
+Stable tag: 3.3
 
 wp-greet is a wordpress plugin to send greeting cards from your wordpress blog. it uses nextGenGallery to maintain your greetingcard pictures.
 
@@ -47,6 +47,17 @@ Features:
 1.  Optional: If you would like to change the style, just edit wp-greet.css
 
 == Frequently Asked Questions ==
+
+= How can I make wp-greet work with NextgenGallery Version >= 2.0.0? =
+
+Unfortunately Photocrati did a major redesign of NGG and therfore the connecting filters were removed. You can read about this redesign in the wordpress.org forums. 
+But we can make it work by editing nextgen-gallery/products/photocrati_nextgen/modules/nextgen_basic_gallery/templates/thumbnails/index.php and change one line.
+from
+ <a href="<?php echo esc_attr($storage->get_image_url($image))?>"
+to
+ <a href="<?php echo apply_filters('ngg_create_gallery_link', esc_attr($storage->get_image_url($image)), $image)?>"
+You can also fetch the patched file (index.php) from the wp-greet/patch directory and copy it 
+to nextgen-gallery/products/photocrati_nextgen/modules/nextgen_basic_gallery/templates/thumbnails
 
 = My greetcard form is wider than my theme. What can I do? =
 
@@ -102,6 +113,13 @@ http://www.tuxlog.de/wordpress/2008/wp-greet-documentation-english/
 
 
 == Changelog ==
+
+= v3.3 (2013-08-11) =
+* fixed one translation string
+* make resend link work with online and offline cards
+* only create log entry if log/card cleaned really delete at least one record
+* added a dirty hack to make wp-greet work again with ngg version >=2.0.0
+* added an admin notice with workaround when a broken NGG is used
  
 = v3.2 (2013-05-09) =
 * switched from load_textdomain to load_plugin_textdomain for compatibility reasons

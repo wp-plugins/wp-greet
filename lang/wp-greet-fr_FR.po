@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-13 07:35+0200\n"
+"POT-Creation-Date: 2013-05-20 06:29+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -92,12 +92,14 @@ msgid "Date/Time"
 msgstr "Date / Heure"
 
 # @ wp-greet
-#: wpg-admin-log.php:108
+#: wpg-admin-log.php:108 templates/wp-greet-display-template.php:26
+#: templates/wp-greet-preview-template.php:21
 msgid "From"
 msgstr "À partir de"
 
 # @ wp-greet
-#: wpg-admin-log.php:109
+#: wpg-admin-log.php:109 templates/wp-greet-display-template.php:31
+#: templates/wp-greet-preview-template.php:26
 msgid "To"
 msgstr "À"
 
@@ -243,6 +245,8 @@ msgstr "Adresse courriel du Destinataire  "
 
 # @ wp-greet
 #: wpg-admin-sec.php:301 wpg-form.php:243 wpg-form.php:713
+#: templates/wp-greet-display-template.php:36
+#: templates/wp-greet-preview-template.php:31
 msgid "Subject"
 msgstr "Sujet "
 
@@ -520,7 +524,7 @@ msgid "Edit"
 msgstr ""
 
 # @ wp-greet
-#: wpg-form.php:397
+#: wpg-form.php:397 templates/wp-greet-form-template.php:205
 msgid "Back"
 msgstr "Retour"
 
@@ -631,7 +635,7 @@ msgid "Greeting Card Confirmation Mail"
 msgstr "Confirmation des E-Cartes par courriel"
 
 # @ wp-greet
-#: wpg-func-mail.php:394
+#: wpg-func-mail.php:394 templates/wp-greet-display-template.php:19
 msgid "A Greeting Card for you"
 msgstr "Une E-Carte pour vous"
 
@@ -648,5 +652,18 @@ msgstr ""
 "Miniature non disponible - S&#39;il vous plaît contacter votre Administrateur"
 
 # @ wp-greet
-#~ msgid "Mandatory inputfields are marked with a"
-#~ msgstr "Les champs obligatoires sont marqués d&#39;un "
+#: templates/wp-greet-form-template.php:54
+msgid "Mandatory inputfields are marked with a"
+msgstr "Les champs obligatoires sont marqués d&#39;un "
+
+#: templates/wp-greet-form-template.php:89
+msgid "Multiple adresses can be separated by comma"
+msgstr ""
+
+#: templates/wp-greet-form-template.php:194
+msgid "If you have a package code, enter it here"
+msgstr ""
+
+#: templates/wp-greet-preview-template.php:45
+msgid "This card will be sent at"
+msgstr ""

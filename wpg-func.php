@@ -258,6 +258,11 @@ function set_permissions($role) {
 // verbindet wp-greet mit ngg, es wird die url angepasst
 //
 function ngg_connect($link='' , $picture='') {
+	// fix ngg 2.0x new var names
+	if (isset($picture->galleryid)) {
+		$picture->gid = $picture->galleryid;
+	}
+	
   $wpdb =& $GLOBALS['wpdb'];
   // wp-greet optionen aus datenbank lesen
   $wpg_options = wpgreet_get_options();
@@ -265,14 +270,25 @@ function ngg_connect($link='' , $picture='') {
   // pruefe ob gallery umgelenkt werden soll
   if (array_search($picture->gid, $wpg_options['wp-greet-galarr']) !== False) {
      
-      $folder_url  = get_option ('siteurl')."/".$picture->path."/";
-      
+  	if (isset($picture->path)) {  //old ngg until 1.9.13
+      	$folder_url  = get_option ('siteurl')."/".$picture->path."/";
+  	} else {
+  		$folder_url  = get_option ('siteurl')."/";
+  	}
+  	
       $url_prefix = get_permalink($wpg_options['wp-greet-formpage']);
       if (strpos($url_prefix,"?") === false )
-	  $url_prefix .= "?";
+	  	$url_prefix .= "?";
       else
-	  $url_prefix .= "\&amp;";
-      $link = $url_prefix . "gallery=" . $picture->gid ."\&amp;image=" . $folder_url.$picture->filename;
+	  	$url_prefix .= "\&amp;";
+
+      // fix ngg 2.0x new var names
+      if (isset($picture->path)) {  //old ngg until 1.9.13
+      	$link = $url_prefix . "gallery=" . $picture->gid ."\&amp;image=" . $folder_url . $picture->filename;
+      } else { // new ngg from 2.0.0 on
+      	$link = $url_prefix . "gallery=" . $picture->gid ."\&amp;image=" . $link;
+      }
+  
       
       if (defined('BWCARDS')) {
       	$link .= "\&amp;pid=".$picture->pid;
@@ -449,9 +465,11 @@ function remove_cards()
     
     global $wpdb;
     $sql = "delete from ". $wpdb->prefix . "wpgreet_cards where fetchuntil < '$then';";
-    $wpdb->query($sql); 
+    $c = $wpdb->query($sql); 
 
-    log_greetcard('',get_option("blogname"),'',"Cards cleaned until $then"); 
+    if ($c > 0) {
+    	log_greetcard('',get_option("blogname"),'',"Cards cleaned until $then");
+    } 
 }
 
 
@@ -476,9 +494,11 @@ function remove_logs()
     
     global $wpdb;
     $sql = "delete from ". $wpdb->prefix . "wpgreet_stats where senttime < '$then';";
-    $wpdb->query($sql);
+    $c = $wpdb->query($sql);
 
-    log_greetcard('',get_option("blogname"),'',"Log cleaned until $then"); 
+    if ($c > 0) {
+    	log_greetcard('',get_option("blogname"),'',"Log cleaned until $then");
+    }
 }
 
 //
@@ -574,4 +594,50 @@ function get_imgtag($url) {
    	return $imgtag;	
 }
 
+//
+// If we run with a broken NGG Version >= 2.0.0 print a hint with the solution
+// to give a chance ti fix it.
+//
+function wpg_fix_broken_ngg_hint() {
+	$message="";
+	$broken_since="2.0.0";
+	
+	$plugin_folder = plugin_dir_path(__FILE__) . "/../";
+	$plugdata = get_plugin_data($plugin_folder . "nextgen-gallery/nggallery.php",false,false);
+	$ngg_version = $plugdata['Version'];
+	
+	if (is_plugin_active("nextgen-gallery/nggallery.php") and version_compare($ngg_version, $broken_since, ">=")) {
+		// test if allready patched
+		$ps = file_get_contents($plugin_folder . "nextgen-gallery/products/photocrati_nextgen/modules/nextgen_basic_gallery/templates/thumbnails/index.php" );
+		
+		if (false === strpos($ps, "ngg_create_gallery_link")) {
+			
+			$message= <<<EOL
+			<h3>Urgent message from wp-greet</h3>
+			<p>Unfortunately Photocrati did a major redesign of NGG and therfore the connecting filters for wp-greet were removed. 
+			You can get a lot of details in the <a target="_blank" href="http://wordpress.org/support/plugin/nextgen-gallery">wordpress.org forums</a>.<br/> 
+			To workaround this and make wp-greet work again please edit
+			nextgen-gallery/products/photocrati_nextgen/modules/nextgen_basic_gallery/templates/thumbnails/index.php 
+			<br />and change the line from</p>
+		
+			&lt;a href="&lt;?php echo esc_attr(\$storage->get_image_url(\$image))?>"
+		
+			to
+		
+			&lt;a href="&lt;?php echo apply_filters('ngg_create_gallery_link', esc_attr(\$storage->get_image_url(\$image)), \$image)?>"
+		
+			<p>You can also fetch the patched file (index.php) from the wp-greet/patch directory and copy it
+			to nextgen-gallery/products/photocrati_nextgen/modules/nextgen_basic_gallery/templates/thumbnails.</p>
+			<p>Since NGG does not work with all Lightbox-Effects. Please set Gallery -> Other Options -> Lightbox Options to Shutter,
+			if you encounter problems with other settings.</p>
+EOL;
+		}
+	}
+	
+	// print message
+	if ($message !="") {
+		echo '<div id="message" class="error">';
+		echo "<p><strong>$message</strong></p></div>";
+	}
+}
 ?>

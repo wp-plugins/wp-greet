@@ -501,7 +501,7 @@ function showGreetcardForm($galleryID, $picurl, $verify = "", $pid = "", $approv
 			if ( $sendstatus == true ) {
 				$out = __("Your greeting card has been sent or scheduled.","wp-greet")."<br />";
 				// show resend link
-				if ($wpg_options['wp-greet-offerresend'] and $fetchcode != "") {
+				if ($wpg_options['wp-greet-offerresend'] ) {  
 					$out .= "<form method='post' action='#'>";
 					$out .= "<input name='sender' type='hidden' value='" . $_POST['sender']  . "' />\n";
 					$out .= "<input name='sendername' type='hidden' value='" . $_POST['sendername']  . "' />\n";
