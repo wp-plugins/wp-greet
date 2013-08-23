@@ -618,7 +618,7 @@ function wpg_fix_broken_ngg_hint() {
 			You can get a lot of details in the <a target="_blank" href="http://wordpress.org/support/plugin/nextgen-gallery">wordpress.org forums</a>.<br/> 
 			To workaround this and make wp-greet work again please edit
 			nextgen-gallery/products/photocrati_nextgen/modules/nextgen_basic_gallery/templates/thumbnails/index.php 
-			<br />and change the line from</p>
+			<br />and change the line with</p>
 		
 			&lt;a href="&lt;?php echo esc_attr(\$storage->get_image_url(\$image))?>"
 		
@@ -626,8 +626,9 @@ function wpg_fix_broken_ngg_hint() {
 		
 			&lt;a href="&lt;?php echo apply_filters('ngg_create_gallery_link', esc_attr(\$storage->get_image_url(\$image)), \$image)?>"
 		
-			<p>You can also fetch the patched file (index.php) from the wp-greet/patch directory and copy it
-			to nextgen-gallery/products/photocrati_nextgen/modules/nextgen_basic_gallery/templates/thumbnails.</p>
+			<p>You can also fetch the patched file (2xx_index.php) from the wp-greet/patch directory and copy it
+			to nextgen-gallery/products/photocrati_nextgen/modules/nextgen_basic_gallery/templates/thumbnails/index.php.<br/> 
+			E.g. take 211_index.php for NGG version 2.11</p>
 			<p>Since NGG does not work with all Lightbox-Effects. Please set Gallery -> Other Options -> Lightbox Options to Shutter,
 			if you encounter problems with other settings.</p>
 EOL;

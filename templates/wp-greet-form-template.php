@@ -198,7 +198,7 @@
 
 <tr class="wp-greet-form">
   <td colspan='2' class="wp-greet-form">
-    <div style='text-align: center;margin-left:180px;'>&nbsp;
+    <div style='text-align: center;margin-left:120px;'>&nbsp;
     {%preview_button%}&nbsp;
     {%send_button%}&nbsp;
     {%reset_button%}&nbsp;

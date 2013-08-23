@@ -75,7 +75,7 @@ td.wp-greet-form-left {
 }
 /* style for message textarea */
 textarea.wp-greet-form {
-                    width: 90%;
+                    width: 99%;
 		    height:120px;
 }
 
@@ -84,8 +84,8 @@ textarea.wp-greet-form {
 .ui-timepicker-div dl{ text-align: left; }
 .ui-timepicker-div dl dt{ height: 25px; }
 .ui-timepicker-div dl dd{ margin: -25px 0 10px 65px; }
-.ui-timepicker-div td { font-size: 90%; }
-
+.ui-timepicker-div td { font-size: 80%; }
+html body.single div#ui-datepicker-div.ui-datepicker div.ui-datepicker-buttonpane {margin: 2.5em 0 0;}
 tr.tr-admin {
 	vertical-align: top;
 }
