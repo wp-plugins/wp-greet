@@ -316,7 +316,7 @@ function sendConfirmationMail($sender,$sendername,$recvname,$confirmcode, $confi
     if ($usesmtp) {
 	$mail->IsSMTP();                // set mailer to use SMTP
 	$mail->Host = $wpg_smtpserver;  
-	if ( $wpg_smtpuser != "" and $wpg_smtppass !="") {
+	if ( isset($wpg_smtpuser) && $wpg_smtpuser != "" and $wpg_smtppass !="") {
 	    $mail->SMTPAuth = true;           // turn on SMTP authentication
 	    $mail->Username = $wpg_smtpuser;  // SMTP username
 	    $mail->Password = $wpg_smtppass;  // SMTP password
@@ -400,7 +400,8 @@ function sendGreetcardLink($sender,$sendername,$recv, $recvname,$duration, $fetc
 	$url_prefix .= "?";
     else
 	$url_prefix .= "&";
-    $confirmlink = stripslashes($url_prefix . "verify=" . $confirmcode );
+    
+    $confirmlink = stripslashes($url_prefix . "verify=" . (isset($confirmcode)?$confirmcode:'') );
     $fetchlink = stripslashes($url_prefix . "display=" . $fetchcode );
     $fetchlink = '<a href="' . $fetchlink . '">' . $fetchlink . '</a>';
  
@@ -430,7 +431,7 @@ function sendGreetcardLink($sender,$sendername,$recv, $recvname,$duration, $fetc
     if ($usesmtp) {
 	$mail->IsSMTP();                // set mailer to use SMTP
 	$mail->Host = $wpg_smtpserver;  
-	if ( $wpg_smtpuser != "" and $wpg_smtppass !="") {
+	if ( isset($wpg_smtpuser) && $wpg_smtpuser != "" and $wpg_smtppass !="") {
 	    $mail->SMTPAuth = true;           // turn on SMTP authentication
 	    $mail->Username = $wpg_smtpuser;  // SMTP username
 	    $mail->Password = $wpg_smtppass;  // SMTP password

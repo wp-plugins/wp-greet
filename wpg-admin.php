@@ -145,6 +145,7 @@ function wechsle_onlinecard () {
           <td><select name="wp-greet-gallery" size="1" >
           <option value="-" <?php if ($wpg_options['wp-greet-gallery']=="-") echo "selected='selected'";?>>none</option>
           <option value="ngg" <?php if ($wpg_options['wp-greet-gallery']=="ngg") echo "selected='selected'";?>>Nextgen Gallery</option>
+          <option value="wp" <?php if ($wpg_options['wp-greet-gallery']=="wp") echo "selected='selected'";?>>WordPress</option>
           </select> 
           </td>
           </tr>

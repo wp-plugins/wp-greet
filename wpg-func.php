@@ -137,7 +137,7 @@ function check_email($email) {
     $email = strtolower($email);
     // First, we check that there's one @ symbol, 
     // and that the lengths are right.
-    if (!ereg("^[^@]{1,64}@[^@]{1,255}$", $email)) {
+    if (!preg_match("/^[^@]{1,64}@[^@]{1,255}$/", $email)) {
 	// Email invalid because wrong number of characters 
 	// in one section or wrong number of @ symbols.
 	return false;
@@ -146,24 +146,21 @@ function check_email($email) {
     $email_array = explode("@", $email);
     $local_array = explode(".", $email_array[0]);
     for ($i = 0; $i < sizeof($local_array); $i++) {
-	if
-	    (!ereg("^(([A-Za-z0-9!#$%&'*+/=?^_`{|}~-][A-Za-z0-9!#$%&'*+/=?^_`{|}~\.-]{0,63})|(\"[^(\\|\")]{0,62}\"))$",
-		   $local_array[$i])) {
+	if  (!preg_match("/^(([A-Za-z0-9!#$%&'*+\/=?^_`{|}~-][A-Za-z0-9!#$%&'*+\/=?^_`{|}~\.-]{0,63})|(\"[^(\\|\")]{0,62}\"))$/", $local_array[$i])) {
 	    return false;
 	}
+	
     }
     // Check if domain is IP. If not, 
     // it should be valid domain name
-    if (!ereg("^\[?[0-9\.]+\]?$", $email_array[1])) {
+    if (!preg_match("/^\[?[0-9\.]+\]?$/", $email_array[1])) {
 	$domain_array = explode(".", $email_array[1]);
 	if (sizeof($domain_array) < 2) {
 	    return false; // Not enough parts to domain
     }
 	for ($i = 0; $i < sizeof($domain_array); $i++) {
-	    if
-		(!ereg("^(([A-Za-z0-9][A-Za-z0-9-]{0,61}[A-Za-z0-9])|([A-Za-z0-9]+))$",
-		       $domain_array[$i])) {
-		return false;
+	    if (!preg_match("/^(([A-Za-z0-9][A-Za-z0-9-]{0,61}[A-Za-z0-9])|([A-Za-z0-9]+))$/", $domain_array[$i])) {
+	    	return false;
 	    }
 	}
     }
@@ -220,7 +217,7 @@ function log_greetcard($to, $from, $pic, $msg)
  
     $now = gmdate("Y-m-d H:i:s",time() + ( get_option('gmt_offset') * 60 * 60 ));
     
-    $sql = "insert into ". $wpdb->prefix . "wpgreet_stats values (0,'" . $now . "', '" . $from . "','" . $to . "','" . $pic . "','" . $wpdb->Escape($msg). "','". $_SERVER["REMOTE_ADDR"] . "');" ;
+    $sql = "insert into ". $wpdb->prefix . "wpgreet_stats values (0,'" . $now . "', '" . $from . "','" . $to . "','" . $pic . "','" . esc_sql($msg). "','". $_SERVER["REMOTE_ADDR"] . "');" ;
 
     $wpdb->query($sql); 
 }
@@ -394,7 +391,7 @@ function save_greetcard($sender, $sendername, $recv, $recvname,
     // convert to mysql date
 	$sendtime = date('Y-m-d H:i:s', $sendtime);
     if ($fetchcode == "" or $confirmcode == "") {
-	$sql = "insert into ". $wpdb->prefix . "wpgreet_cards values (0, '$sendername', '$sender', '$recvname', '$recv', '$cc2sender', '". $wpdb->Escape($title)."', '$picurl','". $wpdb->Escape($message)."', '$confirmuntil', '$confirmcode', '$fetchuntil', '$fetchcode','','','$sendtime','$sessionid');";
+	$sql = "insert into ". $wpdb->prefix . "wpgreet_cards values (0, '$sendername', '$sender', '$recvname', '$recv', '$cc2sender', '". esc_sql($title)."', '$picurl','". esc_sql($message)."', '$confirmuntil', '$confirmcode', '$fetchuntil', '$fetchcode','','','$sendtime','$sessionid');";
 	
 	$wpdb->query($sql); 
     } else {
@@ -402,7 +399,7 @@ function save_greetcard($sender, $sendername, $recv, $recvname,
 
 	$count = $wpdb->get_row($sql);
 	if ( $count->anz == 0)
-	    $sql = "insert into ". $wpdb->prefix . "wpgreet_cards values (0, '$sendername', '$sender', '$recvname', '$recv', '$cc2sender', '".$wpdb->Escape($title)."', '$picurl','". $wpdb->Escape($message)."', '$confirmuntil', '$confirmcode','$fetchuntil', '$fetchcode','','','$sendtime','$sessionid');";
+	    $sql = "insert into ". $wpdb->prefix . "wpgreet_cards values (0, '$sendername', '$sender', '$recvname', '$recv', '$cc2sender', '".esc_sql($title)."', '$picurl','". esc_sql($message)."', '$confirmuntil', '$confirmcode','$fetchuntil', '$fetchcode','','','$sendtime','$sessionid');";
 	else
 	    $sql = "update ". $wpdb->prefix . "wpgreet_cards set fetchuntil='$fetchuntil', fetchcode='$fetchcode' where confirmcode='$confirmcode';";
 	
@@ -602,6 +599,11 @@ function wpg_fix_broken_ngg_hint() {
 	$message="";
 	$broken_since="2.0.0";
 	
+	// if we do not use ngg, just return
+	global $wpg_options;
+	$wpg_options=wpgreet_get_options();
+	if ( $wpg_options['wp-greet-gallery']=="wp") return;
+	
 	$plugin_folder = plugin_dir_path(__FILE__) . "/../";
 	$plugdata = get_plugin_data($plugin_folder . "nextgen-gallery/nggallery.php",false,false);
 	$ngg_version = $plugdata['Version'];
@@ -640,5 +642,69 @@ EOL;
 		echo '<div id="message" class="error">';
 		echo "<p><strong>$message</strong></p></div>";
 	}
+}
+
+// functions to connect to WP native gallery
+//
+// create gallery with the different url filter active
+//
+function wpgreet_gallery_shortcode( $attr )
+{
+	global $post;
+	$pid = $post->ID;
+
+	// wp-greet optionen aus datenbank lesen
+	$wpg_options = wpgreet_get_options();
+	
+	// check if we shall connect wp-greet
+	// load connected gallery pages
+	$connectus = in_array((string) $pid,$wpg_options['wp-greet-galarr']);
+	
+	// add the filter for attachment links:
+	if ($connectus)
+		add_filter( 'wp_get_attachment_link', 'wpgreet_gallery_link_filter', 10, 6 );
+	 
+	// get WordPress native gallery
+	$gallery = gallery_shortcode( $attr );
+	 
+	// Remove the filter for attachment links:
+	if ($connectus)
+		remove_filter( 'wp_get_attachment_link', 'wpgreet_gallery_link_filter', 10 );
+	 
+	return $gallery;
+}
+
+//
+// change link to wpgreet link
+//
+function wpgreet_gallery_link_filter( $full_link, $id, $size, $permalink, $icon, $text )
+{
+	// change the value of href to suite wp-greet form link
+	
+	// get post id
+	global $post;
+	$gid = $post->ID;
+	
+	// extract image url
+	$xml = simplexml_load_string($full_link);
+	$list = $xml->xpath("//@href");
+	
+	$item=parse_url($list[0]);
+	$url = $item['scheme'] . '://' .  $item['host'] . $item['path'];
+	
+	// wp-greet optionen aus datenbank lesen
+	$wpg_options = wpgreet_get_options();
+	
+	$url_prefix = get_permalink($wpg_options['wp-greet-formpage']);
+	if (strpos($url_prefix,"?") === false )
+		$url_prefix .= "?";
+	else
+		$url_prefix .= "&amp;";
+	
+	$link = $url_prefix . "gallery=" . $gid ."\&amp;image=" . $url;
+
+	$erg = stripslashes(str_replace($url,$link,$full_link));
+
+	return $erg;
 }
 ?>

@@ -1,12 +1,12 @@
 === wp-greet ===
 Contributors: tuxlog, woodstock
 Donate link: http://www.tuxlog.de
-Tags: greetingcard, send, email, nextgengallery, plugin
+Tags: greetingcard, send, email, greetcard, plugin
 Requires at least: 2.5
-Tested up to: 3.5.1
-Stable tag: 3.4
+Tested up to: 3.6
+Stable tag: 3.5
 
-wp-greet is a wordpress plugin to send greeting cards from your wordpress blog. it uses nextGenGallery to maintain your greetingcard pictures.
+wp-greet is a wordpress plugin to send greeting cards from your wordpress blog. it uses WordPress native gallery or nextGenGallery to maintain your greetingcard pictures.
 
 == Description ==
 wp-greet is a plugin for the famous wordpress blogging package,
@@ -14,7 +14,7 @@ giving your users the ability to send greeting cards from your blog.
 
 Features:
 
-   + uses nextGenGallery for maintainig the greeting card picture
+   + uses WordPress native gallery or NextGenGallery for maintainig the greeting card picture
    + storing statistics about the sent greeting cards 
    + adding your own css
    + control who can send cards
@@ -33,7 +33,7 @@ Features:
 
 * PHP >=4.3
 * Wordpress >= 2.5.x
-* nextGenGallery >= v1.00
+* Optional: NextGenGallery >= v1.00
 
 
 == Installation ==
@@ -58,6 +58,8 @@ to
  <a href="<?php echo apply_filters('ngg_create_gallery_link', esc_attr($storage->get_image_url($image)), $image)?>"
 You can also fetch the patched file (index.php) from the wp-greet/patch directory and copy it 
 to nextgen-gallery/products/photocrati_nextgen/modules/nextgen_basic_gallery/templates/thumbnails
+
+If this seems to difficult try using the new interface to WordPress native gallery to embed your greetingcard pictures.
 
 = My greetcard form is wider than my theme. What can I do? =
 
@@ -113,6 +115,11 @@ http://www.tuxlog.de/wordpress/2008/wp-greet-documentation-english/
 
 
 == Changelog ==
+
+= v3.5 (2013-08-31) =
+* added support for WordPress native gallery 
+* fixed ereg deprecated warnings
+* fixed wpdb:Escape deprecated warnings
 
 = v3.4 (2013-08-23) =
 * added patch for NGG 2.11
