@@ -659,10 +659,16 @@ function wpgreet_gallery_shortcode( $attr )
 	// check if we shall connect wp-greet
 	// load connected gallery pages
 	$connectus = in_array((string) $pid,$wpg_options['wp-greet-galarr']);
-	
+		
 	// add the filter for attachment links:
-	if ($connectus)
+	if ($connectus) {
 		add_filter( 'wp_get_attachment_link', 'wpgreet_gallery_link_filter', 10, 6 );
+
+		// remove jetpack filters
+		global $wp_filter;
+		if ( isset($wp_filter['post_gallery'][1000]) )
+			$wp_filter['post_gallery'][1000] = array();
+	 }
 	 
 	// get WordPress native gallery
 	$gallery = gallery_shortcode( $attr );
@@ -684,17 +690,21 @@ function wpgreet_gallery_link_filter( $full_link, $id, $size, $permalink, $icon,
 	// get post id
 	global $post;
 	$gid = $post->ID;
-	
-	// extract image url
+
+	// extract image anchor url
 	$xml = simplexml_load_string($full_link);
-	$list = $xml->xpath("//@href");
+	// get anchor link because this is what we want to replace later on
+	$alist = $xml->xpath("//@href");
+	$aitem=parse_url($alist[0]);
+	$aurl = $aitem['scheme'] . '://' .  $aitem['host'] . $aitem['path'];
 	
-	$item=parse_url($list[0]);
-	$url = $item['scheme'] . '://' .  $item['host'] . $item['path'];
-	
-	// wp-greet optionen aus datenbank lesen
+	// getting the img url this is what we want to give as a parm to wp-greet
+	$url = wp_get_attachment_image_src( $id, 'full' );
+	$url = $url[0];
+	// get wp-greet optionen from database
 	$wpg_options = wpgreet_get_options();
 	
+	// build wp-greet form-page link and add parms
 	$url_prefix = get_permalink($wpg_options['wp-greet-formpage']);
 	if (strpos($url_prefix,"?") === false )
 		$url_prefix .= "?";
@@ -703,7 +713,8 @@ function wpgreet_gallery_link_filter( $full_link, $id, $size, $permalink, $icon,
 	
 	$link = $url_prefix . "gallery=" . $gid ."\&amp;image=" . $url;
 
-	$erg = stripslashes(str_replace($url,$link,$full_link));
+	// replace anchor link to redirect to wp-greet
+	$erg = stripslashes(str_replace($aurl,$link,$full_link));
 
 	return $erg;
 }

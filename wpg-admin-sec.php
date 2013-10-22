@@ -92,10 +92,11 @@ function wpg_admin_sec()
 				if ($plugin['Name'] == "Math Comment Spam Protection" and
 						file_exists(ABSPATH. PLUGINDIR . "/". $key) )
 					$plugin_exists=true;
-			}
-			if ($plugin['Name'] == "WP-reCAPTCHA" and
+			
+				if ($plugin['Name'] == "WP-reCAPTCHA" and
 					file_exists(ABSPATH. PLUGINDIR . "/". $key) )
-				$plugin_exists=true;
+					$plugin_exists=true;
+			}
 		}
 		if (! $plugin_exists) {
 			echo __('Captcha plugin not found.',"wp-greet"). "<br />";

@@ -267,7 +267,8 @@ function showGreetcardForm($galleryID, $picurl, $verify = "", $pid = "", $approv
 	 				echo __("Please try again.<br />Tip: If you cannot identify the chars, you can generate a new image. Using Reload.","wp-greet")."<br /></div>";
 	 			}
 	 		} else {
-	 			if ( 0 != strcasecmp( trim( decode( $_POST['cptch_result'], "123" ) ), $_POST['cptch_number'] ) ) {
+	 			global $str_key;
+	 			if ( 0 != strcasecmp( trim( decode( $_POST['cptch_result'], $str_key, $_POST['cptch_time'] ) ), $_POST['cptch_number'] ) ) {
 	 				$_POST['action'] = "Formular";
 	 				echo "<div class='wp-greet-error'>" . __("Spamprotection - Code is not valid.<br />","wp-greet");
 	 				echo __("Please try again.<br />Tip: If you cannot identify the chars, you can generate a new image. Using Reload.","wp-greet")."<br /></div>";
