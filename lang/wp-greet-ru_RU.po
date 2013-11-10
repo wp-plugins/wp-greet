@@ -1,0 +1,538 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION333\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-11-10 09:02+0100\n"
+"PO-Revision-Date: 2013-09-21 17:17+0200\n"
+"Last-Translator: Nosorog\n"
+"Language-Team: \n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.7\n"
+
+#: wp-greet.php:117 wpg-admin-gal.php:83
+msgid "Galleries"
+msgstr "Галереи"
+
+#: wp-greet.php:119
+msgid "Security"
+msgstr "Безопасность"
+
+#: wp-greet.php:121
+msgid "Logging"
+msgstr "Вход логином"
+
+#: wpg-admin-gal.php:46
+msgid "No gallery plugin selected."
+msgstr "Нет выбранных плагинов галереи"
+
+#: wpg-admin-gal.php:75 wpg-admin-sec.php:109 wpg-admin.php:103
+msgid "Settings successfully updated"
+msgstr "Установки обнавлены успешно"
+
+#: wpg-admin-gal.php:86
+msgid "Active"
+msgstr "Активен"
+
+#: wpg-admin-gal.php:87
+msgid "ID"
+msgstr "ИД"
+
+#: wpg-admin-gal.php:88
+msgid "Name"
+msgstr "Имя"
+
+#: wpg-admin-gal.php:122
+msgid "Save"
+msgstr "Сохранить"
+
+#: wpg-admin-log.php:88
+msgid "Greetcard Log"
+msgstr "Лог открыток"
+
+#: wpg-admin-log.php:93
+msgid "Show all"
+msgstr "Показать все"
+
+#: wpg-admin-log.php:102
+msgid "Lines per Page:"
+msgstr "Линии на странице:"
+
+#: wpg-admin-log.php:106
+msgid "No."
+msgstr "№"
+
+#: wpg-admin-log.php:107
+msgid "Date/Time"
+msgstr "Дата/время"
+
+#: wpg-admin-log.php:108 templates/wp-greet-display-template.php:26
+#: templates/wp-greet-preview-template.php:21
+msgid "From"
+msgstr "От"
+
+#: wpg-admin-log.php:109 templates/wp-greet-display-template.php:31
+#: templates/wp-greet-preview-template.php:26
+msgid "To"
+msgstr "Кому"
+
+#: wpg-admin-log.php:110
+msgid "Image"
+msgstr "Картинка"
+
+#: wpg-admin-log.php:111
+msgid "IP-Adress"
+msgstr "IP-Адрес"
+
+#: wpg-admin-log.php:112 wpg-admin-sec.php:306 wpg-form.php:248
+#: wpg-form.php:738
+msgid "Message"
+msgstr "Сообщение"
+
+#: wpg-admin-log.php:139
+msgid "Clear Log"
+msgstr "Очистить лог"
+
+#: wpg-admin-sec.php:102
+msgid "Captcha plugin not found."
+msgstr "Плагин Капча не найден."
+
+#: wpg-admin-sec.php:111 wpg-admin.php:105
+msgid "You have to change a field to update settings."
+msgstr "Вы должны изменить поле, чтобы обновить установки."
+
+#: wpg-admin-sec.php:157
+msgid "wp-greet Security - Setup"
+msgstr "безопасность wp-greet - установка"
+
+#: wpg-admin-sec.php:163
+msgid "Spam protection"
+msgstr "Защита от спама"
+
+#: wpg-admin-sec.php:167
+msgid "none"
+msgstr "нет"
+
+#: wpg-admin-sec.php:183
+msgid "Minimum role to send card"
+msgstr "Минимальное участие для отправки открытки"
+
+#: wpg-admin-sec.php:201
+msgid "Everyone"
+msgstr "Все"
+
+#: wpg-admin-sec.php:212
+msgid "Enable Terms of Usage display and check"
+msgstr "Включитьпоказ и согласие с Условиями Пользования"
+
+#: wpg-admin-sec.php:217
+msgid "Terms of usage"
+msgstr "Условия Пользования"
+
+#: wpg-admin-sec.php:223
+msgid "HTML is allowed"
+msgstr "HTML разрешен"
+
+#: wpg-admin-sec.php:232
+msgid "Use mail to verify sender address"
+msgstr "Используйте письмо для верификации адреса отправителя"
+
+#: wpg-admin-sec.php:237
+msgid "Verification mail text"
+msgstr "Текс сообщения верификации"
+
+#: wpg-admin-sec.php:244 wpg-admin-sec.php:277 wpg-admin.php:215
+#: wpg-admin.php:282 wpg-admin.php:289
+msgid ""
+"HTML allowed, use %sender% for sendername, %sendermail% for sender email-"
+"address, %receiver% for receiver name, %link% for generated link, %duration% "
+"for time the link is valid"
+msgstr ""
+"HTML разрешен, используйте %sender% как имя отправителя, %sendermail% как "
+"адрес эл. почты отправителя, %receiver% как имя получателя, %link% как "
+"сгенерированная ссылка, %duration% как время, в течении которого ссылка "
+"действительна"
+
+#: wpg-admin-sec.php:249
+msgid "Link valid time (hours)"
+msgstr "Время, когда ссылка действительна (Часы)"
+
+#: wpg-admin-sec.php:255
+msgid "0 means confirmation-link will never expire"
+msgstr "0 означает, что ссылка на подтверждение не иссякнет"
+
+#: wpg-admin-sec.php:260
+msgid "Confirmation mail to sender"
+msgstr "Сообщение подтверждения отправителю"
+
+#: wpg-admin-sec.php:270
+msgid "Confirmation mail text"
+msgstr "текст сообщения подтверждения"
+
+#: wpg-admin-sec.php:284
+msgid "Mandatory fields"
+msgstr "Обязательные поля"
+
+#: wpg-admin-sec.php:286 wpg-form.php:207 wpg-form.php:711
+msgid "Sendername"
+msgstr "Имя отправителя"
+
+#: wpg-admin-sec.php:290 wpg-form.php:212 wpg-form.php:713
+msgid "Sender"
+msgstr "Адрес отправителя"
+
+#: wpg-admin-sec.php:294 wpg-form.php:221 wpg-form.php:724
+msgid "Recipientname"
+msgstr "Имя получателя"
+
+#: wpg-admin-sec.php:298 wpg-form.php:226 wpg-form.php:726
+msgid "Recipient"
+msgstr "Адрес получателя"
+
+#: wpg-admin-sec.php:302 wpg-form.php:243 wpg-form.php:736
+#: templates/wp-greet-display-template.php:36
+#: templates/wp-greet-preview-template.php:31
+msgid "Subject"
+msgstr "Тема"
+
+#: wpg-admin-sec.php:317 wpg-admin.php:305
+msgid "Update options"
+msgstr "Обновить параметры"
+
+#: wpg-admin.php:77
+msgid "mailreturnpath is not valid (wrong format or no MX entry for domain)."
+msgstr "Путь возврата сообщения не действителен (неправильный формат)"
+
+#: wpg-admin.php:82
+msgid ""
+"static sender address is not valid (wrong format or no MX entry for domain)."
+msgstr "статический адрес отправителя не действителен (неправильный формат)"
+
+#: wpg-admin.php:87
+msgid "bcc email adress is not valid (wrong format or no MX entry for domain)."
+msgstr "bcc адрес не действителен (неправильный формат)"
+
+#: wpg-admin.php:92
+msgid "imagewidth not in range (0..3200)."
+msgstr "Ширина картинки выходит за рамки (0..3200)"
+
+#: wpg-admin.php:97
+msgid ""
+"Cards will be removed before fetch interval expires (Number of days an "
+"online card can be fetched > Number of days card entries are stored)"
+msgstr ""
+"Открытки будут удалены до истечения периода доставки (Кол-во дней на "
+"доставку открыток > Кол-ва дней на хранение записей открыток)"
+
+#: wpg-admin.php:141
+msgid "wp-greet Setup"
+msgstr "Установка wp-greet"
+
+#: wpg-admin.php:145
+msgid "Gallery-Plugin"
+msgstr "Плагин галереи"
+
+#: wpg-admin.php:155
+msgid "Form-Post/Page"
+msgstr "Страница/пост для формы"
+
+#: wpg-admin.php:168
+msgid "Mailtransfermethod"
+msgstr "Метод отправки сообщении"
+
+#: wpg-admin.php:174
+msgid "Static Senderaddress"
+msgstr "Статический адрес отправителя"
+
+#: wpg-admin.php:179
+msgid "Mailreturnpath"
+msgstr "Путь возврата сообщении"
+
+#: wpg-admin.php:184
+msgid "Send Bcc to"
+msgstr "Отправить Bcc"
+
+#: wpg-admin.php:190
+msgid "Allow more than one recipient"
+msgstr "Разрешить более одного получателя"
+
+#: wpg-admin.php:196
+msgid "Send image inline"
+msgstr "Отправить вложенную картинку"
+
+#: wpg-admin.php:202
+msgid "Fetch cards online"
+msgstr "Доставить открытку онлайн"
+
+#: wpg-admin.php:206
+msgid "Number of days an online card can be fetched"
+msgstr "Количество дней, когда онлайн открытка может быть доставлена"
+
+#: wpg-admin.php:211
+msgid "Online card HTML mail text"
+msgstr "HTML текст сообщения онлайн открытки"
+
+#: wpg-admin.php:220
+msgid "Fixed image width"
+msgstr "Фиксированная ширина картинки"
+
+#: wpg-admin.php:226
+msgid "Add stamp image"
+msgstr "Добавить изображение штампа"
+
+#: wpg-admin.php:228
+msgid ""
+"leave empty for no stamp, path must be relative to wordpress directory, e.g. "
+"wp-content/plugins/wp-greet/defaultstamp.jpg"
+msgstr ""
+"Оставьте пустым, чтобы штамп отсутствовал, путь к файлу должен "
+"соответствовать директории wordpress, например: wp-content/plugins/wp-greet/"
+"defaultstamp.jpg"
+
+#: wpg-admin.php:233
+#, php-format
+msgid "Stampwidth in % of imagewidth"
+msgstr ""
+
+#: wpg-admin.php:239
+msgid "Use TinyMCE editor"
+msgstr ""
+
+#: wpg-admin.php:244
+msgid "Use NGG data for image"
+msgstr "Использовать данные NGG для картинки"
+
+#: wpg-admin.php:249
+msgid "Enable Smileys on greetcard form"
+msgstr "Включить смайлики на форме отправки открыток"
+
+#: wpg-admin.php:254
+msgid "Allow sending cards in the future"
+msgstr "Разрешить отправку открыток в будущем"
+
+#: wpg-admin.php:260
+msgid "Use informations from profile"
+msgstr "Использовать данные с профиля"
+
+#: wpg-admin.php:265
+msgid "Offer 'send again'-link "
+msgstr "Предложить ссылку \"отправить еще раз\""
+
+#: wpg-admin.php:270
+msgid "enable logging"
+msgstr "Включить ведение лога"
+
+#: wpg-admin.php:275
+msgid "Default mail subject"
+msgstr "Тема сообщения по умолчанию"
+
+#: wpg-admin.php:280
+msgid "Default mail header"
+msgstr "Верхний колонтитул сообщения по умолчанию"
+
+#: wpg-admin.php:287
+msgid "Default mail footer"
+msgstr "Нижний колонтитул сообщения по умолчанию"
+
+#: wpg-admin.php:294
+msgid "Number of days log entries are stored"
+msgstr "Кол-во дней, когда хранятся записи лога"
+
+#: wpg-admin.php:299
+msgid "Number of days card entries are stored"
+msgstr "Кол-во дней, когда хранятся записи открыток"
+
+#: wpg-form.php:117 wpg-form.php:921
+msgid "Your verification code is invalid."
+msgstr "Ваш код верификации не верен"
+
+#: wpg-form.php:118 wpg-form.php:125 wpg-form.php:133
+msgid "Please send a new card at"
+msgstr "Отправьте новую открытку"
+
+#: wpg-form.php:124
+msgid "Your greeting card has already been sent."
+msgstr "Ваша открытка уже была отправлена"
+
+#: wpg-form.php:132
+msgid "Your confirmation link is timedout."
+msgstr "Ссылка подтверждения иссякла"
+
+#: wpg-form.php:139 wpg-form.php:184 wpg-form.php:401 wpg-form.php:410
+#: wpg-form.php:549 wpg-form.php:833
+msgid "Send"
+msgstr "Отправить"
+
+#: wpg-form.php:165
+msgid "You are not permitted to send greeting cards."
+msgstr "Вам не разрешено отправлять открытки"
+
+#: wpg-form.php:165
+msgid "Please contact you wordpress Administrator."
+msgstr "Свяжитесь с Вашим администратором"
+
+#: wpg-form.php:183 wpg-form.php:327 wpg-form.php:831
+msgid "Preview"
+msgstr "Предварительный просмотр"
+
+#: wpg-form.php:207 wpg-form.php:212 wpg-form.php:221 wpg-form.php:226
+#: wpg-form.php:243 wpg-form.php:248
+msgid "Please fill in mandatory field"
+msgstr "Заполните обязательное поле"
+
+#: wpg-form.php:216
+msgid "Invalid sender  mail address."
+msgstr "Неправильный адрес отправителя"
+
+#: wpg-form.php:233 wpg-form.php:238
+msgid "Invalid recipient mail address."
+msgstr "Неправильный адрес получателя"
+
+#: wpg-form.php:266 wpg-form.php:273 wpg-form.php:294 wpg-form.php:308
+msgid "Spamprotection - Code is not valid.<br />"
+msgstr "Защита от спама - Код не верен.<br />"
+
+#: wpg-form.php:267 wpg-form.php:274
+msgid ""
+"Please try again.<br />Tip: If you cannot identify the chars, you can "
+"generate a new image. Using Reload."
+msgstr ""
+"Попробуйте еще раз.<br /> Подсказка: Если невозможно разобрать надписи, "
+"можете отправить другу картинку, перегрузив страницу."
+
+#: wpg-form.php:295 wpg-form.php:309
+msgid "Please try again."
+msgstr "Попробуйте еще раз"
+
+#: wpg-form.php:318
+msgid "Please accept the terms of usage before sending a greeting card.<br />"
+msgstr "Примите Условия Пользования до того, как отправить открытку.<br />"
+
+#: wpg-form.php:346
+msgid "CC"
+msgstr "Копия"
+
+#: wpg-form.php:396
+msgid "Edit"
+msgstr "Редактировать"
+
+#: wpg-form.php:398 templates/wp-greet-form-template.php:205
+msgid "Back"
+msgstr "Назад"
+
+#: wpg-form.php:503
+msgid "Your greeting card has been sent or scheduled."
+msgstr "Ваша открытка была отправлена или зарезервирована на отправку."
+
+#: wpg-form.php:525
+msgid "Send this card to another recipient"
+msgstr "Отправить эту открытку другому пользователю"
+
+#: wpg-form.php:543
+msgid "An error occured while sending you greeting card."
+msgstr "Во время отправки Вашей открытки произошла ошибка."
+
+#: wpg-form.php:544 wpg-form.php:598
+msgid "Problem report"
+msgstr "Доклад ошибки"
+
+#: wpg-form.php:592
+msgid "A confirmation mail has been sent to your address."
+msgstr "Сообщение с подтверждением было отправлено на Ваш адрес"
+
+#: wpg-form.php:593
+msgid ""
+"Please enter the link contained within the email into your browser and the "
+"greeting card will be send."
+msgstr "Введите ссылку из письма в броузер и открытка будет отправлена"
+
+#: wpg-form.php:597
+msgid "An error occured while sending the confirmation mail."
+msgstr "При отправке сообщения на подтверждение возникла ошибка!"
+
+#: wpg-form.php:604
+msgid "Zurück"
+msgstr "Назад"
+
+#: wpg-form.php:719
+msgid "Send confirmation to Sender"
+msgstr "Отправить подтверждение отправителю"
+
+#: wpg-form.php:722
+msgid "CC to Sender"
+msgstr "Копия отправителю"
+
+#: wpg-form.php:732
+msgid "Time to send card"
+msgstr "Время для отправки открытки"
+
+#: wpg-form.php:780
+msgid "Smileys"
+msgstr "Смайлики"
+
+#: wpg-form.php:797
+msgid "Spamprotection:"
+msgstr "Защита от спама:"
+
+#: wpg-form.php:811
+msgid "Sum of"
+msgstr "Сумма"
+
+#: wpg-form.php:825
+msgid "I accept the terms of usage of the greeting card service"
+msgstr "Я принимаю Условия Пользования сервиса доставки открыток"
+
+#: wpg-form.php:827
+msgid "(show)"
+msgstr "(показать)"
+
+#: wpg-form.php:832
+msgid "Reset form"
+msgstr "Сьросить форму"
+
+#: wpg-form.php:922 wpg-form.php:929
+msgid "Send a new card at"
+msgstr "Отправить новую открытку в"
+
+#: wpg-form.php:928
+msgid "Your greetcard link is timed out."
+msgstr "Ссылка на Вашу открытку иссякла."
+
+#: wpg-func-mail.php:282
+msgid "Greeting Card Confirmation Mail"
+msgstr "Сообщение подтверждения открытки"
+
+#: wpg-func-mail.php:394 templates/wp-greet-display-template.php:19
+msgid "A Greeting Card for you"
+msgstr "Открытка для Вас"
+
+#: wpg-func-mail.php:523
+msgid "You greeting card was received"
+msgstr "Ваша открытка была получена"
+
+#: wpg-func.php:533
+msgid "Stampimage not found - Please contact your administrator"
+msgstr "Изображение штампа не найдена - свяжитесь с Вашим администратторм"
+
+#: templates/wp-greet-form-template.php:54
+msgid "Mandatory inputfields are marked with a"
+msgstr "Обязательные поля отмечены"
+
+#: templates/wp-greet-form-template.php:89
+msgid "Multiple adresses can be separated by comma"
+msgstr "Множественные адреса могут быть разделены запятой"
+
+#: templates/wp-greet-form-template.php:194
+msgid "If you have a package code, enter it here"
+msgstr "Если у Вас есть код пакета, введите его сюда"
+
+#: templates/wp-greet-preview-template.php:45
+msgid "This card will be sent at"
+msgstr "Открытка будет отправлена в"
