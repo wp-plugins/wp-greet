@@ -84,7 +84,7 @@ function sendGreetcardMail($sender,$sendername,$recv,$recvname,$title,
     
     
     // nachrichtentext escapen
-    $msgtext = nl2br(esc_attr($msgtext));
+    $msgtext = nl2br($msgtext);
     
     // smilies ersetzen
     if ( $wpg_options['wp-greet-smilies']) { 

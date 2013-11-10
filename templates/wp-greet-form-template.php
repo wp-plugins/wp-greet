@@ -161,9 +161,13 @@
 -->
   
   <tr class="wp-greet-form">
-    <td class="wp-greet-form-left">{%message_label%}:</td>
-    <td class="wp-greet-form">{%message_input%}<br/><!-- <div id="counter"></div> --></td>
+    <td class="wp-greet-form-left" colspan="2">{%message_label%}:</td>
   </tr>
+  
+  <tr class="wp-greet-form">
+      <td class="wp-greet-form-left" colspan="2">{%message_input%}<br/><!-- <div id="counter"></div> --></td>
+  </tr>
+  
 
 <?php if ( $wpg_options['wp-greet-smilies'] == 1): ?>  
   <tr class="wp-greet-form">

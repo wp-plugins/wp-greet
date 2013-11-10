@@ -1,7 +1,7 @@
 <?php
 /* This file is part of the wp-greet plugin for wordpress */
 
-/*  Copyright 2008,2009  Hans Matzen  (email : webmaster at tuxlog.de)
+/*  Copyright 2008-2013  Hans Matzen  (email : webmaster at tuxlog.de)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -243,6 +243,11 @@ wp-greet, das freundliche Wordpress Grußkartenplugin";
     if ($wpg_options['wp-greet-fields'] == "") {
 	$wpg_options['wp-greet-fields'] = "010100"; // sender and receiver email is allways mandatory
 	add_option("wp-greet-fields",$wpg_options['wp-greet-fields'], '', "yes");
+    };
+    
+    if ($wpg_options['wp-greet-tinymce'] == "") {
+    	$wpg_options['wp-greet-tinymce'] = "1"; // use TinyMCE editor in form
+    	add_option("wp-greet-tinymce",$wpg_options['wp-greet-fields'], '', "yes");
     };
      
 }

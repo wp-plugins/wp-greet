@@ -93,7 +93,8 @@ function wpgreet_get_options() {
   		   "wp-greet-future-send" => "",
            "wp-greet-multi-recipients" => "",
   		   "wp-greet-ectext" => "",
-  		   "wp-greet-offerresend" => "");
+  		   "wp-greet-offerresend" => "",
+  		   "wp-greet-tinymce" => "");
 
 
   reset($options);

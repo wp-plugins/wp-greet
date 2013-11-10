@@ -327,7 +327,7 @@ function showGreetcardForm($galleryID, $picurl, $verify = "", $pid = "", $approv
 			$_POST['action'] == __("Preview","wp-greet") ) {
 
 		// message escapen
-		$show_message = nl2br(esc_attr($_POST['message']));
+		$show_message = nl2br($_POST['message']);
 
 		// smilies ersetzen
 		if ( $wpg_options['wp-greet-smilies']) {
@@ -379,7 +379,7 @@ function showGreetcardForm($galleryID, $picurl, $verify = "", $pid = "", $approv
 		$template .= "<input name='recv' type='hidden' value='" . $_POST['recv']  . "' />\n";
 		$template .= "<input name='recvname' type='hidden' value='" . $_POST['recvname']  . "' />\n";
 		$template .= "<input name='title' type='hidden' value='" . esc_attr($_POST['title'])  . "' />\n";
-		$template .= "<input name='message' type='hidden' value='" . esc_attr($_POST['message']) . "' />\n";
+		$template .= "<input name='message' type='hidden' value='" . nl2br($_POST['message']) . "' />\n";
 		$template .= "<input name='accepttou' type='hidden' value='" . esc_attr($_POST['accepttou']) . "' />\n";
 		$template .= "<input name='fsend' type='hidden' value='" . $_POST['fsend']  . "' />\n";
 
@@ -511,7 +511,7 @@ function showGreetcardForm($galleryID, $picurl, $verify = "", $pid = "", $approv
 					//$out .= "<input name='recv' type='hidden' value='" . $_POST['recv']  . "' />\n";
 					//$out .= "<input name='recvname' type='hidden' value='" . $_POST['recvname']  . "' />\n";
 					$out .= "<input name='title' type='hidden' value='" . esc_attr($_POST['title'])  . "' />\n";
-					$out .= "<input name='message' type='hidden' value='" . esc_attr($_POST['message']) . "' />\n";
+					$out .= "<input name='message' type='hidden' value='" . nl2br($_POST['message']) . "' />\n";
 					$out .= "<input name='accepttou' type='hidden' value='" . esc_attr($_POST['accepttou']) . "' />\n";
 					$out .= "<input name='fsend' type='hidden' value='" . $_POST['fsend']  . "' />\n";
 					// make sure parameters are sent when normal get mechanism is off for BWCards
@@ -651,7 +651,29 @@ function showGreetcardForm($galleryID, $picurl, $verify = "", $pid = "", $approv
 
 		// javascript fuer smilies ausgeben falls notwendig
 		if ( $wpg_options['wp-greet-smilies']) {
-			?>
+			if ( $wpg_options['wp-greet-tinymce']) {
+				// javascript mit tinymce
+			}
+			?><script type="text/javascript">
+			function smile(smile) {
+    			var itext;
+    			var tedit = null;
+ 			    var itext = "<img class='wpg_smile' alt='' src='" + smile + "' />";
+    				
+    			if ( typeof tinyMCE != "undefined" )
+					tedit = tinyMCE.get('message');
+
+    			if ( tedit == null || tedit.isHidden() == true) {
+    				tarea = document.getElementById(textid);
+    				insert_text(itext, tarea);
+    			} else if ( (tedit.isHidden() == false) && window.tinyMCE)	{ 
+					window.tinyMCE.execInstanceCommand('message', 'mceInsertContent', false, itext);
+    			}
+			}</script>
+<?php
+			// javascript ohne tinyMCE
+			} else { 
+?>
 <script type="text/javascript">
           function smile(fname) {
     	     var tarea;
@@ -714,8 +736,41 @@ if ($wpg_options['wp-greet-future-send']) {
 $subject_label= __("Subject","wp-greet").(substr($wpg_options['wp-greet-fields'],4,1)=="1" ? "<sup>*</sup>":"");
 $subject_input="<input name='title'  type='text' size='30' maxlength='80' value='" . esc_attr($_POST['title'])  . "'/>\n";
 $message_label=__("Message","wp-greet").(substr($wpg_options['wp-greet-fields'],5,1)=="1" ? "<sup>*</sup>":"");
-$message_input="<textarea class=\"wp-greet-form\" name='message' id='message' rows='40' cols='15'>" . (isset($_POST['message']) ? stripslashes(esc_attr($_POST['message'])) : '') . "</textarea>\n";
 
+$message_input="<textarea class=\"wp-greet-form\" name='message' id='message' rows='40' cols='15'>" . (isset($_POST['message']) ? stripslashes(esc_attr($_POST['message'])) : '') . "</textarea>\n";
+if ($wpg_options['wp-greet-tinymce']) {
+	
+	function add_wpg_safe_smiley($plugin_array) {
+		$plugin_array['wpg_safesmiley'] = plugins_url('tinymce_safesmiley.js',__FILE__);
+		return $plugin_array;
+	}
+	add_filter('mce_external_plugins', 'add_wpg_safe_smiley');
+	
+	// default settings
+	$settings =   array(
+			'wpautop' => true, // use wpautop?
+			'media_buttons' => false, // show insert/upload button(s)
+			'textarea_name' => 'message', // set the textarea name to something different, square brackets [] can be used here
+			'textarea_rows' => get_option('default_post_edit_rows', 10), // rows="..."
+			'tabindex' => '',
+			'editor_css' => '', // intended for extra styles for both visual and HTML editors buttons, needs to include the <style> tags, can use "scoped".
+			'editor_class' => '', // add extra class(es) to the editor textarea
+			'teeny' => false, // output the minimal editor config used in Press This
+			'dfw' => false, // replace the default fullscreen with DFW (supported on the front-end in WordPress 3.4)
+			'quicktags' => false, // load Quicktags, can be used to pass settings directly to Quicktags using an array()
+			'tinymce' => array(
+				'theme_advanced_buttons1' => 'bold,italic,underline,blockquote,|,undo,redo,|,fullscreen,|,fontselect,fontsizeselect,forecolor,backcolor',
+				'theme_advanced_buttons2' => '',
+				'theme_advanced_buttons3' => '',
+				'theme_advanced_buttons4' => '',
+				"theme_advanced_statusbar_location" => 'none'
+			),				
+	);
+	ob_start(); 
+	wp_editor( (isset($_POST['message']) ? stripslashes($_POST['message']) : '') , 'message', $settings);
+	$message_input=ob_get_contents();
+	ob_end_clean();
+}
 // smilies unter formular anzeigen
 $smilies_label="";
 $smilies_input="";
@@ -727,7 +782,11 @@ if ( $wpg_options['wp-greet-smilies']) {
 	$smarr = get_dir_alphasort($smileypath);
 	$smilies_input="";
 	foreach ($smarr as $file) {
-		$smilies_input .= '<img src="' . $smprefix . $file . '" alt="'.$file.'" onclick=\'smile("'.$file.'")\' />';
+		if ($wpg_options['wp-greet-tinymce']) {
+			$smilies_input .= '<img src="' . $smprefix . $file . '" alt="'.$file.'" onclick=\'smile("'.$smprefix . $file.'")\' />';
+		} else {
+			$smilies_input .= '<img src="' . $smprefix . $file . '" alt="'.$file.'" onclick=\'smile("'.$file.'")\' />';
+		}
 	}
 }
 

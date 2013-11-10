@@ -1,7 +1,7 @@
 <?php
 /* This file is part of the wp-greet plugin for wordpress */
 
-/*  Copyright 2008-2011 Hans Matzen  (email : webmaster at tuxlog dot de)
+/*  Copyright 2008-2013 Hans Matzen  (email : webmaster at tuxlog dot de)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -58,7 +58,8 @@ function wpg_admin_form()
 			     "wp-greet-ocduration",   "wp-greet-octext",
 			     "wp-greet-logdays",      "wp-greet-carddays", 
 			     "wp-greet-show-ngg-desc","wp-greet-future-send",
-    			 "wp-greet-multi-recipients", "wp-greet-staticsender","wp-greet-offerresend");
+    			 "wp-greet-multi-recipients", "wp-greet-staticsender",
+    			 "wp-greet-tinymce", "wp-greet-offerresend");
     
 
     while (list($key, $val) = each($wpg_options)) {
@@ -233,6 +234,11 @@ function wechsle_onlinecard () {
           <td><input name="wp-greet-stamppercent" id="wp-greet-stamppercent" type="text" size="5" maxlength="3" value="<?php echo $wpg_options['wp-greet-stamppercent'] ?>" /></td>
           </tr>
 
+           <tr class="tr-admin">
+           <th scope="row">&nbsp;</th>
+           <td><input type="checkbox" name="wp-greet-tinymce" value="1" <?php if ($wpg_options['wp-greet-tinymce']=="1") echo "checked=\"checked\""?> /> <b><?php echo __('Use TinyMCE editor',"wp-greet")?></b></td>
+	       </tr>
+	       
            <tr class="tr-admin">
            <th scope="row">&nbsp;</th>
            <td><input type="checkbox" name="wp-greet-show-ngg-desc" value="1" <?php if ($wpg_options['wp-greet-show-ngg-desc']=="1") echo "checked=\"checked\""?> /> <b><?php echo __('Use NGG data for image',"wp-greet")?></b></td>

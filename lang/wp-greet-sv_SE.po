@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-22 08:02+0200\n"
+"POT-Creation-Date: 2013-11-10 09:02+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Hans Matzen <webmaster ät tuxlog dot  de>\n"
 "Language-Team: \n"
@@ -27,7 +27,7 @@ msgstr "Loggning"
 msgid "No gallery plugin selected."
 msgstr "Ingen galleri-plugin vald."
 
-#: wpg-admin-gal.php:75 wpg-admin-sec.php:109 wpg-admin.php:102
+#: wpg-admin-gal.php:75 wpg-admin-sec.php:109 wpg-admin.php:103
 msgid "Settings successfully updated"
 msgstr "Inställningarna har uppdaterats"
 
@@ -86,7 +86,7 @@ msgid "IP-Adress"
 msgstr "IP-adress"
 
 #: wpg-admin-log.php:112 wpg-admin-sec.php:306 wpg-form.php:248
-#: wpg-form.php:716
+#: wpg-form.php:738
 msgid "Message"
 msgstr "Meddelande"
 
@@ -98,7 +98,7 @@ msgstr "Rensa logg"
 msgid "Captcha plugin not found."
 msgstr "Captcha plugin kunde inte hittas"
 
-#: wpg-admin-sec.php:111 wpg-admin.php:104
+#: wpg-admin-sec.php:111 wpg-admin.php:105
 msgid "You have to change a field to update settings."
 msgstr "Du behöver ändra ett fält for att uppdatera inställningarna."
 
@@ -142,8 +142,8 @@ msgstr "Använd mail att verfiera avsändaradressen"
 msgid "Verification mail text"
 msgstr "Verfieringsmail text"
 
-#: wpg-admin-sec.php:244 wpg-admin-sec.php:277 wpg-admin.php:214
-#: wpg-admin.php:276 wpg-admin.php:283
+#: wpg-admin-sec.php:244 wpg-admin-sec.php:277 wpg-admin.php:215
+#: wpg-admin.php:282 wpg-admin.php:289
 msgid ""
 "HTML allowed, use %sender% for sendername, %sendermail% for sender email-"
 "address, %receiver% for receiver name, %link% for generated link, %duration% "
@@ -175,55 +175,55 @@ msgstr "Verfieringsmail text"
 msgid "Mandatory fields"
 msgstr "Obligatoriska fält"
 
-#: wpg-admin-sec.php:286 wpg-form.php:207 wpg-form.php:689
+#: wpg-admin-sec.php:286 wpg-form.php:207 wpg-form.php:711
 msgid "Sendername"
 msgstr "Avsändare"
 
-#: wpg-admin-sec.php:290 wpg-form.php:212 wpg-form.php:691
+#: wpg-admin-sec.php:290 wpg-form.php:212 wpg-form.php:713
 msgid "Sender"
 msgstr "Avsändare emailadress"
 
-#: wpg-admin-sec.php:294 wpg-form.php:221 wpg-form.php:702
+#: wpg-admin-sec.php:294 wpg-form.php:221 wpg-form.php:724
 msgid "Recipientname"
 msgstr "Mottagarens namn"
 
-#: wpg-admin-sec.php:298 wpg-form.php:226 wpg-form.php:704
+#: wpg-admin-sec.php:298 wpg-form.php:226 wpg-form.php:726
 msgid "Recipient"
 msgstr "Mottagare emailadress"
 
-#: wpg-admin-sec.php:302 wpg-form.php:243 wpg-form.php:714
+#: wpg-admin-sec.php:302 wpg-form.php:243 wpg-form.php:736
 #: templates/wp-greet-display-template.php:36
 #: templates/wp-greet-preview-template.php:31
 msgid "Subject"
 msgstr "Ämne"
 
-#: wpg-admin-sec.php:317 wpg-admin.php:299
+#: wpg-admin-sec.php:317 wpg-admin.php:305
 msgid "Update options"
 msgstr "Uppdateringsalternativ"
 
-#: wpg-admin.php:76
+#: wpg-admin.php:77
 msgid "mailreturnpath is not valid (wrong format or no MX entry for domain)."
 msgstr ""
 "mailreturnpath är inte giltigt (fel format eller något MX posten för "
 "domänen)."
 
-#: wpg-admin.php:81
+#: wpg-admin.php:82
 #, fuzzy
 msgid ""
 "static sender address is not valid (wrong format or no MX entry for domain)."
 msgstr ""
 "bcc e-postadress är inte giltig (fel format eller något MX post för domänen)."
 
-#: wpg-admin.php:86
+#: wpg-admin.php:87
 msgid "bcc email adress is not valid (wrong format or no MX entry for domain)."
 msgstr ""
 "bcc e-postadress är inte giltig (fel format eller något MX post för domänen)."
 
-#: wpg-admin.php:91
+#: wpg-admin.php:92
 msgid "imagewidth not in range (0..3200)."
 msgstr "bildvidd inte inom intervallet (0 .. 3200)."
 
-#: wpg-admin.php:96
+#: wpg-admin.php:97
 msgid ""
 "Cards will be removed before fetch interval expires (Number of days an "
 "online card can be fetched > Number of days card entries are stored)"
@@ -231,64 +231,64 @@ msgstr ""
 "Kort kommer att tas bort innan hämtningsintervallet går ut (Antal dagar en "
 "Online kort kan hämtas> Antal dagar kortsposter lagras)"
 
-#: wpg-admin.php:140
+#: wpg-admin.php:141
 msgid "wp-greet Setup"
 msgstr "wp-greet setup"
 
-#: wpg-admin.php:144
+#: wpg-admin.php:145
 msgid "Gallery-Plugin"
 msgstr "Galleri-Plugin"
 
-#: wpg-admin.php:154
+#: wpg-admin.php:155
 msgid "Form-Post/Page"
 msgstr "Form-Post/Sida"
 
-#: wpg-admin.php:167
+#: wpg-admin.php:168
 msgid "Mailtransfermethod"
 msgstr "Metod för att skicka mailet"
 
-#: wpg-admin.php:173
+#: wpg-admin.php:174
 #, fuzzy
 msgid "Static Senderaddress"
 msgstr "Ogiltig avsändaradress."
 
-#: wpg-admin.php:178
+#: wpg-admin.php:179
 msgid "Mailreturnpath"
 msgstr "Mailadress för retur"
 
-#: wpg-admin.php:183
+#: wpg-admin.php:184
 msgid "Send Bcc to"
 msgstr "Skicka Bcc till"
 
-#: wpg-admin.php:189
+#: wpg-admin.php:190
 msgid "Allow more than one recipient"
 msgstr ""
 
-#: wpg-admin.php:195
+#: wpg-admin.php:196
 msgid "Send image inline"
 msgstr "Skicka bild inline"
 
-#: wpg-admin.php:201
+#: wpg-admin.php:202
 msgid "Fetch cards online"
 msgstr "Hämta vykort online"
 
-#: wpg-admin.php:205
+#: wpg-admin.php:206
 msgid "Number of days an online card can be fetched"
 msgstr "Antal dagar som online vykortet kan hämtas"
 
-#: wpg-admin.php:210
+#: wpg-admin.php:211
 msgid "Online card HTML mail text"
 msgstr "Online vykort HTML mail text"
 
-#: wpg-admin.php:219
+#: wpg-admin.php:220
 msgid "Fixed image width"
 msgstr "Fast bildbredd"
 
-#: wpg-admin.php:225
+#: wpg-admin.php:226
 msgid "Add stamp image"
 msgstr "Addera frimärke/bild"
 
-#: wpg-admin.php:227
+#: wpg-admin.php:228
 msgid ""
 "leave empty for no stamp, path must be relative to wordpress directory, e.g. "
 "wp-content/plugins/wp-greet/defaultstamp.jpg"
@@ -296,56 +296,60 @@ msgstr ""
 "lämna tomt för inget frimärke, sökväg måste vara relativ till wordpress "
 "katalog wp-content/plugins/wp-greet/defaultstamp.jpg"
 
-#: wpg-admin.php:232
+#: wpg-admin.php:233
 #, fuzzy, php-format
 msgid "Stampwidth in % of imagewidth"
 msgstr "Frimärksvidd i % av bildbredden"
 
-#: wpg-admin.php:238
+#: wpg-admin.php:239
+msgid "Use TinyMCE editor"
+msgstr ""
+
+#: wpg-admin.php:244
 msgid "Use NGG data for image"
 msgstr ""
 
-#: wpg-admin.php:243
+#: wpg-admin.php:249
 msgid "Enable Smileys on greetcard form"
 msgstr "Aktivera smileys i vykortsformläret"
 
-#: wpg-admin.php:248
+#: wpg-admin.php:254
 msgid "Allow sending cards in the future"
 msgstr ""
 
-#: wpg-admin.php:254
+#: wpg-admin.php:260
 msgid "Use informations from profile"
 msgstr "Använd information från profil"
 
-#: wpg-admin.php:259
+#: wpg-admin.php:265
 msgid "Offer 'send again'-link "
 msgstr ""
 
-#: wpg-admin.php:264
+#: wpg-admin.php:270
 msgid "enable logging"
 msgstr "Aktivera loggning"
 
-#: wpg-admin.php:269
+#: wpg-admin.php:275
 msgid "Default mail subject"
 msgstr "Standard mail ämne/subject"
 
-#: wpg-admin.php:274
+#: wpg-admin.php:280
 msgid "Default mail header"
 msgstr "Standard mail huvud/header"
 
-#: wpg-admin.php:281
+#: wpg-admin.php:287
 msgid "Default mail footer"
 msgstr "Standard mail fot/footer"
 
-#: wpg-admin.php:288
+#: wpg-admin.php:294
 msgid "Number of days log entries are stored"
 msgstr "Antal dagar loggposterna lagras"
 
-#: wpg-admin.php:293
+#: wpg-admin.php:299
 msgid "Number of days card entries are stored"
 msgstr "Antal dagar som vykortet kommer att lagras"
 
-#: wpg-form.php:117 wpg-form.php:862
+#: wpg-form.php:117 wpg-form.php:921
 msgid "Your verification code is invalid."
 msgstr "Din verifieringskod är ogiltig"
 
@@ -362,7 +366,7 @@ msgid "Your confirmation link is timedout."
 msgstr "Din bekräftelselänk ar överskridit tiden."
 
 #: wpg-form.php:139 wpg-form.php:184 wpg-form.php:401 wpg-form.php:410
-#: wpg-form.php:549 wpg-form.php:774
+#: wpg-form.php:549 wpg-form.php:833
 msgid "Send"
 msgstr "Skicka"
 
@@ -374,7 +378,7 @@ msgstr "Du har inte tillåtelse att skicka vykort."
 msgid "Please contact you wordpress Administrator."
 msgstr "Vänligen kontakta din wordpress administratör."
 
-#: wpg-form.php:183 wpg-form.php:327 wpg-form.php:772
+#: wpg-form.php:183 wpg-form.php:327 wpg-form.php:831
 msgid "Preview"
 msgstr "Förhandsgranskning"
 
@@ -459,48 +463,48 @@ msgstr "Ett fel uppstod vi leveransen av bekräftelse mailet"
 msgid "Zurück"
 msgstr ""
 
-#: wpg-form.php:697
+#: wpg-form.php:719
 msgid "Send confirmation to Sender"
 msgstr ""
 
-#: wpg-form.php:700
+#: wpg-form.php:722
 msgid "CC to Sender"
 msgstr "CC till avsändare"
 
-#: wpg-form.php:710
+#: wpg-form.php:732
 #, fuzzy
 msgid "Time to send card"
 msgstr "Minsta roll att skicka ett kort"
 
-#: wpg-form.php:725
+#: wpg-form.php:780
 msgid "Smileys"
 msgstr "Smileys"
 
-#: wpg-form.php:738
+#: wpg-form.php:797
 msgid "Spamprotection:"
 msgstr "Spamskydd"
 
-#: wpg-form.php:752
+#: wpg-form.php:811
 msgid "Sum of"
 msgstr "Summa av"
 
-#: wpg-form.php:766
+#: wpg-form.php:825
 msgid "I accept the terms of usage of the greeting card service"
 msgstr "Jag godkänner villkoren för att använda vykort-servicen"
 
-#: wpg-form.php:768
+#: wpg-form.php:827
 msgid "(show)"
 msgstr "Visa"
 
-#: wpg-form.php:773
+#: wpg-form.php:832
 msgid "Reset form"
 msgstr "Återställ formulär"
 
-#: wpg-form.php:863 wpg-form.php:870
+#: wpg-form.php:922 wpg-form.php:929
 msgid "Send a new card at"
 msgstr "Skicka ett nytt kort"
 
-#: wpg-form.php:869
+#: wpg-form.php:928
 msgid "Your greetcard link is timed out."
 msgstr "Länken till ditt vykort har gått ut."
 
@@ -517,7 +521,7 @@ msgstr "Ett vykort till dig"
 msgid "You greeting card was received"
 msgstr "Ditt vykort har skickats."
 
-#: wpg-func.php:532
+#: wpg-func.php:533
 msgid "Stampimage not found - Please contact your administrator"
 msgstr "Bild för frimärke kan inte hittas - Vänligen kontakta administratör"
 
