@@ -5,10 +5,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: wp-greet-spanish\n"
+"Project-Id-Version: wp-greet-catalan\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-11-10 09:02+0100\n"
-"PO-Revision-Date: 2013-11-17 22:26+0100\n"
+"PO-Revision-Date: 2013-11-17 22:07+0100\n"
 "Last-Translator: Pascal Cousseran <pascalc1@yahoo.es>\n"
 "Language-Team: pascal cousseran <pascalc1@yahoo.es>\n"
 "Language: es_ES\n"
@@ -21,27 +21,27 @@ msgstr ""
 
 #: wp-greet.php:117 wpg-admin-gal.php:83
 msgid "Galleries"
-msgstr "Galerías"
+msgstr "Galeries"
 
 #: wp-greet.php:119
 msgid "Security"
-msgstr "Seguridad"
+msgstr "Seguretat"
 
 #: wp-greet.php:121
 msgid "Logging"
-msgstr "Registro"
+msgstr "Registre"
 
 #: wpg-admin-gal.php:46
 msgid "No gallery plugin selected."
-msgstr "Ninguna galería plugin seleccionada."
+msgstr "Cap plugin de galeria seleccionat."
 
 #: wpg-admin-gal.php:75 wpg-admin-sec.php:109 wpg-admin.php:103
 msgid "Settings successfully updated"
-msgstr "Ajustes guardados con éxito"
+msgstr "Ajustos desats amb èxit"
 
 #: wpg-admin-gal.php:86
 msgid "Active"
-msgstr "Activado"
+msgstr "Activat"
 
 #: wpg-admin-gal.php:87
 msgid "ID"
@@ -49,23 +49,23 @@ msgstr "ID"
 
 #: wpg-admin-gal.php:88
 msgid "Name"
-msgstr "Nombre"
+msgstr "Nom"
 
 #: wpg-admin-gal.php:122
 msgid "Save"
-msgstr "Guardar"
+msgstr "Desar"
 
 #: wpg-admin-log.php:88
 msgid "Greetcard Log"
-msgstr "Registro de Postal"
+msgstr "Registre de Postals"
 
 #: wpg-admin-log.php:93
 msgid "Show all"
-msgstr "Muestra todo"
+msgstr "Mostra tot"
 
 #: wpg-admin-log.php:102
 msgid "Lines per Page:"
-msgstr "Líneas por Página:"
+msgstr "Lines per Page:"
 
 #: wpg-admin-log.php:106
 msgid "No."
@@ -73,7 +73,7 @@ msgstr "No."
 
 #: wpg-admin-log.php:107
 msgid "Date/Time"
-msgstr "Fecha / Hora"
+msgstr "Data/Hora"
 
 #: wpg-admin-log.php:108 templates/wp-greet-display-template.php:26
 #: templates/wp-greet-preview-template.php:21
@@ -83,32 +83,32 @@ msgstr "De"
 #: wpg-admin-log.php:109 templates/wp-greet-display-template.php:31
 #: templates/wp-greet-preview-template.php:26
 msgid "To"
-msgstr "Para"
+msgstr "Per a"
 
 #: wpg-admin-log.php:110
 msgid "Image"
-msgstr "Imagen"
+msgstr "Imatge"
 
 #: wpg-admin-log.php:111
 msgid "IP-Adress"
-msgstr "Dirección IP"
+msgstr "Adreça IP"
 
 #: wpg-admin-log.php:112 wpg-admin-sec.php:306 wpg-form.php:248
 #: wpg-form.php:738
 msgid "Message"
-msgstr "Mensaje"
+msgstr "Missatge"
 
 #: wpg-admin-log.php:139
 msgid "Clear Log"
-msgstr "Limpiar Registro"
+msgstr "Buidar Registre"
 
 #: wpg-admin-sec.php:102
 msgid "Captcha plugin not found."
-msgstr "Plugin Captcha no encontrado."
+msgstr "Plugin Captcha no s'ha trobat."
 
 #: wpg-admin-sec.php:111 wpg-admin.php:105
 msgid "You have to change a field to update settings."
-msgstr "Debe cambiar un campo para actualizar los ajustes."
+msgstr "Has de canviar un camp per actualitzar els ajustos."
 
 #: wpg-admin-sec.php:157
 msgid "wp-greet Security - Setup"
@@ -116,39 +116,39 @@ msgstr "wp-greet Seguridad - Configuración"
 
 #: wpg-admin-sec.php:163
 msgid "Spam protection"
-msgstr "Protección antispam"
+msgstr "Protecció antispam"
 
 #: wpg-admin-sec.php:167
 msgid "none"
-msgstr "Ninguno"
+msgstr "cap"
 
 #: wpg-admin-sec.php:183
 msgid "Minimum role to send card"
-msgstr "Rol mínimo para enviar postal"
+msgstr "Rol mínim per enviar postal"
 
 #: wpg-admin-sec.php:201
 msgid "Everyone"
-msgstr "Todos"
+msgstr "Tots"
 
 #: wpg-admin-sec.php:212
 msgid "Enable Terms of Usage display and check"
-msgstr "Activa la visualización y validación de las condiciones de uso "
+msgstr "Activa la visualizació y validació de les condicions d'ús"
 
 #: wpg-admin-sec.php:217
 msgid "Terms of usage"
-msgstr "Condiciones de uso"
+msgstr "Condicions d'ús"
 
 #: wpg-admin-sec.php:223
 msgid "HTML is allowed"
-msgstr "HTML está autorizado"
+msgstr "HTML està autoritzat"
 
 #: wpg-admin-sec.php:232
 msgid "Use mail to verify sender address"
-msgstr "Usar mensaje correo para verificar dirección del remitente"
+msgstr "Utilitzar misstage de correu per validar adreça de correu del remitent"
 
 #: wpg-admin-sec.php:237
 msgid "Verification mail text"
-msgstr "Texto del mensaje de verificación"
+msgstr "Text del missatge de verificació"
 
 #: wpg-admin-sec.php:244 wpg-admin-sec.php:277 wpg-admin.php:215
 #: wpg-admin.php:282 wpg-admin.php:289
@@ -157,56 +157,56 @@ msgid ""
 "address, %receiver% for receiver name, %link% for generated link, %duration% "
 "for time the link is valid"
 msgstr ""
-"HTML autorizado, utiliza %sender% para nombre del remitente, %sendermail% "
-"para dirección de correo del remitente, %receiver% para nombre del "
-"destinatario, %link% para el enlace generado, %duration% para el período de "
-"validez del enlace"
+"HTML autoritzat, utilitza %sender% per al nom de remitent, %sendermail% per "
+"a l'adreça de correu del remitent, %receiver% per al nom del destinatari, "
+"%link% per a l'enllaç generat, %duration% per al període de validesa de "
+"l'enllaç"
 
 #: wpg-admin-sec.php:249
 msgid "Link valid time (hours)"
-msgstr "Período de validez del enlace (horas)"
+msgstr "Període de validesa de l'enllaç (hores)"
 
 #: wpg-admin-sec.php:255
 msgid "0 means confirmation-link will never expire"
-msgstr "0 significa que el enlace de confirmación nunca expirará"
+msgstr "0 significa que l'enllaç de confirmació mai expirarà"
 
 #: wpg-admin-sec.php:260
 msgid "Confirmation mail to sender"
-msgstr "Correo Mensaje de confirmación para el remitente"
+msgstr "Cooreu missatge per al remitent"
 
 #: wpg-admin-sec.php:270
 msgid "Confirmation mail text"
-msgstr "Mensaje de confirmación"
+msgstr "Missatge de confirmació"
 
 #: wpg-admin-sec.php:284
 msgid "Mandatory fields"
-msgstr "Campos obligatorios"
+msgstr "Camps obligatoris"
 
 #: wpg-admin-sec.php:286 wpg-form.php:207 wpg-form.php:711
 msgid "Sendername"
-msgstr "DE: Tu Nombre"
+msgstr "DE: Teu Nom"
 
 #: wpg-admin-sec.php:290 wpg-form.php:212 wpg-form.php:713
 msgid "Sender"
-msgstr "DE: Tu Em@il"
+msgstr "DE: Teu Em@il"
 
 #: wpg-admin-sec.php:294 wpg-form.php:221 wpg-form.php:724
 msgid "Recipientname"
-msgstr "Nombre Destinatario"
+msgstr "Nom Destinatari"
 
 #: wpg-admin-sec.php:298 wpg-form.php:226 wpg-form.php:726
 msgid "Recipient"
-msgstr "Em@il Destinatario"
+msgstr "Em@il destinatari"
 
 #: wpg-admin-sec.php:302 wpg-form.php:243 wpg-form.php:736
 #: templates/wp-greet-display-template.php:36
 #: templates/wp-greet-preview-template.php:31
 msgid "Subject"
-msgstr "Asunto"
+msgstr "Asumpte"
 
 #: wpg-admin-sec.php:317 wpg-admin.php:305
 msgid "Update options"
-msgstr "Guardar opciones"
+msgstr "Desa opcions"
 
 #: wpg-admin.php:77
 msgid "mailreturnpath is not valid (wrong format or no MX entry for domain)."
@@ -218,51 +218,51 @@ msgstr ""
 msgid ""
 "static sender address is not valid (wrong format or no MX entry for domain)."
 msgstr ""
-"la dirección estática del remitente no es válida (formato erróneo o no hay "
-"entrada MX para el dominio)"
+"l'adreça estàtica del remitent no es vàlida (format erroni, o no hi ha "
+"entrada MX per al domini)."
 
 #: wpg-admin.php:87
 msgid "bcc email adress is not valid (wrong format or no MX entry for domain)."
 msgstr ""
-"dirección correo oculta CCO no es válida (formato erróneo o no hay entrada "
-"MX para el dominio)"
+"adreça correu oculta CCO no és vàlida (format erroni, o no hi ha entrada MX "
+"per al domini)."
 
 #: wpg-admin.php:92
 msgid "imagewidth not in range (0..3200)."
-msgstr "Ancho de imagen fuera del rango (0..3200)"
+msgstr "Amplada de la imatge fora de l'interval (0..3200)"
 
 #: wpg-admin.php:97
 msgid ""
 "Cards will be removed before fetch interval expires (Number of days an "
 "online card can be fetched > Number of days card entries are stored)"
 msgstr ""
-"Las postales serán quitadas antes de que el intervalo de recogida expire "
-"(Número de días una postal en línea puede ser traída >  Número de días "
-"entradas de las postales están almacenadas)"
+"Les postals seran tretes abans que l'interval de recollida expiri (Nombre de "
+"dies una postal en línia pot ser recollida > Nombre de dies entrades de les "
+"postals estan emmagatzemades)"
 
 #: wpg-admin.php:141
 msgid "wp-greet Setup"
-msgstr "Configuración wp-greet"
+msgstr "Configuració wp-greet"
 
 #: wpg-admin.php:145
 msgid "Gallery-Plugin"
-msgstr "Galería-Plugin"
+msgstr "Galeria-Plugin"
 
 #: wpg-admin.php:155
 msgid "Form-Post/Page"
-msgstr "Formulario-Entrada/Página"
+msgstr "Formulari-Entrada/Pàgina"
 
 #: wpg-admin.php:168
 msgid "Mailtransfermethod"
-msgstr "Metodo Envío Mensaje"
+msgstr "Metode Lluirement Misstage"
 
 #: wpg-admin.php:174
 msgid "Static Senderaddress"
-msgstr "Dirección estática Remitente"
+msgstr "Adreça estàtica Remitent"
 
 #: wpg-admin.php:179
 msgid "Mailreturnpath"
-msgstr "Routa Retorno Correo"
+msgstr "Camí de Retorn Correu"
 
 #: wpg-admin.php:184
 msgid "Send Bcc to"
@@ -270,108 +270,110 @@ msgstr "Envia CCO a"
 
 #: wpg-admin.php:190
 msgid "Allow more than one recipient"
-msgstr "Permite más de un destinatario"
+msgstr "Permetre més d'un destinatari"
 
 #: wpg-admin.php:196
 msgid "Send image inline"
-msgstr "Enviar imagen en línea"
+msgstr "Enviar Imatge en la línea"
 
 #: wpg-admin.php:202
 msgid "Fetch cards online"
-msgstr "Postales en línea recogidas"
+msgstr "Recollir postals en línia"
 
 #: wpg-admin.php:206
 msgid "Number of days an online card can be fetched"
-msgstr "Número de días para poder recoger la postal en línea"
+msgstr "Nombre de dies per poder recollir la postal en línia"
 
 #: wpg-admin.php:211
 msgid "Online card HTML mail text"
-msgstr "Texto del mensaje (HTML)"
+msgstr "Text del misstage (HTML)"
 
 #: wpg-admin.php:220
 msgid "Fixed image width"
-msgstr "Ancho fijo imagen"
+msgstr "Amplada fixa de la imatge"
 
 #: wpg-admin.php:226
 msgid "Add stamp image"
-msgstr "Añadir sello miniatura"
+msgstr "Afegir la imatge del segell"
 
 #: wpg-admin.php:228
 msgid ""
 "leave empty for no stamp, path must be relative to wordpress directory, e.g. "
 "wp-content/plugins/wp-greet/defaultstamp.jpg"
 msgstr ""
-"Sin sello: dejar vacío, routa relativa al directorio wordpress,  wp-content/"
-"plugins/wp-greet/defaultstamp.jpg"
+"Sense segell: deixar buit, cami relatiu al directori de wordpress, wp-"
+"content/plugins/wp-greet/defaultstamp.jpg"
 
 #: wpg-admin.php:233
 #, php-format
 msgid "Stampwidth in % of imagewidth"
-msgstr "Ancho Sello en % de la imagen"
+msgstr "Amplada Segell en % de la imatge"
 
 #: wpg-admin.php:239
 msgid "Use TinyMCE editor"
-msgstr "Usa TinyMCE editor"
+msgstr "Utilitzar l'editor TinyMCE"
 
 #: wpg-admin.php:244
 msgid "Use NGG data for image"
-msgstr "Utilizar NGG data para imagen"
+msgstr "Utilitzar NGG data per a la imatge"
 
 #: wpg-admin.php:249
 msgid "Enable Smileys on greetcard form"
-msgstr "Activar Emoticones en formulario de la postal"
+msgstr "Activar Emoticones en formulari de la postal"
 
 #: wpg-admin.php:254
 msgid "Allow sending cards in the future"
-msgstr "Autorizar envió postal en el futuro"
+msgstr "Autoritzar l'enviament de postals en el futur"
 
 #: wpg-admin.php:260
 msgid "Use informations from profile"
-msgstr "Utilizar informaciones del perfil"
+msgstr "Utilitzar informacions del perfil"
 
 #: wpg-admin.php:265
 msgid "Offer 'send again'-link "
-msgstr "Ofrece 'send again'-enlace"
+msgstr "Ofereix 'send again'-enllaç"
 
 #: wpg-admin.php:270
 msgid "enable logging"
-msgstr "Activar registro"
+msgstr "Activar registre"
 
 #: wpg-admin.php:275
 msgid "Default mail subject"
-msgstr "Asunto del mensaje por defecto"
+msgstr "Assumpte del misstage per defecte"
 
 #: wpg-admin.php:280
 msgid "Default mail header"
-msgstr "Encabezado del mensaje por defecto"
+msgstr "Encapçalament del misstage per defecte"
 
 #: wpg-admin.php:287
 msgid "Default mail footer"
-msgstr "Pie del mensaje por defecto"
+msgstr "Peu del misstage per defecte"
 
 #: wpg-admin.php:294
 msgid "Number of days log entries are stored"
-msgstr "Número de días para almacenar entradas registro"
+msgstr ""
+"Nombre de dies per emmagatzemar entrades de registreNúmero de días para "
+"almacenar entradas registro"
 
 #: wpg-admin.php:299
 msgid "Number of days card entries are stored"
-msgstr "Número de días "
+msgstr "Nombre de dies per l'emmagatzematge d'entrades de postals"
 
 #: wpg-form.php:117 wpg-form.php:921
 msgid "Your verification code is invalid."
-msgstr "Vuestro código de verificación es incorrecto."
+msgstr "Vostre còdic de verificació no és válid. "
 
 #: wpg-form.php:118 wpg-form.php:125 wpg-form.php:133
 msgid "Please send a new card at"
-msgstr "Por favor envia nueva postal a"
+msgstr "Si us plau, enviï una nova postal a"
 
 #: wpg-form.php:124
 msgid "Your greeting card has already been sent."
-msgstr "Vuestra postal ha sido ya enviada. "
+msgstr "La vostra postal ha estat ja enviada."
 
 #: wpg-form.php:132
 msgid "Your confirmation link is timedout."
-msgstr "Vuestro enlace de confirmación está caducado."
+msgstr "L'enllaç de confirmació ha caducat."
 
 #: wpg-form.php:139 wpg-form.php:184 wpg-form.php:401 wpg-form.php:410
 #: wpg-form.php:549 wpg-form.php:833
@@ -380,49 +382,48 @@ msgstr "Enviar"
 
 #: wpg-form.php:165
 msgid "You are not permitted to send greeting cards."
-msgstr "No le permiten enviar postals."
+msgstr "No li permeten enviar postals."
 
 #: wpg-form.php:165
 msgid "Please contact you wordpress Administrator."
-msgstr "Por favor contacte el administrador del blog Wordpress."
+msgstr "Si us plau, contacti l'administrador del blog Wordpress."
 
 #: wpg-form.php:183 wpg-form.php:327 wpg-form.php:831
 msgid "Preview"
-msgstr "Vista previa"
+msgstr "Previsualització"
 
 #: wpg-form.php:207 wpg-form.php:212 wpg-form.php:221 wpg-form.php:226
 #: wpg-form.php:243 wpg-form.php:248
 msgid "Please fill in mandatory field"
-msgstr "Por favor rellene los campos obligatorios"
+msgstr "Si us plau, ompli els camps obligatoris"
 
 #: wpg-form.php:216
 msgid "Invalid sender  mail address."
-msgstr "Dirección remitente inválida."
+msgstr "L'adreça de correu del remitent no és vàlida."
 
 #: wpg-form.php:233 wpg-form.php:238
 msgid "Invalid recipient mail address."
-msgstr "Dirección de destinatario inválida."
+msgstr "L'adreça de correu del destinatari no és vàlida."
 
 #: wpg-form.php:266 wpg-form.php:273 wpg-form.php:294 wpg-form.php:308
 msgid "Spamprotection - Code is not valid.<br />"
-msgstr "Protección antispam - Código incorrecto.<br />"
+msgstr "Protecció antispam - Códic no és vàlid.<br />"
 
 #: wpg-form.php:267 wpg-form.php:274
 msgid ""
 "Please try again.<br />Tip: If you cannot identify the chars, you can "
 "generate a new image. Using Reload."
 msgstr ""
-"Por favor intente otra vez.<br />Consejo: Si usted no puede identificar los "
-"caracteres, puede generar una nueva imagen. Use Recargar."
+"Si us plau, intenti un altre cop.<br />Consell: Si vostè no pot identificar "
+"els caràcters, pot generar una nova imatge. Usi Recarregar."
 
 #: wpg-form.php:295 wpg-form.php:309
 msgid "Please try again."
-msgstr "Por favor intente otra vez."
+msgstr "Si us plau, intenti un altre cop."
 
 #: wpg-form.php:318
 msgid "Please accept the terms of usage before sending a greeting card.<br />"
-msgstr ""
-"Por favor acepte las condiciones de uso antes de enviar una postal.<br />"
+msgstr "Si us plau, accepti abans d'enviar una postal.<br />"
 
 #: wpg-form.php:346
 msgid "CC"
@@ -434,19 +435,19 @@ msgstr "Editar"
 
 #: wpg-form.php:398 templates/wp-greet-form-template.php:205
 msgid "Back"
-msgstr "Volver"
+msgstr "Anterior"
 
 #: wpg-form.php:503
 msgid "Your greeting card has been sent or scheduled."
-msgstr "Su trajeta ha sido enviada o programada."
+msgstr "La seva postal ha estat enviada o programada."
 
 #: wpg-form.php:525
 msgid "Send this card to another recipient"
-msgstr "Enviar esta postal a otro destinatario"
+msgstr "Trametre aquesta postal a un altre destinatari"
 
 #: wpg-form.php:543
 msgid "An error occured while sending you greeting card."
-msgstr "Se ha producido un error durante el envío de la postal."
+msgstr "S'ha produït un error durant l'enviament de la postal."
 
 #: wpg-form.php:544 wpg-form.php:598
 msgid "Problem report"
@@ -454,19 +455,19 @@ msgstr "Informe de problema"
 
 #: wpg-form.php:592
 msgid "A confirmation mail has been sent to your address."
-msgstr "Un correo de confirmación ha sido enviado a su dirección."
+msgstr "Sha enviat un misstage de confirmació a la seva adreça."
 
 #: wpg-form.php:593
 msgid ""
 "Please enter the link contained within the email into your browser and the "
 "greeting card will be send."
 msgstr ""
-"Por favor entra el enlace incluido al interior del mensaje en el navegador y "
-"se enviará la postal."
+"Si us plau, introdueixi l'enllaç inclòs a l'interior del missatge en el "
+"navegador i s'enviarà la postal."
 
 #: wpg-form.php:597
 msgid "An error occured while sending the confirmation mail."
-msgstr "Se ha producido un error durante el envío del mensaje de confirmación."
+msgstr "S'ha produit un error durant la tramesa del misstage de confirmació."
 
 #: wpg-form.php:604
 msgid "Zurück"
@@ -474,15 +475,15 @@ msgstr "Zurück"
 
 #: wpg-form.php:719
 msgid "Send confirmation to Sender"
-msgstr "Enviar confirmación al remitente"
+msgstr "Enviar confirmació al remitent"
 
 #: wpg-form.php:722
 msgid "CC to Sender"
-msgstr "CC al Remitente"
+msgstr "CC al Remitent"
 
 #: wpg-form.php:732
 msgid "Time to send card"
-msgstr "Período para enviar postal"
+msgstr "Període per enviar postal"
 
 #: wpg-form.php:780
 msgid "Smileys"
@@ -490,7 +491,7 @@ msgstr "Emoticones"
 
 #: wpg-form.php:797
 msgid "Spamprotection:"
-msgstr "*Protección antispam (obligatorio*):"
+msgstr "*Protecció antispam (obligatori*):"
 
 #: wpg-form.php:811
 msgid "Sum of"
@@ -498,7 +499,7 @@ msgstr "Suma de"
 
 #: wpg-form.php:825
 msgid "I accept the terms of usage of the greeting card service"
-msgstr "Accepto las condiciones de uso del servicio de postal"
+msgstr "Accepto les condicions d'ús del servei de postal"
 
 #: wpg-form.php:827
 msgid "(show)"
@@ -506,46 +507,47 @@ msgstr "(mostrar)"
 
 #: wpg-form.php:832
 msgid "Reset form"
-msgstr "Borrar formulario"
+msgstr "Esborrar formulari"
 
 #: wpg-form.php:922 wpg-form.php:929
 msgid "Send a new card at"
-msgstr "Enviar nueva postal a"
+msgstr "Trametre una nova postal a"
 
 #: wpg-form.php:928
 msgid "Your greetcard link is timed out."
-msgstr "Su enlace de la postal está caducado."
+msgstr "El seu enllaç de la postal està caducat."
 
 #: wpg-func-mail.php:282
 msgid "Greeting Card Confirmation Mail"
-msgstr "Mensaje de Confirmación para la Postal"
+msgstr "Missatge de Confirmació per a la Postal"
 
 #: wpg-func-mail.php:394 templates/wp-greet-display-template.php:19
 msgid "A Greeting Card for you"
-msgstr "Una Postal para ti"
+msgstr "Una Postal per a tu"
 
 #: wpg-func-mail.php:523
 msgid "You greeting card was received"
-msgstr "Su postal ha sido recibida"
+msgstr "La seva postal ha estat rebuda"
 
 #: wpg-func.php:533
 msgid "Stampimage not found - Please contact your administrator"
-msgstr "Imagen del sello no encontrada - Por favor contacta su administrador"
+msgstr ""
+"Imatge del segell no trobada - Si us plau, contacti el seu administrador"
 
 #: templates/wp-greet-form-template.php:54
 msgid "Mandatory inputfields are marked with a"
 msgstr ""
-"Rellene Campos obligatorios: Tu em@il (remitente) y em@ail del destinatario "
-"marcados con un"
+"Empleni Camps obligatoris: El teu em@il (remitent) i em@ail del destinatari "
+"marcats amb un"
 
 #: templates/wp-greet-form-template.php:89
 msgid "Multiple adresses can be separated by comma"
-msgstr "Múltiples direcciones pueden estar separadas con coma"
+msgstr "Diferents adreces poden estar separades amb coma"
 
 #: templates/wp-greet-form-template.php:194
 msgid "If you have a package code, enter it here"
-msgstr "Si tiene un código del paquete, tecleelo aquí"
+msgstr "Si teníu un codi del paquet, introduïu-lo a aquí"
 
 #: templates/wp-greet-preview-template.php:45
 msgid "This card will be sent at"
-msgstr "Se enviará esta postal a"
+msgstr "S'enviarà aquesta postal a"

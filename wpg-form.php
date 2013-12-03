@@ -934,7 +934,7 @@ function showGreetcard($display)
 		// alles okay, karte anzeigen
 
 		// message escapen
-		$show_message = nl2br(esc_attr($res->mailbody));
+		$show_message = $res->mailbody;
 
 		// smilies ersetzen
 		if ( $wpg_options['wp-greet-smilies']) {
