@@ -1,7 +1,7 @@
 <?php
 /* This file is part of the wp-greet plugin for wordpress */
 
-/*  Copyright 2009-2013  Hans Matzen  (email : webmaster at tuxlog dot de)
+/*  Copyright 2009-2014  Hans Matzen  (email : webmaster at tuxlog dot de)
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -40,7 +40,7 @@ function searchwpgreet($content) {
 
 	// look for wp-greet tag
 	if ( stristr( $content, '[wp-greet]' )) {
-
+	
 		// get GET vars
 		$galleryID = ( isset($_GET['gallery']) ? esc_attr($_GET['gallery']) : "");
 		$picurl    = ( isset($_GET['image'])   ? esc_attr($_GET['image'])   : "");
@@ -162,7 +162,7 @@ function showGreetcardForm($galleryID, $picurl, $verify = "", $pid = "", $approv
 	// pruefe berechtigung zum versenden von grusskarten
 	if ( !current_user_can('wp-greet-send')
 			and $wpg_options['wp-greet-minseclevel']!="everyone" ) {
-		return "<p><b>".__("You are not permitted to send greeting cards.","wp-greet")."<br />".__("Please contact you wordpress Administrator.","wp-greet")."</b></p>";
+		return "<p><b>".__("You are not permitted to send greeting cards.","wp-greet")."<br />".__("Please contact you WordPress Administrator.","wp-greet")."</b></p>";
 	}
 
 
@@ -213,7 +213,7 @@ function showGreetcardForm($galleryID, $picurl, $verify = "", $pid = "", $approv
 	 }
 	 else if ( ! check_email($_POST['sender']) ) {
 	 	$_POST['action'] = "Formular";
-	 	echo "<div class='wp-greet-error'>" . __("Invalid sender  mail address.","wp-greet")."<br /></div>";
+	 	echo "<div class='wp-greet-error'>" . __("Invalid sender mail address.","wp-greet")."<br /></div>";
 	 }
 	 if (substr($wpg_options['wp-greet-fields'],2,1)=="1" and trim($_POST['recvname'])=="")
 	 {
@@ -367,7 +367,7 @@ function showGreetcardForm($galleryID, $picurl, $verify = "", $pid = "", $approv
 		$template = str_replace('{%subject%}', esc_attr($_POST['title']), $template);
 		$template = str_replace('{%wp-greet-default-header%}', $wpg_options['wp-greet-default-header'], $template);
 		$template = str_replace('{%wp-greet-default-footer%}', $wpg_options['wp-greet-default-footer'], $template);
-		$template = str_replace('{%image_url%}', get_imgtag($picurl), $template);
+		$template = str_replace('{%image_url%}', get_imgtag($galleryID, $picurl), $template);
 		$template = str_replace('{%message%}', $show_message, $template);
 		$template = str_replace('{%send_time%}', $_POST['fsend'], $template);
 
@@ -590,7 +590,7 @@ function showGreetcardForm($galleryID, $picurl, $verify = "", $pid = "", $approv
 
 		if ( $sendstatus == true ) {
 	  $out =  __("A confirmation mail has been sent to your address.","wp-greet")."<br />";
-	  $out .= __("Please enter the link contained within the email into your browser and the greeting card will be send.","wp-greet")."<br />";
+	  $out .= __("Please enter the link contained within the email into your browser and the greeting card will be sent.","wp-greet")."<br />";
 	  // create log entry
 	  log_greetcard($_POST['sender'],get_option("blogname"),'',"Confirmation sent: ".$confirmcode);
 		} else {
@@ -649,68 +649,12 @@ function showGreetcardForm($galleryID, $picurl, $verify = "", $pid = "", $approv
 			$captcha = 3;
 		}
 
-		// javascript fuer smilies ausgeben falls notwendig
-		if ( $wpg_options['wp-greet-smilies']) {
-			if ( $wpg_options['wp-greet-tinymce']) {
-				// javascript mit tinymce
-			}
-			?><script type="text/javascript">
-			function smile(smile) {
-    			var itext;
-    			var tedit = null;
- 			    var itext = "<img class='wpg_smile' alt='' src='" + smile + "' />";
-    				
-    			if ( typeof tinyMCE != "undefined" )
-					tedit = tinyMCE.get('message');
-
-    			if ( tedit == null || tedit.isHidden() == true) {
-    				tarea = document.getElementById(textid);
-    				insert_text(itext, tarea);
-    			} else if ( (tedit.isHidden() == false) && window.tinyMCE)	{ 
-					window.tinyMCE.execInstanceCommand('message', 'mceInsertContent', false, itext);
-    			}
-			}</script>
-<?php
-			// javascript ohne tinyMCE
-			} else { 
-?>
-<script type="text/javascript">
-          function smile(fname) {
-    	     var tarea;
-    	     fname = ' :'+fname+': ';
-	     tarea = document.getElementById('message');
-
-     	     if (document.selection) {
-    		tarea.focus();
-    		sel = document.selection.createRange();
-    		sel.text = fname;
-    		tarea.focus();
-    	     }
-    	     else if (tarea.selectionStart || tarea.selectionStart == '0') {
-    		var startPos = tarea.selectionStart;
-    		var endPos = tarea.selectionEnd;
-    		var cursorPos = endPos;
-    		tarea.value = tarea.value.substring(0, startPos)
-    			    + fname
- 			    + tarea.value.substring(endPos, tarea.value.length);
-    		cursorPos += fname.length;
-    		tarea.focus();
-    		tarea.selectionStart = cursorPos;
-    		tarea.selectionEnd = cursorPos;
-    	     }
-    	     else {
-    		tarea.value += fname;
-    		tarea.focus();
-    	     }
-          }
-      </script>
-<?php }
-
+		
 // lets calculate and set the variables to use in the template file
-$image_url=get_imgtag($picurl);
-$sendername_label=__("Sendername","wp-greet").(substr($wpg_options['wp-greet-fields'],0,1)=="1" ? "<sup>*</sup>":"");
+$image_url=get_imgtag($galleryID,$picurl);
+$sendername_label=__("Sender Name","wp-greet").(substr($wpg_options['wp-greet-fields'],0,1)=="1" ? "<sup>*</sup>":"");
 $sendername_input='<input name="sendername" type="text" size="30" maxlength="60" value="' . ( isset($_POST['sendername']) ? $_POST['sendername'] : '')  . '"/>'."\n";
-$sendermail_label=__("Sender","wp-greet").(substr($wpg_options['wp-greet-fields'],1,1)=="1" ? "<sup>*</sup>":"");
+$sendermail_label=__("Sender Email","wp-greet").(substr($wpg_options['wp-greet-fields'],1,1)=="1" ? "<sup>*</sup>":"");
 $sendermail_input='<input name="sender" type="text" size="30" maxlength="60" value="' . $_POST['sender']  . '"/>'."\n";
 
 $confirm_label="";
@@ -721,9 +665,9 @@ if ($wpg_options['wp-greet-enable-confirm']) {
 }
 $ccsender_label=__("CC to Sender","wp-greet");
 $ccsender_input="<input name='ccsender' type='checkbox' value='1' " . ((isset($_POST['ccsender']) and $_POST['ccsender']=="1")?'checked="checked"':'')  . " />\n";
-$recvname_label=__("Recipientname","wp-greet").(substr($wpg_options['wp-greet-fields'],2,1)=="1" ? "<sup>*</sup>":"");
+$recvname_label=__("Recipient Name","wp-greet").(substr($wpg_options['wp-greet-fields'],2,1)=="1" ? "<sup>*</sup>":"");
 $recvname_input="<input name='recvname' type='text' size='30' maxlength='60' value='" . (isset($_POST['recvname']) ? $_POST['recvname'] : '')  . "'/>\n";
-$recvmail_label=__("Recipient","wp-greet").(substr($wpg_options['wp-greet-fields'],3,1)=="1" ? "<sup>*</sup>":"");
+$recvmail_label=__("Recipient Email","wp-greet").(substr($wpg_options['wp-greet-fields'],3,1)=="1" ? "<sup>*</sup>":"");
 $recvmail_input="<input name='recv' type='text' size='30' maxlength='255' value='" . (isset($_POST['recv']) ? $_POST['recv'] : '')  . "'/>";
 
 $futuresend_label="";
@@ -739,12 +683,13 @@ $message_label=__("Message","wp-greet").(substr($wpg_options['wp-greet-fields'],
 
 $message_input="<textarea class=\"wp-greet-form\" name='message' id='message' rows='40' cols='15'>" . (isset($_POST['message']) ? stripslashes(esc_attr($_POST['message'])) : '') . "</textarea>\n";
 if ($wpg_options['wp-greet-tinymce']) {
-	
-	function add_wpg_safe_smiley($plugin_array) {
-		$plugin_array['wpg_safesmiley'] = plugins_url('tinymce_safesmiley.js',__FILE__);
-		return $plugin_array;
+	if (!function_exists('add_wpg_safe_smiley')) {
+		function add_wpg_safe_smiley($plugin_array) {
+			$plugin_array['wpg_safesmiley'] = plugins_url('tinymce_safesmiley.js',__FILE__);
+			return $plugin_array;
+		}
+		add_filter('mce_external_plugins', 'add_wpg_safe_smiley');
 	}
-	add_filter('mce_external_plugins', 'add_wpg_safe_smiley');
 	
 	// default settings
 	$settings =   array(
@@ -915,7 +860,14 @@ function showGreetcard($display)
 	$res1 = $wpdb->get_row($sql);
 	$pid = $res1->pid;
 
-
+	// WordPress native gallery ID ermitteln
+	if ($wpg_options['wp-greet-external-link']=="1") {
+		$fname = $res->picture;
+		$sql = "select ID from " . $wpdb->prefix . "posts where post_type='attachment' and guid='$fname';";
+		$res1 = $wpdb->get_row($sql);
+		$pid = $res1->ID;
+	}
+	
 	if ( is_null($res)) {
 		// ungültiger code
 		$out .= __("Your verification code is invalid.","wp-greet")."<br />" .
@@ -971,7 +923,7 @@ function showGreetcard($display)
 		$template = str_replace('{%subject%}', $res->subject, $template);
 		$template = str_replace('{%wp-greet-default-header%}', $wpg_options['wp-greet-default-header'], $template);
 		$template = str_replace('{%wp-greet-default-footer%}', $wpg_options['wp-greet-default-footer'], $template);
-		$template = str_replace('{%image_url%}', get_imgtag($res->picture), $template);
+		$template = str_replace('{%image_url%}', get_imgtag($pid, $res->picture), $template);
 		$template = str_replace('{%message%}', $show_message, $template);
 	}
 	return $template;
