@@ -93,12 +93,12 @@ function wpgreet_get_options() {
   		   "wp-greet-show-ngg-desc" => "",
   		   "wp-greet-enable-confirm" => "",
   		   "wp-greet-future-send" => "",
-           "wp-greet-multi-recipients" => "",
+		   "wp-greet-multi-recipients" => "",
   		   "wp-greet-ectext" => "",
   		   "wp-greet-offerresend" => "",
   		   "wp-greet-tinymce" => "",
   		   "wp-greet-external-link" => "",
-  			"wp-greet-disable-css" => "");
+		   "wp-greet-disable-css" => "");
 
 
   reset($options);

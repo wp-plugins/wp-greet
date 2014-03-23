@@ -17,12 +17,12 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
-if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) { die('You are not allowed to call this page directly.'); }
-
+if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) { 
+  die('You are not allowed to call this page directly.'); 
+}
 
 // generic functions
 require_once("wpg-func.php");
-
 
 //
 // form handler for the admin dialog
@@ -58,15 +58,18 @@ function wpg_admin_form()
 			     "wp-greet-ocduration",   "wp-greet-octext",
 			     "wp-greet-logdays",      "wp-greet-carddays", 
 			     "wp-greet-show-ngg-desc","wp-greet-future-send",
-    			 "wp-greet-multi-recipients", "wp-greet-staticsender",
-    			 "wp-greet-tinymce", "wp-greet-offerresend",
-    			 "wp-greet-external-link","wp-greet-disable-css");
+			     "wp-greet-multi-recipients", "wp-greet-staticsender",
+			     "wp-greet-tinymce",      "wp-greet-offerresend",
+			     "wp-greet-external-link","wp-greet-disable-css");
     
-
     while (list($key, $val) = each($wpg_options)) {
-	if (in_array($key,$thispageoptions) and isset($_POST[$key]) and $wpg_options[$key] != $_POST[$key] ) {
-	    $wpg_options[$key] = stripslashes($_POST[$key]);
-	    $upflag=true;
+      // for empty checkboxes
+      if (!isset($_POST[$key])) {$_POST[$key]=0;}
+      // save options if applicable
+      if (in_array($key, $thispageoptions) and 
+	    $wpg_options[$key] != $_POST[$key] ) {
+	      $wpg_options[$key] = stripslashes($_POST[$key]);
+	      $upflag=true;
 	}
     }
     
