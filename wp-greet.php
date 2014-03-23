@@ -3,12 +3,12 @@
 Plugin Name: wp-greet
 Plugin URI: http://www.tuxlog.de
 Description: wp-greet is a wordpress plugin to send greeting cards from your wordpress blog.
-Version: 3.9
+Version: 4.1
 Author: Barbara Jany, Hans Matzen <webmaster at tuxlog.de>
 Author URI: http://www.tuxlog.de
 */
 
-/*  Copyright 2008-2013  Barbara Jany, Hans Matzen  (email : webmaster at tuxlog dot de)
+/*  Copyright 2008-2014  Barbara Jany, Hans Matzen  (email : webmaster at tuxlog dot de)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) { die('You
 are not allowed to call this page directly.'); }
 
 
-define( "WP_GREET_VERSION", "3.6" );
+define( "WP_GREET_VERSION", "4.1" );
 
 // global options array
 $wpg_options = array();
@@ -59,17 +59,32 @@ function wp_greet_init()
   $wpg_options=wpgreet_get_options();
 
   // add css in header
-  wp_enqueue_style("wp-greet", plugins_url('wp-greet.css', __FILE__) );
+  if (!$wpg_options['wp-greet-disable-css']) {
+  	wp_enqueue_style("wp-greet", plugins_url('wp-greet.css', __FILE__) );
+  }
   
   // add thickbox for frontend
-  add_action('wp_print_scripts', 'wpg_add_thickbox_script');
-  add_action('wp_print_styles',  'wpg_add_thickbox_style' );
+  if ($wpg_options['wp-greet-touswitch'] and !is_admin()) {
+  	add_action('wp_print_scripts', 'wpg_add_thickbox_script');
+  	add_action('wp_print_styles',  'wpg_add_thickbox_style' );      	
+  }
   
   
   // add actions for future send
   add_action("wpgreet_sendcard_link","cron_sendGreetCardLink",10,7);
   add_action("wpgreet_sendcard_mail","cron_sendGreetCardMail",10,9);
   
+  // javascript fuer smilies ausgeben falls notwendig
+  if ( $wpg_options['wp-greet-smilies']=="1") {
+  	if ( $wpg_options['wp-greet-tinymce']=="1") {
+  		// javascript mit tinymce
+  		wp_enqueue_script('wpg-smile', plugins_url('wp-greet/smilies_tinymce.js', dirname(__FILE__)));
+  	} else {
+  		// javascript ohne tinyMCE
+  		wp_enqueue_script('wpg-smile', plugins_url('wp-greet/smilies.js', dirname(__FILE__)));
+   }
+  }
+
   // add jquery extensions for datepicker if applicable
   if ($wpg_options['wp-greet-future-send'] and !is_admin()) {
   	wp_enqueue_script('jquery'); 
@@ -125,13 +140,19 @@ function wpg_add_menus()
 // add thickbox to page headers
 function wpg_add_thickbox_script()
 {
-    wp_enqueue_script( 'thickbox' );
+	global $post,$wpg_options;
+	if ($wpg_options['wp-greet-formpage'] == $post->ID) {
+    	wp_enqueue_script( 'thickbox' );
+    }
 }
 
 // add thickbox to page headers
 function wpg_add_thickbox_style()
 {
-    wp_enqueue_style( 'thickbox');
+	global $post, $wpg_options;
+	if ($wpg_options['wp-greet-formpage'] == $post->ID) {
+	    wp_enqueue_style( 'thickbox' );
+	}
 }
 
 // wrapper functions for wp_cron trigger
