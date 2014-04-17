@@ -3,7 +3,7 @@ Contributors: tuxlog, woodstock
 Donate link: http://www.tuxlog.de
 Tags: greetingcard, send, email, greetcard, plugin
 Requires at least: 2.5
-Tested up to: 3.8.1
+Tested up to: 3.9
 Stable tag: 4.1
 
 wp-greet is a wordpress plugin to send greeting cards from your wordpress blog. 
