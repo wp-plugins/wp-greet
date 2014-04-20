@@ -12,7 +12,11 @@ function smile(smile) {
 		tarea = document.getElementById(textid);
 		insert_text(itext, tarea);
 	} else if ((tedit.isHidden() == false) && window.tinyMCE) {
-		window.tinyMCE.execInstanceCommand('message', 'mceInsertContent',
-				false, itext);
+                var tmce_ver=window.tinyMCE.majorVersion;
+	        if (tmce_ver=="4") {
+	    	   window.tinyMCE.execCommand('mceInsertContent', false, itext);
+	        } else {
+		   window.tinyMCE.execInstanceCommand('message', 'mceInsertContent',false, itext);
+                }
 	}
 }

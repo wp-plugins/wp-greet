@@ -323,8 +323,7 @@ function showGreetcardForm($galleryID, $picurl, $verify = "", $pid = "", $approv
 
 
 	// Vorschau
-	if ( isset($_POST['action']) and
-			$_POST['action'] == __("Preview","wp-greet") ) {
+	if ( isset($_POST['action']) and $_POST['action'] == __("Preview","wp-greet") ) {
 
 		// message escapen
 		$show_message = nl2br($_POST['message']);
@@ -358,6 +357,7 @@ function showGreetcardForm($galleryID, $picurl, $verify = "", $pid = "", $approv
 		include(plugin_dir_path(__FILE__) . "/templates/wp-greet-preview-template.php");
 		$template=ob_get_clean();
 
+
 		// replace placeholders
 		$template = str_replace('{%sendername%}', $_POST['sendername'], $template);
 		$template = str_replace('{%sendermail%}', $_POST['sender'], $template);
@@ -379,7 +379,7 @@ function showGreetcardForm($galleryID, $picurl, $verify = "", $pid = "", $approv
 		$template .= "<input name='recv' type='hidden' value='" . $_POST['recv']  . "' />\n";
 		$template .= "<input name='recvname' type='hidden' value='" . $_POST['recvname']  . "' />\n";
 		$template .= "<input name='title' type='hidden' value='" . esc_attr($_POST['title'])  . "' />\n";
-		$template .= "<input name='message' type='hidden' value='" . nl2br($_POST['message']) . "' />\n";
+		$template .= "<input name='message' type='hidden' value='" . htmlspecialchars(nl2br($_POST['message']),ENT_QUOTES) . "' />\n";
 		$template .= "<input name='accepttou' type='hidden' value='" . esc_attr($_POST['accepttou']) . "' />\n";
 		$template .= "<input name='fsend' type='hidden' value='" . $_POST['fsend']  . "' />\n";
 

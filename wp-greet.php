@@ -3,7 +3,7 @@
 Plugin Name: wp-greet
 Plugin URI: http://www.tuxlog.de
 Description: wp-greet is a wordpress plugin to send greeting cards from your wordpress blog.
-Version: 4.1
+Version: 4.2
 Author: Barbara Jany, Hans Matzen <webmaster at tuxlog.de>
 Author URI: http://www.tuxlog.de
 */
@@ -29,7 +29,7 @@ if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) { die('You
 are not allowed to call this page directly.'); }
 
 
-define( "WP_GREET_VERSION", "4.1" );
+define( "WP_GREET_VERSION", "4.2" );
 
 // global options array
 $wpg_options = array();
@@ -140,19 +140,19 @@ function wpg_add_menus()
 // add thickbox to page headers
 function wpg_add_thickbox_script()
 {
-	global $post,$wpg_options;
-	if ($wpg_options['wp-greet-formpage'] == $post->ID) {
-    	wp_enqueue_script( 'thickbox' );
-    }
+  global $post,$wpg_options;
+  if (is_object($post) and $wpg_options['wp-greet-formpage'] == $post->ID) {
+    wp_enqueue_script( 'thickbox' );
+  }
 }
 
 // add thickbox to page headers
 function wpg_add_thickbox_style()
 {
-	global $post, $wpg_options;
-	if ($wpg_options['wp-greet-formpage'] == $post->ID) {
-	    wp_enqueue_style( 'thickbox' );
-	}
+  global $post, $wpg_options;
+  if (is_object($post) and $wpg_options['wp-greet-formpage'] == $post->ID) {
+    wp_enqueue_style( 'thickbox' );
+  }
 }
 
 // wrapper functions for wp_cron trigger

@@ -56,7 +56,8 @@ function wpgreet_get_options() {
   // wp-greet-fields - a string of 0 and 1 describing the mandatory fields in the form
   // wp-greet-show-ngg-desc - if active displays the description from  ngg below the image
   // wp-greet-external-link - if active uses external links from WordPress media for the link target of the images
-  //wp-greet disable-css - if checked disables the load of the wp-greet.css file
+  // wp-greet disable-css - if checked disables the load of the wp-greet.css file
+  // wp-greet-use-wpml-lang - if checked uses the language of the gallery page for the form, works with WPML only
 
   $options = array("wp-greet-version" => "", 
 		   "wp-greet-minseclevel" => "", 
@@ -98,7 +99,8 @@ function wpgreet_get_options() {
   		   "wp-greet-offerresend" => "",
   		   "wp-greet-tinymce" => "",
   		   "wp-greet-external-link" => "",
-		   "wp-greet-disable-css" => "");
+		   "wp-greet-disable-css" => "",
+		   "wp-greet-use-wpml-lang" => "");
 
 
   reset($options);

@@ -20,7 +20,7 @@
 if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) { 
   die('You are not allowed to call this page directly.'); 
 }
-
+ 
 // generic functions
 require_once("wpg-func.php");
 
@@ -60,7 +60,8 @@ function wpg_admin_form()
 			     "wp-greet-show-ngg-desc","wp-greet-future-send",
 			     "wp-greet-multi-recipients", "wp-greet-staticsender",
 			     "wp-greet-tinymce",      "wp-greet-offerresend",
-			     "wp-greet-external-link","wp-greet-disable-css");
+			     "wp-greet-external-link","wp-greet-disable-css",
+			     "wp-greet-use-wpml-lang");
     
     while (list($key, $val) = each($wpg_options)) {
       // for empty checkboxes
@@ -167,12 +168,14 @@ function wechsle_galerie () {
           <th scope="row"><?php echo __('Form-Post/Page',"wp-greet")?>:</th>
           <td><select name="wp-greet-formpage" size="1">
 <?php 
-										  $r = '';
-  foreach( $pagearr as $p )
-    if ( $wpg_options['wp-greet-formpage'] == $p->id )
+$r = '';
+$o = '';
+foreach( $pagearr as $p ) {
+  if ( $wpg_options['wp-greet-formpage'] == $p->id )
       $o = "\n\t<option selected='selected' value='".$p->id."'>".$p->post_title."</option>";
-    else
+  else
       $r .= "\n\t<option value='".$p->id."'>".$p->post_title."</option>";
+}
   echo $o . $r."\n";
 ?>
           </select></td></tr>
@@ -291,7 +294,14 @@ function wechsle_galerie () {
          <th scope="row">&nbsp;</th>
          <td><input type="checkbox" name="wp-greet-disable-css" value="1" <?php if ($wpg_options['wp-greet-disable-css']=="1") echo "checked=\"checked\""?> /> <b><?php echo __('disable wp-greet css rules',"wp-greet")?></b></td>
          </tr>
-
+<?php
+																 /*
+         <tr class="tr-admin"> 
+         <th scope="row">&nbsp;</th>
+         <td><input type="checkbox" name="wp-greet-use-wpml-lang" value="1" <?php if ($wpg_options['wp-greet-use-wpml-lang']=="1") echo "checked=\"checked\""?> /> <b><?php echo __('Show form in gallery language (WPML only)',"wp-greet")?></b></td>
+         </tr>
+																 */
+?>
           <tr class="tr-admin">
           <th scope="row"><?php echo __('Default mail subject',"wp-greet")?>:</th>
           <td><input name="wp-greet-default-title" type="text" size="30" maxlength="80" value="<?php echo $wpg_options['wp-greet-default-title'] ?>" /></td>   
