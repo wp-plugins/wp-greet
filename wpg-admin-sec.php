@@ -1,7 +1,7 @@
 <?php
 /* This file is part of the wp-greet plugin for wordpress */
 
-/*  Copyright 2008-2011 Hans Matzen  (email : webmaster at tuxlog dot de)
+/*  Copyright 2008-2014 Hans Matzen  (email : webmaster at tuxlog dot de)
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -157,27 +157,27 @@ function wpg_admin_sec()
 		<?php echo __("wp-greet Security - Setup","wp-greet") ?>
 	</h2>
 	<form name="wpgreetsec" method="post" action='#'>
-		<table class="optiontable">
+	<table class="optiontable">
 
-			<tr class="tr-admin">
-				<th scope="row"><?php echo __('Spam protection',"wp-greet")?>:</th>
-				<td><select name="wp-greet-captcha" size="1">
-						<option value="0"
-						<?php if ($wpg_options['wp-greet-captcha']=="0") echo "selected=\"selected\""?>>
-							<?php echo __("none","wp-greet"); ?>
-						</option>
-						<option value="1"
-						<?php if ($wpg_options['wp-greet-captcha']=="1") echo "selected=\"selected\""?>>
-							CaptCha!</option>
-						<option value="2"
-						<?php if ($wpg_options['wp-greet-captcha']=="2") echo "selected=\"selected\""?>>
-							Math Comment Spam Protection</option>
-						<option value="3"
-						<?php if ($wpg_options['wp-greet-captcha']=="3") echo "selected=\"selected\""?>>
-							WP-reCAPTCHA</option>
-				</select>
-				</td>
-			</tr>
+	<tr class="tr-admin">
+	<th scope="row"><?php echo __('Spam protection',"wp-greet")?>:</th>
+	<td><select name="wp-greet-captcha" size="1">
+	<option value="0"
+		<?php if ($wpg_options['wp-greet-captcha']=="0") echo "selected=\"selected\""?>>
+		<?php echo __("none","wp-greet"); ?>
+		</option>
+		<option value="1"
+		<?php if ($wpg_options['wp-greet-captcha']=="1") echo "selected=\"selected\""?>>
+			CaptCha!</option>
+		<option value="2"
+		<?php if ($wpg_options['wp-greet-captcha']=="2") echo "selected=\"selected\""?>>
+			Math Comment Spam Protection</option>
+		<option value="3"
+		<?php if ($wpg_options['wp-greet-captcha']=="3") echo "selected=\"selected\""?>>
+			WP-reCAPTCHA</option>
+	</select>
+	</td>
+	</tr>
 
 			<tr class="tr-admin">
 				<th scope="row"><?php echo __('Minimum role to send card',"wp-greet")?>:
@@ -213,15 +213,11 @@ function wpg_admin_sec()
 				</b></td>
 			</tr>
 
-			<tr class="tr-admin">
-				<th scope="row"><?php echo __('Terms of usage','wp-greet'); ?>:</th>
-				<td><textarea id='wp-greet-termsofusage'
-						name='wp-greet-termsofusage' cols='50' rows='6'>
-						<?php echo $wpg_options['wp-greet-termsofusage']; ?>
-					</textarea> <img
-					src="<?php echo site_url(PLUGINDIR . "/wp-greet/tooltip_icon.png");?>"
-					alt="tooltip" title='<?php _e("HTML is allowed","wp-greet");?>' />
-				</td>
+	<tr class="tr-admin">
+	<th scope="row"><?php echo __('Terms of usage','wp-greet'); ?>:</th>
+	<td><textarea id='wp-greet-termsofusage' name='wp-greet-termsofusage' cols='50' rows='6'><?php echo $wpg_options['wp-greet-termsofusage']; ?></textarea><img src="<?php echo site_url(PLUGINDIR . "/wp-greet/tooltip_icon.png");?>"
+				alt="tooltip" title='<?php _e("HTML is allowed","wp-greet");?>' />
+	</td>
 			</tr>
 
 			<tr class="tr-admin">
@@ -233,14 +229,10 @@ function wpg_admin_sec()
 				</b></td>
 			</tr>
 
-			<tr class="tr-admin">
-				<th scope="row"><?php _e('Verification mail text',"wp-greet");?>:</th>
-				<td><textarea id='wp-greet-mctext' name='wp-greet-mctext' cols='50'
-						rows='6'>
-						<?php echo $wpg_options['wp-greet-mctext']; ?>
-					</textarea> <img
-					src="<?php echo site_url(PLUGINDIR . "/wp-greet/tooltip_icon.png");?>"
-					alt="tooltip"
+    <tr class="tr-admin">
+    <th scope="row"><?php _e('Verification mail text',"wp-greet");?>:</th>
+    <td><textarea id='wp-greet-mctext' name='wp-greet-mctext' cols='50' rows='6'><?php echo $wpg_options['wp-greet-mctext']; ?></textarea> 
+    <img src="<?php echo site_url(PLUGINDIR . "/wp-greet/tooltip_icon.png");?>" alt="tooltip"
 					title='<?php _e("HTML allowed, use %sender% for sendername, %sendermail% for sender email-address, %receiver% for receiver name, %link% for generated link, %duration% for time the link is valid","wp-greet");?>' />
 				</td>
 			</tr>
@@ -266,12 +258,9 @@ function wpg_admin_sec()
 				</td>
 			</tr>
 
-			<tr class="tr-admin">
-				<th scope="row"><?php _e('Confirmation mail text',"wp-greet");?>:</th>
-				<td><textarea id='wp-greet-ectext' name='wp-greet-ectext' cols='50'
-						rows='6'>
-						<?php echo $wpg_options['wp-greet-ectext']; ?>
-					</textarea> <img
+    <tr class="tr-admin">
+    <th scope="row"><?php _e('Confirmation mail text',"wp-greet");?>:</th>
+    <td><textarea id='wp-greet-ectext' name='wp-greet-ectext' cols='50' rows='6'><?php echo $wpg_options['wp-greet-ectext']; ?></textarea> <img
 					src="<?php echo site_url(PLUGINDIR . "/wp-greet/tooltip_icon.png");?>"
 					alt="tooltip"
 					title='<?php _e("HTML allowed, use %sender% for sendername, %sendermail% for sender email-address, %receiver% for receiver name, %link% for generated link, %duration% for time the link is valid","wp-greet");?>' />

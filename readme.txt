@@ -3,10 +3,11 @@ Contributors: tuxlog, woodstock
 Donate link: http://www.tuxlog.de
 Tags: greetingcard, send, email, greetcard, plugin
 Requires at least: 2.5
-Tested up to: 3.7.1
-Stable tag: 3.9
+Tested up to: 3.9
+Stable tag: 4.2
 
-wp-greet is a wordpress plugin to send greeting cards from your wordpress blog. it uses WordPress native gallery or nextGenGallery to maintain your greetingcard pictures.
+wp-greet is a wordpress plugin to send greeting cards from your wordpress blog. 
+It uses WordPress native gallery or nextGenGallery to maintain your greetingcard pictures.
 
 == Description ==
 wp-greet is a plugin for the famous wordpress blogging package,
@@ -60,7 +61,7 @@ You can also fetch the patched file (index.php) from the wp-greet/patch director
 to nextgen-gallery/products/photocrati_nextgen/modules/nextgen_basic_gallery/templates/thumbnails
 
 If this seems to difficult try using the new interface to WordPress native gallery to embed your greetingcard pictures.
-
+ 
 = My greetcard form is wider than my theme. What can I do? =
 
 To adjust the design of your greetingcard page edit the file wp-greet.css.
@@ -115,6 +116,31 @@ http://www.tuxlog.de/wordpress/2008/wp-greet-documentation-english/
 
 
 == Changelog ==
+
+= v4.2 (2013-04-20) =
+* fixed quote handling in form when switching from preview back to form
+* fixed some sting handling issues in admin dialog
+* fetch some php warnings
+* adopted to tinyMCE 4 (WP 3.9)
+
+= v4.1 (2013-03-23) =
+* added finish translation. Thanks to Pekka Ollikainen
+* fixed checkbox handling in admin dialog
+
+= v4.0 (2014-03-14) =
+* fixed cross browser bug with standard text editor
+* added danish translation. Thanks to Cristian Goga.
+* added the possibility to use external links behind images when using WordPress native gallery
+* fixed native gallery and no permalinks gallery view
+* load thickbox only on wp-greet form page for showing the terms of use
+* small fix to make it work with responsive lightbox too
+* fix tinymce and smilies
+* added option to disable load of wp-greet default css rules
+* fixed warning when next cellent gallery
+* fixed some phrases in admin dialog
+* adopted css to TwentyFourteen Theme
+* fixed some typos in english translation
+
 = v3.9 (2013-12-02) =
 * update spanish translation. Thanks to Pascal Cousseran
 * added catalan translation. Thanks to Pascal Cousseran
