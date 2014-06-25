@@ -1,7 +1,7 @@
 <?php
 /* This file is part of the wp-greet plugin for wordpress */
 
-/*  Copyright 2008-2011  Hans Matzen  (email : webmaster at tuxlog.de)
+/*  Copyright 2008-2014  Hans Matzen  (email : webmaster at tuxlog.de)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -22,7 +22,7 @@ if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) { die('You 
 
 // generic functions
 require_once("wpg-func.php");
-
+require_once("supp/supp.php");
 
 //
 // form handler for the admin dialog
@@ -85,6 +85,7 @@ function wpg_admin_log()
   //
   $out = "";
   $out .= "<div class=\"wrap\">";
+  $out .= tl_add_supp();
   $out .= "<h2>".__("Greetcard Log","wp-greet")."</h2>\n"; 
  
  // output naviagtion

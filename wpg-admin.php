@@ -1,7 +1,7 @@
 <?php
 /* This file is part of the wp-greet plugin for wordpress */
 
-/*  Copyright 2008-2013 Hans Matzen  (email : webmaster at tuxlog dot de)
+/*  Copyright 2008-2014 Hans Matzen  (email : webmaster at tuxlog dot de)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,11 +17,40 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
-if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) { die('You are not allowed to call this page directly.'); }
-
-
+if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) { 
+  die('You are not allowed to call this page directly.'); 
+}
+ 
 // generic functions
 require_once("wpg-func.php");
+require_once("supp/supp.php");
+
+function wpcs_wpml_remove_translated_posts($parr) {
+  global $wpdb;
+  $lc = ICL_LANGUAGE_CODE;
+  // build where clause
+  $pid="";
+  foreach( $parr as $p){
+    $pid .= $p->id . ",";
+  }
+  $pid = substr($pid,0,strlen($pid)-1);
+  
+  // build wpml sql
+  $sql = "SELECT b.element_id FROM {$wpdb->prefix}icl_translations as a inner join {$wpdb->prefix}icl_translations as b on a.trid=b.trid and a.element_id in ($pid) and b.language_code <> '$lc'";  
+  $duplicates = $wpdb->get_results($sql);
+  $duparr = array();
+  foreach ($duplicates as $d) {
+    $duparr[]=$d->element_id;
+  }
+  
+  $perg=array();
+  foreach( $parr as $p ){
+    if (!in_array($p->id,$duparr)) {
+      $perg[]=$p;
+    }
+  }
+  return $perg;
+}
 
 
 //
@@ -42,6 +71,10 @@ function wpg_admin_form()
   $sql="SELECT id,post_title FROM ".$wpdb->prefix."posts WHERE post_type in ('page','post') and post_content like '%[wp-greet]%' order by id;";
   $pagearr = $wpdb->get_results($sql);
 
+  // filter translated posts or pages not to be displayed double in selection
+  if ( defined('ICL_LANGUAGE_CODE') ) {
+    $pagearr = wpcs_wpml_remove_translated_posts($pagearr);
+  }
   // if this is a POST call, save new values
   if (isset($_POST['info_update'])) {
     $upflag=false;
@@ -58,14 +91,19 @@ function wpg_admin_form()
 			     "wp-greet-ocduration",   "wp-greet-octext",
 			     "wp-greet-logdays",      "wp-greet-carddays", 
 			     "wp-greet-show-ngg-desc","wp-greet-future-send",
-    			 "wp-greet-multi-recipients", "wp-greet-staticsender",
-    			 "wp-greet-tinymce", "wp-greet-offerresend");
+			     "wp-greet-multi-recipients", "wp-greet-staticsender",
+			     "wp-greet-tinymce",      "wp-greet-offerresend",
+			     "wp-greet-external-link","wp-greet-disable-css",
+			     "wp-greet-use-wpml-lang");
     
-
     while (list($key, $val) = each($wpg_options)) {
-	if (in_array($key,$thispageoptions) and $wpg_options[$key] != $_POST[$key] ) {
-	    $wpg_options[$key] = stripslashes($_POST[$key]);
-	    $upflag=true;
+      // for empty checkboxes
+      if (!isset($_POST[$key])) {$_POST[$key]=0;}
+      // save options if applicable
+      if (in_array($key, $thispageoptions) and 
+	    $wpg_options[$key] != $_POST[$key] ) {
+	      $wpg_options[$key] = stripslashes($_POST[$key]);
+	      $upflag=true;
 	}
     }
     
@@ -136,16 +174,26 @@ function wechsle_onlinecard () {
     objc.readOnly = (obja.checked == false);
     wechsle_stamp();
 }
+
+function wechsle_galerie () {
+    obja=document.getElementById('wp-greet-gallery');
+    objb=document.getElementById('wp-greet-show-ngg-desc');
+    objc=document.getElementById('wp-greet-external-link');
+    objb.readOnly = (obja.value == 'wp' || obja.value == '-');
+    objc.readOnly = (obja.value != 'wp');
+}
 </script>
 <div class="wrap">
-   <h2><?php echo __("wp-greet Setup","wp-greet") ?></h2>
+    <?php tl_add_supp(true); ?>
+    <h2><?php echo __("wp-greet Setup","wp-greet") ?></h2>
+   
    <form name="wpgreetadmin" method="post" action='#'>
    <table class="optiontable">
           <tr class="tr-admin">
           <th scope="row"><?php echo __('Gallery-Plugin',"wp-greet")?>:</th>
-          <td><select name="wp-greet-gallery" size="1" >
-          <option value="-" <?php if ($wpg_options['wp-greet-gallery']=="-") echo "selected='selected'";?>>none</option>
-          <option value="ngg" <?php if ($wpg_options['wp-greet-gallery']=="ngg") echo "selected='selected'";?>>Nextgen Gallery</option>
+          <td><select id="wp-greet-gallery" name="wp-greet-gallery" size="1" onchange="wechsle_galerie();">
+          <option value="-" <?php if ($wpg_options['wp-greet-gallery']=="-") echo "selected='selected'";?>><?php _e('none','wp-greet');?></option>
+          <option value="ngg" <?php if ($wpg_options['wp-greet-gallery']=="ngg") echo "selected='selected'";?>>Nextgen/NextCellent Gallery</option>
           <option value="wp" <?php if ($wpg_options['wp-greet-gallery']=="wp") echo "selected='selected'";?>>WordPress</option>
           </select> 
           </td>
@@ -155,12 +203,14 @@ function wechsle_onlinecard () {
           <th scope="row"><?php echo __('Form-Post/Page',"wp-greet")?>:</th>
           <td><select name="wp-greet-formpage" size="1">
 <?php 
-										  $r = '';
-  foreach( $pagearr as $p )
-    if ( $wpg_options['wp-greet-formpage'] == $p->id )
+$r = '';
+$o = '';
+foreach( $pagearr as $p ) {
+  if ( $wpg_options['wp-greet-formpage'] == $p->id )
       $o = "\n\t<option selected='selected' value='".$p->id."'>".$p->post_title."</option>";
-    else
+  else
       $r .= "\n\t<option value='".$p->id."'>".$p->post_title."</option>";
+}
   echo $o . $r."\n";
 ?>
           </select></td></tr>
@@ -239,9 +289,14 @@ function wechsle_onlinecard () {
            <td><input type="checkbox" name="wp-greet-tinymce" value="1" <?php if ($wpg_options['wp-greet-tinymce']=="1") echo "checked=\"checked\""?> /> <b><?php echo __('Use TinyMCE editor',"wp-greet")?></b></td>
 	       </tr>
 	       
+	       <tr class="tr-admin">
+           <th scope="row">&nbsp;</th>
+           <td><input type="checkbox" id="wp-greet-external-link" name="wp-greet-external-link" value="1" <?php if ($wpg_options['wp-greet-external-link']=="1") echo "checked=\"checked\""?> /> <b><?php echo __('Use external link from WordPress media',"wp-greet")?></b></td>
+	       </tr>
+	       
            <tr class="tr-admin">
            <th scope="row">&nbsp;</th>
-           <td><input type="checkbox" name="wp-greet-show-ngg-desc" value="1" <?php if ($wpg_options['wp-greet-show-ngg-desc']=="1") echo "checked=\"checked\""?> /> <b><?php echo __('Use NGG data for image',"wp-greet")?></b></td>
+           <td><input type="checkbox" id="wp-greet-show-ngg-desc" name="wp-greet-show-ngg-desc" value="1" <?php if ($wpg_options['wp-greet-show-ngg-desc']=="1") echo "checked=\"checked\""?> /> <b><?php echo __('Use NGG/NCG data for image description',"wp-greet")?></b></td>
 	       </tr>
 	   
            <tr class="tr-admin">
@@ -270,7 +325,18 @@ function wechsle_onlinecard () {
          <td><input type="checkbox" name="wp-greet-logging" value="1" <?php if ($wpg_options['wp-greet-logging']=="1") echo "checked=\"checked\""?> /> <b><?php echo __('enable logging',"wp-greet")?></b></td>
          </tr>
 
-
+         <tr class="tr-admin"> 
+         <th scope="row">&nbsp;</th>
+         <td><input type="checkbox" name="wp-greet-disable-css" value="1" <?php if ($wpg_options['wp-greet-disable-css']=="1") echo "checked=\"checked\""?> /> <b><?php echo __('disable wp-greet css rules',"wp-greet")?></b></td>
+         </tr>
+<?php
+																 /*
+         <tr class="tr-admin"> 
+         <th scope="row">&nbsp;</th>
+         <td><input type="checkbox" name="wp-greet-use-wpml-lang" value="1" <?php if ($wpg_options['wp-greet-use-wpml-lang']=="1") echo "checked=\"checked\""?> /> <b><?php echo __('Show form in gallery language (WPML only)',"wp-greet")?></b></td>
+         </tr>
+																 */
+?>
           <tr class="tr-admin">
           <th scope="row"><?php echo __('Default mail subject',"wp-greet")?>:</th>
           <td><input name="wp-greet-default-title" type="text" size="30" maxlength="80" value="<?php echo $wpg_options['wp-greet-default-title'] ?>" /></td>   
@@ -305,7 +371,7 @@ function wechsle_onlinecard () {
       <input type='submit' name='info_update' value='<?php _e('Update options',"wp-greet"); ?> »' />
    </div>
    </form>
-   <script type="text/javascript">wechsle_inline (); wechsle_onlinecard();wechsle_stamp();</script></div>
+   <script type="text/javascript">wechsle_galerie();wechsle_inline (); wechsle_onlinecard();wechsle_stamp();</script></div>
 <?php
 }
 ?>

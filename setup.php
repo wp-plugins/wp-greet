@@ -286,7 +286,8 @@ function wp_greet_deactivate()
 		     'wp-greet-octext',
 		     'wp-greet-logdays',
 		     'wp-greet-carddays',
-		     'wp-greet-fields');
+		     'wp-greet-fields',
+    		 'wp-greet-disable-css');
     
     reset($options);
     while (list($key,$val) = each($options)) {
