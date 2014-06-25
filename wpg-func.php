@@ -262,10 +262,10 @@ function set_permissions($role) {
 // verbindet wp-greet mit ngg, es wird die url angepasst
 //
 function ngg_connect($link='' , $picture='') {
-	// fix ngg 2.0x new var names
-	if (isset($picture->galleryid)) {
-		$picture->gid = $picture->galleryid;
-	}
+  // fix ngg 2.0x new var names
+  if (isset($picture->galleryid)) {
+    $picture->gid = $picture->galleryid;
+  }
 	
   $wpdb =& $GLOBALS['wpdb'];
   // wp-greet optionen aus datenbank lesen
@@ -273,32 +273,51 @@ function ngg_connect($link='' , $picture='') {
   
   // pruefe ob gallery umgelenkt werden soll
   if (array_search($picture->gid, $wpg_options['wp-greet-galarr']) !== False) {
-     
-  	if (isset($picture->path)) {  //old ngg until 1.9.13
-      	$folder_url  = get_option ('siteurl')."/".$picture->path."/";
-  	} else {
-  		$folder_url  = get_option ('siteurl')."/";
-  	}
-  	
-      $url_prefix = get_permalink($wpg_options['wp-greet-formpage']);
-      if (strpos($url_prefix,"?") === false )
-	  	$url_prefix .= "?";
-      else
-	  	$url_prefix .= "\&amp;";
+    
+    if (isset($picture->path)) {  //old ngg until 1.9.13
+      $folder_url  = get_option ('siteurl')."/".$picture->path."/";
+    } else {
+      $folder_url  = get_option ('siteurl')."/";
+    }
+    
+    $url_prefix = get_permalink($wpg_options['wp-greet-formpage']);
 
-      // fix ngg 2.0x new var names
-      if (isset($picture->path)) {  //old ngg until 1.9.13
-      	$link = $url_prefix . "gallery=" . $picture->gid ."\&amp;image=" . $folder_url . $picture->filename;
-      } else { // new ngg from 2.0.0 on
-      	$link = $url_prefix . "gallery=" . $picture->gid ."\&amp;image=" . $link;
+    // change base url if we are using WPML
+    if ( defined('ICL_LANGUAGE_CODE') ) {
+      $new_url_prefix=$url_prefix;
+      $lang_post_id = icl_object_id( $wpg_options['wp-greet-formpage'] , 'page', false, ICL_LANGUAGE_CODE ); 
+      if (is_null($lang_post_id)) {
+	$lang_post_id = icl_object_id( $wpg_options['wp-greet-formpage'] , 'post', false, ICL_LANGUAGE_CODE );
       }
-  
       
-      if (defined('BWCARDS')) {
-      	$link .= "\&amp;pid=".$picture->pid;
+      if(!is_null($lang_post_id)) {
+        $new_url_prefix = get_permalink( $lang_post_id );
       }
+      
+      $url_prefix = $new_url_prefix;	  
+    }
+    
+    if (strpos($url_prefix,"?") === false )
+      $url_prefix .= "?";
+    else
+      $url_prefix .= "\&amp;";
+    
+    // fix ngg 2.0x new var names
+    if (isset($picture->path)) {  //old ngg until 1.9.13
+      $link = $url_prefix . "gallery=" . $picture->gid ."\&amp;image=" . $folder_url . $picture->filename;
+    } else { // new ngg from 2.0.0 on
+      $link = $url_prefix . "gallery=" . $picture->gid ."\&amp;image=" . $link;
+    }
+    
+    if (defined('BWCARDS')) {
+      $link .= "\&amp;pid=".$picture->pid;
+    }
+    
+    // support for WPML
+    if ( defined('ICL_LANGUAGE_CODE') ) {
+      $link .= "\&amp;lang=".ICL_LANGUAGE_CODE;
+    }
   }
-  
   return stripslashes($link);
 }
 
@@ -315,15 +334,6 @@ function ngg_remove_thumbcode($thumbcode,$picture) {
     $thumbcode = "";
   return $thumbcode;
 }
-
-//
-// umkehrfunktion zu nl2br :-)
-//
-//function br2nl($text)
-//{
-//  return str_replace("<br />","",$text);
-//}
-
 
 function get_dir_alphasort($pfad)
 {
@@ -653,7 +663,7 @@ function wpg_fix_broken_ngg_hint() {
 		
 			&lt;a href="&lt;?php echo apply_filters('ngg_create_gallery_link', esc_attr(\$storage->get_image_url(\$image)), \$image)?>"
 		
-			<p>Since NGG does not work with all Lightbox-Effects. Please set Gallery -> Other Options -> Lightbox Options to Shutter,
+			<p>Since NGG does not work with all Lightbox-Effects. Please set Gallery -> Other Options -> Lightbox Options to Shutter and do not select a template for the thumbnails,
 			if you encounter problems with other settings.</p>
 EOL;
 		}
@@ -695,7 +705,7 @@ function wpgreet_gallery_shortcode( $attr )
 		// remove jetpack filters
 		global $wp_filter;
 		if ( isset($wp_filter['post_gallery'][1000]) )
-			$wp_filter['post_gallery'][1000] = array();
+		  $wp_filter['post_gallery'][1000] = array();
 	 }
 	 
 	// get WordPress native gallery
@@ -716,8 +726,6 @@ function wpgreet_gallery_link_filter( $full_link, $id, $size, $permalink, $icon,
 	// change the value of href to suite wp-greet form link
 	
 	// get post id
-	//global $post;
-	//$gid = $post->ID;
 	$gid = $id;
 
 	// extract image anchor url
@@ -738,18 +746,130 @@ function wpgreet_gallery_link_filter( $full_link, $id, $size, $permalink, $icon,
 	
 	// build wp-greet form-page link and add parms
 	$url_prefix = get_permalink($wpg_options['wp-greet-formpage']);
+
+	// change base url if we are using WPML
+	if ( defined('ICL_LANGUAGE_CODE') ) {
+	  $new_url_prefix=$url_prefix;
+	  $lang_post_id = icl_object_id( $wpg_options['wp-greet-formpage'] , 'page', false, ICL_LANGUAGE_CODE ); 
+	  if (is_null($lang_post_id)) {
+	    $lang_post_id = icl_object_id( $wpg_options['wp-greet-formpage'] , 'post', false, ICL_LANGUAGE_CODE );
+	  }
+	  
+	  if(!is_null($lang_post_id)) {
+	    $new_url_prefix = get_permalink( $lang_post_id );
+	  }
+	  $url_prefix = $new_url_prefix;
+	}
+
 	if (strpos($url_prefix,"?") === false )
 		$url_prefix .= "?";
 	else
 		$url_prefix .= "&amp;";
 	
 	$link = $url_prefix . "gallery=" . $gid ."\&amp;image=" . $url;
-
+ 
+	// support for WPML
+	if ( defined('ICL_LANGUAGE_CODE') ) {
+	  $link .= "\&amp;lang=".ICL_LANGUAGE_CODE;
+	}
+	
 	// replace anchor link to redirect to wp-greet
 	$erg = stripslashes(str_replace($aurl,$link,$full_link));
 
 	return $erg;
 }
+
+// 
+// function to change the gallery html for wp-greet
+// 
+function wpgreet_post_gallery( $val, $attr )
+{
+  if ($val == "") { 
+    remove_filter('post_gallery','wpgreet_post_gallery',9999);
+    $val=gallery_shortcode($attr);
+  }
+  
+  global $post;
+  $pid = $post->ID;
+
+  // wp-greet optionen aus datenbank lesen
+  $wpg_options = wpgreet_get_options();
+  
+  // check if we shall connect wp-greet
+  // load connected gallery pages
+  $connectus = in_array((string) $pid,$wpg_options['wp-greet-galarr']);
+  
+  // add the filter for attachment links:
+  if ($connectus) {
+    $dom = new DOMDocument;
+    libxml_use_internal_errors(true);
+    $e = $dom->loadHTML($val);
+    if ($e === true) {
+      $anchors = $dom->getElementsByTagName('a');
+      foreach ($anchors as $anchor) {
+	$anc = $anchor->getAttribute('href');
+	$ancnew = wpgreet_post_gallery_link($anc,$pid);
+	$anchor->setAttribute('href', $ancnew); 
+      }
+      
+      // remove carousel because we want to go to the greet form
+      $divs = $dom->getElementsByTagName('div');
+      foreach ($divs as $div) {
+	$div->removeAttribute('data-carousel-extra');
+      }
+      
+      $val = $dom->saveHTML();  
+    }
+  }
+  return $val;
+}
+
+//
+// generate wp-greet form link
+//
+function wpgreet_post_gallery_link( $url, $id )
+{
+  // get wp-greet optionen from database
+  $wpg_options = wpgreet_get_options();
+  
+  // build wp-greet form-page link and add parms
+  $url_prefix = get_permalink($wpg_options['wp-greet-formpage']);
+  
+  // change base url if we are using WPML
+  if ( defined('ICL_LANGUAGE_CODE') ) {
+    $new_url_prefix=$url_prefix;
+    $lang_post_id = icl_object_id( $wpg_options['wp-greet-formpage'] , 'page', false, ICL_LANGUAGE_CODE ); 
+    if (is_null($lang_post_id)) {
+      $lang_post_id = icl_object_id( $wpg_options['wp-greet-formpage'] , 'post', false, ICL_LANGUAGE_CODE );
+    }
+    
+    if(!is_null($lang_post_id)) {
+      $new_url_prefix = get_permalink( $lang_post_id );
+    }
+    $url_prefix = $new_url_prefix;
+  }
+  
+  if (strpos($url_prefix,"?") === false )
+    $url_prefix .= "?";
+  else
+    $url_prefix .= "&";
+  
+  // remove photon wp cdn from jetpack if applicable
+  $url_cdn=substr($url,0,15);
+  if ($url_cdn == "http://i0.wp.com") $url=str_replace("i0.wp.com/","", $url);
+  if ($url_cdn == "http://i1.wp.com") $url=str_replace("i1.wp.com/","", $url);
+  if ($url_cdn == "http://i2.wp.com") $url=str_replace("i2.wp.com/","", $url);
+  
+  $link = $url_prefix . "gallery=" . $id ."&image=" . $url;
+  
+  // support for WPML
+  if ( defined('ICL_LANGUAGE_CODE') ) {
+    $link .= "&lang=".ICL_LANGUAGE_CODE;
+  }
+  
+  return $link;
+}
+
 //
 // Link Feld in der Mediathek hinzufügen
 // Wird in diesem Feld eine URL eingegeben, so verweist das Bild in der Grußkarte darauf.

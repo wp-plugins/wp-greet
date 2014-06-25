@@ -23,6 +23,35 @@ if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) {
  
 // generic functions
 require_once("wpg-func.php");
+require_once("supp/supp.php");
+
+function wpcs_wpml_remove_translated_posts($parr) {
+  global $wpdb;
+  $lc = ICL_LANGUAGE_CODE;
+  // build where clause
+  $pid="";
+  foreach( $parr as $p){
+    $pid .= $p->id . ",";
+  }
+  $pid = substr($pid,0,strlen($pid)-1);
+  
+  // build wpml sql
+  $sql = "SELECT b.element_id FROM {$wpdb->prefix}icl_translations as a inner join {$wpdb->prefix}icl_translations as b on a.trid=b.trid and a.element_id in ($pid) and b.language_code <> '$lc'";  
+  $duplicates = $wpdb->get_results($sql);
+  $duparr = array();
+  foreach ($duplicates as $d) {
+    $duparr[]=$d->element_id;
+  }
+  
+  $perg=array();
+  foreach( $parr as $p ){
+    if (!in_array($p->id,$duparr)) {
+      $perg[]=$p;
+    }
+  }
+  return $perg;
+}
+
 
 //
 // form handler for the admin dialog
@@ -42,6 +71,10 @@ function wpg_admin_form()
   $sql="SELECT id,post_title FROM ".$wpdb->prefix."posts WHERE post_type in ('page','post') and post_content like '%[wp-greet]%' order by id;";
   $pagearr = $wpdb->get_results($sql);
 
+  // filter translated posts or pages not to be displayed double in selection
+  if ( defined('ICL_LANGUAGE_CODE') ) {
+    $pagearr = wpcs_wpml_remove_translated_posts($pagearr);
+  }
   // if this is a POST call, save new values
   if (isset($_POST['info_update'])) {
     $upflag=false;
@@ -151,7 +184,9 @@ function wechsle_galerie () {
 }
 </script>
 <div class="wrap">
-   <h2><?php echo __("wp-greet Setup","wp-greet") ?></h2>
+    <?php tl_add_supp(true); ?>
+    <h2><?php echo __("wp-greet Setup","wp-greet") ?></h2>
+   
    <form name="wpgreetadmin" method="post" action='#'>
    <table class="optiontable">
           <tr class="tr-admin">

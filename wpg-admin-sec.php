@@ -24,7 +24,7 @@ if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) {
 
 // generic functions
 require_once("wpg-func.php");
-
+require_once("supp/supp.php");
 
 //
 // form handler for the admin dialog
@@ -153,6 +153,7 @@ function wpg_admin_sec()
 
 
 <div class="wrap">
+    <?php tl_add_supp(true); ?>
 	<h2>
 		<?php echo __("wp-greet Security - Setup","wp-greet") ?>
 	</h2>

@@ -1,7 +1,7 @@
 <?php
 /* This file is part of the wp-greet plugin for wordpress */
 
-/*  Copyright 2009-2013  Hans Matzen  (email : webmaster at tuxlog dot de)
+/*  Copyright 2009-2014  Hans Matzen  (email : webmaster at tuxlog dot de)
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -123,7 +123,7 @@ function sendGreetcardMail($sender,$sendername,$recv,$recvname,$title,
 	}
 
 	$mail->From = addslashes($sender) ;
-	$mail->FromName = addslashes($sendername) ;
+	$mail->FromName = addslashes(html_entity_decode($sendername)) ;
 
 
 	if ( $wpg_options['wp-greet-mailreturnpath'] !="" )
@@ -212,7 +212,7 @@ function sendGreetcardMail($sender,$sendername,$recv,$recvname,$title,
  		}
 
 		$mail->IsHTML(true);                     // set email format to HTML
-		$mail->Subject = $title;                 // subject hinzufuegen
+		$mail->Subject = $title;  // subject hinzufuegen
 		$mail->Body = $message;                  // nachricht hinzufuegen
 
 		// send mail to each of the recipients
@@ -226,7 +226,7 @@ function sendGreetcardMail($sender,$sendername,$recv,$recvname,$title,
 				$mail->ClearCCs();
 			}
 			$mail->ClearAddresses();
-			$mail->AddAddress( trim($i), trim($emn[$j]));
+			$mail->AddAddress( trim($i), html_entity_decode(trim($emn[$j])));
 			$j++;
 			if ( !$mail->Send())
 				$result .= $mail->ErrorInfo;
@@ -235,247 +235,248 @@ function sendGreetcardMail($sender,$sendername,$recv,$recvname,$title,
 	}
 
 
-	//
-	// this function sends the confirmation mail
-	//
-	// $sender     - sender email
-	// $sendername - sender name
-	// $recv       - receiver email
-	// $recvname   - receiver name
-	// $debug      - if true SMTP Mailerclass debugger will be turned on
-	// $confirmcode - uniquie code for validation
-	// $confirmuntil - time until the confirmation has to be done
-	//
-	// returns mail->ErrInfo when error occurs or true when everything went wright
-	//
-	function sendConfirmationMail($sender,$sendername,$recvname,$confirmcode, $confirmuntil, $debug=false)
-	{
-		require_once(ABSPATH . "/wp-includes/class-phpmailer.php");
-		require("phpmailer-conf.php");
+//
+// this function sends the confirmation mail
+//
+// $sender     - sender email
+// $sendername - sender name
+// $recv       - receiver email
+// $recvname   - receiver name
+// $debug      - if true SMTP Mailerclass debugger will be turned on
+// $confirmcode - uniquie code for validation
+// $confirmuntil - time until the confirmation has to be done
+//
+// returns mail->ErrInfo when error occurs or true when everything went wright
+//
+function sendConfirmationMail($sender,$sendername,$recvname,$confirmcode, $confirmuntil, $debug=false)
+{
+  require_once(ABSPATH . "/wp-includes/class-phpmailer.php");
+  require("phpmailer-conf.php");
 
-		global $wpdb;
+  global $wpdb;
 
-		// hole optionen
-		$wpg_options = wpgreet_get_options();
+  // hole optionen
+  $wpg_options = wpgreet_get_options();
 
-		// get translation
-		load_plugin_textdomain('wp-greet',false,dirname( plugin_basename( __FILE__ ) ) . "/lang/");
-
-
-		//
-		// hole gewünschte mail methode
-		// wenn usesmtp true wird, dann wird phpmailer zum versenden der mail
-		// mit eingebettetem bild verwendet, sonst wird die php mail()
-		// funktion verwendet.
-		//
-		$usesmtp = false;
-		if ( $wpg_options['wp-greet-usesmtp'])
-			$usesmtp = true;
-		 
-		// mail betreff aufbauen
-		$subj = get_option("blogname")." - " . __("Greeting Card Confirmation Mail","wp-greet");
-
-		$url_prefix = get_permalink($wpg_options['wp-greet-formpage'],false);
-
-		if (strpos($url_prefix,"?") === false )
-			$url_prefix .= "?";
-		else
-			$url_prefix .= "&";
-		$confirmlink = stripslashes($url_prefix . "verify=" . $confirmcode );
-		$confirmlink = '<a href="' . $confirmlink . '">' . $confirmlink . '</a>';
+  // get translation
+  load_plugin_textdomain('wp-greet',false,dirname( plugin_basename( __FILE__ ) ) . "/lang/");
 
 
-		// html message bauen
-		$message = '<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />';
-		$message .= "<title>". $subj . "</title>\n</head><body>";
-		$message .= "<br />";
+  //
+  // hole gewünschte mail methode
+  // wenn usesmtp true wird, dann wird phpmailer zum versenden der mail
+  // mit eingebettetem bild verwendet, sonst wird die php mail()
+  // funktion verwendet.
+  //
+  $usesmtp = false;
+  if ( $wpg_options['wp-greet-usesmtp'])
+    $usesmtp = true;
+  
+  // mail betreff aufbauen
+  $subj = get_option("blogname")." - " . __("Greeting Card Confirmation Mail","wp-greet");
 
-		// hole nachrichten text
-		$msgtext = $wpg_options['wp-greet-mctext'];
-		// nachrichtentext escapen
-		$msgtext = nl2br(esc_attr($msgtext));
-		$msgtext = str_replace("%sender%",$sendername,$msgtext);
-		$msgtext = str_replace("%sendermail%",$sender,$msgtext);
-		$msgtext = str_replace("%receiver%",$recvname,$msgtext);
-		$msgtext = str_replace("%link%",$confirmlink,$msgtext);
-		$msgtext = str_replace("%duration%",$wpg_options['wp-greet-mcduration'],$msgtext);
+  $url_prefix = get_permalink($wpg_options['wp-greet-formpage'],false);
 
-
-		$message .= "\r\n" . $msgtext . "\r\n";
-		$message .= "</body></html>";
-
-		// jetzt nehmen wir den eigentlichen mail versand vor
-		$mail = new PHPMailer();
-		$mail->SMTPDebug=$debug;          // for debugging
-		if ($usesmtp) {
-			$mail->IsSMTP();                // set mailer to use SMTP
-			$mail->Host = $wpg_smtpserver;
-			if ( isset($wpg_smtpuser) && $wpg_smtpuser != "" and $wpg_smtppass !="") {
-				$mail->SMTPAuth = true;           // turn on SMTP authentication
-				$mail->Username = $wpg_smtpuser;  // SMTP username
-				$mail->Password = $wpg_smtppass;  // SMTP password
-			}
-		} else {
-			$mail->IsMail();                    // set mailer to mail
-			$mail->Sender = addslashes($sender);
-		}
-		$mail->CharSet = 'utf-8';         // set mail encoding
-
-		$mail->From = addslashes( ($wpg_options['wp-greet-mailreturnpath']!=""? $wpg_options['wp-greet-mailreturnpath']:get_option("admin_email")) );
-		$mail->FromName = addslashes(get_option("blogname")) ;
-		$mail->AddAddress( $sender, $sendername);
-
-		if ( $wpg_options['wp-greet-mailreturnpath'] !="" )
-			$mail->AddReplyTo( $wpg_options['wp-greet-mailreturnpath'], $wpg_options['wp-greet-mailreturnpath'] );
-		else
-			$mail->AddReplyTo( addslashes($sender), addslashes($sendername));
-
-		// add bcc if option is set
-		if ( $wpg_options['wp-greet-bcc'] !="" )
-			$mail->AddBCC($wpg_options['wp-greet-bcc']);
-
-		$mail->WordWrap = 50;           // set word wrap to 50 characters
-
-		$mail->IsHTML(true);                     // set email format to HTML
-		$mail->Subject = $subj;                 // subject hinzufuegen
-		$mail->Body = $message;                  // nachricht hinzufuegen
-
-		if ( $mail->Send())
-			return true;
-		else
-			return $mail->ErrorInfo;
-	}
+  if (strpos($url_prefix,"?") === false )
+    $url_prefix .= "?";
+  else
+    $url_prefix .= "&";
+  $confirmlink = stripslashes($url_prefix . "verify=" . $confirmcode );
+  $confirmlink = '<a href="' . $confirmlink . '">' . $confirmlink . '</a>';
 
 
-
-	//
-	// this function sends the link mail
-	//
-	// $sender     - sender email
-	// $sendername - sender name
-	// $recv       - receiver email
-	// $recvname   - receiver name
-	// $debug      - if true SMTP Mailerclass debugger will be turned on
-	// $duration   - number of days the card can be fetched
-	// $fetchcode  - code to fetch the greet card
-	//
-	// returns mail->ErrInfo when error occurs or true when everything went wright
-	//
-	function sendGreetcardLink($sender,$sendername,$recv, $recvname,$duration, $fetchcode, $ccsender, $debug=false)
-	{
-		require_once(ABSPATH . "/wp-includes/class-phpmailer.php");
-		require("phpmailer-conf.php");
-
-		global $wpdb;
-
-		// hole optionen
-		$wpg_options = wpgreet_get_options();
-
-		// get translation
-		load_plugin_textdomain('wp-greet',false,dirname( plugin_basename( __FILE__ ) ) . "/lang/");
-
-		//
-		// hole gewünschte mail methode
-		// wenn usesmtp true wird, dann wird phpmailer zum versenden der mail
-		// mit eingebettetem bild verwendet, sonst wird die php mail()
-		// funktion verwendet.
-		//
-		$usesmtp = false;
-		if ( $wpg_options['wp-greet-usesmtp'])
-			$usesmtp = true;
-		 
-		// mail betreff aufbauen
-		$subj = get_option("blogname")." - " . __("A Greeting Card for you","wp-greet");
-
-		// abruflink aufbauen
-		$url_prefix = get_permalink($wpg_options['wp-greet-formpage'],false);
-
-		if (strpos($url_prefix,"?") === false )
-			$url_prefix .= "?";
-		else
-			$url_prefix .= "&";
-
-		$confirmlink = stripslashes($url_prefix . "verify=" . (isset($confirmcode)?$confirmcode:'') );
-		$fetchlink = stripslashes($url_prefix . "display=" . $fetchcode );
-		$fetchlink = '<a href="' . $fetchlink . '">' . $fetchlink . '</a>';
-
-
-		// html message bauen
-		$message = '<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />';
-		$message .= "<title>". $subj . "</title>\n</head><body>";
-		$message .= "<br />";
-
-		// hole nachrichten text
-		$msgtext = $wpg_options['wp-greet-octext'];
-		// nachrichtentext escapen
-		$msgtext = nl2br(esc_attr($msgtext));
-		$msgtext = str_replace("%sender%",$sendername,$msgtext);
-		$msgtext = str_replace("%sendermail%",$sender,$msgtext);
-		$msgtext = str_replace("%receiver%",$recvname,$msgtext);
-		$msgtext = str_replace("%link%",$fetchlink,$msgtext);
-		$msgtext = str_replace("%duration%",$duration,$msgtext);
+  // html message bauen
+  $message = '<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />';
+  $message .= "<title>". $subj . "</title>\n</head><body>";
+  $message .= "<br />";
+  
+  // hole nachrichten text
+  $msgtext = $wpg_options['wp-greet-mctext'];
+  // nachrichtentext escapen
+  $msgtext = nl2br(esc_attr($msgtext));
+  $msgtext = str_replace("%sender%",$sendername,$msgtext);
+  $msgtext = str_replace("%sendermail%",$sender,$msgtext);
+  $msgtext = str_replace("%receiver%",$recvname,$msgtext);
+  $msgtext = str_replace("%link%",$confirmlink,$msgtext);
+  $msgtext = str_replace("%duration%",$wpg_options['wp-greet-mcduration'],$msgtext);
+  
+  
+  $message .= "\r\n" . $msgtext . "\r\n";
+  $message .= "</body></html>";
+  
+  // jetzt nehmen wir den eigentlichen mail versand vor
+  $mail = new PHPMailer();
+  $mail->SMTPDebug=$debug;          // for debugging
+  if ($usesmtp) {
+    $mail->IsSMTP();                // set mailer to use SMTP
+    $mail->Host = $wpg_smtpserver;
+    if ( isset($wpg_smtpuser) && $wpg_smtpuser != "" and $wpg_smtppass !="") {
+      $mail->SMTPAuth = true;           // turn on SMTP authentication
+      $mail->Username = $wpg_smtpuser;  // SMTP username
+      $mail->Password = $wpg_smtppass;  // SMTP password
+    }
+  } else {
+    $mail->IsMail();                    // set mailer to mail
+    $mail->Sender = addslashes($sender);
+  }
+  $mail->CharSet = 'utf-8';         // set mail encoding
+  
+  $mail->From = addslashes( ($wpg_options['wp-greet-mailreturnpath']!=""? $wpg_options['wp-greet-mailreturnpath']:get_option("admin_email")) );
+  $mail->FromName = addslashes(get_option("blogname")) ;
+  $mail->AddAddress( $sender, $sendername);
+  
+  if ( $wpg_options['wp-greet-mailreturnpath'] !="" )
+    $mail->AddReplyTo( $wpg_options['wp-greet-mailreturnpath'], $wpg_options['wp-greet-mailreturnpath'] );
+  else
+    $mail->AddReplyTo( addslashes($sender), addslashes($sendername));
+  
+  // add bcc if option is set
+  if ( $wpg_options['wp-greet-bcc'] !="" )
+    $mail->AddBCC($wpg_options['wp-greet-bcc']);
+  
+  $mail->WordWrap = 50;           // set word wrap to 50 characters
+  
+  $mail->IsHTML(true);                     // set email format to HTML
+  $mail->Subject = $subj;                 // subject hinzufuegen
+  $mail->Body = $message;                  // nachricht hinzufuegen
+  
+  if ( $mail->Send())
+    return true;
+  else
+    return $mail->ErrorInfo;
+}
 
 
-		$message .= "\r\n" . $msgtext . "\r\n";
-		$message .= "</body></html>";
 
-		// jetzt nehmen wir den eigentlichen mail versand vor
-		$mail = new PHPMailer();
-		$mail->SMTPDebug=$debug;          // for debugging
-		if ($usesmtp) {
-			$mail->IsSMTP();                // set mailer to use SMTP
-			$mail->Host = $wpg_smtpserver;
-			if ( isset($wpg_smtpuser) && $wpg_smtpuser != "" and $wpg_smtppass !="") {
-				$mail->SMTPAuth = true;           // turn on SMTP authentication
-				$mail->Username = $wpg_smtpuser;  // SMTP username
-				$mail->Password = $wpg_smtppass;  // SMTP password
-			}
-		} else {
-			$mail->IsMail();                    // set mailer to mail
-			$mail->Sender = addslashes($sender);
-		}
-		$mail->CharSet = 'utf-8';         // set mail encoding
+//
+// this function sends the link mail
+//
+// $sender     - sender email
+// $sendername - sender name
+// $recv       - receiver email
+// $recvname   - receiver name
+// $debug      - if true SMTP Mailerclass debugger will be turned on
+// $duration   - number of days the card can be fetched
+// $fetchcode  - code to fetch the greet card
+//
+// returns mail->ErrInfo when error occurs or true when everything went wright
+//
+function sendGreetcardLink($sender,$sendername,$recv, $recvname,$duration, $fetchcode, $ccsender, $debug=false)
+{
+  require_once(ABSPATH . "/wp-includes/class-phpmailer.php");
+  require("phpmailer-conf.php");
+  
+  global $wpdb;
+  
+  // hole optionen
+  $wpg_options = wpgreet_get_options();
+  
+  // get translation
+  load_plugin_textdomain('wp-greet',false,dirname( plugin_basename( __FILE__ ) ) . "/lang/");
+  
+  //
+  // hole gewünschte mail methode
+  // wenn usesmtp true wird, dann wird phpmailer zum versenden der mail
+  // mit eingebettetem bild verwendet, sonst wird die php mail()
+  // funktion verwendet.
+  //
+  $usesmtp = false;
+  if ( $wpg_options['wp-greet-usesmtp'])
+    $usesmtp = true;
+  
+  // mail betreff aufbauen
+  $subj = get_option("blogname")." - " . __("A Greeting Card for you","wp-greet");
+  
+  // abruflink aufbauen
+  $url_prefix = get_permalink($wpg_options['wp-greet-formpage'],false);
+  
+  if (strpos($url_prefix,"?") === false )
+    $url_prefix .= "?";
+  else
+    $url_prefix .= "&";
+  
+  $confirmlink = stripslashes($url_prefix . "verify=" . (isset($confirmcode)?$confirmcode:'') );
+  $fetchlink = stripslashes($url_prefix . "display=" . $fetchcode );
+  $fetchlink = '<a href="' . $fetchlink . '">' . $fetchlink . '</a>';
+  
+  
+  // html message bauen
+  $message = '<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />';
+  $message .= "<title>". $subj . "</title>\n</head><body>";
+  $message .= "<br />";
 
-		$mail->From = addslashes( ($wpg_options['wp-greet-mailreturnpath']!=""? $wpg_options['wp-greet-mailreturnpath']:addslashes($sender)) );
-		$mail->FromName = addslashes($sendername);
-
-		// add cc if option is set
-		if ( $ccsender & 1 )
-			$mail->AddCC($sender);
-
-		if ( $wpg_options['wp-greet-mailreturnpath'] !="" )
-			$mail->AddReplyTo( $wpg_options['wp-greet-mailreturnpath'], $wpg_options['wp-greet-mailreturnpath'] );
-		else
-			$mail->AddReplyTo( addslashes($sender), addslashes($sendername));
-
-		// add bcc if option is set
-		if ( $wpg_options['wp-greet-bcc'] !="" )
-			$mail->AddBCC($wpg_options['wp-greet-bcc']);
-
-		$mail->WordWrap = 50;           // set word wrap to 50 characters
-
-		$mail->IsHTML(true);                     // set email format to HTML
-		$mail->Subject = $subj;                 // subject hinzufuegen
-		$mail->Body = $message;                  // nachricht hinzufuegen
-
-		// send mail to each of the recipients
-		$result=true;
-		$ems = explode(",",$recv);
-		$emn = explode(",",$recvname);
-		$j=0;
-		foreach($ems as $i) {
-			// only give the sender a CC the first time
-			if ($j > 0) {
-				$mail->ClearCCs();
-			}
-			$mail->ClearAddresses();
-			$mail->AddAddress( trim($i), ( isset($emn[$j]) ? trim($emn[$j]) : trim($emn[0]) ) );
-			$j++;
-			if ( !$mail->Send())
-				$result .= $mail->ErrorInfo;
-		}
-		return $result;
-	}
+  // hole nachrichten text
+  $msgtext = $wpg_options['wp-greet-octext'];
+  // nachrichtentext escapen
+  $msgtext = nl2br($msgtext);
+  $msgtext = str_replace("%sender%",$sendername,$msgtext);
+  $msgtext = str_replace("%sendermail%",$sender,$msgtext);
+  $msgtext = str_replace("%receiver%",$recvname,$msgtext);
+  $msgtext = str_replace("%link%",$fetchlink,$msgtext);
+  $msgtext = str_replace("%duration%",$duration,$msgtext);
+  
+  
+  $message .= "\r\n" . $msgtext . "\r\n";
+  $message .= "</body></html>";
+  
+  // jetzt nehmen wir den eigentlichen mail versand vor
+  $mail = new PHPMailer();
+  $mail->SMTPDebug=$debug;          // for debugging
+  if ($usesmtp) {
+    $mail->IsSMTP();                // set mailer to use SMTP
+    $mail->Host = $wpg_smtpserver;
+    if ( isset($wpg_smtpuser) && $wpg_smtpuser != "" and $wpg_smtppass !="") {
+      $mail->SMTPAuth = true;           // turn on SMTP authentication
+      $mail->Username = $wpg_smtpuser;  // SMTP username
+      $mail->Password = $wpg_smtppass;  // SMTP password
+    }
+  } else {
+    $mail->IsMail();                    // set mailer to mail
+    $mail->Sender = addslashes($sender);
+  }
+  $mail->CharSet = 'utf-8';         // set mail encoding
+  
+  $mail->From = addslashes( ($wpg_options['wp-greet-mailreturnpath']!=""? $wpg_options['wp-greet-mailreturnpath']:addslashes($sender)) );
+  $mail->FromName = addslashes(html_entity_decode($sendername));
+  
+  // add cc if option is set
+  if ( $ccsender & 1 )
+    $mail->AddCC($sender);
+  
+  if ( $wpg_options['wp-greet-mailreturnpath'] !="" )
+    $mail->AddReplyTo( $wpg_options['wp-greet-mailreturnpath'], $wpg_options['wp-greet-mailreturnpath'] );
+  else
+    $mail->AddReplyTo( addslashes($sender), addslashes($sendername));
+  
+  // add bcc if option is set
+  if ( $wpg_options['wp-greet-bcc'] !="" )
+    $mail->AddBCC($wpg_options['wp-greet-bcc']);
+  
+  $mail->WordWrap = 50;           // set word wrap to 50 characters
+  
+  $mail->IsHTML(true);                     // set email format to HTML
+  $mail->Subject = $subj;                 // subject hinzufuegen
+  $mail->Body = $message;                  // nachricht hinzufuegen
+  
+  // send mail to each of the recipients
+  $result=true;
+  $ems = explode(",",$recv);
+  $emn = explode(",",$recvname);
+  $j=0;
+  foreach($ems as $i) {
+    // only give the sender a CC the first time
+    if ($j > 0) {
+      $mail->ClearCCs();
+    }
+    $mail->ClearAddresses();
+    $mail->AddAddress( trim($i), 
+		       html_entity_decode(( isset($emn[$j]) ? trim($emn[$j]) : trim($emn[0]) )) );
+    $j++;
+    if ( !$mail->Send())
+      $result .= $mail->ErrorInfo;
+  }
+  return $result;
+}
 
 	//
 	// this function sends the fetch confirmation mail
@@ -568,7 +569,7 @@ function sendGreetcardMail($sender,$sendername,$recv,$recvname,$title,
 		// add recipients
 		$ems = explode(",",$recv);
 		foreach($ems as $i)
-			$mail->AddAddress( trim($i), $recvname);
+		  $mail->AddAddress( trim($i), html_entity_decode($recvname));
 
 
 		if ( $wpg_options['wp-greet-mailreturnpath'] !="" )
