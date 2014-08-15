@@ -1,7 +1,7 @@
 <?php
 /* This file is part of the wp-greet plugin for wordpress */
 
-/*  Copyright 2008-2013  Hans Matzen  (email : webmaster at tuxlog dot de)
+/*  Copyright 2008-2014  Hans Matzen  (email : webmaster at tuxlog dot de)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -100,7 +100,12 @@ function wpgreet_get_options() {
   		   "wp-greet-tinymce" => "",
   		   "wp-greet-external-link" => "",
 		   "wp-greet-disable-css" => "",
-		   "wp-greet-use-wpml-lang" => "");
+		   "wp-greet-use-wpml-lang" => "",
+		   "wp-greet-smtp-host" => "",
+		   "wp-greet-smtp-port" => "",
+		   "wp-greet-smtp-ssl" => "",
+		   "wp-greet-smtp-user" => "",
+		   "wp-greet-smtp-pass" => "");
 
 
   reset($options);
@@ -403,7 +408,7 @@ function save_greetcard($sender, $sendername, $recv, $recvname,
 			$confirmuntil, $confirmcode,$fetchuntil,$fetchcode,$sendtime,$sessionid="")
 {
     global $wpdb;
-   
+    $autoinc=-1;
     //$wpdb->show_errors(true);
     // convert to mysql date
 	$sendtime = date('Y-m-d H:i:s', $sendtime);
@@ -411,17 +416,21 @@ function save_greetcard($sender, $sendername, $recv, $recvname,
 	$sql = "insert into ". $wpdb->prefix . "wpgreet_cards values (0, '$sendername', '$sender', '$recvname', '$recv', '$cc2sender', '". esc_sql($title)."', '$picurl','". esc_sql($message)."', '$confirmuntil', '$confirmcode', '$fetchuntil', '$fetchcode','','','$sendtime','$sessionid');";
 	
 	$wpdb->query($sql); 
+	$autoinc=$wpdb->insert_id;
     } else {
 	$sql = "select count(*) as anz from " .  $wpdb->prefix . "wpgreet_cards where confirmcode='$confirmcode';";
 
 	$count = $wpdb->get_row($sql);
-	if ( $count->anz == 0)
-	    $sql = "insert into ". $wpdb->prefix . "wpgreet_cards values (0, '$sendername', '$sender', '$recvname', '$recv', '$cc2sender', '".esc_sql($title)."', '$picurl','". esc_sql($message)."', '$confirmuntil', '$confirmcode','$fetchuntil', '$fetchcode','','','$sendtime','$sessionid');";
-	else
-	    $sql = "update ". $wpdb->prefix . "wpgreet_cards set fetchuntil='$fetchuntil', fetchcode='$fetchcode' where confirmcode='$confirmcode';";
-	
-	 $wpdb->query($sql);
+	if ( $count->anz == 0) {
+	  $sql = "insert into ". $wpdb->prefix . "wpgreet_cards values (0, '$sendername', '$sender', '$recvname', '$recv', '$cc2sender', '".esc_sql($title)."', '$picurl','". esc_sql($message)."', '$confirmuntil', '$confirmcode','$fetchuntil', '$fetchcode','','','$sendtime','$sessionid');";
+	  $wpdb->query($sql);
+	  $autoinc=$wpdb->insert_id;
+	} else {
+	  $sql = "update ". $wpdb->prefix . "wpgreet_cards set fetchuntil='$fetchuntil', fetchcode='$fetchcode' where confirmcode='$confirmcode';";
+	  $wpdb->query($sql);
+	}
     }
+    return $autoinc;
 }
 
 

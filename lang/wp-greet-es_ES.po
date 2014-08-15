@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wp-greet-spanish\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-06 18:41+0200\n"
+"POT-Creation-Date: 2014-06-28 06:19+0200\n"
 "PO-Revision-Date: 2013-11-17 22:26+0100\n"
 "Last-Translator: Pascal Cousseran <pascalc1@yahoo.es>\n"
 "Language-Team: pascal cousseran <pascalc1@yahoo.es>\n"
@@ -19,15 +19,15 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
-#: wp-greet.php:128 wpg-admin-gal.php:84
+#: wp-greet.php:129 wpg-admin-gal.php:84
 msgid "Galleries"
 msgstr "Galerías"
 
-#: wp-greet.php:130
+#: wp-greet.php:131
 msgid "Security"
 msgstr "Seguridad"
 
-#: wp-greet.php:132
+#: wp-greet.php:133
 msgid "Logging"
 msgstr "Registro"
 
@@ -35,7 +35,7 @@ msgstr "Registro"
 msgid "No gallery plugin selected."
 msgstr "Ninguna galería plugin seleccionada."
 
-#: wpg-admin-gal.php:75 wpg-admin-sec.php:109 wpg-admin.php:108
+#: wpg-admin-gal.php:75 wpg-admin-sec.php:109 wpg-admin.php:143
 msgid "Settings successfully updated"
 msgstr "Ajustes guardados con éxito"
 
@@ -106,7 +106,7 @@ msgstr "Limpiar Registro"
 msgid "Captcha plugin not found."
 msgstr "Plugin Captcha no encontrado."
 
-#: wpg-admin-sec.php:111 wpg-admin.php:110
+#: wpg-admin-sec.php:111 wpg-admin.php:145
 msgid "You have to change a field to update settings."
 msgstr "Debe cambiar un campo para actualizar los ajustes."
 
@@ -118,7 +118,7 @@ msgstr "wp-greet Seguridad - Configuración"
 msgid "Spam protection"
 msgstr "Protección antispam"
 
-#: wpg-admin-sec.php:168 wpg-admin.php:162
+#: wpg-admin-sec.php:168 wpg-admin.php:213
 msgid "none"
 msgstr "Ninguno"
 
@@ -150,8 +150,8 @@ msgstr "Usar mensaje correo para verificar dirección del remitente"
 msgid "Verification mail text"
 msgstr "Texto del mensaje de verificación"
 
-#: wpg-admin-sec.php:237 wpg-admin-sec.php:267 wpg-admin.php:232
-#: wpg-admin.php:315 wpg-admin.php:322
+#: wpg-admin-sec.php:237 wpg-admin-sec.php:267 wpg-admin.php:307
+#: wpg-admin.php:390 wpg-admin.php:397
 msgid ""
 "HTML allowed, use %sender% for sendername, %sendermail% for sender email-"
 "address, %receiver% for receiver name, %link% for generated link, %duration% "
@@ -204,34 +204,34 @@ msgstr "Em@il Destinatario"
 msgid "Subject"
 msgstr "Asunto"
 
-#: wpg-admin-sec.php:307 wpg-admin.php:338
+#: wpg-admin-sec.php:307 wpg-admin.php:413
 msgid "Update options"
 msgstr "Guardar opciones"
 
-#: wpg-admin.php:82
+#: wpg-admin.php:117
 msgid "mailreturnpath is not valid (wrong format or no MX entry for domain)."
 msgstr ""
 "La routa de retorno del mensaje no es válida (formato erróneo o no hay "
 "entrada MX para el dominio)"
 
-#: wpg-admin.php:87
+#: wpg-admin.php:122
 msgid ""
 "static sender address is not valid (wrong format or no MX entry for domain)."
 msgstr ""
 "la dirección estática del remitente no es válida (formato erróneo o no hay "
 "entrada MX para el dominio)"
 
-#: wpg-admin.php:92
+#: wpg-admin.php:127
 msgid "bcc email adress is not valid (wrong format or no MX entry for domain)."
 msgstr ""
 "dirección correo oculta CCO no es válida (formato erróneo o no hay entrada "
 "MX para el dominio)"
 
-#: wpg-admin.php:97
+#: wpg-admin.php:132
 msgid "imagewidth not in range (0..3200)."
 msgstr "Ancho de imagen fuera del rango (0..3200)"
 
-#: wpg-admin.php:102
+#: wpg-admin.php:137
 msgid ""
 "Cards will be removed before fetch interval expires (Number of days an "
 "online card can be fetched > Number of days card entries are stored)"
@@ -240,63 +240,84 @@ msgstr ""
 "(Número de días una postal en línea puede ser traída >  Número de días "
 "entradas de las postales están almacenadas)"
 
-#: wpg-admin.php:155
+#: wpg-admin.php:206
 msgid "wp-greet Setup"
 msgstr "Configuración wp-greet"
 
-#: wpg-admin.php:160
+#: wpg-admin.php:211
 msgid "Gallery-Plugin"
 msgstr "Galería-Plugin"
 
-#: wpg-admin.php:170
+#: wpg-admin.php:221
 msgid "Form-Post/Page"
 msgstr "Formulario-Entrada/Página"
 
-#: wpg-admin.php:185
+#: wpg-admin.php:236
 msgid "Mailtransfermethod"
 msgstr "Metodo Envío Mensaje"
 
-#: wpg-admin.php:191
+#: wpg-admin.php:241
+msgid "SMTP Server (hostname)"
+msgstr ""
+
+#: wpg-admin.php:245
+msgid "SMTP Port (default:25)"
+msgstr ""
+
+#: wpg-admin.php:251
+msgid "SMTP use SSL?"
+msgstr ""
+
+#: wpg-admin.php:255
+#, fuzzy
+msgid "SMTP Username"
+msgstr "DE: Tu Nombre"
+
+#: wpg-admin.php:260
+msgid "SMTP Password"
+msgstr ""
+
+#: wpg-admin.php:266
 msgid "Static Senderaddress"
 msgstr "Dirección estática Remitente"
 
-#: wpg-admin.php:196
+#: wpg-admin.php:271
 msgid "Mailreturnpath"
 msgstr "Routa Retorno Correo"
 
-#: wpg-admin.php:201
+#: wpg-admin.php:276
 msgid "Send Bcc to"
 msgstr "Envia CCO a"
 
-#: wpg-admin.php:207
+#: wpg-admin.php:282
 msgid "Allow more than one recipient"
 msgstr "Permite más de un destinatario"
 
-#: wpg-admin.php:213
+#: wpg-admin.php:288
 msgid "Send image inline"
 msgstr "Enviar imagen en línea"
 
-#: wpg-admin.php:219
+#: wpg-admin.php:294
 msgid "Fetch cards online"
 msgstr "Postales en línea recogidas"
 
-#: wpg-admin.php:223
+#: wpg-admin.php:298
 msgid "Number of days an online card can be fetched"
 msgstr "Número de días para poder recoger la postal en línea"
 
-#: wpg-admin.php:228
+#: wpg-admin.php:303
 msgid "Online card HTML mail text"
 msgstr "Texto del mensaje (HTML)"
 
-#: wpg-admin.php:237
+#: wpg-admin.php:312
 msgid "Fixed image width"
 msgstr "Ancho fijo imagen"
 
-#: wpg-admin.php:243
+#: wpg-admin.php:318
 msgid "Add stamp image"
 msgstr "Añadir sello miniatura"
 
-#: wpg-admin.php:245
+#: wpg-admin.php:320
 msgid ""
 "leave empty for no stamp, path must be relative to wordpress directory, e.g. "
 "wp-content/plugins/wp-greet/defaultstamp.jpg"
@@ -304,65 +325,65 @@ msgstr ""
 "Sin sello: dejar vacío, routa relativa al directorio wordpress,  wp-content/"
 "plugins/wp-greet/defaultstamp.jpg"
 
-#: wpg-admin.php:250
+#: wpg-admin.php:325
 #, php-format
 msgid "Stampwidth in % of imagewidth"
 msgstr "Ancho Sello en % de la imagen"
 
-#: wpg-admin.php:256
+#: wpg-admin.php:331
 msgid "Use TinyMCE editor"
 msgstr "Usa TinyMCE editor"
 
-#: wpg-admin.php:261
+#: wpg-admin.php:336
 msgid "Use external link from WordPress media"
 msgstr ""
 
-#: wpg-admin.php:266
+#: wpg-admin.php:341
 #, fuzzy
 msgid "Use NGG/NCG data for image description"
 msgstr "Utilizar NGG data para imagen"
 
-#: wpg-admin.php:271
+#: wpg-admin.php:346
 msgid "Enable Smileys on greetcard form"
 msgstr "Activar Emoticones en formulario de la postal"
 
-#: wpg-admin.php:276
+#: wpg-admin.php:351
 msgid "Allow sending cards in the future"
 msgstr "Autorizar envió postal en el futuro"
 
-#: wpg-admin.php:282
+#: wpg-admin.php:357
 msgid "Use informations from profile"
 msgstr "Utilizar informaciones del perfil"
 
-#: wpg-admin.php:287
+#: wpg-admin.php:362
 msgid "Offer 'send again'-link "
 msgstr "Ofrece 'send again'-enlace"
 
-#: wpg-admin.php:292
+#: wpg-admin.php:367
 msgid "enable logging"
 msgstr "Activar registro"
 
-#: wpg-admin.php:297
+#: wpg-admin.php:372
 msgid "disable wp-greet css rules"
 msgstr ""
 
-#: wpg-admin.php:308
+#: wpg-admin.php:383
 msgid "Default mail subject"
 msgstr "Asunto del mensaje por defecto"
 
-#: wpg-admin.php:313
+#: wpg-admin.php:388
 msgid "Default mail header"
 msgstr "Encabezado del mensaje por defecto"
 
-#: wpg-admin.php:320
+#: wpg-admin.php:395
 msgid "Default mail footer"
 msgstr "Pie del mensaje por defecto"
 
-#: wpg-admin.php:327
+#: wpg-admin.php:402
 msgid "Number of days log entries are stored"
 msgstr "Número de días para almacenar entradas registro"
 
-#: wpg-admin.php:332
+#: wpg-admin.php:407
 msgid "Number of days card entries are stored"
 msgstr "Número de días "
 
@@ -556,25 +577,25 @@ msgstr "Una Postal para ti"
 msgid "You greeting card was received"
 msgstr "Su postal ha sido recibida"
 
-#: wpg-func.php:543
+#: wpg-func.php:554
 msgid "Stampimage not found - Please contact your administrator"
 msgstr "Imagen del sello no encontrada - Por favor contacta su administrador"
 
-#: wpg-func.php:764
+#: wpg-func.php:885
 #, fuzzy
 msgid "wp-greet external link"
 msgstr "Configuración wp-greet"
 
-#: wpg-func.php:767
+#: wpg-func.php:888
 msgid "If provided, wp-greet will link the image to this URL"
 msgstr ""
 
-#: wpg-func.php:772
+#: wpg-func.php:893
 #, fuzzy
 msgid "wp-greet open external link in new tab/window"
 msgstr "Configuración wp-greet"
 
-#: wpg-func.php:775
+#: wpg-func.php:896
 msgid "If checked external links will open in new tab/window"
 msgstr ""
 

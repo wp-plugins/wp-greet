@@ -94,7 +94,9 @@ function wpg_admin_form()
 			     "wp-greet-multi-recipients", "wp-greet-staticsender",
 			     "wp-greet-tinymce",      "wp-greet-offerresend",
 			     "wp-greet-external-link","wp-greet-disable-css",
-			     "wp-greet-use-wpml-lang");
+			     "wp-greet-use-wpml-lang","wp-greet-smtp-host",
+			     "wp-greet-smtp-port", "wp-greet-smtp-ssl",
+			     "wp-greet-smtp-user", "wp-greet-smtp-pass");
     
     while (list($key, $val) = each($wpg_options)) {
       // for empty checkboxes
@@ -156,6 +158,7 @@ function wpg_admin_form()
 	imga.disabled = true;
     } else
 	imga.disabled=false;
+    wechsle_smtp();
     wechsle_stamp();
 } 
 
@@ -181,7 +184,22 @@ function wechsle_galerie () {
     objc=document.getElementById('wp-greet-external-link');
     objb.readOnly = (obja.value == 'wp' || obja.value == '-');
     objc.readOnly = (obja.value != 'wp');
-}
+} 
+
+function wechsle_smtp () {
+    usmtp=document.getElementById('wp-greet-usesmtp1'); 
+    obja=document.getElementById('wp-greet-smtp-host');
+    objb=document.getElementById('wp-greet-smtp-port');
+    objc=document.getElementById('wp-greet-smtp-ssl');
+    objd=document.getElementById('wp-greet-smtp-user');
+    obje=document.getElementById('wp-greet-smtp-pass');
+     
+    obja.readOnly = (usmtp.checked == false);
+    objb.readOnly = (usmtp.checked == false);
+    objc.disabled = (usmtp.checked == false);
+    objd.readOnly = (usmtp.checked == false);
+    obje.readOnly = (usmtp.checked == false);
+} 
 </script>
 <div class="wrap">
     <?php tl_add_supp(true); ?>
@@ -219,6 +237,30 @@ foreach( $pagearr as $p ) {
             <td>
               <input type="radio" name="wp-greet-usesmtp" id="wp-greet-usesmtp1" value="1" <?php if ($wpg_options['wp-greet-usesmtp']=="1") echo "checked=\"checked\" "; ?> onclick="wechsle_inline();"  />SMTP (class-phpmailer.php)
 	      <input type="radio" name="wp-greet-usesmtp" id="wp-greet-usesmtp2" value="0" <?php if ($wpg_options['wp-greet-usesmtp']=="0") echo "checked=\"checked\" "; ?> onclick="wechsle_inline();" /> PHP mail() function  </td></tr>
+													      <tr class="tr-admin">
+          <th scope="row"><?php echo __('SMTP Server (hostname)',"wp-greet")?>:</th>
+          <td><input id="wp-greet-smtp-host" name="wp-greet-smtp-host" type="text" size="30" maxlength="80" value="<?php echo $wpg_options['wp-greet-smtp-host'] ?>" /></td>
+          </tr> 
+          <tr class="tr-admin">
+          <th scope="row"><?php echo __('SMTP Port (default:25)',"wp-greet")?>:</th>
+          <td><input id="wp-greet-smtp-port" name="wp-greet-smtp-port" type="text" size="10" maxlength="5" value="<?php echo $wpg_options['wp-greet-smtp-port'] ?>" /></td>
+          </tr> 
+       
+          <tr class="tr-admin">
+          <th scope="row">&nbsp;</th>
+          <td><input type="checkbox" id="wp-greet-smtp-ssl" name="wp-greet-smtp-ssl" value="1" <?php if ($wpg_options['wp-greet-smtp-ssl']=="1") echo "checked=\"checked\""?> /> <b><?php echo __('SMTP use SSL?',"wp-greet")?></b></td>
+	  </tr>
+
+          <tr class="tr-admin">
+          <th scope="row"><?php echo __('SMTP Username',"wp-greet")?>:</th>
+          <td><input id="wp-greet-smtp-user" name="wp-greet-smtp-user" type="text" size="30" maxlength="80" value="<?php echo $wpg_options['wp-greet-smtp-user'] ?>" /></td>
+          </tr> 
+
+          <tr class="tr-admin">
+          <th scope="row"><?php echo __('SMTP Password',"wp-greet")?>:</th>
+          <td><input id="wp-greet-smtp-pass" name="wp-greet-smtp-pass" type="password" size="30" maxlength="80" value="<?php echo $wpg_options['wp-greet-smtp-pass'] ?>" /></td>
+          </tr>
+
 
  		  <tr class="tr-admin">
           <th scope="row"><?php echo __('Static Senderaddress',"wp-greet")?>:</th>

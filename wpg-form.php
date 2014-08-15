@@ -35,7 +35,7 @@ if ( preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) {
 }
 
 // apply the shortcode
-function sc_searchwpgreet($atts) {
+function sc_searchwpgreet($atts) { 
   // get GET vars
   $galleryID = ( isset($_GET['gallery']) ? esc_attr($_GET['gallery']) : "");
   $picurl    = ( isset($_GET['image'])   ? esc_attr($_GET['image'])   : "");
@@ -49,20 +49,87 @@ function sc_searchwpgreet($atts) {
 
   // check if BWCARDS is active
   if (defined('BWCARDS') ) {
-    // get post vars
-    $bwgalleryID = ( isset($_POST['gallery']) ? esc_attr($_POST['gallery']) : "");
-    $bwpicurl    = ( isset($_POST['image'])   ? esc_attr($_POST['image'])   : "");
-    $bwpid       = ( isset($_POST['pid'])     ? esc_attr($_POST['pid'])     : "");
-    $bwapproved  = ( isset($_POST['approved'])? esc_attr($_POST['approved']): "");
+    $bwc_options=bwc_get_global_options();
+    $sid = session_id();
+
+    // do  we use paypal?
+    if ( isset($bwc_options['bwc_general_paypal']) && 
+	 $bwc_options['bwc_general_paypal']==1) {
+
+      // zuerst pruefen, ob wir von einer fertigen karte (über die gallery) aufgerufen werden
+      // bezahlt wird nachdem die karte geschrieben wurd, aber vor dem versand
+      $autoinc = ( isset($_POST['autoinc']) ? esc_attr($_POST['autoinc']) : ""); 
+      if ($autoinc > 0) {
+
+	global $wpdb;
+	$sql="select * from ". $wpdb->prefix . "wpgreet_cards where mid=$autoinc";
+	$res=$wpdb->get_row($sql);
+
+	/* folgende werte müssen gefüllt werden */
+	$_POST['action']     = __("Send","wp-greet");
+	$_POST["sender"]     = $res->frommail;
+	$_POST["sendername"] = $res->fromname;
+	$_POST["recv"]       = $res->tomail;
+	$_POST["recvname"]   = $res->toname;
+	$_POST["title"]      = $res->subject;
+	$_POST["message"]    = $res->mailbody;
+	$_POST["ccsender"]   = $res->cc2from;
+	$_POST['accepttou']  = 1;
+	$picurl              = $res->picture;
+	$galleryID           = "";
+	$_POST['fsend']      = $res->future_send;
+	
+      } else {  
+	// sonst wurde die karte über den purchase button gekauft und soll jetzt geschrieben werden
+	//
+	$pprows=bwc_paypal_read_orders($sid);
+
+	// find valid order
+	$ppitem = "";
+	$bwapproved="";
+
+	foreach ($pprows as $pprow) {
+	  if ($pprow->sessionid == $sid and ($pprow->pictureid == $pid or $pid == "")) {
+	    $ppitem = $pprow;
+	    break;
+	  }
+	}
+
+	if (is_object($ppitem)) {
+	  $bwapproved = ($ppitem->status=='1'?'approved':'');
+	  $pid = $ppitem->pictureid;
+	  $bwpid       = $pid;
+	  $picture     = nggdb::find_image($bwpid); 
+	  $bwgalleryID = $picture->galleryid; 
+	  $bwpicurl    = $picture->imageURL; 
+	  $fname       = $picture->imagePath; 
+	
+	  // append file name obfuscator here 
+	  $obfusc=$bwc_options['bwc_general_image_suffix']; 
+	  if (file_exists($fname . '_' . $obfusc )) { 
+	    $bwpicurl = $bwpicurl . '_' . $obfusc; 
+	  }
+	} else {
+	  // get post vars for button sendfree mode
+	  $bwgalleryID = ( isset($_POST['gallery']) ? esc_attr($_POST['gallery']) : "");
+	  $bwpicurl    = ( isset($_POST['image'])   ? esc_attr($_POST['image'])   : "");
+	  $bwpid       = ( isset($_POST['pid'])     ? esc_attr($_POST['pid'])     : "");
+	  $bwapproved  = ( isset($_POST['approved'])? esc_attr($_POST['approved']): "");
+	}
+      }
     
-    if ( nggcf_get_gallery_field($bwgalleryID, "Connect to BW-Cards") == 'enabled') {
-      $galleryID = $bwgalleryID;
-      $picurl = $bwpicurl;
-      $pid = $bwpid;
-      $approved = $bwapproved;
+    
+      // wenn dies gallery activ mit bw-cards ist, dan verwenden wir die ermittelten
+      // werte für das formular
+      if ( nggcf_get_gallery_field($bwgalleryID, "Connect to BW-Cards") == 'enabled') {
+	$galleryID = $bwgalleryID;
+	$picurl = $bwpicurl;
+	$pid = $bwpid;
+	$approved = $bwapproved;
+      }
     }
   }
-  
+
   // switch language to lang
   if ($lang != "") {
     global $sitepress;
@@ -70,7 +137,7 @@ function sc_searchwpgreet($atts) {
       $sitepress->switch_lang($lang);
     }
   }
-
+  
   // Karte wird abgeholt
   if ($display !="") {
     $content = showGreetcard($display);
@@ -396,12 +463,17 @@ function showGreetcardForm($galleryID, $picurl, $verify = "", $pid = "", $approv
     
     if (defined('BWCARDS')) {
       $template .= "<input name='action' type='submit' value='".__("Edit","wp-greet")."' />";
+      $template .= "&nbsp;&nbsp;&nbsp;";
+      if ($autoinc>0) {
+	$template .= "<input name='action' type='submit'  value='".__("Purchase","wp-greet")."' />";
+      } else {
+	$template .= "<input name='action' type='submit'  value='".__("Send","wp-greet")."' />";
+      }
     } else {
       $template .= "<input name='action' type='submit' value='".__("Back","wp-greet")."' />";
+      $template .= "&nbsp;&nbsp;&nbsp;";
+      $template .= "<input name='action' type='submit'  value='".__("Send","wp-greet")."' />";
     }
-    $template .= "&nbsp;&nbsp;&nbsp;";
-    $template .= "<input name='action' type='submit'  value='".__("Send","wp-greet")."' />";
-    
     
     $template .= "</form>";
     $template .= "<p>&nbsp;";
@@ -429,11 +501,11 @@ function showGreetcardForm($galleryID, $picurl, $verify = "", $pid = "", $approv
 	  $fetchuntil = gmdate("Y-m-d H:i:s",time() + ( get_option('gmt_offset') * 60 * 60 ) + ( $wpg_options['wp-greet-ocduration'] * 60 * 60 *24)  );
 	}
 	
-	save_greetcard( $_POST['sender'], $_POST['sendername'], $_POST['recv'], $_POST['recvname'],
-			$_POST['title'], $_POST['message'], $picurl, $_POST['ccsender'] * 1 + $_POST['wp-greet-enable-confirm'] * 2,
-			"",     					// confirm until stays blank
-			$verify,                	// confirmcode if available
-			$fetchuntil, $fetchcode,$sendtime,session_id());
+	$autoinc = save_greetcard( $_POST['sender'], $_POST['sendername'], $_POST['recv'], $_POST['recvname'],
+				   $_POST['title'], $_POST['message'], $picurl, $_POST['ccsender'] * 1 + $_POST['wp-greet-enable-confirm'] * 2,
+				   "",     					// confirm until stays blank
+				   $verify,                	// confirmcode if available
+				   $fetchuntil, $fetchcode,$sendtime,session_id());
 	
 	//
 	// Here comes the Google Wallet stuff for BWcards
@@ -460,10 +532,11 @@ function showGreetcardForm($galleryID, $picurl, $verify = "", $pid = "", $approv
 	    $out .= "Invalid package code. You will be redirected to the payment gateway now.<br/>";
 	  }
 	}
-	
+
 	if (defined('BWCARDS') and $conn and $bwc_options['bwc_general_formhook'] and $price>0 and $approved!="approved") {
 	  $picture = nggdb::find_image($pid);
-	  $bjs = bwc_generate_pay_script($picture->gid, $picture->imageURL, $picture);
+	  $out.=__("You will be redirected to Paypal to complete your order. If you are not redirected to PAyPal please click the Purchase button.",'wp-greet');
+	  $bjs = bwc_generate_pay_script($picture->gid, $picture->imageURL, $picture, $autoinc);
 	  $out .= $bjs;
 	  $sendstatus = "no";
 	  
@@ -501,7 +574,7 @@ function showGreetcardForm($galleryID, $picurl, $verify = "", $pid = "", $approv
     
     if (strval($sendstatus) != "no") { // this is to prevent output if used with bwcards
       if ( $sendstatus == true ) {
-	$out = __("Your greeting card has been sent or scheduled.","wp-greet")."<br />";
+	$out .= __("Your greeting card has been sent or scheduled.","wp-greet")."<br />";
 	// show resend link
 	if ($wpg_options['wp-greet-offerresend'] ) {  
 	  $out .= "<form method='post' action='#'>";
