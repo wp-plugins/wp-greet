@@ -249,7 +249,31 @@ wp-greet, das freundliche Wordpress Grußkartenplugin";
     	$wpg_options['wp-greet-tinymce'] = "1"; // use TinyMCE editor in form
     	add_option("wp-greet-tinymce",$wpg_options['wp-greet-fields'], '', "yes");
     };
-     
+
+   if ($wpg_options['wp-greet-smtp-host'] == "") {
+    	$wpg_options['wp-greet-smtp-host'] = "localhost"; 
+    	add_option("wp-greet-smtp-host",$wpg_options['wp-greet-smtp-host'], '', "yes");
+    };
+
+   if ($wpg_options['wp-greet-smtp-port'] == "") {
+    	$wpg_options['wp-greet-smtp-port'] = "25"; 
+    	add_option("wp-greet-smtp-port",$wpg_options['wp-greet-smtp-port'], '', "yes");
+    };
+
+    if ($wpg_options['wp-greet-smtp-ssl'] == "") {
+    	$wpg_options['wp-greet-smtp-ssl'] = "0"; 
+    	add_option("wp-greet-smtp-ssl",$wpg_options['wp-greet-smtp-ssl'], '', "yes");
+    };    
+
+    if ($wpg_options['wp-greet-smtp-user'] == "") {
+    	$wpg_options['wp-greet-smtp-user'] = ""; 
+    	add_option("wp-greet-smtp-user",$wpg_options['wp-greet-smtp-user'], '', "yes");
+    };    
+
+    if ($wpg_options['wp-greet-smtp-pass'] == "") {
+    	$wpg_options['wp-greet-smtp-pass'] = ""; 
+    	add_option("wp-greet-smtp-pass",$wpg_options['wp-greet-smtp-pass'], '', "yes");
+    };     
 }
 
 function wp_greet_deactivate()
@@ -257,36 +281,54 @@ function wp_greet_deactivate()
     
     return; // avoid deletion of opts
     
-    $options = array("wp-greet-minseclevel", 
-		     "wp-greet-captcha", 
-		     "wp-greet-mailreturnpath", 
-		     "wp-greet-autofillform",
-		     "wp-greet-bcc",
-		     "wp-greet-imgattach",
-		     "wp-greet-default-title",
-		     "wp-greet-default-header",
-		     "wp-greet-default-footer",
-		     "wp-greet-imagewidth",
-		     "wp-greet-logging",
-		     "wp-greet-gallery",
-		     "wp-greet-smilies",
-		     "wp-greet-formpage",
-		     "wp-greet-galarr",
-		     "wp-greet-linesperpage",
-		     "wp-greet-usesmtp",
-		     "wp-greet-stampimage",
-		     "wp-greet-stamppercent",
-		     'wp-greet-touswitch',
-		     'wp-greet-termsofusage',
-		     'wp-greet-mailconfirm',
-		     'wp-greet-mcduration',
-		     'wp-greet-mctext',
-		     'wp-greet-onlinecard',
-		     'wp-greet-ocduration',
-		     'wp-greet-octext',
-		     'wp-greet-logdays',
-		     'wp-greet-carddays',
-		     'wp-greet-fields');
+     $options = array("wp-greet-version" => "", 
+		   "wp-greet-minseclevel" => "", 
+		   "wp-greet-captcha" => "", 
+		   "wp-greet-mailreturnpath" => "", 
+  		   "wp-greet-staticsender" => "",
+		   "wp-greet-autofillform" => "",
+		   "wp-greet-bcc" => "",
+		   "wp-greet-imgattach" => "",
+		   "wp-greet-default-title" => "",
+		   "wp-greet-default-header" => "",
+		   "wp-greet-default-footer" => "",
+		   "wp-greet-imagewidth" => "",
+		   "wp-greet-logging" => "",
+		   "wp-greet-gallery" => "",
+		   "wp-greet-formpage" => "",
+		   "wp-greet-galarr" => array(),
+		   "wp-greet-smilies" => "",
+		   "wp-greet-linesperpage" => "",
+		   "wp-greet-usesmtp" => "",
+		   "wp-greet-stampimage" => "",
+		   "wp-greet-stamppercent" => "",
+		   "wp-greet-mailconfirm" => "",
+		   "wp-greet-mcduration" =>"",
+		   "wp-greet-mctext" =>"",
+		   "wp-greet-touswitch" =>"",
+		   "wp-greet-termsofusage" =>"",
+		   "wp-greet-onlinecard" => "",
+		   "wp-greet-ocduration" => "",
+		   "wp-greet-octext" => "",
+		   "wp-greet-logdays" => "",
+		   "wp-greet-carddays" => "",
+		   "wp-greet-fields" => "",
+  		   "wp-greet-show-ngg-desc" => "",
+  		   "wp-greet-enable-confirm" => "",
+  		   "wp-greet-future-send" => "",
+		   "wp-greet-multi-recipients" => "",
+  		   "wp-greet-ectext" => "",
+  		   "wp-greet-offerresend" => "",
+  		   "wp-greet-tinymce" => "",
+  		   "wp-greet-external-link" => "",
+		   "wp-greet-disable-css" => "",
+		   "wp-greet-use-wpml-lang" => "",
+		   "wp-greet-smtp-host" => "",
+		   "wp-greet-smtp-port" => "",
+		   "wp-greet-smtp-ssl" => "",
+		   "wp-greet-smtp-user" => "",
+		   "wp-greet-smtp-pass" => "");
+
     
     reset($options);
     while (list($key,$val) = each($options)) {

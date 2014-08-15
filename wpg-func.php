@@ -1,7 +1,7 @@
 <?php
 /* This file is part of the wp-greet plugin for wordpress */
 
-/*  Copyright 2008-2013  Hans Matzen  (email : webmaster at tuxlog dot de)
+/*  Copyright 2008-2014  Hans Matzen  (email : webmaster at tuxlog dot de)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -41,7 +41,7 @@ function wpgreet_get_options() {
   // wp-greet-logging - enables logging of sent cards
   // wp-greet-imagewidth - sets fixed width for the image
   // wp-greet-gallery - the used gallery plugin
-  // wp-greet-forüage - the pageid of the form page
+  // wp-greet-formpage - the pageid of the form page
   // wp-greet-galarr - the selected galleries for redirection to wp-greet
   //                   as array
   // wp-greet-smilies - switch to activate smiley support with greeting form
@@ -55,6 +55,9 @@ function wpgreet_get_options() {
   // wp-greet-onlinecard - dont get cards via email, fetch it online, yes=1, no=0
   // wp-greet-fields - a string of 0 and 1 describing the mandatory fields in the form
   // wp-greet-show-ngg-desc - if active displays the description from  ngg below the image
+  // wp-greet-external-link - if active uses external links from WordPress media for the link target of the images
+  // wp-greet disable-css - if checked disables the load of the wp-greet.css file
+  // wp-greet-use-wpml-lang - if checked uses the language of the gallery page for the form, works with WPML only
 
   $options = array("wp-greet-version" => "", 
 		   "wp-greet-minseclevel" => "", 
@@ -91,10 +94,18 @@ function wpgreet_get_options() {
   		   "wp-greet-show-ngg-desc" => "",
   		   "wp-greet-enable-confirm" => "",
   		   "wp-greet-future-send" => "",
-           "wp-greet-multi-recipients" => "",
+		   "wp-greet-multi-recipients" => "",
   		   "wp-greet-ectext" => "",
   		   "wp-greet-offerresend" => "",
-  		   "wp-greet-tinymce" => "");
+  		   "wp-greet-tinymce" => "",
+  		   "wp-greet-external-link" => "",
+		   "wp-greet-disable-css" => "",
+		   "wp-greet-use-wpml-lang" => "",
+		   "wp-greet-smtp-host" => "",
+		   "wp-greet-smtp-port" => "",
+		   "wp-greet-smtp-ssl" => "",
+		   "wp-greet-smtp-user" => "",
+		   "wp-greet-smtp-pass" => "");
 
 
   reset($options);
@@ -256,10 +267,10 @@ function set_permissions($role) {
 // verbindet wp-greet mit ngg, es wird die url angepasst
 //
 function ngg_connect($link='' , $picture='') {
-	// fix ngg 2.0x new var names
-	if (isset($picture->galleryid)) {
-		$picture->gid = $picture->galleryid;
-	}
+  // fix ngg 2.0x new var names
+  if (isset($picture->galleryid)) {
+    $picture->gid = $picture->galleryid;
+  }
 	
   $wpdb =& $GLOBALS['wpdb'];
   // wp-greet optionen aus datenbank lesen
@@ -267,32 +278,51 @@ function ngg_connect($link='' , $picture='') {
   
   // pruefe ob gallery umgelenkt werden soll
   if (array_search($picture->gid, $wpg_options['wp-greet-galarr']) !== False) {
-     
-  	if (isset($picture->path)) {  //old ngg until 1.9.13
-      	$folder_url  = get_option ('siteurl')."/".$picture->path."/";
-  	} else {
-  		$folder_url  = get_option ('siteurl')."/";
-  	}
-  	
-      $url_prefix = get_permalink($wpg_options['wp-greet-formpage']);
-      if (strpos($url_prefix,"?") === false )
-	  	$url_prefix .= "?";
-      else
-	  	$url_prefix .= "\&amp;";
+    
+    if (isset($picture->path)) {  //old ngg until 1.9.13
+      $folder_url  = get_option ('siteurl')."/".$picture->path."/";
+    } else {
+      $folder_url  = get_option ('siteurl')."/";
+    }
+    
+    $url_prefix = get_permalink($wpg_options['wp-greet-formpage']);
 
-      // fix ngg 2.0x new var names
-      if (isset($picture->path)) {  //old ngg until 1.9.13
-      	$link = $url_prefix . "gallery=" . $picture->gid ."\&amp;image=" . $folder_url . $picture->filename;
-      } else { // new ngg from 2.0.0 on
-      	$link = $url_prefix . "gallery=" . $picture->gid ."\&amp;image=" . $link;
+    // change base url if we are using WPML
+    if ( defined('ICL_LANGUAGE_CODE') ) {
+      $new_url_prefix=$url_prefix;
+      $lang_post_id = icl_object_id( $wpg_options['wp-greet-formpage'] , 'page', false, ICL_LANGUAGE_CODE ); 
+      if (is_null($lang_post_id)) {
+	$lang_post_id = icl_object_id( $wpg_options['wp-greet-formpage'] , 'post', false, ICL_LANGUAGE_CODE );
       }
-  
       
-      if (defined('BWCARDS')) {
-      	$link .= "\&amp;pid=".$picture->pid;
+      if(!is_null($lang_post_id)) {
+        $new_url_prefix = get_permalink( $lang_post_id );
       }
+      
+      $url_prefix = $new_url_prefix;	  
+    }
+    
+    if (strpos($url_prefix,"?") === false )
+      $url_prefix .= "?";
+    else
+      $url_prefix .= "\&amp;";
+    
+    // fix ngg 2.0x new var names
+    if (isset($picture->path)) {  //old ngg until 1.9.13
+      $link = $url_prefix . "gallery=" . $picture->gid ."\&amp;image=" . $folder_url . $picture->filename;
+    } else { // new ngg from 2.0.0 on
+      $link = $url_prefix . "gallery=" . $picture->gid ."\&amp;image=" . $link;
+    }
+    
+    if (defined('BWCARDS')) {
+      $link .= "\&amp;pid=".$picture->pid;
+    }
+    
+    // support for WPML
+    if ( defined('ICL_LANGUAGE_CODE') ) {
+      $link .= "\&amp;lang=".ICL_LANGUAGE_CODE;
+    }
   }
-  
   return stripslashes($link);
 }
 
@@ -309,15 +339,6 @@ function ngg_remove_thumbcode($thumbcode,$picture) {
     $thumbcode = "";
   return $thumbcode;
 }
-
-//
-// umkehrfunktion zu nl2br :-)
-//
-//function br2nl($text)
-//{
-//  return str_replace("<br />","",$text);
-//}
-
 
 function get_dir_alphasort($pfad)
 {
@@ -387,7 +408,7 @@ function save_greetcard($sender, $sendername, $recv, $recvname,
 			$confirmuntil, $confirmcode,$fetchuntil,$fetchcode,$sendtime,$sessionid="")
 {
     global $wpdb;
-   
+    $autoinc=-1;
     //$wpdb->show_errors(true);
     // convert to mysql date
 	$sendtime = date('Y-m-d H:i:s', $sendtime);
@@ -395,17 +416,21 @@ function save_greetcard($sender, $sendername, $recv, $recvname,
 	$sql = "insert into ". $wpdb->prefix . "wpgreet_cards values (0, '$sendername', '$sender', '$recvname', '$recv', '$cc2sender', '". esc_sql($title)."', '$picurl','". esc_sql($message)."', '$confirmuntil', '$confirmcode', '$fetchuntil', '$fetchcode','','','$sendtime','$sessionid');";
 	
 	$wpdb->query($sql); 
+	$autoinc=$wpdb->insert_id;
     } else {
 	$sql = "select count(*) as anz from " .  $wpdb->prefix . "wpgreet_cards where confirmcode='$confirmcode';";
 
 	$count = $wpdb->get_row($sql);
-	if ( $count->anz == 0)
-	    $sql = "insert into ". $wpdb->prefix . "wpgreet_cards values (0, '$sendername', '$sender', '$recvname', '$recv', '$cc2sender', '".esc_sql($title)."', '$picurl','". esc_sql($message)."', '$confirmuntil', '$confirmcode','$fetchuntil', '$fetchcode','','','$sendtime','$sessionid');";
-	else
-	    $sql = "update ". $wpdb->prefix . "wpgreet_cards set fetchuntil='$fetchuntil', fetchcode='$fetchcode' where confirmcode='$confirmcode';";
-	
-	 $wpdb->query($sql);
+	if ( $count->anz == 0) {
+	  $sql = "insert into ". $wpdb->prefix . "wpgreet_cards values (0, '$sendername', '$sender', '$recvname', '$recv', '$cc2sender', '".esc_sql($title)."', '$picurl','". esc_sql($message)."', '$confirmuntil', '$confirmcode','$fetchuntil', '$fetchcode','','','$sendtime','$sessionid');";
+	  $wpdb->query($sql);
+	  $autoinc=$wpdb->insert_id;
+	} else {
+	  $sql = "update ". $wpdb->prefix . "wpgreet_cards set fetchuntil='$fetchuntil', fetchcode='$fetchcode' where confirmcode='$confirmcode';";
+	  $wpdb->query($sql);
+	}
     }
+    return $autoinc;
 }
 
 
@@ -539,11 +564,11 @@ function build_stamp_url($pic)
 }
 
 //
-// generiert das img tag fgemäß der eingestellten parameter
+// generiert das img tag gemäß der eingestellten parameter
 // wird verwendet für formular, voransicht und abruf
 // berücksichtigt briefmarken, ngg daten einstellungen
 //
-function get_imgtag($url) {
+function get_imgtag($pid, $url) {
 	// od nothing without url
 	if ($url=="")
 		return "";
@@ -571,24 +596,40 @@ function get_imgtag($url) {
   	
   	$ngg_desc="";
   	$ngg_alttext="";
-  	if ( $wpg_options['wp-greet-show-ngg-desc'] and $nggdb) {
+  	
+  	if ( $wpg_options['wp-greet-show-ngg-desc'] and isset($nggdb)) {
 		$nggimg = $nggdb->search_for_images(substr($url,strrpos($url,"/")+1));
-		$ngg_desc = trim($nggimg[0]->description);
-		$ngg_alttext = trim($nggimg[0]->alttext);
+		if (isset($nggimg[0]->description))
+			$ngg_desc = trim($nggimg[0]->description);
+		if (isset($nggimg[0]->alttext))
+			$ngg_alttext = trim($nggimg[0]->alttext);
 	}
 	
+	$ext_url="";
+	if ($pid > 0 and $wpg_options['wp-greet-external-link']=="1") {
+		$ext_url = get_post_meta($pid, 'wpgreet_external_link', true);
+		$ext_target = get_post_meta($pid, 'wpgreet_external_link_target', true);
+	}
 	
-	$imgtag .= '<div class="wpg_image"><img src="' . $url . '" alt="';
+	$target="";
+	if (isset($ext_target) && $ext_target=="1" )
+			$target="target='_blank'"; 
+	
+	$imgtag .= '<div class="wpg_image">';
+	$imgtag .= (strlen($ext_url) > 0)?"<a $target href='$ext_url'>":"";
+	$imgtag .= '<img src="' . $url . '" alt="';
    	$imgtag .= (strlen($ngg_alttext) > 0)?$ngg_alttext:$filename;
    	$imgtag .= '" title="';
    	$imgtag .= (strlen($ngg_alttext) > 0)?$ngg_alttext:$filename;
-   	$imgtag .= '" width="' . $width ."\"/></div>\n";
+   	$imgtag .= '" width="' . $width ."\"/>";
+  	$imgtag .= (strlen($ext_url) > 0)?"</a>":"";
+ 	$imgtag .= "</div>\n";
 
    	if ($wpg_options['wp-greet-show-ngg-desc'] and strlen($ngg_desc) > 0)
     		$imgtag .= "<div classe='wpg_image_description'>" . $ngg_desc . "</div>";
     
     $imgtag .= "</div>";
-    		
+ 
    	return $imgtag;	
 }
 
@@ -601,6 +642,8 @@ function wpg_fix_broken_ngg_hint() {
 	$broken_since="2.0.0";
 	
 	// if we do not use ngg, just return
+	if (!is_plugin_active("nextgen-gallery/nggallery.php")) return;
+	
 	global $wpg_options;
 	$wpg_options=wpgreet_get_options();
 	if ( $wpg_options['wp-greet-gallery']=="wp") return;
@@ -629,10 +672,7 @@ function wpg_fix_broken_ngg_hint() {
 		
 			&lt;a href="&lt;?php echo apply_filters('ngg_create_gallery_link', esc_attr(\$storage->get_image_url(\$image)), \$image)?>"
 		
-			<p>You can also fetch the patched file (2xx_index.php) from the wp-greet/patch directory and copy it
-			to nextgen-gallery/products/photocrati_nextgen/modules/nextgen_basic_gallery/templates/thumbnails/index.php.<br/> 
-			E.g. take 211_index.php for NGG version 2.11</p>
-			<p>Since NGG does not work with all Lightbox-Effects. Please set Gallery -> Other Options -> Lightbox Options to Shutter,
+			<p>Since NGG does not work with all Lightbox-Effects. Please set Gallery -> Other Options -> Lightbox Options to Shutter and do not select a template for the thumbnails,
 			if you encounter problems with other settings.</p>
 EOL;
 		}
@@ -663,12 +703,18 @@ function wpgreet_gallery_shortcode( $attr )
 		
 	// add the filter for attachment links:
 	if ($connectus) {
+	
+		// remove responsive lightbox filter
+		global $wp_filter;
+		if ( isset($wp_filter['wp_get_attachment_link'][1000]) )
+			$wp_filter['wp_get_attachment_link'][1000] = array();
+	
 		add_filter( 'wp_get_attachment_link', 'wpgreet_gallery_link_filter', 10, 6 );
 
 		// remove jetpack filters
 		global $wp_filter;
 		if ( isset($wp_filter['post_gallery'][1000]) )
-			$wp_filter['post_gallery'][1000] = array();
+		  $wp_filter['post_gallery'][1000] = array();
 	 }
 	 
 	// get WordPress native gallery
@@ -689,8 +735,7 @@ function wpgreet_gallery_link_filter( $full_link, $id, $size, $permalink, $icon,
 	// change the value of href to suite wp-greet form link
 	
 	// get post id
-	global $post;
-	$gid = $post->ID;
+	$gid = $id;
 
 	// extract image anchor url
 	$xml = simplexml_load_string($full_link);
@@ -698,7 +743,10 @@ function wpgreet_gallery_link_filter( $full_link, $id, $size, $permalink, $icon,
 	$alist = $xml->xpath("//@href");
 	$aitem=parse_url($alist[0]);
 	$aurl = $aitem['scheme'] . '://' .  $aitem['host'] . $aitem['path'];
-	
+	if (isset($aitem['query']) && strlen($aitem['query']) > 0) {
+		$aurl .="?" . $aitem['query'];
+	}
+
 	// getting the img url this is what we want to give as a parm to wp-greet
 	$url = wp_get_attachment_image_src( $id, 'full' );
 	$url = $url[0];
@@ -707,16 +755,163 @@ function wpgreet_gallery_link_filter( $full_link, $id, $size, $permalink, $icon,
 	
 	// build wp-greet form-page link and add parms
 	$url_prefix = get_permalink($wpg_options['wp-greet-formpage']);
+
+	// change base url if we are using WPML
+	if ( defined('ICL_LANGUAGE_CODE') ) {
+	  $new_url_prefix=$url_prefix;
+	  $lang_post_id = icl_object_id( $wpg_options['wp-greet-formpage'] , 'page', false, ICL_LANGUAGE_CODE ); 
+	  if (is_null($lang_post_id)) {
+	    $lang_post_id = icl_object_id( $wpg_options['wp-greet-formpage'] , 'post', false, ICL_LANGUAGE_CODE );
+	  }
+	  
+	  if(!is_null($lang_post_id)) {
+	    $new_url_prefix = get_permalink( $lang_post_id );
+	  }
+	  $url_prefix = $new_url_prefix;
+	}
+
 	if (strpos($url_prefix,"?") === false )
 		$url_prefix .= "?";
 	else
 		$url_prefix .= "&amp;";
 	
 	$link = $url_prefix . "gallery=" . $gid ."\&amp;image=" . $url;
-
+ 
+	// support for WPML
+	if ( defined('ICL_LANGUAGE_CODE') ) {
+	  $link .= "\&amp;lang=".ICL_LANGUAGE_CODE;
+	}
+	
 	// replace anchor link to redirect to wp-greet
 	$erg = stripslashes(str_replace($aurl,$link,$full_link));
 
 	return $erg;
 }
+
+// 
+// function to change the gallery html for wp-greet
+// 
+function wpgreet_post_gallery( $val, $attr )
+{
+  if ($val == "") { 
+    remove_filter('post_gallery','wpgreet_post_gallery',9999);
+    $val=gallery_shortcode($attr);
+  }
+  
+  global $post;
+  $pid = $post->ID;
+
+  // wp-greet optionen aus datenbank lesen
+  $wpg_options = wpgreet_get_options();
+  
+  // check if we shall connect wp-greet
+  // load connected gallery pages
+  $connectus = in_array((string) $pid,$wpg_options['wp-greet-galarr']);
+  
+  // add the filter for attachment links:
+  if ($connectus) {
+    $dom = new DOMDocument;
+    libxml_use_internal_errors(true);
+    $e = $dom->loadHTML($val);
+    if ($e === true) {
+      $anchors = $dom->getElementsByTagName('a');
+      foreach ($anchors as $anchor) {
+	$anc = $anchor->getAttribute('href');
+	$ancnew = wpgreet_post_gallery_link($anc,$pid);
+	$anchor->setAttribute('href', $ancnew); 
+      }
+      
+      // remove carousel because we want to go to the greet form
+      $divs = $dom->getElementsByTagName('div');
+      foreach ($divs as $div) {
+	$div->removeAttribute('data-carousel-extra');
+      }
+      
+      $val = $dom->saveHTML();  
+    }
+  }
+  return $val;
+}
+
+//
+// generate wp-greet form link
+//
+function wpgreet_post_gallery_link( $url, $id )
+{
+  // get wp-greet optionen from database
+  $wpg_options = wpgreet_get_options();
+  
+  // build wp-greet form-page link and add parms
+  $url_prefix = get_permalink($wpg_options['wp-greet-formpage']);
+  
+  // change base url if we are using WPML
+  if ( defined('ICL_LANGUAGE_CODE') ) {
+    $new_url_prefix=$url_prefix;
+    $lang_post_id = icl_object_id( $wpg_options['wp-greet-formpage'] , 'page', false, ICL_LANGUAGE_CODE ); 
+    if (is_null($lang_post_id)) {
+      $lang_post_id = icl_object_id( $wpg_options['wp-greet-formpage'] , 'post', false, ICL_LANGUAGE_CODE );
+    }
+    
+    if(!is_null($lang_post_id)) {
+      $new_url_prefix = get_permalink( $lang_post_id );
+    }
+    $url_prefix = $new_url_prefix;
+  }
+  
+  if (strpos($url_prefix,"?") === false )
+    $url_prefix .= "?";
+  else
+    $url_prefix .= "&";
+  
+  // remove photon wp cdn from jetpack if applicable
+  $url_cdn=substr($url,0,15);
+  if ($url_cdn == "http://i0.wp.com") $url=str_replace("i0.wp.com/","", $url);
+  if ($url_cdn == "http://i1.wp.com") $url=str_replace("i1.wp.com/","", $url);
+  if ($url_cdn == "http://i2.wp.com") $url=str_replace("i2.wp.com/","", $url);
+  
+  $link = $url_prefix . "gallery=" . $id ."&image=" . $url;
+  
+  // support for WPML
+  if ( defined('ICL_LANGUAGE_CODE') ) {
+    $link .= "&lang=".ICL_LANGUAGE_CODE;
+  }
+  
+  return $link;
+}
+
+//
+// Link Feld in der Mediathek hinzufügen
+// Wird in diesem Feld eine URL eingegeben, so verweist das Bild in der Grußkarte darauf.
+//
+// Felder definieren 
+function wpg_attachment_fields( $form_fields, $post ) {
+	$form_fields['wpgreet-external-link'] = array(
+			'label' => __('wp-greet external link','wp-greet'),
+			'input' => 'text',
+			'value' => get_post_meta( $post->ID, 'wpgreet_external_link', true ),
+			'helps' => __('If provided, wp-greet will link the image to this URL','wp-greet'),
+	);
+	
+	$wpg_elt = get_post_meta( $post->ID, 'wpgreet_external_link_target', true );
+	$form_fields['wpgreet-external-link-target'] = array(
+			'label' => __('wp-greet open external link in new tab/window','wp-greet'),
+			'input' => 'html',
+			'html'  => "<input type='checkbox' name='attachments[".$post->ID."][wpgreet-external-link-target]' id='attachments-".$post->ID."-wpgreet-external-link-target' value='1' ".($wpg_elt=="1"?"checked='checked'":"")."/>",
+			'helps' => __('If checked external links will open in new tab/window','wp-greet'),
+	);
+	
+	return $form_fields;
+}
+add_filter( 'attachment_fields_to_edit', 'wpg_attachment_fields', 10, 2 );
+
+// Felder speichern
+function wpg_attachment_fields_save( $post, $attachment ) {
+	if( isset( $attachment['wpgreet-external-link'] ) )
+		update_post_meta( $post['ID'], 'wpgreet_external_link', $attachment['wpgreet-external-link'] );
+	
+	update_post_meta( $post['ID'], 'wpgreet_external_link_target', ($attachment['wpgreet-external-link-target']==1?1:0) );
+	
+	return $post;
+}
+add_filter( 'attachment_fields_to_save', 'wpg_attachment_fields_save', 10, 2 );
 ?>
