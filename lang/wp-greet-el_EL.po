@@ -5,147 +5,148 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: wp-greet\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-06-28 06:19+0200\n"
-"PO-Revision-Date: 2013-03-06 07:10+0200\n"
-"Last-Translator: Bogdan Simeanu <bogdan.simeanu@gmail.com>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"PO-Revision-Date: 2014-08-29 15:20+0200\n"
+"Last-Translator: \n"
+"Language-Team: George Mastrantonis <gossamer@hol.gr>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.7\n"
+"Language: el_EL\n"
 
 #: wp-greet.php:129 wpg-admin-gal.php:84
 msgid "Galleries"
-msgstr "Galeriile"
+msgstr "Galleries/Συλλογές εικόνων"
 
 #: wp-greet.php:131
 msgid "Security"
-msgstr "Securitate"
+msgstr "Ασφάλεια"
 
 #: wp-greet.php:133
 msgid "Logging"
-msgstr "Ma loghez"
+msgstr "Αρχείο αποστολών"
 
 #: wpg-admin-gal.php:46
 msgid "No gallery plugin selected."
-msgstr "Nicio galerie nu e selectata."
+msgstr "Δεν έχει επιλεγεί Gallery plugin"
 
 #: wpg-admin-gal.php:75 wpg-admin-sec.php:109 wpg-admin.php:143
 msgid "Settings successfully updated"
-msgstr "Setarile au fost actualizate cu succes"
+msgstr "Οι ρυθμίσεις αποθηκεύτηκαν"
 
 #: wpg-admin-gal.php:87
 msgid "Active"
-msgstr "Activ"
+msgstr "Ενεργό"
 
 #: wpg-admin-gal.php:88
 msgid "ID"
-msgstr "Indicativul"
+msgstr ""
 
 #: wpg-admin-gal.php:89
 msgid "Name"
-msgstr "Numele"
+msgstr "Όνομα"
 
 #: wpg-admin-gal.php:123
 msgid "Save"
-msgstr "Salveaza"
+msgstr "Αποθήκευση"
 
 #: wpg-admin-log.php:89
 msgid "Greetcard Log"
-msgstr "Logul felicitarii"
+msgstr "Αρχείο ηλεκτρονικών καρτών"
 
 #: wpg-admin-log.php:94
 msgid "Show all"
-msgstr "Arata totul"
+msgstr "Προβολή όλων"
 
 #: wpg-admin-log.php:103
 msgid "Lines per Page:"
-msgstr "Linii pe pagina:"
+msgstr "Σειρές ανά σελίδα:"
 
 #: wpg-admin-log.php:107
 msgid "No."
-msgstr "Nr."
+msgstr ""
 
 #: wpg-admin-log.php:108
 msgid "Date/Time"
-msgstr "Data si timpul"
+msgstr "Ημερομηνία/Ώρα"
 
 #: wpg-admin-log.php:109 templates/wp-greet-display-template.php:26
 #: templates/wp-greet-preview-template.php:21
 msgid "From"
-msgstr "De la"
+msgstr "Από"
 
 #: wpg-admin-log.php:110 templates/wp-greet-display-template.php:31
 #: templates/wp-greet-preview-template.php:26
 msgid "To"
-msgstr "Catre"
+msgstr "Προς"
 
 #: wpg-admin-log.php:111
 msgid "Image"
-msgstr "Imaginea"
+msgstr "Εικόνα"
 
 #: wpg-admin-log.php:112
 msgid "IP-Adress"
-msgstr "Adresa IP"
+msgstr ""
 
 #: wpg-admin-log.php:113 wpg-admin-sec.php:296 wpg-form.php:248
 #: wpg-form.php:683
 msgid "Message"
-msgstr "Mesajul"
+msgstr "Το μήνυμα"
 
 #: wpg-admin-log.php:140
 msgid "Clear Log"
-msgstr "Stergeti log-ul"
+msgstr "Διαγραφή εγγραφών αρχείου"
 
 #: wpg-admin-sec.php:102
 msgid "Captcha plugin not found."
-msgstr "Denumirea plugin-ului nu e gasita"
+msgstr "Δεν εντοπίστηκε κάποιο Captcha plugin."
 
 #: wpg-admin-sec.php:111 wpg-admin.php:145
 msgid "You have to change a field to update settings."
-msgstr "Ai de schimbat un camp pentru a actualiza setarile"
+msgstr "Πρέπει να αλλάξει κάποιο πεδίο για να αποθηκευτούν νέες ρυθμίσεις."
 
 #: wpg-admin-sec.php:158
 msgid "wp-greet Security - Setup"
-msgstr "Setare - Securitate"
+msgstr "wp-greet Ρυθμίσεις Ασφάλειας"
 
 #: wpg-admin-sec.php:164
 msgid "Spam protection"
-msgstr "Protectia antispam"
+msgstr "Προστασία από Spam"
 
 #: wpg-admin-sec.php:168 wpg-admin.php:213
 msgid "none"
-msgstr "nimic"
+msgstr "τίποτε"
 
 #: wpg-admin-sec.php:184
 msgid "Minimum role to send card"
-msgstr "Minimul de drepturi pt. trimitere felicitare"
+msgstr "Ελάχιστα δικαιώματα χρήστη για αποστολή κάρτας"
 
 #: wpg-admin-sec.php:202
 msgid "Everyone"
-msgstr "Toti"
+msgstr "Οποιοσδήποτε"
 
 #: wpg-admin-sec.php:213
 msgid "Enable Terms of Usage display and check"
-msgstr "Activati Termenii de utilizare si validati"
+msgstr "Ενεργοποίηση προβολής & αποδοχής Όρων χρήσης"
 
 #: wpg-admin-sec.php:218
 msgid "Terms of usage"
-msgstr "Termeni de utilizare"
+msgstr "Όροι χρήσης"
 
 #: wpg-admin-sec.php:220
 msgid "HTML is allowed"
-msgstr "Se permite si HTML"
+msgstr "Επιτρέπεται χρήση HTML"
 
 #: wpg-admin-sec.php:229
 msgid "Use mail to verify sender address"
-msgstr "Utilizati mail-ul pentru a verifica adresa emitentului"
+msgstr "Αποστολή e-mail για επιβεβαίωση διεύθυνσης αποστολέα"
 
 #: wpg-admin-sec.php:234
 msgid "Verification mail text"
-msgstr "Verificati textul mail-ului"
+msgstr "Μήνυμα e-mail επιβεβαίωσης"
 
 #: wpg-admin-sec.php:237 wpg-admin-sec.php:267 wpg-admin.php:307
 #: wpg-admin.php:390 wpg-admin.php:397
@@ -154,97 +155,102 @@ msgid ""
 "address, %receiver% for receiver name, %link% for generated link, %duration% "
 "for time the link is valid"
 msgstr ""
-"Permit HTML, use %sender% pentru sendername, %sendermail% pentru adresa de "
-"mail a celui care trimite, %receiver% pentru numele primitorului, %link% "
-"pentru link-ul generat, %duration% pentru timpul in care link-ul e valid"
+"Επιτρέπεται η χρήση HTML, εισάγετε %sender% για όνομα αποστολέα, %sendermail"
+"% για email αποστολέα, %receiver% για όνομα παραλήπτη, %link% για σύνδεσμο "
+"προς κάρτα, %duration% για διάρκεια ισχύος συνδέσμου"
 
 #: wpg-admin-sec.php:242
 msgid "Link valid time (hours)"
-msgstr "Timpul in care link-ul e activ (ore)"
+msgstr "Διάρκεια ισχύος συνδέσμου (Ώρες)"
 
 #: wpg-admin-sec.php:248
 msgid "0 means confirmation-link will never expire"
-msgstr "0 inseamna link-ul de confirmare nu va expira niciodata"
+msgstr "Με τιμή 0 ο σύνδεσμος δεν θα λήξει ποτέ"
 
 #: wpg-admin-sec.php:253
 msgid "Confirmation mail to sender"
-msgstr "Confirmarea mail-ului"
+msgstr "E-mail επιβεβαίωσης προς αποστολέα"
 
 #: wpg-admin-sec.php:263
 msgid "Confirmation mail text"
-msgstr "Confirmarea textului din mail"
+msgstr "Μήνυμα επιβεβαίωσης"
 
 #: wpg-admin-sec.php:274
 msgid "Mandatory fields"
-msgstr "Campurile obligatorii"
+msgstr "Απαραίτητα πεδία"
 
 #: wpg-admin-sec.php:276 wpg-form.php:207
 msgid "Sendername"
-msgstr "Numele meu:"
+msgstr "Όνομα αποστολέα"
 
 #: wpg-admin-sec.php:280 wpg-form.php:212
 msgid "Sender"
-msgstr "Mail-ul meu:"
+msgstr "Αποστολέας"
 
 #: wpg-admin-sec.php:284 wpg-form.php:221
 msgid "Recipientname"
-msgstr "Numele felicitatului:"
+msgstr "Όνομα παραλήπτη"
 
 #: wpg-admin-sec.php:288 wpg-form.php:226
 msgid "Recipient"
-msgstr "Mail-ul felicitatului:"
+msgstr "Παραλήπτης"
 
 #: wpg-admin-sec.php:292 wpg-form.php:243 wpg-form.php:681
 #: templates/wp-greet-display-template.php:36
 #: templates/wp-greet-preview-template.php:31
 msgid "Subject"
-msgstr "Subiect"
+msgstr "Θέμα/τίτλος"
 
 #: wpg-admin-sec.php:307 wpg-admin.php:413
 msgid "Update options"
-msgstr "Optiuni de actualizare"
+msgstr "Ανανέωση ρυθμίσεων"
 
 #: wpg-admin.php:117
 msgid "mailreturnpath is not valid (wrong format or no MX entry for domain)."
-msgstr "mail-ul nu a fost validat (format gresit sau nu exista domeniul)"
+msgstr ""
+"Άκυρη διεύθυνση επιστροφόμενων e-mail (λάθος format ή ανύπαρκτο MX entry για "
+"το domain)."
 
 #: wpg-admin.php:122
 msgid ""
 "static sender address is not valid (wrong format or no MX entry for domain)."
-msgstr "adresa de trimitere nu e valida (format gresit sau nu exista domeniul)"
+msgstr ""
+"Άκυρη στατική διεύθυνση e-mail αποστολέα (λάθος format ή ανύπαρκτο MX entry "
+"για το domain)."
 
 #: wpg-admin.php:127
 msgid "bcc email adress is not valid (wrong format or no MX entry for domain)."
-msgstr "adresa de mail bcc nu e valida (format gresit sau nu exista domeniul)."
+msgstr ""
+"Άκυρη διεύθυνση e-mail BCC (λάθος format ή ανύπαρκτο MX entry για το domain)."
 
 #: wpg-admin.php:132
 msgid "imagewidth not in range (0..3200)."
-msgstr "Lungimea imaginii nu e in domeniu (0...3200)."
+msgstr "Πλάτος γραφικού εκτός ορίων (0..3200)."
 
 #: wpg-admin.php:137
 msgid ""
 "Cards will be removed before fetch interval expires (Number of days an "
 "online card can be fetched > Number of days card entries are stored)"
 msgstr ""
-"Felicitarile au fost sterse inainte de a expira intervalul trimiterii "
-"(numarul de zile al felicitarii online in care se primeste > numarul de zile "
-"in care felicitarea e pastrata)"
+"Οι κάρτες θα διαγραφούν πριν τη λήξη ισχύος τους (Αριθμός ημερών που μια "
+"online κάρτα είναι προσβάσιμη > Αριθμός ημερών που οι κάρτες παραμένουν "
+"αποθηκευμένες)"
 
 #: wpg-admin.php:206
 msgid "wp-greet Setup"
-msgstr "setup-ul"
+msgstr "wp-greet Ρυθμίσεις"
 
 #: wpg-admin.php:211
 msgid "Gallery-Plugin"
-msgstr "Plugin-ul - Galeriei"
+msgstr "Plugin Gallery/Συλλογής"
 
 #: wpg-admin.php:221
 msgid "Form-Post/Page"
-msgstr "Formularul Post/Pagina"
+msgstr "Άρθρο/Σελίδα Φόρμας"
 
 #: wpg-admin.php:236
 msgid "Mailtransfermethod"
-msgstr "metoda de transfer a mail-ului"
+msgstr ""
 
 #: wpg-admin.php:241
 msgid "SMTP Server (hostname)"
@@ -256,12 +262,11 @@ msgstr ""
 
 #: wpg-admin.php:251
 msgid "SMTP use SSL?"
-msgstr ""
+msgstr "SMTP με χρήση SSL;"
 
 #: wpg-admin.php:255
-#, fuzzy
 msgid "SMTP Username"
-msgstr "Numele meu:"
+msgstr ""
 
 #: wpg-admin.php:260
 msgid "SMTP Password"
@@ -269,334 +274,331 @@ msgstr ""
 
 #: wpg-admin.php:266
 msgid "Static Senderaddress"
-msgstr "Adresa de emitent statica"
+msgstr "Στατική διέυθυνση αποστολέα"
 
 #: wpg-admin.php:271
 msgid "Mailreturnpath"
-msgstr "Mail returnat"
+msgstr "Διεύθυνση επιστροφόμενων e-mail "
 
 #: wpg-admin.php:276
 msgid "Send Bcc to"
-msgstr "Trimite Bcc la"
+msgstr "Αποστολή Bcc προς"
 
 #: wpg-admin.php:282
 msgid "Allow more than one recipient"
-msgstr "Accepta mai mult de un recipient"
+msgstr "Επιτρέπεται εισαγωγή περισσότερων από ενός παραληπτών"
 
 #: wpg-admin.php:288
 msgid "Send image inline"
-msgstr "Trimite imaginile inline"
+msgstr "Αποστολή εικόνας inline"
 
 #: wpg-admin.php:294
 msgid "Fetch cards online"
-msgstr "Trimite felicitarile online"
+msgstr "Πρόσβαση καρτών online"
 
 #: wpg-admin.php:298
 msgid "Number of days an online card can be fetched"
-msgstr "Numarul de zile in care felicitarea poate fi deschisa"
+msgstr "Αριθμός ημερών που μία online κάρτα είναι προσβάσιμη"
 
 #: wpg-admin.php:303
 msgid "Online card HTML mail text"
-msgstr "Felicitare cu text HTML online"
+msgstr "HTML κείμενο e-mail ειδοποίησης για online κάρτα"
 
 #: wpg-admin.php:312
 msgid "Fixed image width"
-msgstr "Lungimea imaginii"
+msgstr "Σταθερό πλάτος εικόνας"
 
 #: wpg-admin.php:318
 msgid "Add stamp image"
-msgstr "Adaugati imaginea"
+msgstr "Προσθήκη γραφικού σφραγίδας/γραμματοσήμου"
 
 #: wpg-admin.php:320
 msgid ""
 "leave empty for no stamp, path must be relative to wordpress directory, e.g. "
 "wp-content/plugins/wp-greet/defaultstamp.jpg"
 msgstr ""
-"Lasati gol pentru nicio imagine, adresa trebuie sa fie relativa la "
-"directorul wordpress, e.g. wp/content/plugins/wp-grett/defaultstamp.jpg"
+"Αφήστε το κενό για να μην χρησιμοποιηθεί σφραγίδα/γραμματοσήμο, η διεύθυνση "
+"πρέπει να είναι σχετική προς την wordpress εγκατάσταση σας, π.χ. wp-content/"
+"plugins/wp-greet/defaultstamp.jpg"
 
 #: wpg-admin.php:325
 #, php-format
 msgid "Stampwidth in % of imagewidth"
-msgstr "Marimea stamp in % din lungime"
+msgstr "Πλάτος γραμματοσήμου/σφραγίδας σε ποσοστό % του πλάτους εικόνας"
 
 #: wpg-admin.php:331
 msgid "Use TinyMCE editor"
-msgstr ""
+msgstr "Χρήση επεξεργαστή κειμένου TinyMCE"
 
 #: wpg-admin.php:336
 msgid "Use external link from WordPress media"
-msgstr ""
+msgstr "Χρήση εξωτερικού συνδέσμου από WordPress media"
 
 #: wpg-admin.php:341
-#, fuzzy
 msgid "Use NGG/NCG data for image description"
-msgstr "Utilizati NGG pt. imagine"
+msgstr "Χρήση NGG/NCG πληροφοριών για την περιγραφή της εικόνας"
 
 #: wpg-admin.php:346
 msgid "Enable Smileys on greetcard form"
-msgstr "Activeaza Smileys pe felicitari"
+msgstr "Ενεργοποίηση Smileys στην φόρμα αποστολής"
 
 #: wpg-admin.php:351
 msgid "Allow sending cards in the future"
-msgstr "Permite trimiterea de felicitari in viitor"
+msgstr ""
+"Ενεργοποίηση δυνατότητας προγραμματισμού αποστολής καρτών (σε μελλοντικό "
+"χρόνο)"
 
 #: wpg-admin.php:357
 msgid "Use informations from profile"
-msgstr "Foloseste informatiile profilului"
+msgstr "Χρήση πληροφοριών από το προφίλ"
 
 #: wpg-admin.php:362
 msgid "Offer 'send again'-link "
 msgstr ""
+"Ενεργοποίηση συνδέσμου επανάληψης απόστολής (Αποστολή της κάρτας σε νέο "
+"παραλήπτη)"
 
 #: wpg-admin.php:367
 msgid "enable logging"
-msgstr "activeaza log-urile"
+msgstr "Ενεργοποίηση καταγραφής αρχείου αποστολών"
 
 #: wpg-admin.php:372
 msgid "disable wp-greet css rules"
-msgstr ""
+msgstr "Απενεργοποίηση wp-greet css rules"
 
 #: wpg-admin.php:383
 msgid "Default mail subject"
-msgstr "Subiectul de mail implicit"
+msgstr "Προκαθορισμένο 'Θέμα/τίτλος' e-mail"
 
 #: wpg-admin.php:388
 msgid "Default mail header"
-msgstr "Antetul implicit"
+msgstr "Προκαθορισμένο e-mail header"
 
 #: wpg-admin.php:395
 msgid "Default mail footer"
-msgstr "Subsolul implicit"
+msgstr "Προκαθορισμένο e-mail footer"
 
 #: wpg-admin.php:402
 msgid "Number of days log entries are stored"
-msgstr "Numarul de zile ale intrarilor log-ului cat este stocat"
+msgstr "Αριθμός ημερών διατήρησης καταγραφών αρχείου αποστολών"
 
 #: wpg-admin.php:407
 msgid "Number of days card entries are stored"
-msgstr "Numarul de zile pt. cat timp intrarile felicitarii sunt stocate"
+msgstr "Αριθμός ημερών διατήρησης αποθηκευμένων καρτών"
 
 #: wpg-form.php:116 wpg-form.php:906
 msgid "Your verification code is invalid."
-msgstr "Codul tau de verificare este necorespunzator"
+msgstr "Ο κωδικός επιβεβαίωσης δεν είναι έγκυρος."
 
 #: wpg-form.php:117 wpg-form.php:124 wpg-form.php:132
 msgid "Please send a new card at"
-msgstr "Te rog trimite o nou felicitare la:"
+msgstr "Παρακαλώ στείλτε μια νέα κάρτα στις"
 
 #: wpg-form.php:123
 msgid "Your greeting card has already been sent."
-msgstr "Felicitarea ta a fost trimisa!"
+msgstr "Η κάρτα σας έχει ήδη αποσταλεί."
 
 #: wpg-form.php:131
 msgid "Your confirmation link is timedout."
-msgstr "Confirmarea ta a expirat!"
+msgstr "Ο σύνδεσμος επιβεβαίωσης δεν ισχύει πλέον."
 
 #: wpg-form.php:138 wpg-form.php:184 wpg-form.php:403 wpg-form.php:412
 #: wpg-form.php:550 wpg-form.php:810
 msgid "Send"
-msgstr "Trimite"
+msgstr "Αποστολή"
 
 #: wpg-form.php:165
 msgid "You are not permitted to send greeting cards."
-msgstr "Nu-ti e permis sa trimiti felicitari"
+msgstr "Δεν έχετε δικαίωματα αποστολής καρτών."
 
 #: wpg-form.php:165
-#, fuzzy
 msgid "Please contact you WordPress Administrator."
-msgstr "Te rog contacteaza administratorul"
+msgstr "Παρακαλώ επικοινωνήστε με τον Διαχειριστή του WordPress σας."
 
 #: wpg-form.php:183 wpg-form.php:328 wpg-form.php:808
 msgid "Preview"
-msgstr "Previzualizeaza"
+msgstr "Προεπισκόπιση"
 
 #: wpg-form.php:207 wpg-form.php:212 wpg-form.php:221 wpg-form.php:226
 #: wpg-form.php:243 wpg-form.php:248
 msgid "Please fill in mandatory field"
-msgstr "Te rog completeaza campul cu mandatarul"
+msgstr "Παρακαλώ συμπληρώστε το απαραίτητο πεδίο"
 
 #: wpg-form.php:216
-#, fuzzy
 msgid "Invalid sender mail address."
-msgstr "Mail-ul celui care trimite nu corespunde"
+msgstr "Άκυρη διεύθυνση αποστολέα."
 
 #: wpg-form.php:233 wpg-form.php:238
 msgid "Invalid recipient mail address."
-msgstr "Mail-ul de primire a receptionarii e invalid"
+msgstr "Άκυρη διεύθυνση παραλήπτη."
 
 #: wpg-form.php:266 wpg-form.php:274 wpg-form.php:296 wpg-form.php:310
 msgid "Spamprotection - Code is not valid.<br />"
-msgstr "Protectia antispam - Codul nu e valid. <br/>"
+msgstr "Ο κωδικός προστασίας από Spam δεν είναι σωστός.<br />"
 
 #: wpg-form.php:267 wpg-form.php:275
 msgid ""
 "Please try again.<br />Tip: If you cannot identify the chars, you can "
 "generate a new image. Using Reload."
 msgstr ""
-"Te rog incearca din nou.<br/>Tip: Daca nu poti identifica caracterele, nu "
-"poti genera o noua imagine. Foloseste Reload."
+"Παρακαλώ δοκιμάστε ξανά.<br /> Αν δυσκολεύεστε να αναγνωρίσετε τους "
+"χαρακτήρες, κάντε κλικ στο 'Ανανέωση' (Reload) για νέο γραφικό."
 
 #: wpg-form.php:297 wpg-form.php:311
 msgid "Please try again."
-msgstr "Te rog incearca din nou."
+msgstr "Παρακαλώ δοκιμάστε ξανά."
 
 #: wpg-form.php:320
 msgid "Please accept the terms of usage before sending a greeting card.<br />"
-msgstr ""
-"Te rog sa accepti termenii de utilizare inainte de a trimite felicitarea.<br/"
-">"
+msgstr "Θα πρέπει να αποδεχτείτε τους όρους χρήσης πριν την αποστολή.<br />"
 
 #: wpg-form.php:347
 msgid "CC"
-msgstr "CC"
+msgstr ""
 
 #: wpg-form.php:398
 msgid "Edit"
-msgstr ""
+msgstr "Επεξεργασία"
 
 #: wpg-form.php:400 wpg-form.php:605 templates/wp-greet-form-template.php:209
 msgid "Back"
-msgstr "Inapoi"
+msgstr "Επιστροφή"
 
 #: wpg-form.php:504
 msgid "Your greeting card has been sent or scheduled."
-msgstr "Felicitarea ta a fost trimisa"
+msgstr "Η κάρτα σας έχει αποσταλεί."
 
 #: wpg-form.php:526
 msgid "Send this card to another recipient"
-msgstr ""
+msgstr "Αποστολή της κάρτας σε νέο παραλήπτη"
 
 #: wpg-form.php:544
 msgid "An error occured while sending you greeting card."
-msgstr "O eroare apare cand trimiteti felicitarea"
+msgstr "Εμφανίστηκε πρόβλημα κατά την αποστολή της κάρτας σας."
 
 #: wpg-form.php:545 wpg-form.php:599
 msgid "Problem report"
-msgstr "Raportez problema"
+msgstr "Αναφορά προβλήματος"
 
 #: wpg-form.php:593
 msgid "A confirmation mail has been sent to your address."
-msgstr "Un mail de confirmare a fost trimis pe adresa ta."
+msgstr "Ένα μήνυμα επιβεβαίωσης έχει αποσταλεί στην e-mail διεύθυνση σας."
 
 #: wpg-form.php:594
-#, fuzzy
 msgid ""
 "Please enter the link contained within the email into your browser and the "
 "greeting card will be sent."
 msgstr ""
-"Te rog introdu link-ul continut in mail in browser si felicitarea va fi "
-"trimisa."
+"Παρακαλώ επισκευθείτε τον σύνδεσμο που περιέχεται στο e-mail και η κάρτα θα "
+"σας αποσταλεί αυτόματα."
 
 #: wpg-form.php:598
 msgid "An error occured while sending the confirmation mail."
-msgstr "O eroare apare cand trimit confirmarea de trimitere."
+msgstr "Παρουσιάστηκε πρόβλημα κατά την αποστολή e-mail επιβεβαίωσης."
 
 #: wpg-form.php:656
-#, fuzzy
 msgid "Sender Name"
-msgstr "Numele meu:"
+msgstr "Όνομα αποστολέα"
 
 #: wpg-form.php:658
-#, fuzzy
 msgid "Sender Email"
-msgstr "Mail-ul meu:"
+msgstr "Email αποστολέα"
 
 #: wpg-form.php:664
 msgid "Send confirmation to Sender"
-msgstr "Trimit confirmarea."
+msgstr "Αποστολή επιβεβαίωσης προς Αποστολέα"
 
 #: wpg-form.php:667
 msgid "CC to Sender"
-msgstr "CC catre mine"
+msgstr "Αντίγραφο προς αποστολέα"
 
 #: wpg-form.php:669
-#, fuzzy
 msgid "Recipient Name"
-msgstr "Numele felicitatului:"
+msgstr "Όνομα παραλήπτη"
 
 #: wpg-form.php:671
-#, fuzzy
 msgid "Recipient Email"
-msgstr "Mail-ul felicitatului:"
+msgstr "Email παραλήπτη"
 
 #: wpg-form.php:677
 msgid "Time to send card"
-msgstr "Seteaza data trimiterii:"
+msgstr "Χρόνος αποστολής κάρτας"
 
 #: wpg-form.php:753
 msgid "Smileys"
-msgstr "Smileys"
+msgstr ""
 
 #: wpg-form.php:770
 msgid "Spamprotection:"
-msgstr "Protectia antispam:"
+msgstr "Προστασία από Spam:"
 
 #: wpg-form.php:788
 msgid "Sum of"
-msgstr "Suma"
+msgstr "Το άθροισμα των"
 
 #: wpg-form.php:802
 msgid "I accept the terms of usage of the greeting card service"
-msgstr "Acept termenii de utilizare a serviciului de trimitere felicitari"
+msgstr "Αποδέχομαι τους όρους χρήσης ηλεκτρονικών καρτών"
 
 #: wpg-form.php:804
 msgid "(show)"
-msgstr "(arata)"
+msgstr "(προβολή)"
 
 #: wpg-form.php:809
 msgid "Reset form"
-msgstr "Reset"
+msgstr "Καθαρισμός φόρμας"
 
 #: wpg-form.php:907 wpg-form.php:914
 msgid "Send a new card at"
-msgstr "Trimit o noua felicitare la"
+msgstr "Αποστολή νέας κάρτας στις"
 
 #: wpg-form.php:913
 msgid "Your greetcard link is timed out."
-msgstr "Felicitarea ta a depasit limita de timp"
+msgstr "Ο σύνδεσμος για την ηλεκτρονική σας κάρτα δεν ισχύει πλέον."
 
 #: wpg-func-mail.php:276
 msgid "Greeting Card Confirmation Mail"
-msgstr "Confirmarea pe mail a felicitarii"
+msgstr "Mail επιβεβαίωσης αποστολής ηλεκτρονικής κάρτας"
 
 #: wpg-func-mail.php:388 templates/wp-greet-display-template.php:19
 msgid "A Greeting Card for you"
-msgstr "O felicitare pentru tine"
+msgstr "Μια ηλεκτρονική κάρτα για εσάς"
 
 #: wpg-func-mail.php:518
 msgid "You greeting card was received"
-msgstr "Felicitarea ta a fost primita"
+msgstr "Η ηλεκτρονική κάρτα σας έχει παραληφθεί"
 
 #: wpg-func.php:554
 msgid "Stampimage not found - Please contact your administrator"
-msgstr "Marcajul stamp nu e gasit - Te rog contacteaza administratorul"
+msgstr ""
+"Δεν εντοπίστηκε το γραφικό για σφραγίδα/γραμματόσημο - Παρακαλώ "
+"επικοινωνήστε με τον διαχειριστή του site σας"
 
 #: wpg-func.php:885
-#, fuzzy
 msgid "wp-greet external link"
-msgstr "setup-ul"
+msgstr "Εξωτερικός σύνδεσμος wp-greet"
 
 #: wpg-func.php:888
 msgid "If provided, wp-greet will link the image to this URL"
-msgstr ""
+msgstr "Εάν εισάγετε κάποιο URL, η εικόνα θα οδηγεί σε αυτό με κλικ"
 
 #: wpg-func.php:893
-#, fuzzy
 msgid "wp-greet open external link in new tab/window"
-msgstr "setup-ul"
+msgstr "Άνοιγμα εξωτερικού συνδέσμου σε νέο tab/παράθυρο"
 
 #: wpg-func.php:896
 msgid "If checked external links will open in new tab/window"
 msgstr ""
+"Εάν το τσεκάρετε, όποιοι εξωτερικοί σύνδεσμοι θα φορτώσουν σε νέο tab/"
+"παράθυρο"
 
 #: templates/wp-greet-form-template.php:54
 msgid "Mandatory inputfields are marked with a"
-msgstr "Campurile obligatorii sunt marcate cu "
+msgstr "Τα απαραίτητα πεδία σημειώνονται με"
 
 #: templates/wp-greet-form-template.php:89
 msgid "Multiple adresses can be separated by comma"
-msgstr "Mai multe adrese pot fi separate prin virgula"
+msgstr "Πολλαπλές διευθύνσεις πρέπει να διαχωρίζονται με κόμα"
 
 #: templates/wp-greet-form-template.php:198
 msgid "If you have a package code, enter it here"
@@ -604,7 +606,4 @@ msgstr ""
 
 #: templates/wp-greet-preview-template.php:45
 msgid "This card will be sent at"
-msgstr "Aceasta felicitare a fost trimisa la"
-
-#~ msgid "Zurück"
-#~ msgstr "Am inteles"
+msgstr "Αυτή η κάρτα θα αποσταλεί στις"

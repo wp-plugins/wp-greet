@@ -1,17 +1,18 @@
+
 /* style for greet card form */ 
 div.wp-greet-form {
-                  font-size: 14px; 
-                  font-family: Arial;
-                  border: 0px solid;
-                  padding: 10px;
-                  text-align:center;
-		  margin-left:auto;
-		  margin-right:auto;
+  font-size: 14px; 
+  font-family: Arial;
+  border: 0px solid;
+  padding: 10px;
+  text-align:center;
+  margin-left:auto;
+  margin-right:auto;
 }
 
 /* style for greet card warnings and errors */
 div.wp-greet-error {
-		 font-size: 14px; 
+	 font-size: 14px; 
          font-family: Arial;
          border: 0px solid;
          padding: 10px;
@@ -62,7 +63,6 @@ td.wp-greet-form {
 
 /* style for greet card form table cell left side */
 td.wp-greet-form-left { 
-                    max-width: 25%;
 		    font-size: 14px;
                     font-family: Arial;
                     font-weight: bolder;
@@ -70,6 +70,7 @@ td.wp-greet-form-left {
 		    border-spacing:2px;
 		    border-collapse:collapse;
                     text-align:left;
+                    vertical-align: top;
                     margin-left:auto; 
                     margin-right:auto; 
 }
@@ -94,6 +95,9 @@ td.td-admin {
 	text-align: center;
 }
 
+div.wp-greet-submitters {
+  text-align: center;
+}
 
 button.bwc_formbutton { 
     margin-left: 200px;
@@ -103,4 +107,32 @@ button.bwc_formbutton {
 	margin: 0;
 	padding: 0;
 	vertical-align: bottom;
+}
+/* rules for responsive table override if screen width become smaller */
+@media all and (max-width:640px) {
+    table.wp-greet-form, tr.wp-greet-form, td.wp-greet-form-left, td.wp-greet-form {
+        display: block;
+    }
+  table.wp-greet-form { border: 0px;}
+  td.wp-greet-form-left {
+    border: 0px;
+    text-align:left;
+    margin-left: 0;
+    max-width:100%
+  }
+
+  td.wp-greet-form {
+    text-align:left;
+    margin-left: 0;
+    max-width:100%;
+  }
+
+div.wp-greet-submitters {
+  text-align: left;  
+}
+input[type="button"], input[type="reset"], input[type="submit"] {
+    font-size: 10px !important;
+    padding: 5px !important;
+}
+
 }
