@@ -626,7 +626,7 @@ function get_imgtag($pid, $url) {
  	$imgtag .= "</div>\n";
 
    	if ($wpg_options['wp-greet-show-ngg-desc'] and strlen($ngg_desc) > 0)
-    		$imgtag .= "<div classe='wpg_image_description'>" . $ngg_desc . "</div>";
+    		$imgtag .= "<div class='wpg_image_description'>" . $ngg_desc . "</div>";
     
     $imgtag .= "</div>";
  

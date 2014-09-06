@@ -85,10 +85,24 @@ function sendGreetcardMail($sender,$sendername,$recv,$recvname,$title,
 	$message = '<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />';
 	$message .= "<title>".$title."</title>\n</head><body>";
 	$message .= $wpg_options['wp-greet-default-header'] . "\r\n";
-	if ($inline)
-		$message .= "<p><img src=\"cid:$wpgcid\" alt=\"wp-greet card image\" width=\"".$wpg_options['wp-greet-imagewidth']."\"/></p>";
-	else
-		$message .= "<p><img src='".$picurl ."' width='".$wpg_options['wp-greet-imagewidth'] ."' /></p>";
+	// add ngg image description to message
+	if ( $wpg_options['wp-greet-show-ngg-desc']) {
+	  global $nggdb;
+	  $ngg_desc="";
+
+	  if ( isset($nggdb)) {
+	    $nggimg = $nggdb->search_for_images(substr($picurl,strrpos($picurl,"/")+1));
+	    if (isset($nggimg[0]->description))
+	      $ngg_desc = trim($nggimg[0]->description);
+	  }
+	}
+
+	if ($inline) {
+	  $message .= "<p><img src=\"cid:$wpgcid\" alt=\"wp-greet card image\" width=\"".$wpg_options['wp-greet-imagewidth']."\"/></p>";
+	} else {
+	  $message .= "<p><img src='".$picurl ."' width='".$wpg_options['wp-greet-imagewidth'] ."' /></p>";
+	}
+	$message .= "<div class='wpg_image_description'>" . $ngg_desc . "</div>";
 	$message .= "<br />";
 
 
@@ -225,9 +239,9 @@ function sendGreetcardMail($sender,$sendername,$recv,$recvname,$title,
 		}
 		  }
 	
-	$mail->IsHTML(true);                     // set email format to HTML
+	$mail->IsHTML(true);      // set email format to HTML
 	$mail->Subject = $title;  // subject hinzufuegen
-	$mail->Body = $message;                  // nachricht hinzufuegen
+	$mail->Body = $message;   // nachricht hinzufuegen
 	
 	// send mail to each of the recipients
 	$result=true;

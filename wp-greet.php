@@ -3,7 +3,7 @@
 Plugin Name: wp-greet
 Plugin URI: http://www.tuxlog.de
 Description: wp-greet is a wordpress plugin to send greeting cards from your wordpress blog.
-Version: 4.4
+Version: 4.5
 Author: Barbara Jany, Hans Matzen <webmaster at tuxlog.de>
 Author URI: http://www.tuxlog.de
 */
@@ -29,7 +29,7 @@ if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) { die('You
 are not allowed to call this page directly.'); }
 
 
-define( "WP_GREET_VERSION", "4.4" );
+define( "WP_GREET_VERSION", "4.5" );
 
 // global options array
 $wpg_options = array();
@@ -63,41 +63,6 @@ function wp_greet_init()
   	wp_enqueue_style("wp-greet", plugins_url('wp-greet.css', __FILE__) );
   }
   
-  // add thickbox for frontend
-  if ($wpg_options['wp-greet-touswitch'] and !is_admin()) {
-  	add_action('wp_print_scripts', 'wpg_add_thickbox_script');
-  	add_action('wp_print_styles',  'wpg_add_thickbox_style' );      	
-  }
-  
-  // add actions for future send
-  add_action("wpgreet_sendcard_link","cron_sendGreetCardLink",10,7);
-  add_action("wpgreet_sendcard_mail","cron_sendGreetCardMail",10,9);
-  
-  // javascript fuer smilies ausgeben falls notwendig
-  if ( !is_admin() and $wpg_options['wp-greet-smilies']=="1") {
-  	if ( $wpg_options['wp-greet-tinymce']=="1") {
-  		// javascript mit tinymce
-  		wp_enqueue_script('wpg-smile', plugins_url('wp-greet/smilies_tinymce.js', dirname(__FILE__)));
-  	} else {
-  		// javascript ohne tinyMCE
-  		wp_enqueue_script('wpg-smile', plugins_url('wp-greet/smilies.js', dirname(__FILE__)));
-   }
-  }
-
-  // add jquery extensions for datepicker if applicable
-  if ($wpg_options['wp-greet-future-send'] and !is_admin()) {
-    wp_enqueue_script('jquery'); 
-    wp_enqueue_script('jquery-ui-wpgcustom', plugins_url('wp-greet/dtpicker/jquery-ui-1.10.0.custom.min.js', dirname(__FILE__)),array('jquery'));  	
-    
-    wp_enqueue_script('jquery-ui-timepicker', plugins_url('wp-greet/dtpicker/jquery-ui-timepicker-addon.js', dirname(__FILE__)),array('jquery','jquery-ui-wpgcustom'));
-    $locale=trim(substr(get_locale(),0,2)); 
-    wp_enqueue_script('jquery-ui-timepicker-i18n', plugins_url("wp-greet/dtpicker/i18n/jquery-ui-timepicker-$locale.js", dirname(__FILE__)),array('jquery-ui-timepicker'));
-    wp_enqueue_script('jquery-ui-datepicker-i18n', plugins_url("wp-greet/dtpicker/i18n/jquery.ui.datepicker-$locale.js", dirname(__FILE__)),array('jquery-ui-timepicker'));
-    wp_enqueue_style('jquery-ui-wpgcustom-css', plugins_url('wp-greet/dtpicker/jquery-ui-1.10.0.custom.min.css'));
-		      	
-  }
-  
-  
   // Action calls for all functions 
   add_shortcode('wp-greet','sc_searchwpgreet');
 
@@ -116,6 +81,47 @@ function wp_greet_init()
   }
 
 }
+
+function wp_greet_scripts()
+{
+  // optionen laden
+  global $wpg_options;
+  $wpg_options=wpgreet_get_options();
+  
+  global $post;
+  if ($post->ID == $wpg_options['wp-greet-formpage']) {
+    
+    // add thickbox for frontend
+    if ($wpg_options['wp-greet-touswitch'] and !is_admin()) {
+      add_action('wp_print_scripts', 'wpg_add_thickbox_script');
+      add_action('wp_print_styles',  'wpg_add_thickbox_style' );      	
+    }
+    
+    // javascript fuer smilies ausgeben falls notwendig
+    if ( !is_admin() and $wpg_options['wp-greet-smilies']=="1" ) {
+      if ( $wpg_options['wp-greet-tinymce']=="1") {
+	// javascript mit tinymce
+	wp_enqueue_script('wpg-smile', plugins_url('wp-greet/smilies_tinymce.js', dirname(__FILE__)));
+      } else {
+	// javascript ohne tinyMCE
+	wp_enqueue_script('wpg-smile', plugins_url('wp-greet/smilies.js', dirname(__FILE__)));
+      }
+    }
+    
+    // add jquery extensions for datepicker if applicable
+    if ($wpg_options['wp-greet-future-send'] and !is_admin()) {
+      wp_enqueue_script('jquery'); 
+      wp_enqueue_script('jquery-ui-wpgcustom', plugins_url('wp-greet/dtpicker/jquery-ui-1.10.0.custom.min.js', dirname(__FILE__)),array('jquery'));  	
+      
+      wp_enqueue_script('jquery-ui-timepicker', plugins_url('wp-greet/dtpicker/jquery-ui-timepicker-addon.js', dirname(__FILE__)),array('jquery','jquery-ui-wpgcustom'));
+      $locale=trim(substr(get_locale(),0,2)); 
+      wp_enqueue_script('jquery-ui-timepicker-i18n', plugins_url("wp-greet/dtpicker/i18n/jquery-ui-timepicker-$locale.js", dirname(__FILE__)),array('jquery-ui-timepicker'));
+      wp_enqueue_script('jquery-ui-datepicker-i18n', plugins_url("wp-greet/dtpicker/i18n/jquery.ui.datepicker-$locale.js", dirname(__FILE__)),array('jquery-ui-timepicker'));
+      wp_enqueue_style('jquery-ui-wpgcustom-css', plugins_url('wp-greet/dtpicker/jquery-ui-1.10.0.custom.min.css'));
+    }
+  }
+}
+ 
 
 function wpg_add_menus()
 {
@@ -180,4 +186,5 @@ add_action('admin_menu', 'wpg_add_menus');
 
 // init plugin
 add_action('init', 'wp_greet_init');
+add_action('wp_enqueue_scripts', 'wp_greet_scripts');
 ?>
