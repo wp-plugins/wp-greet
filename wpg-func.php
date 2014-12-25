@@ -796,6 +796,7 @@ function wpgreet_post_gallery( $val, $attr )
   if ($val == "") { 
     remove_filter('post_gallery','wpgreet_post_gallery',9999);
     $val=gallery_shortcode($attr);
+    add_filter('post_gallery','wpgreet_post_gallery',9999,2);
   }
   
   global $post;

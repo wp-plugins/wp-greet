@@ -177,7 +177,6 @@ function showGreetcardForm($galleryID, $picurl, $verify = "", $pid = "", $approv
     $now = strtotime( gmdate("Y-m-d H:i:s",time() + ( get_option('gmt_offset') * 60 * 60 )));
     $then = msql2time( $res->confirmuntil );
     
-
     if ( is_null($res)) {
       // ungültiger code
       $out .= __("Your verification code is invalid.","wp-greet")."<br />" .
@@ -218,7 +217,9 @@ function showGreetcardForm($galleryID, $picurl, $verify = "", $pid = "", $approv
   }
 
   // calculate sendtime
-  if ($wpg_options['wp-greet-future-send'] and $_POST['fsend']!="") {
+  if ( $wpg_options['wp-greet-future-send'] and 
+       $_POST['fsend']!="" and 
+       strtotime($_POST['fsend']) > current_time('timestamp') ) {
     $toffset = get_option('gmt_offset') * 3600 +  date_offset_get(new DateTime);
     $sendtime = strtotime($_POST['fsend']) - $toffset;
   } else {
@@ -510,7 +511,7 @@ function showGreetcardForm($galleryID, $picurl, $verify = "", $pid = "", $approv
 	//
 	// Here comes the Google Wallet stuff for BWcards
 	//
-	
+
 	// go to google wallet here and if sucessfull call a script which sends the card
 	if (defined('BWCARDS')) {
 	  $bwc_options=bwc_get_global_options();
@@ -535,13 +536,11 @@ function showGreetcardForm($galleryID, $picurl, $verify = "", $pid = "", $approv
 
 	if (defined('BWCARDS') and $conn and $bwc_options['bwc_general_formhook'] and $price>0 and $approved!="approved") {
 	  $picture = nggdb::find_image($pid);
-	  $out.=__("You will be redirected to Paypal to complete your order. If you are not redirected to PAyPal please click the Purchase button.",'wp-greet');
+	  $out.=__("You will be redirected to Paypal to complete your order. If you are not redirected to PayPal please click the Purchase button.",'wp-greet');
 	  $bjs = bwc_generate_pay_script($picture->gid, $picture->imageURL, $picture, $autoinc);
 	  $out .= $bjs;
 	  $sendstatus = "no";
-	  
 	} else {
-	  
 	  // link mail senden or schedulen
 	  if ($sendtime != 0) {
 	    wp_schedule_single_event($sendtime, "wpgreet_sendcard_link",
@@ -549,13 +548,13 @@ function showGreetcardForm($galleryID, $picurl, $verify = "", $pid = "", $approv
 					   $wpg_options['wp-greet-ocduration'], $fetchcode, false));
 	    
 	    $sendstatus = true;
-	  } else {
+	  } else { 
 	    $sendstatus = sendGreetcardLink( $_POST['sender'], $_POST['sendername'], $_POST['recv'], $_POST['recvname'],
 					     $wpg_options['wp-greet-ocduration'], $fetchcode, $_POST['ccsender'], false);
 	  }
 	}
       } else {  // grußkarten mail senden
-	
+       
 	require_once("wpg-func-mail.php");
 	
 	if ($sendtime) {
