@@ -3,7 +3,7 @@
 Plugin Name: wp-greet
 Plugin URI: http://www.tuxlog.de
 Description: wp-greet is a wordpress plugin to send greeting cards from your wordpress blog.
-Version: 4.5
+Version: 4.6
 Author: Barbara Jany, Hans Matzen <webmaster at tuxlog.de>
 Author URI: http://www.tuxlog.de
 */
@@ -29,7 +29,7 @@ if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) { die('You
 are not allowed to call this page directly.'); }
 
 
-define( "WP_GREET_VERSION", "4.5" );
+define( "WP_GREET_VERSION", "4.6" );
 
 // global options array
 $wpg_options = array();
@@ -80,6 +80,12 @@ function wp_greet_init()
     add_filter('post_gallery','wpgreet_post_gallery',9999,2);
   }
 
+  // add actions for future send 
+  if ( $wpg_options['wp-greet-future-send']=="1") { 
+    // add actions for future send
+    add_action("wpgreet_sendcard_link","cron_sendGreetCardLink",10,7);
+    add_action("wpgreet_sendcard_mail","cron_sendGreetCardMail",10,9);
+  }
 }
 
 function wp_greet_scripts()
@@ -161,7 +167,7 @@ function wpg_add_thickbox_style()
 // wrapper functions for wp_cron trigger
 function cron_sendGreetCardMail($sender,$sendername,$recv,$recvname,$title,
 				$msgtext,$picurl,$ccsender,$debug=false) 
-{ 
+{ echo "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
   sendGreetcardMail($sender,$sendername,$recv,$recvname,$title,$msgtext,$picurl,$ccsender,$debug);
   log_greetcard($recv,addslashes($sender),$picurl,$msgtext);
 }
