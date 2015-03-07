@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wp-greet v4.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-06-28 06:19+0200\n"
+"POT-Creation-Date: 2015-03-07 18:31+0100\n"
 "PO-Revision-Date: 2014-05-03 06:14+0100\n"
 "Last-Translator: tuxlog <webmaster@tuxlog.de>\n"
 "Language-Team: \n"
@@ -22,17 +22,17 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 
 # @ wp-greet
-#: wp-greet.php:129 wpg-admin-gal.php:84
+#: wp-greet.php:159 wpg-admin-gal.php:84
 msgid "Galleries"
 msgstr "Gallerijen"
 
 # @ wp-greet
-#: wp-greet.php:131
+#: wp-greet.php:161
 msgid "Security"
 msgstr "Beveiliging"
 
 # @ wp-greet
-#: wp-greet.php:133
+#: wp-greet.php:163
 msgid "Logging"
 msgstr "Logboek"
 
@@ -114,8 +114,8 @@ msgid "IP-Adress"
 msgstr "IP-adres"
 
 # @ wp-greet
-#: wpg-admin-log.php:113 wpg-admin-sec.php:296 wpg-form.php:248
-#: wpg-form.php:683
+#: wpg-admin-log.php:113 wpg-admin-sec.php:296 wpg-form.php:339
+#: wpg-form.php:807
 msgid "Message"
 msgstr "Bericht"
 
@@ -123,6 +123,30 @@ msgstr "Bericht"
 #: wpg-admin-log.php:140
 msgid "Clear Log"
 msgstr "Log wissen"
+
+#: wpg-admin-reschedule.php:64
+msgid "Deleting active wp-greet events..."
+msgstr ""
+
+#: wpg-admin-reschedule.php:84 wpg-admin-reschedule.php:103
+msgid "done."
+msgstr ""
+
+#: wpg-admin-reschedule.php:87
+msgid "Reschedule future cards..."
+msgstr ""
+
+#: wpg-admin-reschedule.php:119
+msgid "Reschedule Future Cards"
+msgstr ""
+
+#: wpg-admin-reschedule.php:124
+msgid "Start"
+msgstr ""
+
+#: wpg-admin-reschedule.php:127
+msgid "Close"
+msgstr ""
 
 # @ wp-greet
 #: wpg-admin-sec.php:102
@@ -145,7 +169,7 @@ msgid "Spam protection"
 msgstr "Spambescherming"
 
 # @ wp-greet
-#: wpg-admin-sec.php:168 wpg-admin.php:213
+#: wpg-admin-sec.php:168 wpg-admin.php:217
 msgid "none"
 msgstr "geen"
 
@@ -185,8 +209,8 @@ msgid "Verification mail text"
 msgstr "Verificatie mail tekst"
 
 # @ wp-greet
-#: wpg-admin-sec.php:237 wpg-admin-sec.php:267 wpg-admin.php:307
-#: wpg-admin.php:390 wpg-admin.php:397
+#: wpg-admin-sec.php:237 wpg-admin-sec.php:267 wpg-admin.php:311
+#: wpg-admin.php:394 wpg-admin.php:401
 msgid ""
 "HTML allowed, use %sender% for sendername, %sendermail% for sender email-"
 "address, %receiver% for receiver name, %link% for generated link, %duration% "
@@ -222,34 +246,34 @@ msgid "Mandatory fields"
 msgstr "Verplichte velden"
 
 # @ wp-greet
-#: wpg-admin-sec.php:276 wpg-form.php:207
+#: wpg-admin-sec.php:276 wpg-form.php:298
 msgid "Sendername"
 msgstr "Naam afzender"
 
 # @ wp-greet
-#: wpg-admin-sec.php:280 wpg-form.php:212
+#: wpg-admin-sec.php:280 wpg-form.php:303
 msgid "Sender"
 msgstr "Email afzender"
 
 # @ wp-greet
-#: wpg-admin-sec.php:284 wpg-form.php:221
+#: wpg-admin-sec.php:284 wpg-form.php:312
 msgid "Recipientname"
 msgstr "Naam ontvanger"
 
 # @ wp-greet
-#: wpg-admin-sec.php:288 wpg-form.php:226
+#: wpg-admin-sec.php:288 wpg-form.php:317
 msgid "Recipient"
 msgstr "Email ontvanger(s)"
 
 # @ wp-greet
-#: wpg-admin-sec.php:292 wpg-form.php:243 wpg-form.php:681
+#: wpg-admin-sec.php:292 wpg-form.php:334 wpg-form.php:805
 #: templates/wp-greet-display-template.php:36
 #: templates/wp-greet-preview-template.php:31
 msgid "Subject"
 msgstr "Onderwerp"
 
 # @ wp-greet
-#: wpg-admin-sec.php:307 wpg-admin.php:413
+#: wpg-admin-sec.php:307 wpg-admin.php:417
 msgid "Update options"
 msgstr "Opties updaten"
 
@@ -293,95 +317,99 @@ msgstr ""
 msgid "wp-greet Setup"
 msgstr "wp-greet instellen"
 
+#: wpg-admin.php:209
+msgid "Reschedule future cards"
+msgstr ""
+
 # @ wp-greet
-#: wpg-admin.php:211
+#: wpg-admin.php:215
 msgid "Gallery-Plugin"
 msgstr "Gallerij-Plugin"
 
 # @ wp-greet
-#: wpg-admin.php:221
+#: wpg-admin.php:225
 msgid "Form-Post/Page"
 msgstr "Formulier-Post/Pagina"
 
 # @ wp-greet
-#: wpg-admin.php:236
+#: wpg-admin.php:240
 msgid "Mailtransfermethod"
 msgstr "Mailtransfermethode"
 
-#: wpg-admin.php:241
+#: wpg-admin.php:245
 msgid "SMTP Server (hostname)"
 msgstr ""
 
-#: wpg-admin.php:245
+#: wpg-admin.php:249
 msgid "SMTP Port (default:25)"
 msgstr ""
 
-#: wpg-admin.php:251
+#: wpg-admin.php:255
 msgid "SMTP use SSL?"
 msgstr ""
 
 # @ wp-greet
-#: wpg-admin.php:255
+#: wpg-admin.php:259
 #, fuzzy
 msgid "SMTP Username"
 msgstr "Naam afzender"
 
-#: wpg-admin.php:260
+#: wpg-admin.php:264
 msgid "SMTP Password"
 msgstr ""
 
 # @ wp-greet
-#: wpg-admin.php:266
+#: wpg-admin.php:270
 msgid "Static Senderaddress"
 msgstr "Statisch afzenderadres"
 
 # @ wp-greet
-#: wpg-admin.php:271
+#: wpg-admin.php:275
 msgid "Mailreturnpath"
 msgstr "Mailreturnpath"
 
 # @ wp-greet
-#: wpg-admin.php:276
+#: wpg-admin.php:280
 msgid "Send Bcc to"
 msgstr "Stuur BCC naar"
 
 # @ wp-greet
-#: wpg-admin.php:282
+#: wpg-admin.php:286
 msgid "Allow more than one recipient"
 msgstr "Meer dan 1 ontvanger toestaan"
 
 # @ wp-greet
-#: wpg-admin.php:288
+#: wpg-admin.php:292
 msgid "Send image inline"
 msgstr "Stuur afbeelding inline"
 
 # @ wp-greet
-#: wpg-admin.php:294
+#: wpg-admin.php:298
 msgid "Fetch cards online"
 msgstr "Kaarten online afhalen"
 
 # @ wp-greet
-#: wpg-admin.php:298
+#: wpg-admin.php:302
 msgid "Number of days an online card can be fetched"
 msgstr "Aantal dagen dat online kaart kan worden afgehaald"
 
 # @ wp-greet
-#: wpg-admin.php:303
+#: wpg-admin.php:307
 msgid "Online card HTML mail text"
 msgstr "Online kaart HTML mail tekst"
 
 # @ wp-greet
-#: wpg-admin.php:312
+#: wpg-admin.php:316
 msgid "Fixed image width"
 msgstr "Vaste afbeeldingsbreedte"
 
 # @ wp-greet
-#: wpg-admin.php:318
+#: wpg-admin.php:322
 msgid "Add stamp image"
 msgstr "Voeg postzegel toe"
 
 # @ wp-greet
-#: wpg-admin.php:320
+#: wpg-admin.php:324
 msgid ""
 "leave empty for no stamp, path must be relative to wordpress directory, e.g. "
 "wp-content/plugins/wp-greet/defaultstamp.jpg"
@@ -390,145 +418,146 @@ msgstr ""
 "directory, bijv. wp-content/plugins/wp-greet/defaultstamp.jpg"
 
 # @ wp-greet
-#: wpg-admin.php:325
+#: wpg-admin.php:329
 #, fuzzy, php-format
 msgid "Stampwidth in % of imagewidth"
 msgstr "Postzegelbreedte in % van afbeeldingsbreedte"
 
 # @ wp-greet
-#: wpg-admin.php:331
+#: wpg-admin.php:335
 msgid "Use TinyMCE editor"
 msgstr "Gebruik TinyMCE editor"
 
 # @ wp-greet
-#: wpg-admin.php:336
+#: wpg-admin.php:340
 msgid "Use external link from WordPress media"
 msgstr "Gebruik externe link van Wordpress media"
 
 # @ wp-greet
-#: wpg-admin.php:341
+#: wpg-admin.php:345
 msgid "Use NGG/NCG data for image description"
 msgstr "Gebruik NGG/NCG data voor afbeeldingsbeschijving"
 
 # @ wp-greet
-#: wpg-admin.php:346
+#: wpg-admin.php:350
 msgid "Enable Smileys on greetcard form"
 msgstr "Smileys op ecard formulier inschakelen"
 
 # @ wp-greet
-#: wpg-admin.php:351
+#: wpg-admin.php:355
 msgid "Allow sending cards in the future"
 msgstr "Kaarten in toekomst versturen toestaan"
 
 # @ wp-greet
-#: wpg-admin.php:357
+#: wpg-admin.php:361
 msgid "Use informations from profile"
 msgstr "Gebruik informatie van profiel"
 
 # @ wp-greet
-#: wpg-admin.php:362
+#: wpg-admin.php:366
 msgid "Offer 'send again'-link "
 msgstr "Bied 'stuur opnieuw'-link aan"
 
 # @ wp-greet
-#: wpg-admin.php:367
+#: wpg-admin.php:371
 msgid "enable logging"
 msgstr "Logboek inschakelen"
 
 # @ wp-greet
-#: wpg-admin.php:372
+#: wpg-admin.php:376
 msgid "disable wp-greet css rules"
 msgstr "schakel wp-greet css regels uit"
 
 # @ wp-greet
-#: wpg-admin.php:383
+#: wpg-admin.php:387
 msgid "Default mail subject"
 msgstr "Standaard mail onderwerp"
 
 # @ wp-greet
-#: wpg-admin.php:388
+#: wpg-admin.php:392
 msgid "Default mail header"
 msgstr "Standaard mail header"
 
 # @ wp-greet
-#: wpg-admin.php:395
+#: wpg-admin.php:399
 msgid "Default mail footer"
 msgstr "Standaard mail footer"
 
 # @ wp-greet
-#: wpg-admin.php:402
+#: wpg-admin.php:406
 msgid "Number of days log entries are stored"
 msgstr "Aantal dagen dat loggegevens worden bewaard"
 
 # @ wp-greet
-#: wpg-admin.php:407
+#: wpg-admin.php:411
 msgid "Number of days card entries are stored"
 msgstr "Aantal dagen dat kaartgegevens worden bewaard"
 
 # @ wp-greet
-#: wpg-form.php:116 wpg-form.php:906
-msgid "Your verification code is invalid."
-msgstr "Je verificatiecode is ongeldig."
-
-# @ wp-greet
-#: wpg-form.php:117 wpg-form.php:124 wpg-form.php:132
-msgid "Please send a new card at"
-msgstr "Stuur een nieuwe kaart op"
-
-# @ wp-greet
-#: wpg-form.php:123
-msgid "Your greeting card has already been sent."
-msgstr "Jouw ecard is al verstuurd."
-
-# @ wp-greet
-#: wpg-form.php:131
-msgid "Your confirmation link is timedout."
-msgstr "Je bevestigingslink is verlopen."
-
-# @ wp-greet
-#: wpg-form.php:138 wpg-form.php:184 wpg-form.php:403 wpg-form.php:412
-#: wpg-form.php:550 wpg-form.php:810
+#: wpg-form.php:69 wpg-form.php:204 wpg-form.php:265 wpg-form.php:511
+#: wpg-form.php:516 wpg-form.php:526 wpg-form.php:673 wpg-form.php:941
 msgid "Send"
 msgstr "Verzend"
 
 # @ wp-greet
-#: wpg-form.php:165
+#: wpg-form.php:182 wpg-form.php:1037
+msgid "Your verification code is invalid."
+msgstr "Je verificatiecode is ongeldig."
+
+# @ wp-greet
+#: wpg-form.php:183 wpg-form.php:190 wpg-form.php:198
+msgid "Please send a new card at"
+msgstr "Stuur een nieuwe kaart op"
+
+# @ wp-greet
+#: wpg-form.php:189
+msgid "Your greeting card has already been sent."
+msgstr "Jouw ecard is al verstuurd."
+
+# @ wp-greet
+#: wpg-form.php:197
+msgid "Your confirmation link is timedout."
+msgstr "Je bevestigingslink is verlopen."
+
+# @ wp-greet
+#: wpg-form.php:246
 msgid "You are not permitted to send greeting cards."
 msgstr "Je hebt geen toestemming om ecards te versturen."
 
 # @ wp-greet
-#: wpg-form.php:165
+#: wpg-form.php:246
 msgid "Please contact you WordPress Administrator."
 msgstr "Neem contact op met de website beheerder."
 
 # @ wp-greet
-#: wpg-form.php:183 wpg-form.php:328 wpg-form.php:808
+#: wpg-form.php:264 wpg-form.php:436 wpg-form.php:939
 msgid "Preview"
 msgstr "Voorbeeld"
 
 # @ wp-greet
-#: wpg-form.php:207 wpg-form.php:212 wpg-form.php:221 wpg-form.php:226
-#: wpg-form.php:243 wpg-form.php:248
+#: wpg-form.php:298 wpg-form.php:303 wpg-form.php:312 wpg-form.php:317
+#: wpg-form.php:334 wpg-form.php:339
 msgid "Please fill in mandatory field"
 msgstr "Vul de verplichte velden in"
 
 # @ wp-greet
-#: wpg-form.php:216
+#: wpg-form.php:307
 msgid "Invalid sender mail address."
 msgstr "Ongeldig verzender emailadres."
 
 # @ wp-greet
-#: wpg-form.php:233 wpg-form.php:238
+#: wpg-form.php:324 wpg-form.php:329
 msgid "Invalid recipient mail address."
 msgstr "Ongeldig ontvanger emailadres."
 
 # @ wp-greet
-#: wpg-form.php:266 wpg-form.php:274 wpg-form.php:296 wpg-form.php:310
+#: wpg-form.php:357 wpg-form.php:365 wpg-form.php:387 wpg-form.php:406
+#: wpg-form.php:417
 msgid "Spamprotection - Code is not valid.<br />"
 msgstr "Spambescherming. Code is ongeldig.<br />"
 
 # @ wp-greet
-#: wpg-form.php:267 wpg-form.php:275
+#: wpg-form.php:358 wpg-form.php:366
 msgid ""
 "Please try again.<br />Tip: If you cannot identify the chars, you can "
 "generate a new image. Using Reload."
@@ -537,57 +566,67 @@ msgstr ""
 "nieuw plaatje genereren door te vernieuwen."
 
 # @ wp-greet
-#: wpg-form.php:297 wpg-form.php:311
+#: wpg-form.php:388 wpg-form.php:407 wpg-form.php:418
 msgid "Please try again."
 msgstr "Probeer het opnieuw."
 
 # @ wp-greet
-#: wpg-form.php:320
+#: wpg-form.php:428
 msgid "Please accept the terms of usage before sending a greeting card.<br />"
 msgstr "Accepteer de voorwaarden voor het versturen van de e-card.<br />"
 
 # @ wp-greet
-#: wpg-form.php:347
+#: wpg-form.php:455
 msgid "CC"
 msgstr "CC"
 
 # @ wp-greet
-#: wpg-form.php:398
+#: wpg-form.php:506
 msgid "Edit"
 msgstr "Bewerk"
 
+#: wpg-form.php:509
+msgid "Purchase"
+msgstr ""
+
 # @ wp-greet
-#: wpg-form.php:400 wpg-form.php:605 templates/wp-greet-form-template.php:209
+#: wpg-form.php:514 templates/wp-greet-form-template.php:220
 msgid "Back"
 msgstr "Terug"
 
+#: wpg-form.php:580
+msgid ""
+"You will be redirected to Paypal to complete your order. If you are not "
+"redirected to PayPal please click the Purchase button."
+msgstr ""
+
 # @ wp-greet
-#: wpg-form.php:504
+#: wpg-form.php:627
 msgid "Your greeting card has been sent or scheduled."
 msgstr "Je e-card is verzonden of ingepland."
 
 # @ wp-greet
-#: wpg-form.php:526
+#: wpg-form.php:649
 msgid "Send this card to another recipient"
 msgstr "Stuur deze ecard naar andere ontvanger"
 
 # @ wp-greet
-#: wpg-form.php:544
+#: wpg-form.php:667
 msgid "An error occured while sending you greeting card."
 msgstr "Fout tijdens het verzenden van je kaart."
 
 # @ wp-greet
-#: wpg-form.php:545 wpg-form.php:599
+#: wpg-form.php:668 wpg-form.php:722
 msgid "Problem report"
 msgstr "Probleemrapport"
 
 # @ wp-greet
-#: wpg-form.php:593
+#: wpg-form.php:716
 msgid "A confirmation mail has been sent to your address."
 msgstr "Een bevestigingsmail is verzonden naar je mailadres."
 
 # @ wp-greet
-#: wpg-form.php:594
+#: wpg-form.php:717
 msgid ""
 "Please enter the link contained within the email into your browser and the "
 "greeting card will be sent."
@@ -596,123 +635,123 @@ msgstr ""
 "worden verzonden."
 
 # @ wp-greet
-#: wpg-form.php:598
+#: wpg-form.php:721
 msgid "An error occured while sending the confirmation mail."
 msgstr "Fout bij het verzenden van de bevestigingsmail."
 
 # @ wp-greet
-#: wpg-form.php:656
+#: wpg-form.php:780
 msgid "Sender Name"
 msgstr "Naam afzender"
 
 # @ wp-greet
-#: wpg-form.php:658
+#: wpg-form.php:782
 msgid "Sender Email"
 msgstr "Email afzender"
 
 # @ wp-greet
-#: wpg-form.php:664
+#: wpg-form.php:788
 msgid "Send confirmation to Sender"
 msgstr "Leesbevestiging aan afzender"
 
 # @ wp-greet
-#: wpg-form.php:667
+#: wpg-form.php:791
 msgid "CC to Sender"
 msgstr "Kopie aan afzender"
 
 # @ wp-greet
-#: wpg-form.php:669
+#: wpg-form.php:793
 msgid "Recipient Name"
 msgstr "Naam ontvanger"
 
 # @ wp-greet
-#: wpg-form.php:671
+#: wpg-form.php:795
 msgid "Recipient Email"
 msgstr "Email ontvanger(s)"
 
 # @ wp-greet
-#: wpg-form.php:677
+#: wpg-form.php:801
 msgid "Time to send card"
 msgstr "Verzenddatum en tijd"
 
 # @ wp-greet
-#: wpg-form.php:753
+#: wpg-form.php:877
 msgid "Smileys"
 msgstr "Smileys"
 
 # @ wp-greet
-#: wpg-form.php:770
+#: wpg-form.php:894
 msgid "Spamprotection:"
 msgstr "Spambescherming:"
 
 # @ wp-greet
-#: wpg-form.php:788
+#: wpg-form.php:912
 msgid "Sum of"
 msgstr "Som van"
 
 # @ wp-greet
-#: wpg-form.php:802
+#: wpg-form.php:933
 msgid "I accept the terms of usage of the greeting card service"
 msgstr "Ik accepteer de gebruiksvoorwaarden van deze e-card service"
 
 # @ wp-greet
-#: wpg-form.php:804
+#: wpg-form.php:935
 msgid "(show)"
 msgstr "(tonen)"
 
 # @ wp-greet
-#: wpg-form.php:809
+#: wpg-form.php:940
 msgid "Reset form"
 msgstr "Formulier leegmaken"
 
 # @ wp-greet
-#: wpg-form.php:907 wpg-form.php:914
+#: wpg-form.php:1038 wpg-form.php:1045
 msgid "Send a new card at"
 msgstr "Stuur een nieuwe kaart op"
 
 # @ wp-greet
-#: wpg-form.php:913
+#: wpg-form.php:1044
 msgid "Your greetcard link is timed out."
 msgstr "Je e-card link is verlopen."
 
 # @ wp-greet
-#: wpg-func-mail.php:276
+#: wpg-func-mail.php:310
 msgid "Greeting Card Confirmation Mail"
 msgstr "E-card Bevestigingsmail"
 
 # @ wp-greet
-#: wpg-func-mail.php:388 templates/wp-greet-display-template.php:19
+#: wpg-func-mail.php:442 templates/wp-greet-display-template.php:19
 msgid "A Greeting Card for you"
 msgstr "Een e-card voor jou"
 
 # @ wp-greet
-#: wpg-func-mail.php:518
+#: wpg-func-mail.php:594
 msgid "You greeting card was received"
 msgstr "Je e-card is ontvangen"
 
 # @ wp-greet
-#: wpg-func.php:554
+#: wpg-func.php:558
 msgid "Stampimage not found - Please contact your administrator"
 msgstr ""
 "Postzegelafbeelding niet gevonden - neem contact op met de sitebeheerder"
 
 # @ wp-greet
-#: wpg-func.php:885
+#: wpg-func.php:890
 msgid "wp-greet external link"
 msgstr "wp-greet externe link"
 
 # @ wp-greet
-#: wpg-func.php:888
+#: wpg-func.php:893
 msgid "If provided, wp-greet will link the image to this URL"
 msgstr "indien ingevuld, linkt wp-greet de afbeelding naar deze URL"
 
 # @ wp-greet
-#: wpg-func.php:893
+#: wpg-func.php:898
 msgid "wp-greet open external link in new tab/window"
 msgstr "wp-greet open externe link in nieuwe tab/scherm"
 
 # @ wp-greet
-#: wpg-func.php:896
+#: wpg-func.php:901
 msgid "If checked external links will open in new tab/window"
 msgstr "vink aan om externe links in nieuw tab/scherm te openen"
 
@@ -727,7 +766,7 @@ msgid "Multiple adresses can be separated by comma"
 msgstr "Meerdere adressen scheiden met een komma"
 
 # @ wp-greet
-#: templates/wp-greet-form-template.php:198
+#: templates/wp-greet-form-template.php:209
 msgid "If you have a package code, enter it here"
 msgstr "Als je een pakketcode hebt, vul het hier in"
 

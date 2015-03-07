@@ -435,13 +435,13 @@ function save_greetcard($sender, $sendername, $recv, $recvname,
 
 
 //
-// markiert die karte mit dem confirmcode ccode als versendet
+// markiert die karte mit dem confirmcode oder fetchcode ccode als versendet
 //
 function mark_sentcard($ccode)
 {
     global $wpdb; 
     $now = gmdate("Y-m-d H:i:s",time() + ( get_option('gmt_offset') * 60 * 60 ));
-    $sql = "update ". $wpdb->prefix . "wpgreet_cards set card_sent='$now' where confirmcode='".$ccode."';";
+    $sql = "update ". $wpdb->prefix . "wpgreet_cards set card_sent='$now' where confirmcode='".$ccode."' or fetchcode='".$ccode."';";
     $wpdb->query($sql); 
 }
 
@@ -796,6 +796,7 @@ function wpgreet_post_gallery( $val, $attr )
   if ($val == "") { 
     remove_filter('post_gallery','wpgreet_post_gallery',9999);
     $val=gallery_shortcode($attr);
+    add_filter('post_gallery','wpgreet_post_gallery',9999,2);
   }
   
   global $post;

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wp-greet\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-06-28 06:19+0200\n"
+"POT-Creation-Date: 2015-03-07 18:31+0100\n"
 "PO-Revision-Date: 2013-11-28 15:41+0200\n"
 "Last-Translator: Pekka Ollikainen <pekka_ollikainen@kolumbus.fi>\n"
 "Language-Team: Barbara Jany, Hans Matzen <barbara.jany@gmail.com>\n"
@@ -17,15 +17,15 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 1.5.7\n"
 
-#: wp-greet.php:129 wpg-admin-gal.php:84
+#: wp-greet.php:159 wpg-admin-gal.php:84
 msgid "Galleries"
 msgstr "Galleriat"
 
-#: wp-greet.php:131
+#: wp-greet.php:161
 msgid "Security"
 msgstr "Tietoturva"
 
-#: wp-greet.php:133
+#: wp-greet.php:163
 msgid "Logging"
 msgstr "Lokitiedot"
 
@@ -91,14 +91,38 @@ msgstr "Kuva"
 msgid "IP-Adress"
 msgstr "IP-osoite"
 
-#: wpg-admin-log.php:113 wpg-admin-sec.php:296 wpg-form.php:248
-#: wpg-form.php:683
+#: wpg-admin-log.php:113 wpg-admin-sec.php:296 wpg-form.php:339
+#: wpg-form.php:807
 msgid "Message"
 msgstr "Viesti"
 
 #: wpg-admin-log.php:140
 msgid "Clear Log"
 msgstr "Tyhjennä logitiedot"
+
+#: wpg-admin-reschedule.php:64
+msgid "Deleting active wp-greet events..."
+msgstr ""
+
+#: wpg-admin-reschedule.php:84 wpg-admin-reschedule.php:103
+msgid "done."
+msgstr ""
+
+#: wpg-admin-reschedule.php:87
+msgid "Reschedule future cards..."
+msgstr ""
+
+#: wpg-admin-reschedule.php:119
+msgid "Reschedule Future Cards"
+msgstr ""
+
+#: wpg-admin-reschedule.php:124
+msgid "Start"
+msgstr ""
+
+#: wpg-admin-reschedule.php:127
+msgid "Close"
+msgstr ""
 
 #: wpg-admin-sec.php:102
 msgid "Captcha plugin not found."
@@ -116,7 +140,7 @@ msgstr "wp-greet Tietoturva - Asetukset"
 msgid "Spam protection"
 msgstr "Spam esto"
 
-#: wpg-admin-sec.php:168 wpg-admin.php:213
+#: wpg-admin-sec.php:168 wpg-admin.php:217
 msgid "none"
 msgstr "Ei mitään"
 
@@ -148,8 +172,8 @@ msgstr "Lähetä email vahvistaaksesi lähettäjän osoitteen "
 msgid "Verification mail text"
 msgstr "Vahvistus emailin teksti "
 
-#: wpg-admin-sec.php:237 wpg-admin-sec.php:267 wpg-admin.php:307
-#: wpg-admin.php:390 wpg-admin.php:397
+#: wpg-admin-sec.php:237 wpg-admin-sec.php:267 wpg-admin.php:311
+#: wpg-admin.php:394 wpg-admin.php:401
 msgid ""
 "HTML allowed, use %sender% for sendername, %sendermail% for sender email-"
 "address, %receiver% for receiver name, %link% for generated link, %duration% "
@@ -179,29 +203,29 @@ msgstr "Vahvistus sähköpostin teksti"
 msgid "Mandatory fields"
 msgstr "Pakollinen kenttä"
 
-#: wpg-admin-sec.php:276 wpg-form.php:207
+#: wpg-admin-sec.php:276 wpg-form.php:298
 msgid "Sendername"
 msgstr "Lähettäjän nimi"
 
-#: wpg-admin-sec.php:280 wpg-form.php:212
+#: wpg-admin-sec.php:280 wpg-form.php:303
 msgid "Sender"
 msgstr "Lähettäjän sähköpostiosoite"
 
-#: wpg-admin-sec.php:284 wpg-form.php:221
+#: wpg-admin-sec.php:284 wpg-form.php:312
 msgid "Recipientname"
 msgstr "Vastaanottajan nimi"
 
-#: wpg-admin-sec.php:288 wpg-form.php:226
+#: wpg-admin-sec.php:288 wpg-form.php:317
 msgid "Recipient"
 msgstr "Vastaanottajan sähköpostiosoite"
 
-#: wpg-admin-sec.php:292 wpg-form.php:243 wpg-form.php:681
+#: wpg-admin-sec.php:292 wpg-form.php:334 wpg-form.php:805
 #: templates/wp-greet-display-template.php:36
 #: templates/wp-greet-preview-template.php:31
 msgid "Subject"
 msgstr "Aihe"
 
-#: wpg-admin-sec.php:307 wpg-admin.php:413
+#: wpg-admin-sec.php:307 wpg-admin.php:417
 msgid "Update options"
 msgstr "Päivitä tiedot"
 
@@ -240,80 +264,84 @@ msgstr ""
 msgid "wp-greet Setup"
 msgstr "wp-greet Asetukset"
 
-#: wpg-admin.php:211
+#: wpg-admin.php:209
+msgid "Reschedule future cards"
+msgstr ""
+
+#: wpg-admin.php:215
 msgid "Gallery-Plugin"
 msgstr "Galleria-Plugin"
 
-#: wpg-admin.php:221
+#: wpg-admin.php:225
 msgid "Form-Post/Page"
 msgstr "Form-Post/Page"
 
-#: wpg-admin.php:236
+#: wpg-admin.php:240
 msgid "Mailtransfermethod"
 msgstr "Sähköpostin lähetysmetodi"
 
-#: wpg-admin.php:241
+#: wpg-admin.php:245
 msgid "SMTP Server (hostname)"
 msgstr ""
 
-#: wpg-admin.php:245
+#: wpg-admin.php:249
 msgid "SMTP Port (default:25)"
 msgstr ""
 
-#: wpg-admin.php:251
+#: wpg-admin.php:255
 msgid "SMTP use SSL?"
 msgstr ""
 
-#: wpg-admin.php:255
+#: wpg-admin.php:259
 #, fuzzy
 msgid "SMTP Username"
 msgstr "Lähettäjän nimi"
 
-#: wpg-admin.php:260
+#: wpg-admin.php:264
 msgid "SMTP Password"
 msgstr ""
 
-#: wpg-admin.php:266
+#: wpg-admin.php:270
 msgid "Static Senderaddress"
 msgstr "Lähettäjän sähköpostiosoite(staattinen)"
 
-#: wpg-admin.php:271
+#: wpg-admin.php:275
 msgid "Mailreturnpath"
 msgstr "Palautuvan sähköpostin osoite "
 
-#: wpg-admin.php:276
+#: wpg-admin.php:280
 msgid "Send Bcc to"
 msgstr "Lähetä Bcc kopio: "
 
-#: wpg-admin.php:282
+#: wpg-admin.php:286
 msgid "Allow more than one recipient"
 msgstr "Mahdollista monta vastaanottajaa "
 
-#: wpg-admin.php:288
+#: wpg-admin.php:292
 msgid "Send image inline"
 msgstr "Lähetä kuva liittenä"
 
-#: wpg-admin.php:294
+#: wpg-admin.php:298
 msgid "Fetch cards online"
 msgstr "Hae kortti online "
 
-#: wpg-admin.php:298
+#: wpg-admin.php:302
 msgid "Number of days an online card can be fetched"
 msgstr "Montako päivää kortti on haettavissa "
 
-#: wpg-admin.php:303
+#: wpg-admin.php:307
 msgid "Online card HTML mail text"
 msgstr "Online kortin HTML sähköpostiteksti"
 
-#: wpg-admin.php:312
+#: wpg-admin.php:316
 msgid "Fixed image width"
 msgstr "Kuvan leveys "
 
-#: wpg-admin.php:318
+#: wpg-admin.php:322
 msgid "Add stamp image"
 msgstr "Lisää postimerkkikuva "
 
-#: wpg-admin.php:320
+#: wpg-admin.php:324
 msgid ""
 "leave empty for no stamp, path must be relative to wordpress directory, e.g. "
 "wp-content/plugins/wp-greet/defaultstamp.jpg"
@@ -321,272 +349,283 @@ msgstr ""
 "jätä tyhjäksi jos et halua kuvan yhteyteen postimerkkikuvaa (esimerkkipolku "
 "wp-content/plugins/wp-greet/defaultstamp.jpg)"
 
-#: wpg-admin.php:325
+#: wpg-admin.php:329
 #, php-format
 msgid "Stampwidth in % of imagewidth"
 msgstr "Postimerkin koko % kuvakoosta "
 
-#: wpg-admin.php:331
+#: wpg-admin.php:335
 msgid "Use TinyMCE editor"
 msgstr ""
 
-#: wpg-admin.php:336
+#: wpg-admin.php:340
 msgid "Use external link from WordPress media"
 msgstr ""
 
-#: wpg-admin.php:341
+#: wpg-admin.php:345
 #, fuzzy
 msgid "Use NGG/NCG data for image description"
 msgstr "Käytä NGG:n data kuvaa varten "
 
-#: wpg-admin.php:346
+#: wpg-admin.php:350
 msgid "Enable Smileys on greetcard form"
 msgstr "Lisää Smileys tervehdyskortin formiin "
 
-#: wpg-admin.php:351
+#: wpg-admin.php:355
 msgid "Allow sending cards in the future"
 msgstr "Mahdollista tervehdyskortin lähettämisen ajankohta tulevaisuudessa "
 
-#: wpg-admin.php:357
+#: wpg-admin.php:361
 msgid "Use informations from profile"
 msgstr "Käytä informaatiota profiilista "
 
-#: wpg-admin.php:362
+#: wpg-admin.php:366
 msgid "Offer 'send again'-link "
 msgstr ""
 
-#: wpg-admin.php:367
+#: wpg-admin.php:371
 msgid "enable logging"
 msgstr "Mahdollista logging "
 
-#: wpg-admin.php:372
+#: wpg-admin.php:376
 msgid "disable wp-greet css rules"
 msgstr ""
 
-#: wpg-admin.php:383
+#: wpg-admin.php:387
 msgid "Default mail subject"
 msgstr "Sähköpostin aihe"
 
-#: wpg-admin.php:388
+#: wpg-admin.php:392
 msgid "Default mail header"
 msgstr "Sähköpostin header"
 
-#: wpg-admin.php:395
+#: wpg-admin.php:399
 msgid "Default mail footer"
 msgstr "Sähköpostin footer"
 
-#: wpg-admin.php:402
+#: wpg-admin.php:406
 msgid "Number of days log entries are stored"
 msgstr "Montako päivää logitiedot säilytetään"
 
-#: wpg-admin.php:407
+#: wpg-admin.php:411
 msgid "Number of days card entries are stored"
 msgstr "Montako päivää kortti säilytetään"
 
-#: wpg-form.php:116 wpg-form.php:906
-msgid "Your verification code is invalid."
-msgstr "Väärä vahvistuskoodi"
-
-#: wpg-form.php:117 wpg-form.php:124 wpg-form.php:132
-msgid "Please send a new card at"
-msgstr "Lähetä uusi kortti kohteeseen:"
-
-#: wpg-form.php:123
-msgid "Your greeting card has already been sent."
-msgstr "Kortti on jo lähetetty "
-
-#: wpg-form.php:131
-msgid "Your confirmation link is timedout."
-msgstr "Vahvistuslinkki on vanhentunut "
-
-#: wpg-form.php:138 wpg-form.php:184 wpg-form.php:403 wpg-form.php:412
-#: wpg-form.php:550 wpg-form.php:810
+#: wpg-form.php:69 wpg-form.php:204 wpg-form.php:265 wpg-form.php:511
+#: wpg-form.php:516 wpg-form.php:526 wpg-form.php:673 wpg-form.php:941
 msgid "Send"
 msgstr "Lähetä"
 
-#: wpg-form.php:165
+#: wpg-form.php:182 wpg-form.php:1037
+msgid "Your verification code is invalid."
+msgstr "Väärä vahvistuskoodi"
+
+#: wpg-form.php:183 wpg-form.php:190 wpg-form.php:198
+msgid "Please send a new card at"
+msgstr "Lähetä uusi kortti kohteeseen:"
+
+#: wpg-form.php:189
+msgid "Your greeting card has already been sent."
+msgstr "Kortti on jo lähetetty "
+
+#: wpg-form.php:197
+msgid "Your confirmation link is timedout."
+msgstr "Vahvistuslinkki on vanhentunut "
+
+#: wpg-form.php:246
 msgid "You are not permitted to send greeting cards."
 msgstr "Kortin lähettäminen ei mahdollista"
 
-#: wpg-form.php:165
+#: wpg-form.php:246
 #, fuzzy
 msgid "Please contact you WordPress Administrator."
 msgstr "Ota yhteyttä wordpress Administratoriin "
 
-#: wpg-form.php:183 wpg-form.php:328 wpg-form.php:808
+#: wpg-form.php:264 wpg-form.php:436 wpg-form.php:939
 msgid "Preview"
 msgstr "Esikatselu"
 
-#: wpg-form.php:207 wpg-form.php:212 wpg-form.php:221 wpg-form.php:226
-#: wpg-form.php:243 wpg-form.php:248
+#: wpg-form.php:298 wpg-form.php:303 wpg-form.php:312 wpg-form.php:317
+#: wpg-form.php:334 wpg-form.php:339
 msgid "Please fill in mandatory field"
 msgstr "Täytä kaikki pakolliset kentät"
 
-#: wpg-form.php:216
+#: wpg-form.php:307
 #, fuzzy
 msgid "Invalid sender mail address."
 msgstr "Tarkasta lähettäjän sähköpostiosoite "
 
-#: wpg-form.php:233 wpg-form.php:238
+#: wpg-form.php:324 wpg-form.php:329
 msgid "Invalid recipient mail address."
 msgstr "Tarkasta vastaanottajan sähköpostiosoite "
 
-#: wpg-form.php:266 wpg-form.php:274 wpg-form.php:296 wpg-form.php:310
+#: wpg-form.php:357 wpg-form.php:365 wpg-form.php:387 wpg-form.php:406
+#: wpg-form.php:417
 msgid "Spamprotection - Code is not valid.<br />"
 msgstr "Spamminesto-Koodi ei voimassaoleva.<br />"
 
-#: wpg-form.php:267 wpg-form.php:275
+#: wpg-form.php:358 wpg-form.php:366
 msgid ""
 "Please try again.<br />Tip: If you cannot identify the chars, you can "
 "generate a new image. Using Reload."
 msgstr ""
 "Kokeile uudestaan. <br />Vinkki: Saat uuden kuvan painamalla Reload-nappia."
 
-#: wpg-form.php:297 wpg-form.php:311
+#: wpg-form.php:388 wpg-form.php:407 wpg-form.php:418
 msgid "Please try again."
 msgstr "Kokeile uudestaan."
 
-#: wpg-form.php:320
+#: wpg-form.php:428
 msgid "Please accept the terms of usage before sending a greeting card.<br />"
 msgstr "Hyväksy käyttöehdot ennenkuin lähetät kortin.<br />"
 
-#: wpg-form.php:347
+#: wpg-form.php:455
 msgid "CC"
 msgstr "Lähetä CC kopio"
 
-#: wpg-form.php:398
+#: wpg-form.php:506
 msgid "Edit"
 msgstr ""
 
-#: wpg-form.php:400 wpg-form.php:605 templates/wp-greet-form-template.php:209
+#: wpg-form.php:509
+msgid "Purchase"
+msgstr ""
+
+#: wpg-form.php:514 templates/wp-greet-form-template.php:220
 msgid "Back"
 msgstr "Takaisin"
 
-#: wpg-form.php:504
+#: wpg-form.php:580
+msgid ""
+"You will be redirected to Paypal to complete your order. If you are not "
+"redirected to PayPal please click the Purchase button."
+msgstr ""
+
+#: wpg-form.php:627
 msgid "Your greeting card has been sent or scheduled."
 msgstr "Kortti on lähetetty tai lähetysaika sovittu "
 
-#: wpg-form.php:526
+#: wpg-form.php:649
 msgid "Send this card to another recipient"
 msgstr ""
 
-#: wpg-form.php:544
+#: wpg-form.php:667
 msgid "An error occured while sending you greeting card."
 msgstr "Virhe kortin lähetyksessä."
 
-#: wpg-form.php:545 wpg-form.php:599
+#: wpg-form.php:668 wpg-form.php:722
 msgid "Problem report"
 msgstr "Ongelman raportti"
 
-#: wpg-form.php:593
+#: wpg-form.php:716
 msgid "A confirmation mail has been sent to your address."
 msgstr "Vahvistus on lähetetty sähköpostiosoitteeseesi "
 
-#: wpg-form.php:594
+#: wpg-form.php:717
 #, fuzzy
 msgid ""
 "Please enter the link contained within the email into your browser and the "
 "greeting card will be sent."
 msgstr "Laita sähköpostissa saamasi linkki selaimeen ja hae kortti "
 
-#: wpg-form.php:598
+#: wpg-form.php:721
 msgid "An error occured while sending the confirmation mail."
 msgstr "Virhe tapahtui vahvistus-sähköpostia lähetettäessä. "
 
-#: wpg-form.php:656
+#: wpg-form.php:780
 #, fuzzy
 msgid "Sender Name"
 msgstr "Lähettäjän nimi"
 
-#: wpg-form.php:658
+#: wpg-form.php:782
 #, fuzzy
 msgid "Sender Email"
 msgstr "Lähettäjän sähköpostiosoite"
 
-#: wpg-form.php:664
+#: wpg-form.php:788
 msgid "Send confirmation to Sender"
 msgstr "Lähetä vahvistus Vastaanottajalle"
 
-#: wpg-form.php:667
+#: wpg-form.php:791
 msgid "CC to Sender"
 msgstr "Lähetä kopio vastaanottajalle "
 
-#: wpg-form.php:669
+#: wpg-form.php:793
 #, fuzzy
 msgid "Recipient Name"
 msgstr "Vastaanottajan nimi"
 
-#: wpg-form.php:671
+#: wpg-form.php:795
 #, fuzzy
 msgid "Recipient Email"
 msgstr "Vastaanottajan sähköpostiosoite"
 
-#: wpg-form.php:677
+#: wpg-form.php:801
 msgid "Time to send card"
 msgstr "Määritä ajankohta, jolloin kortti lähetetään"
 
-#: wpg-form.php:753
+#: wpg-form.php:877
 msgid "Smileys"
 msgstr "Smilies"
 
-#: wpg-form.php:770
+#: wpg-form.php:894
 msgid "Spamprotection:"
 msgstr "Roskapostinesto"
 
-#: wpg-form.php:788
+#: wpg-form.php:912
 msgid "Sum of"
 msgstr "Määrä"
 
-#: wpg-form.php:802
+#: wpg-form.php:933
 msgid "I accept the terms of usage of the greeting card service"
 msgstr "Hyväksyn palvelun käyttöehdot "
 
-#: wpg-form.php:804
+#: wpg-form.php:935
 msgid "(show)"
 msgstr "(näytä)"
 
-#: wpg-form.php:809
+#: wpg-form.php:940
 msgid "Reset form"
 msgstr "Aseta lomake uudestaan "
 
-#: wpg-form.php:907 wpg-form.php:914
+#: wpg-form.php:1038 wpg-form.php:1045
 msgid "Send a new card at"
 msgstr "Lähetä uusi kortti osoitteeseen:"
 
-#: wpg-form.php:913
+#: wpg-form.php:1044
 msgid "Your greetcard link is timed out."
 msgstr "Kortin määräaika on umpeentunut "
 
-#: wpg-func-mail.php:276
+#: wpg-func-mail.php:310
 msgid "Greeting Card Confirmation Mail"
 msgstr "Tervehdyskortin vahvistusosoite(sähköposti) "
 
-#: wpg-func-mail.php:388 templates/wp-greet-display-template.php:19
+#: wpg-func-mail.php:442 templates/wp-greet-display-template.php:19
 msgid "A Greeting Card for you"
 msgstr "Olet saanut tervehdyskortin!"
 
-#: wpg-func-mail.php:518
+#: wpg-func-mail.php:594
 msgid "You greeting card was received"
 msgstr "Lähettämäsi tervehdykortti on vastaanotettu. "
 
-#: wpg-func.php:554
+#: wpg-func.php:558
 msgid "Stampimage not found - Please contact your administrator"
 msgstr "Stampimage puuttuu - Ota yhteyttä adminstratoriin. "
 
-#: wpg-func.php:885
+#: wpg-func.php:890
 #, fuzzy
 msgid "wp-greet external link"
 msgstr "wp-greet Asetukset"
 
-#: wpg-func.php:888
+#: wpg-func.php:893
 msgid "If provided, wp-greet will link the image to this URL"
 msgstr ""
 
-#: wpg-func.php:893
+#: wpg-func.php:898
 msgid "wp-greet open external link in new tab/window"
 msgstr ""
 
-#: wpg-func.php:896
+#: wpg-func.php:901
 msgid "If checked external links will open in new tab/window"
 msgstr ""
 
@@ -598,7 +637,7 @@ msgstr "Pakolliset kentät on merkitty a:lla"
 msgid "Multiple adresses can be separated by comma"
 msgstr "Erota useampi sähköpostiosoite toisistaan pilkuilla "
 
-#: templates/wp-greet-form-template.php:198
+#: templates/wp-greet-form-template.php:209
 msgid "If you have a package code, enter it here"
 msgstr ""
 

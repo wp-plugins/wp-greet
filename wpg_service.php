@@ -1,7 +1,7 @@
 <?php
 /* This file is part of the wp-greet plugin for wordpress */
 
-/*  Copyright 2008,2009 Hans Matzen  (email : webmaster at tuxlog dot de)
+/*  Copyright 2008-2015 Hans Matzen  (email : webmaster at tuxlog dot de)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -33,11 +33,6 @@ $wpg_options = wpgreet_get_options();
 // get translation 
 load_plugin_textdomain('wp-greet',false,dirname( plugin_basename( __FILE__ ) ) . "/lang/");
 
-//if (!isset($_GET['verify'])) {
-    // show terms of usage
-    echo $wpg_options['wp-greet-termsofusage'];
-//} else {
-    // verify card id
-//}
-
+// show terms of usage
+echo $wpg_options['wp-greet-termsofusage'];
 ?>

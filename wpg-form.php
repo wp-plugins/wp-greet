@@ -1,7 +1,7 @@
 <?php
 /* This file is part of the wp-greet plugin for wordpress */
 
-/*  Copyright 2009-2014  Hans Matzen  (email : webmaster at tuxlog dot de)
+/*  Copyright 2009-2015  Hans Matzen  (email : webmaster at tuxlog dot de)
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -177,7 +177,6 @@ function showGreetcardForm($galleryID, $picurl, $verify = "", $pid = "", $approv
     $now = strtotime( gmdate("Y-m-d H:i:s",time() + ( get_option('gmt_offset') * 60 * 60 )));
     $then = msql2time( $res->confirmuntil );
     
-
     if ( is_null($res)) {
       // ungültiger code
       $out .= __("Your verification code is invalid.","wp-greet")."<br />" .
@@ -216,15 +215,30 @@ function showGreetcardForm($galleryID, $picurl, $verify = "", $pid = "", $approv
       $_POST['fsend']      = $res->future_send;
     }
   }
-
+  
+ 
   // calculate sendtime
-  if ($wpg_options['wp-greet-future-send'] and $_POST['fsend']!="") {
-    $toffset = get_option('gmt_offset') * 3600 +  date_offset_get(new DateTime);
-    $sendtime = strtotime($_POST['fsend']) - $toffset;
+  if ( $wpg_options['wp-greet-future-send'] && 
+       isset($_POST['fsend']) && $_POST['fsend']!="" ) {
+
+    // convert given future send time to server time timestamp
+
+    // create date object from future send datetime and timezone
+    $fs_dateTime=new DateTime($_POST['fsend']);
+    // convert it to GMT
+    $fs_dateTime->setTimezone(new DateTimeZone('GMT')); 
+    // convert it to seconds since 1970
+    $sendtime= $fs_dateTime->format("U");
+
+    // if it is in the past, send it now
+    if ($sendtime < time()) {
+	$sendtime=0;
+    }
   } else {
     $sendtime = 0;
   }
-	
+
+
   // -------------------------------------------------------------------------------------
   // pruefe berechtigung zum versenden von grusskarten
   if ( !current_user_can('wp-greet-send')
@@ -253,13 +267,23 @@ function showGreetcardForm($galleryID, $picurl, $verify = "", $pid = "", $approv
     if ( isset($_POST['sender']) && $_POST['sender'] != '' )
       $_POST['sender'] = esc_attr($_POST['sender']);
     if ( isset($_POST['sendername']) && $_POST['sendername'] != '' )
-      $_POST['sendername'] = esc_attr($_POST['sendername']);
+      $_POST['sendername'] = stripslashes(esc_attr($_POST['sendername']));
     if ( isset($_POST['ccsender']) && $_POST['ccsender'] != '' )
       $_POST['ccsender'] = esc_attr($_POST['ccsender']);
+    else
+      $_POST['ccsender'] = 0; 
+    if ( isset($_POST['wp-greet-enable-confirm']) && $_POST['wp-greet-enable-confirm'] != '' )
+      $_POST['wp-greet-enable-confirm'] = esc_attr($_POST['wp-greet-enable-confirm']);
+    else
+      $_POST['wp-greet-enable-confirm'] = 0;
+    if ( isset($_POST['accepttou']) && $_POST['accepttou'] != '' )
+      $_POST['accepttou'] = esc_attr($_POST['accepttou']);
+    else
+      $_POST['accepttou'] = 0;
     if ( isset($_POST['recv']) && $_POST['recv'] != '' )
       $_POST['recv'] = esc_attr($_POST['recv']);
     if ( isset($_POST['recvname']) && $_POST['recvname'] != '' )
-      $_POST['recvname'] = esc_attr($_POST['recvname']);
+      $_POST['recvname'] = stripslashes(esc_attr($_POST['recvname']));
     if ( isset($_POST['title']) && $_POST['title'] != '' )
       $_POST['title'] = stripslashes($_POST['title']);
     // entferne die von wordpress automatisch beigefügten slashes
@@ -366,22 +390,39 @@ function showGreetcardForm($galleryID, $picurl, $verify = "", $pid = "", $approv
       }
 
       // check wp-reCAPTCHA
-      if ($wpg_options['wp-greet-captcha']==3) {
+      if ($wpg_options['wp-greet-captcha']==3) { 
 	require_once(ABSPATH . "wp-content/plugins/wp-recaptcha/recaptchalib.php");
-	
 	$rec_opt = get_option('recaptcha_options');
-	$rec_ok  = recaptcha_check_answer ($rec_opt['private_key'], $_SERVER['REMOTE_ADDR'], $_POST['recaptcha_challenge_field'], $_POST['recaptcha_response_field']);
 	
-	if (!$rec_ok->is_valid) {
-	  $_POST['action'] = "Formular";
+	if (class_exists('ReCAPTCHAPlugin')) { // for wp-recaptcha >=4.1 
+	  $reCaptcha = new ReCaptcha($rec_opt['secret']);
+	  
+	  if ($_POST["g-recaptcha-response"]) {
+	    $resp = $reCaptcha->verifyResponse($_SERVER["REMOTE_ADDR"], $_POST["g-recaptcha-response"]);
+	  }
+	  
+	  if ($resp == null || !$resp->success) {
+	    $_POST['action'] = "Formular";
 	    $out .= "<div class='wp-greet-error'>" . __("Spamprotection - Code is not valid.<br />","wp-greet");
-	      $out .= __("Please try again.","wp-greet")."<br /></div>";
-		}
+	    $out .= __("Please try again.","wp-greet")."<br /></div>";
+	  }
+	  
+	} else {
+	  
+	  $rec_opt = get_option('recaptcha_options');
+	  $rec_ok  = recaptcha_check_answer ($rec_opt['private_key'], $_SERVER['REMOTE_ADDR'], $_POST['recaptcha_challenge_field'], $_POST['recaptcha_response_field']);
+	  
+	  if (!$rec_ok->is_valid) {
+	    $_POST['action'] = "Formular";
+	    $out .= "<div class='wp-greet-error'>" . __("Spamprotection - Code is not valid.<br />","wp-greet");
+	    $out .= __("Please try again.","wp-greet")."<br /></div>";
+	  }
+	}
       }
     } // end of pruefe captcha
 	  
     // nutzungsbedingungen prüfen
-    if ($wpg_options['wp-greet-touswitch']==1 and  $_POST['accepttou'] != 1)
+    if ($wpg_options['wp-greet-touswitch']==1 &&  isset($_POST['accepttou']) && $_POST['accepttou'] != 1)
       {
 	$_POST['action'] = "Formular";
 	$out .= "<div class='wp-greet-error'>" . __("Please accept the terms of usage before sending a greeting card.<br />","wp-greet")."</div>";
@@ -428,10 +469,10 @@ function showGreetcardForm($galleryID, $picurl, $verify = "", $pid = "", $approv
 
 
     // replace placeholders
-    $template = str_replace('{%sendername%}', $_POST['sendername'], $template);
+    $template = str_replace('{%sendername%}', stripslashes($_POST['sendername']), $template);
     $template = str_replace('{%sendermail%}', $_POST['sender'], $template);
     $template = str_replace('{%ccsender%}', $ccsender, $template);
-    $template = str_replace('{%recvname%}', $_POST['recvname'], $template);
+    $template = str_replace('{%recvname%}', stripslashes($_POST['recvname']), $template);
     $template = str_replace('{%recvmail%}', $_POST['recv'], $template);
     $template = str_replace('{%subject%}', esc_attr($_POST['title']), $template);
     $template = str_replace('{%wp-greet-default-header%}', $wpg_options['wp-greet-default-header'], $template);
@@ -442,11 +483,11 @@ function showGreetcardForm($galleryID, $picurl, $verify = "", $pid = "", $approv
     
     $template .= "<form method='post' action='#'>";
     $template .= "<input name='sender' type='hidden' value='" . $_POST['sender']  . "' />\n";
-    $template .= "<input name='sendername' type='hidden' value='" . $_POST['sendername']  . "' />\n";
+    $template .= "<input name='sendername' type='hidden' value='" . stripslashes($_POST['sendername'])  . "' />\n";
     $template .= "<input name='ccsender' type='hidden' value='" . $_POST['ccsender']  . "' />\n";
     $template .= "<input name='wp-greet-enable-confirm' type='hidden' value='" . $_POST['wp-greet-enable-confirm']  . "' />\n";
     $template .= "<input name='recv' type='hidden' value='" . $_POST['recv']  . "' />\n";
-    $template .= "<input name='recvname' type='hidden' value='" . $_POST['recvname']  . "' />\n";
+    $template .= "<input name='recvname' type='hidden' value='" . stripslashes($_POST['recvname'])  . "' />\n";
     $template .= "<input name='title' type='hidden' value='" . esc_attr($_POST['title'])  . "' />\n";
     $template .= "<input name='message' type='hidden' value='" . htmlspecialchars(nl2br($_POST['message']),ENT_QUOTES) . "' />\n";
     $template .= "<input name='accepttou' type='hidden' value='" . esc_attr($_POST['accepttou']) . "' />\n";
@@ -474,10 +515,11 @@ function showGreetcardForm($galleryID, $picurl, $verify = "", $pid = "", $approv
       $template .= "&nbsp;&nbsp;&nbsp;";
       $template .= "<input name='action' type='submit'  value='".__("Send","wp-greet")."' />";
     }
-    
+     
     $template .= "</form>";
     $template .= "<p>&nbsp;";
     
+   
     // output preview
     $out .= $template;
     
@@ -510,7 +552,7 @@ function showGreetcardForm($galleryID, $picurl, $verify = "", $pid = "", $approv
 	//
 	// Here comes the Google Wallet stuff for BWcards
 	//
-	
+
 	// go to google wallet here and if sucessfull call a script which sends the card
 	if (defined('BWCARDS')) {
 	  $bwc_options=bwc_get_global_options();
@@ -535,33 +577,41 @@ function showGreetcardForm($galleryID, $picurl, $verify = "", $pid = "", $approv
 
 	if (defined('BWCARDS') and $conn and $bwc_options['bwc_general_formhook'] and $price>0 and $approved!="approved") {
 	  $picture = nggdb::find_image($pid);
-	  $out.=__("You will be redirected to Paypal to complete your order. If you are not redirected to PAyPal please click the Purchase button.",'wp-greet');
+	  $out.=__("You will be redirected to Paypal to complete your order. If you are not redirected to PayPal please click the Purchase button.",'wp-greet');
 	  $bjs = bwc_generate_pay_script($picture->gid, $picture->imageURL, $picture, $autoinc);
 	  $out .= $bjs;
 	  $sendstatus = "no";
-	  
 	} else {
-	  
 	  // link mail senden or schedulen
 	  if ($sendtime != 0) {
+	    // save scheduled card to database
+	    $mid=save_greetcard($_POST['sender'], $_POST['sendername'], $_POST['recv'], $_POST['recvname'], $_POST['title'],
+				$_POST['message'], $picurl, $_POST['ccsender'], "", "", "", "", $sendtime);
+
 	    wp_schedule_single_event($sendtime, "wpgreet_sendcard_link",
-				     array($_POST['sender'], $_POST['sendername'], $_POST['recv'], $_POST['recvname'],
-					   $wpg_options['wp-greet-ocduration'], $fetchcode, false));
+				     array($mid,$_POST['sender'], $_POST['sendername'], $_POST['recv'], 
+					   $_POST['recvname'], $wpg_options['wp-greet-ocduration'], 
+					   $fetchcode, $_POST['ccsender'],false));
 	    
 	    $sendstatus = true;
-	  } else {
+	  } else { 
 	    $sendstatus = sendGreetcardLink( $_POST['sender'], $_POST['sendername'], $_POST['recv'], $_POST['recvname'],
 					     $wpg_options['wp-greet-ocduration'], $fetchcode, $_POST['ccsender'], false);
 	  }
 	}
       } else {  // grußkarten mail senden
-	
+       
 	require_once("wpg-func-mail.php");
 	
 	if ($sendtime) {
+	  // save scheduled card to database
+	  $mid=save_greetcard($_POST['sender'], $_POST['sendername'], $_POST['recv'], $_POST['recvname'], $_POST['title'],
+			      $_POST['message'], $picurl, $_POST['ccsender'], "", "", "", "", $sendtime);
+
 	  wp_schedule_single_event($sendtime, "wpgreet_sendcard_mail",
-				   array($_POST['sender'], $_POST['sendername'], $_POST['recv'], $_POST['recvname'],
+				   array($mid, $_POST['sender'], $_POST['sendername'], $_POST['recv'], $_POST['recvname'],
 					 $_POST['title'], $_POST['message'], $picurl, $_POST['ccsender'], false));
+
 	  $sendstatus = true;
 	} else {
 	  $sendstatus = sendGreetcardMail( $_POST['sender'], $_POST['sendername'], $_POST['recv'], $_POST['recvname'],
@@ -580,8 +630,8 @@ function showGreetcardForm($galleryID, $picurl, $verify = "", $pid = "", $approv
 	  $out .= "<form method='post' action='#'>";
 	  $out .= "<input name='sender' type='hidden' value='" . $_POST['sender']  . "' />\n";
 	  $out .= "<input name='sendername' type='hidden' value='" . $_POST['sendername']  . "' />\n";
-	  $out .= "<input name='ccsender' type='hidden' value='" . $_POST['ccsender']  . "' />\n";
-	  $out .= "<input name='wp-greet-enable-confirm' type='hidden' value='" . $_POST['wp-greet-enable-confirm']  . "' />\n";
+	  $out .= "<input name='ccsender' type='hidden' value='" . ($_POST['ccsender']==''?0:1)  . "' />\n";
+	  $out .= "<input name='wp-greet-enable-confirm' type='hidden' value='" . ($_POST['wp-greet-enable-confirm']==''?0:1)  . "' />\n";
 	  //$out .= "<input name='recv' type='hidden' value='" . $_POST['recv']  . "' />\n";
 	  //$out .= "<input name='recvname' type='hidden' value='" . $_POST['recvname']  . "' />\n";
 	  $out .= "<input name='title' type='hidden' value='" . esc_attr($_POST['title'])  . "' />\n";
@@ -675,10 +725,11 @@ function showGreetcardForm($galleryID, $picurl, $verify = "", $pid = "", $approv
     
   } else {		// ------------------------------ formular anzeigen
     // Vorbelegung setzen, bei Erstaufruf
-    if ( isset($_POST['action']) && $_POST['action'] != __("Back","wp-greet")) {
-      $_POST['wp-greet-enable-confirm']=1;
-      $_POST['ccsender']=1;
-    }
+    //if ( isset($_POST['action']) && $_POST['action'] != __("Back","wp-greet") 
+    //	 && $_POST['action'] != __("Send this card to another recipient","wp-greet") ) {
+    //  $_POST['wp-greet-enable-confirm']=1;
+    //  $_POST['ccsender']=1;
+    //}
     
     // Formular anzeigen
     $captcha = 0;
@@ -737,7 +788,7 @@ function showGreetcardForm($galleryID, $picurl, $verify = "", $pid = "", $approv
       $confirm_label= __("Send confirmation to Sender","wp-greet");
       $confirm_input="<input name='wp-greet-enable-confirm' type='checkbox' value='1' " . ((isset($_POST['wp-greet-enable-confirm']) and $_POST['wp-greet-enable-confirm']==1)?'checked="checked"':'')  . " />\n";
     }
-    $ccsender_label=__("CC to Sender","wp-greet");
+    $ccsender_label=__("CC to Sender","wp-greet"); 
     $ccsender_input="<input name='ccsender' type='checkbox' value='1' " . ((isset($_POST['ccsender']) and $_POST['ccsender']=="1")?'checked="checked"':'')  . " />\n";
     $recvname_label=__("Recipient Name","wp-greet").(substr($wpg_options['wp-greet-fields'],2,1)=="1" ? "<sup>*</sup>":"");
     $recvname_input="<input name='recvname' type='text' maxlength='60' value='" . (isset($_POST['recvname']) ? $_POST['recvname'] : '')  . "'/>\n";
@@ -863,8 +914,15 @@ function showGreetcardForm($galleryID, $picurl, $verify = "", $pid = "", $approv
     // WP-reCAPTCHA
     if ($captcha==3) {
       $rec_opt = get_option('recaptcha_options');
-      $captcha_input= recaptcha_get_html ($rec_opt['public_key']);
+      $relang=get_bloginfo("language");
+      if (class_exists('ReCAPTCHAPlugin')) { // for wp-recaptcha >=4.1 
+	$captcha_input='<div class="g-recaptcha" data-sitekey="' .  $rec_opt['site_key'] . '"></div><script type="text/javascript" src="https://www.google.com/recaptcha/api.js?hl='.$relang.'"></script><br/>';
+      } else { // older versions
+	$rec_opt = get_option('recaptcha_options');
+	$captcha_input= recaptcha_get_html ($rec_opt['public_key']);
+      }
     }
+  
     
     
     // terms of usage
@@ -873,7 +931,7 @@ function showGreetcardForm($galleryID, $picurl, $verify = "", $pid = "", $approv
     if ( $wpg_options['wp-greet-touswitch'] == 1) {
       $tou_input="<input name='accepttou' type='checkbox' value='1' " . (isset($_POST['accepttou']) and $_POST['accepttou']==1 ? 'checked="checked"':'')  ." />";
       $tou_label= __("I accept the terms of usage of the greeting card service","wp-greet").
-	' <a href="'. site_url("wp-content/plugins/wp-greet/wpg_service.php") . '?height=600&amp;width=400" class="thickbox" title="">'.
+	' <a href="'. site_url("wp-content/plugins/wp-greet/wpg_service.php") . '?height=600&amp;width=600" class="thickbox" title="">'.
 	__("(show)","wp-greet")."</a>";
     }
     
@@ -928,7 +986,7 @@ function showGreetcardForm($galleryID, $picurl, $verify = "", $pid = "", $approv
       $bwout .= "<input name='pid' type='hidden' value='$pid' />\n";
       $bwout .= "<input name='approved' type='hidden' value='$approved' />\n";
     }
-    
+
     // put formtag around output
     $out = "<div class='wp-greet-form'><form method='post' action='#'>\n" . $out . $bwout . $template . "</form></div><p>&nbsp;";
   }
