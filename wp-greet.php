@@ -3,12 +3,12 @@
 Plugin Name: wp-greet
 Plugin URI: http://www.tuxlog.de
 Description: wp-greet is a wordpress plugin to send greeting cards from your wordpress blog.
-Version: 4.6
+Version: 4.7
 Author: Barbara Jany, Hans Matzen <webmaster at tuxlog.de>
 Author URI: http://www.tuxlog.de
 */
 
-/*  Copyright 2008-2014  Barbara Jany, Hans Matzen  (email : webmaster at tuxlog dot de)
+/*  Copyright 2008-2015  Barbara Jany, Hans Matzen  (email : webmaster at tuxlog dot de)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) { die('You
 are not allowed to call this page directly.'); }
 
 
-define( "WP_GREET_VERSION", "4.6" );
+define( "WP_GREET_VERSION", "4.7" );
 
 // global options array
 $wpg_options = array();
@@ -57,14 +57,14 @@ function wp_greet_init()
   // optionen laden
   global $wpg_options;
   $wpg_options=wpgreet_get_options();
-
-  // add css in header
-  if (!is_admin() and !$wpg_options['wp-greet-disable-css']) {
-  	wp_enqueue_style("wp-greet", plugins_url('wp-greet.css', __FILE__) );
-  }
   
   // Action calls for all functions 
   add_shortcode('wp-greet','sc_searchwpgreet');
+
+
+  // add filter to exclude wp-greet-formpage from home page
+  add_filter('pre_get_posts','wpg_ExcludeFromHomepage');
+
 
   // filter for ngg integration
   if ( $wpg_options['wp-greet-gallery']=="ngg") {
@@ -83,22 +83,33 @@ function wp_greet_init()
   // add actions for future send 
   if ( $wpg_options['wp-greet-future-send']=="1") { 
     // add actions for future send
-    add_action("wpgreet_sendcard_link","cron_sendGreetCardLink",10,7);
-    add_action("wpgreet_sendcard_mail","cron_sendGreetCardMail",10,9);
-  }
+    add_action("wpgreet_sendcard_link","cron_sendGreetCardLink",10,9);
+    add_action("wpgreet_sendcard_mail","cron_sendGreetCardMail",10,10);
+  } 
 }
 
 function wp_greet_scripts()
 {
   // optionen laden
-  global $wpg_options;
+  global $post, $wpg_options;
   $wpg_options=wpgreet_get_options();
   
-  global $post;
+  // add css in header
+  if ( !is_admin() && !$wpg_options['wp-greet-disable-css']) {  
+    // load possible form pages into one array
+    global $wpdb;
+    $sql="SELECT id FROM ".$wpdb->prefix."posts WHERE post_type in ('page','post') and post_content like '%[wp-greet]%' order by id;";
+    $possible_form_pages = $wpdb->get_col($sql);
+
+    if ( in_array($post->ID,$possible_form_pages) ) {
+      wp_enqueue_style("wp-greet", plugins_url('wp-greet.css', __FILE__) );
+    }
+  }
+  
   if ($post->ID == $wpg_options['wp-greet-formpage']) {
     
     // add thickbox for frontend
-    if ($wpg_options['wp-greet-touswitch'] and !is_admin()) {
+    if ($wpg_options['wp-greet-touswitch'] and !is_admin()) { 
       add_action('wp_print_scripts', 'wpg_add_thickbox_script');
       add_action('wp_print_styles',  'wpg_add_thickbox_style' );      	
     }
@@ -118,13 +129,20 @@ function wp_greet_scripts()
     if ($wpg_options['wp-greet-future-send'] and !is_admin()) {
       wp_enqueue_script('jquery'); 
       wp_enqueue_script('jquery-ui-wpgcustom', plugins_url('wp-greet/dtpicker/jquery-ui-1.10.0.custom.min.js', dirname(__FILE__)),array('jquery'));  	
-      
       wp_enqueue_script('jquery-ui-timepicker', plugins_url('wp-greet/dtpicker/jquery-ui-timepicker-addon.js', dirname(__FILE__)),array('jquery','jquery-ui-wpgcustom'));
       $locale=trim(substr(get_locale(),0,2)); 
       wp_enqueue_script('jquery-ui-timepicker-i18n', plugins_url("wp-greet/dtpicker/i18n/jquery-ui-timepicker-$locale.js", dirname(__FILE__)),array('jquery-ui-timepicker'));
       wp_enqueue_script('jquery-ui-datepicker-i18n', plugins_url("wp-greet/dtpicker/i18n/jquery.ui.datepicker-$locale.js", dirname(__FILE__)),array('jquery-ui-timepicker'));
       wp_enqueue_style('jquery-ui-wpgcustom-css', plugins_url('wp-greet/dtpicker/jquery-ui-1.10.0.custom.min.css'));
+      wp_enqueue_style('jquery-ui-wpgtimepicker-css', plugins_url('wp-greet/dtpicker/jquery-ui-timepicker-addon.css'));
     }
+  }
+ 
+  // add admin javascript
+  if (is_admin()) {
+    wp_enqueue_script( 'thickbox' );
+    wp_enqueue_style ( 'thickbox' );
+    wp_enqueue_script('wpg_admin', plugins_url('wpg_admin.js', __FILE__),array(), "9999");
   }
 }
  
@@ -165,19 +183,47 @@ function wpg_add_thickbox_style()
 }
 
 // wrapper functions for wp_cron trigger
-function cron_sendGreetCardMail($sender,$sendername,$recv,$recvname,$title,
+function cron_sendGreetCardMail($mid, $sender,$sendername,$recv,$recvname,$title,
 				$msgtext,$picurl,$ccsender,$debug=false) 
-{ echo "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+{ 
   sendGreetcardMail($sender,$sendername,$recv,$recvname,$title,$msgtext,$picurl,$ccsender,$debug);
   log_greetcard($recv,addslashes($sender),$picurl,$msgtext);
+  // update send time in wpgreet_cards
+  global $wpdb;
+  $now = gmdate("Y-m-d H:i:s",time() + ( get_option('gmt_offset') * 60 * 60 ));
+  $sql = "update ". $wpdb->prefix . "wpgreet_cards set card_sent='$now' where mid=$mid;";
+  $wpdb->query($sql); 
 }
 
-function cron_sendGreetCardLink($sender,$sendername,$recv, $recvname,$duration, $fetchcode, $debug=false) 
+function cron_sendGreetCardLink($mid, $sender,$sendername,$recv, $recvname,$duration, $fetchcode, $ccsender, $debug=false) 
 { 
-  sendGreetcardLink($sender,$sendername,$recv, $recvname,$duration, $fetchcode, $debug);
+  sendGreetcardLink($sender,$sendername,$recv, $recvname,$duration, $fetchcode, $ccsender, $debug);
   mark_sentcard($fetchcode); 
 }
 
+//
+// this removes the wp-greet-formapge from the pot query used to get the posts to show on the homepage
+//
+function wpg_ExcludeFromHomepage($query) {  
+  if($query->is_home){
+    // load possible form pages into one array
+    global $wpdb;
+    $sql="SELECT id FROM ".$wpdb->prefix."posts WHERE post_type in ('page','post') and post_content like '%[wp-greet]%' order by id;";
+    $posts_to_exclude = $wpdb->get_col($sql);
+
+    // if any exists
+    if($posts_to_exclude){
+      // merge with existing excludes in the query
+      (array) $posts_exclude_before = $query->get("post__not_in");
+      if(!empty($posts_exclude_before) && is_array($posts_exclude_before)){
+	$posts_to_exclude = array_unique(array_merge($posts_to_exclude,$posts_exclude_before));
+      } 
+      // set new exclude list
+      $query->set("post__not_in", $posts_to_exclude);
+    }
+  }
+  return $query;
+}
 //
 // MAIN
 //

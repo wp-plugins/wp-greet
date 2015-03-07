@@ -3,11 +3,11 @@ Contributors: tuxlog, woodstock
 Donate link: http://www.tuxlog.de
 Tags: greetingcard, send, email, greetcard, plugin
 Requires at least: 2.5
-Tested up to: 4.1
-Stable tag: 4.6
+Tested up to: 4.1.1
+Stable tag: 4.7
 
 wp-greet is a wordpress plugin to send greeting cards from your wordpress blog. 
-It uses WordPress native gallery or nextGenGallery to maintain your greetingcard pictures.
+It uses pictures from native gallery, NextGenGallery or NextCellentGallery.
 
 == Description ==
 wp-greet is a plugin for the famous wordpress blogging package,
@@ -117,6 +117,19 @@ http://www.tuxlog.de/wordpress/2008/wp-greet-documentation-english/
 
 
 == Changelog ==
+
+= v4.7 (2015-03-07) =
+* fixed handling of apostrophe in mail addresses
+* added reschedule feature to reorganize future cards
+* fixed static sender in mails other than card mail with attachment
+* adopted to wp-recaptcha >= 4.1
+* use client timezone for future send cards
+* fixed confirmation an cc to sender checkbox setting when send a card to another recipient
+* excluded wp-greet-formpage from homepage view
+* wp-greet.css will only be loaded if you are on a wp-greet form page
+* preset time in timepicker for futuresend
+* removed php notices about missing index
+* adjusted width of terms of usage thickbox
 
 = v4.6 (2014-12-25) =
 * fixed a problem with jetpack gallery extensions

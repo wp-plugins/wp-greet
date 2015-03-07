@@ -205,6 +205,10 @@ function wechsle_smtp () {
     <?php tl_add_supp(true); ?>
     <h2><?php echo __("wp-greet Setup","wp-greet") ?></h2>
    
+    <div style="text-align:right;padding-bottom:10px;">
+      <a class="button-secondary thickbox" href="../wp-content/plugins/wp-greet/wpg-admin-reschedule.php?height=350&amp;width=550&amp;fn=match" ><?php _e("Reschedule future cards","wp-greet") ?></a>&nbsp;&nbsp;&nbsp;
+    </div>
+
    <form name="wpgreetadmin" method="post" action='#'>
    <table class="optiontable">
           <tr class="tr-admin">

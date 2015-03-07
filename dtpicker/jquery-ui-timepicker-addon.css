@@ -1,4 +1,8 @@
-.ui-timepicker-div .ui-widget-header { margin-bottom: 8px; }
+.ui-datepicker { width: 12em; }
+.ui-datepicker-buttonpane { font-size: 0.6em; }
+.ui-datepicker .ui-datepicker-title { font-size: 0.9em; }
+.ui-timepicker-div { font-size: 0.6em; }
+.ui-timepicker-div .ui-widget-header { margin-bottom: 8px;}
 .ui-timepicker-div dl { text-align: left; }
 .ui-timepicker-div dl dt { height: 25px; margin-bottom: -25px; }
 .ui-timepicker-div dl dd { margin: 0 10px 10px 65px; }

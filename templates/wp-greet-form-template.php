@@ -93,7 +93,18 @@
 
 <?php if ($wpg_options['wp-greet-future-send']): ?>
   <tr class="wp-greet-form"><td class="wp-greet-form-left">{%futuresend_label%}:</td>
-	<script type="text/javascript">jQuery(document).ready(function () {jQuery('#fsend').datetimepicker({dateFormat: 'dd.mm.yy',timeFormat: "HH:mm"}); });</script>
+  <script type="text/javascript">jQuery(document).ready(function () {
+      var offset = new Date().getTimezoneOffset();
+      offset=-1*(offset/60)*100;
+      if (offset>0) {
+	  offstr='+'+offset.toString();
+	} else {
+	  offstr=offset.toString();
+	}
+	if (offstr.length<5)
+	  offstr=offstr.substring(0,1)+'0'+offstr.substring(1);
+	jQuery('#fsend').datetimepicker({dateFormat: 'dd.mm.yy',timeFormat: "HH:mm z",showTimezone:false,timezone:offstr }); });
+</script>
 					
 	<td class="wp-greet-form"><div>{%futuresend_input%}</div></td>
   </tr>

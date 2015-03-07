@@ -151,8 +151,7 @@ function sendGreetcardMail($sender,$sendername,$recv,$recvname,$title,
 	}
 
 	$mail->From = addslashes($sender) ;
-	$mail->FromName = addslashes(html_entity_decode($sendername)) ;
-
+	$mail->FromName = html_entity_decode($sendername, ENT_COMPAT | ENT_QUOTES | ENT_HTML401 ) ;
 
 	if ( $wpg_options['wp-greet-mailreturnpath'] !="" )
 		$mail->AddReplyTo( $wpg_options['wp-greet-mailreturnpath'], $wpg_options['wp-greet-mailreturnpath'] );
@@ -254,7 +253,7 @@ function sendGreetcardMail($sender,$sendername,$recv,$recvname,$title,
 	    $mail->ClearCCs();
 	  }
 	  $mail->ClearAddresses();
-	  $mail->AddAddress( trim($i), html_entity_decode(trim($emn[$j])));
+	  $mail->AddAddress( trim($i), html_entity_decode(trim($emn[$j]), ENT_COMPAT | ENT_QUOTES | ENT_HTML401 ));
 	  $j++;
 	  if ( !$mail->Send())
 	    $result .= $mail->ErrorInfo;
@@ -359,11 +358,16 @@ function sendConfirmationMail($sender,$sendername,$recvname,$confirmcode, $confi
     }
   } else {
     $mail->IsMail();                    // set mailer to mail 
-    $mail->Sender = addslashes($sender);
   }
 
   $mail->CharSet = 'utf-8';         // set mail encoding
-  
+  	
+  if ( $wpg_options['wp-greet-staticsender'] !="" ) {
+    $mail->Sender = addslashes($wpg_options['wp-greet-staticsender']);
+  } else {
+    $mail->Sender = addslashes($sender);
+  }
+
   $mail->From = addslashes( ($wpg_options['wp-greet-mailreturnpath']!=""? $wpg_options['wp-greet-mailreturnpath']:get_option("admin_email")) );
   $mail->FromName = addslashes(get_option("blogname")) ;
   $mail->AddAddress( $sender, $sendername);
@@ -407,7 +411,7 @@ function sendConfirmationMail($sender,$sendername,$recvname,$confirmcode, $confi
 function sendGreetcardLink($sender,$sendername,$recv, $recvname,$duration, $fetchcode, $ccsender, $debug=false)
 {
   require_once(ABSPATH . "/wp-includes/class-phpmailer.php");
-  
+
   global $wpdb;
   
   // hole optionen
@@ -488,13 +492,18 @@ function sendGreetcardLink($sender,$sendername,$recv, $recvname,$duration, $fetc
     }
   } else {
     $mail->IsMail();                    // set mailer to mail 
-    $mail->Sender = addslashes($sender);
   }
   
   $mail->CharSet = 'utf-8';         // set mail encoding
-  
+
+  if ( $wpg_options['wp-greet-staticsender'] !="" ) {
+    $mail->Sender = addslashes($wpg_options['wp-greet-staticsender']);
+  } else {
+    $mail->Sender = addslashes($sender);
+  }
+
   $mail->From = addslashes( ($wpg_options['wp-greet-mailreturnpath']!=""? $wpg_options['wp-greet-mailreturnpath']:addslashes($sender)) );
-  $mail->FromName = addslashes(html_entity_decode($sendername));
+  $mail->FromName = addslashes(html_entity_decode($sendername, ENT_COMPAT | ENT_QUOTES | ENT_HTML401 ));
   
   // add cc if option is set
   if ( $ccsender & 1 )
@@ -527,7 +536,8 @@ function sendGreetcardLink($sender,$sendername,$recv, $recvname,$duration, $fetc
     }
     $mail->ClearAddresses();
     $mail->AddAddress( trim($i), 
-		       html_entity_decode(( isset($emn[$j]) ? trim($emn[$j]) : trim($emn[0]) )) );
+		       html_entity_decode(( isset($emn[$j]) ? trim($emn[$j]) : trim($emn[0]) )
+					  , ENT_COMPAT | ENT_QUOTES | ENT_HTML401 ) );
     $j++;
     if ( !$mail->Send())
       $result .= $mail->ErrorInfo;
@@ -632,17 +642,22 @@ function sendGreetcardConfirmation($sender,$sendername,$recv, $recvname,$duratio
     }
   } else {
     $mail->IsMail();                    // set mailer to mail 
-    $mail->Sender = addslashes($sender);
   }
 
   $mail->CharSet = 'utf-8';         // set mail encoding
-  
+  	
+  if ( $wpg_options['wp-greet-staticsender'] !="" ) {
+    $mail->Sender = addslashes($wpg_options['wp-greet-staticsender']);
+  } else {
+    $mail->Sender = addslashes($sender);
+  }
+
   $mail->From = addslashes( ($wpg_options['wp-greet-mailreturnpath']!=""? $wpg_options['wp-greet-mailreturnpath']:get_option("admin_email")) );
   $mail->FromName = addslashes(get_option("blogname"));
   // add recipients
   $ems = explode(",",$recv);
   foreach($ems as $i)
-    $mail->AddAddress( trim($i), html_entity_decode($recvname));
+    $mail->AddAddress( trim($i), html_entity_decode($recvname, ENT_COMPAT | ENT_QUOTES | ENT_HTML401 ));
   
   
   if ( $wpg_options['wp-greet-mailreturnpath'] !="" )
